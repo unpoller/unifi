@@ -1,7 +1,6 @@
 package unifi
 
 import (
-	"strconv"
 	"time"
 
 	influx "github.com/influxdata/influxdb1-client/v2"
@@ -38,7 +37,7 @@ func (u USG) Points() ([]*influx.Point, error) {
 		"serial":                 u.Serial,
 		"type":                   u.Type,
 		"version_incompatible":   u.VersionIncompatible.Txt,
-		"usg_caps":               strconv.FormatFloat(u.UsgCaps, 'f', 6, 64),
+		"usg_caps":               u.UsgCaps.Txt,
 		"speedtest-status-saved": u.SpeedtestStatusSaved.Txt,
 	}
 	fields := map[string]interface{}{

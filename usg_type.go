@@ -200,7 +200,7 @@ type USG struct {
 	} `json:"uplink"`
 	Uptime              float64  `json:"uptime"`
 	UserNumSta          float64  `json:"user-num_sta"`
-	UsgCaps             float64  `json:"usg_caps"`
+	UsgCaps             FlexInt  `json:"usg_caps"`
 	Version             string   `json:"version"`
 	VersionIncompatible FlexBool `json:"version_incompatible"`
 	Wan1                struct {

@@ -19,7 +19,7 @@ type UAP struct {
 		Wifi1Gain float64 `json:"wifi1_gain"`
 	} `json:"antenna_table"`
 	BandsteeringMode string  `json:"bandsteering_mode,omitempty"`
-	BoardRev         int     `json:"board_rev"`
+	BoardRev         FlexInt `json:"board_rev"`
 	Bytes            float64 `json:"bytes"`
 	BytesD           float64 `json:"bytes-d"`
 	BytesR           float64 `json:"bytes-r"`
@@ -41,8 +41,8 @@ type UAP struct {
 		Name    string  `json:"name"`
 		NumPort float64 `json:"num_port"`
 	} `json:"ethernet_table"`
-	FwCaps          int      `json:"fw_caps"`
-	GuestNumSta     int      `json:"guest-num_sta"`
+	FwCaps          FlexInt  `json:"fw_caps"`
+	GuestNumSta     FlexInt  `json:"guest-num_sta"`
 	GuestToken      string   `json:"guest_token"`
 	HasEth1         FlexBool `json:"has_eth1"`
 	HasSpeaker      FlexBool `json:"has_speaker"`
@@ -53,8 +53,8 @@ type UAP struct {
 	KnownCfgversion string   `json:"known_cfgversion"`
 	LastSeen        float64  `json:"last_seen"`
 	LastUplink      struct {
-		UplinkMac        string `json:"uplink_mac"`
-		UplinkRemotePort int    `json:"uplink_remote_port"`
+		UplinkMac        string  `json:"uplink_mac"`
+		UplinkRemotePort FlexInt `json:"uplink_remote_port"`
 	} `json:"last_uplink"`
 	LedOverride         string   `json:"led_override"`
 	Locating            FlexBool `json:"locating"`
@@ -357,5 +357,5 @@ type UAP struct {
 		RadioName string `json:"radio_name"`
 		State     string `json:"state"`
 	} `json:"vwire_vap_table"`
-	WifiCaps int `json:"wifi_caps"`
+	WifiCaps FlexInt `json:"wifi_caps"`
 }

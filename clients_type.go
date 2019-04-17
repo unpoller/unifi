@@ -18,10 +18,10 @@ type UCL struct {
 	Bssid         string   `json:"bssid"`
 	BytesR        int64    `json:"bytes-r"`
 	Ccq           int64    `json:"ccq"`
-	Channel       int      `json:"channel"`
-	DevCat        int      `json:"dev_cat"`
-	DevFamily     int      `json:"dev_family"`
-	DevID         int      `json:"dev_id"`
+	Channel       FlexInt  `json:"channel"`
+	DevCat        FlexInt  `json:"dev_cat"`
+	DevFamily     FlexInt  `json:"dev_family"`
+	DevID         FlexInt  `json:"dev_id"`
 	DpiStats      struct {
 		App       int64
 		Cat       int64
@@ -50,8 +50,8 @@ type UCL struct {
 	Noise               int64    `json:"noise"`
 	Note                string   `json:"note"`
 	Noted               FlexBool `json:"noted"`
-	OsClass             int      `json:"os_class"`
-	OsName              int      `json:"os_name"`
+	OsClass             FlexInt  `json:"os_class"`
+	OsName              FlexInt  `json:"os_name"`
 	Oui                 string   `json:"oui"`
 	PowersaveEnabled    FlexBool `json:"powersave_enabled"`
 	QosPolicyApplied    FlexBool `json:"qos_policy_applied"`
@@ -68,7 +68,7 @@ type UCL struct {
 	SiteID              string   `json:"site_id"`
 	SwDepth             int      `json:"sw_depth"`
 	SwMac               string   `json:"sw_mac"`
-	SwPort              int      `json:"sw_port"`
+	SwPort              FlexInt  `json:"sw_port"`
 	TxBytes             int64    `json:"tx_bytes"`
 	TxBytesR            int64    `json:"tx_bytes-r"`
 	TxPackets           int64    `json:"tx_packets"`
@@ -78,7 +78,7 @@ type UCL struct {
 	UserID              string   `json:"user_id"`
 	UserGroupID         string   `json:"usergroup_id"`
 	UseFixedIP          FlexBool `json:"use_fixedip"`
-	Vlan                int      `json:"vlan"`
+	Vlan                FlexInt  `json:"vlan"`
 	WiredRxBytes        int64    `json:"wired-rx_bytes"`
 	WiredRxBytesR       int64    `json:"wired-rx_bytes-r"`
 	WiredRxPackets      int64    `json:"wired-rx_packets"`

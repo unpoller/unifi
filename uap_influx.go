@@ -1,7 +1,6 @@
 package unifi
 
 import (
-	"strconv"
 	"time"
 
 	influx "github.com/influxdata/influxdb1-client/v2"
@@ -23,7 +22,7 @@ func (u UAP) Points() ([]*influx.Point, error) {
 		"name":                    u.Name,
 		"adopted":                 u.Adopted.Txt,
 		"bandsteering_mode":       u.BandsteeringMode,
-		"board_rev":               strconv.Itoa(u.BoardRev),
+		"board_rev":               u.BoardRev.Txt,
 		"cfgversion":              u.Cfgversion,
 		"config_network_ip":       u.ConfigNetwork.IP,
 		"config_network_type":     u.ConfigNetwork.Type,
@@ -32,15 +31,15 @@ func (u UAP) Points() ([]*influx.Point, error) {
 		"default":                 u.Default.Txt,
 		"device_id":               u.DeviceID,
 		"discovered_via":          u.DiscoveredVia,
-		"fw_caps":                 strconv.Itoa(u.FwCaps),
-		"guest-num_sta":           strconv.Itoa(u.GuestNumSta),
+		"fw_caps":                 u.FwCaps.Txt,
+		"guest-num_sta":           u.GuestNumSta.Txt,
 		"guest_token":             u.GuestToken,
 		"has_eth1":                u.HasEth1.Txt,
 		"has_speaker":             u.HasSpeaker.Txt,
 		"inform_ip":               u.InformIP,
 		"isolated":                u.Isolated.Txt,
 		"last_uplink_mac":         u.LastUplink.UplinkMac,
-		"last_uplink_remote_port": strconv.Itoa(u.LastUplink.UplinkRemotePort),
+		"last_uplink_remote_port": u.LastUplink.UplinkRemotePort.Txt,
 		"known_cfgversion":        u.KnownCfgversion,
 		"led_override":            u.LedOverride,
 		"locating":                u.Locating.Txt,
@@ -50,7 +49,7 @@ func (u UAP) Points() ([]*influx.Point, error) {
 		"type":                    u.Type,
 		"version_incompatible":    u.VersionIncompatible.Txt,
 		"vwireEnabled":            u.VwireEnabled.Txt,
-		"wifi_caps":               strconv.Itoa(u.WifiCaps),
+		"wifi_caps":               u.WifiCaps.Txt,
 	}
 	fields := map[string]interface{}{
 		"ip":                         u.IP,

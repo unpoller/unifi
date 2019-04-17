@@ -1,7 +1,6 @@
 package unifi
 
 import (
-	"strconv"
 	"time"
 
 	influx "github.com/influxdata/influxdb1-client/v2"
@@ -36,12 +35,12 @@ func (c UCL) Points() ([]*influx.Point, error) {
 		"radio_proto":        c.RadioProto,
 		"name":               c.Name,
 		"fixed_ip":           c.FixedIP,
-		"sw_port":            strconv.Itoa(c.SwPort),
-		"os_class":           strconv.Itoa(c.OsClass),
-		"os_name":            strconv.Itoa(c.OsName),
-		"dev_cat":            strconv.Itoa(c.DevCat),
-		"dev_id":             strconv.Itoa(c.DevID),
-		"dev_family":         strconv.Itoa(c.DevFamily),
+		"sw_port":            c.SwPort.Txt,
+		"os_class":           c.OsClass.Txt,
+		"os_name":            c.OsName.Txt,
+		"dev_cat":            c.DevCat.Txt,
+		"dev_id":             c.DevID.Txt,
+		"dev_family":         c.DevFamily.Txt,
 		"authorized":         c.Authorized.Txt,
 		"is_11r":             c.Is11R.Txt,
 		"is_wired":           c.IsWired.Txt,
@@ -53,8 +52,8 @@ func (c UCL) Points() ([]*influx.Point, error) {
 		"powersave_enabled":  c.PowersaveEnabled.Txt,
 		"qos_policy_applied": c.QosPolicyApplied.Txt,
 		"use_fixedip":        c.UseFixedIP.Txt,
-		"channel":            strconv.Itoa(c.Channel),
-		"vlan":               strconv.Itoa(c.Vlan),
+		"channel":            c.Channel.Txt,
+		"vlan":               c.Vlan.Txt,
 	}
 	fields := map[string]interface{}{
 		"ip":                     c.IP,
