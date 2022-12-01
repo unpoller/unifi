@@ -46,7 +46,7 @@ func (u *Unifi) GetSiteEvents(site *Site, hours time.Duration) ([]*Event, error)
 
 	var (
 		path   = fmt.Sprintf(APIEventPath, site.Name)
-		params = fmt.Sprintf(`{"_limit":%d,"within":%d,"_sort":"-time"}}`,
+		params = fmt.Sprintf(`{"_limit":%d,"within":%d,"_sort":"-time"}`,
 			eventLimit, int(hours.Round(time.Hour).Hours()))
 		event struct {
 			Data events `json:"data"`
