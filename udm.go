@@ -3,66 +3,100 @@ package unifi
 // UDM represents all the data from the Ubiquiti Controller for a Unifi Dream Machine.
 // The UDM shares several structs/type-data with USW and USG.
 type UDM struct {
-	site                   *Site
-	SourceName             string               `json:"-"`
-	SiteID                 string               `json:"site_id"`
-	SiteName               string               `json:"-"`
-	Mac                    string               `json:"mac"`
-	Adopted                FlexBool             `json:"adopted"`
-	Serial                 string               `json:"serial"`
-	IP                     string               `json:"ip"`
-	Uptime                 FlexInt              `json:"uptime"`
-	Model                  string               `json:"model"`
-	Version                string               `json:"version"`
-	Name                   string               `json:"name"`
-	Default                FlexBool             `json:"default"`
-	Locating               FlexBool             `json:"locating"`
-	Type                   string               `json:"type"`
-	Unsupported            FlexBool             `json:"unsupported"`
-	UnsupportedReason      FlexInt              `json:"unsupported_reason"`
-	DiscoveredVia          string               `json:"discovered_via"`
-	AdoptIP                string               `json:"adopt_ip"`
-	AdoptURL               string               `json:"adopt_url"`
-	State                  FlexInt              `json:"state"`
-	AdoptStatus            FlexInt              `json:"adopt_status"`
-	UpgradeState           FlexInt              `json:"upgrade_state"`
-	LastSeen               FlexInt              `json:"last_seen"`
-	AdoptableWhenUpgraded  FlexBool             `json:"adoptable_when_upgraded"`
-	Cfgversion             string               `json:"cfgversion"`
-	ConfigNetwork          *ConfigNetwork       `json:"config_network"`
-	VwireTable             []interface{}        `json:"vwire_table"`
-	Dot1XPortctrlEnabled   FlexBool             `json:"dot1x_portctrl_enabled"`
-	JumboframeEnabled      FlexBool             `json:"jumboframe_enabled"`
-	FlowctrlEnabled        FlexBool             `json:"flowctrl_enabled"`
-	StpVersion             string               `json:"stp_version"`
-	StpPriority            FlexInt              `json:"stp_priority"`
-	PowerSourceCtrlEnabled FlexBool             `json:"power_source_ctrl_enabled"`
-	LicenseState           string               `json:"license_state"`
-	ID                     string               `json:"_id"`
-	DeviceID               string               `json:"device_id"`
-	AdoptState             FlexInt              `json:"adopt_state"`
-	AdoptTries             FlexInt              `json:"adopt_tries"`
-	AdoptManual            FlexBool             `json:"adopt_manual"`
-	InformURL              string               `json:"inform_url"`
-	InformIP               string               `json:"inform_ip"`
-	RequiredVersion        string               `json:"required_version"`
-	BoardRev               FlexInt              `json:"board_rev"`
-	EthernetTable          []*EthernetTable     `json:"ethernet_table"`
-	PortTable              []Port               `json:"port_table"`
-	EthernetOverrides      []*EthernetOverrides `json:"ethernet_overrides"`
-	UsgCaps                FlexInt              `json:"usg_caps"`
-	HasSpeaker             FlexBool             `json:"has_speaker"`
-	HasEth1                FlexBool             `json:"has_eth1"`
-	FwCaps                 FlexInt              `json:"fw_caps"`
-	HwCaps                 FlexInt              `json:"hw_caps"`
-	WifiCaps               FlexInt              `json:"wifi_caps"`
-	SwitchCaps             struct {
-		MaxMirrorSessions    FlexInt `json:"max_mirror_sessions"`
-		MaxAggregateSessions FlexInt `json:"max_aggregate_sessions"`
-	} `json:"switch_caps"`
-	HasFan            FlexBool      `json:"has_fan"`
-	Temperatures      []Temperature `json:"temperatures,omitempty"`
-	RulesetInterfaces interface{}   `json:"ruleset_interfaces"`
+	site                               *Site
+	AFTEnabled                         FlexBool             `json:"atf_enabled"`
+	AdoptIP                            string               `json:"adopt_ip"`
+	AdoptManual                        FlexBool             `json:"adopt_manual"`
+	AdoptState                         FlexInt              `json:"adopt_state"`
+	AdoptStatus                        FlexInt              `json:"adopt_status"`
+	AdoptTries                         FlexInt              `json:"adopt_tries"`
+	AdoptURL                           string               `json:"adopt_url"`
+	AdoptableWhenUpgraded              FlexBool             `json:"adoptable_when_upgraded"`
+	Adopted                            FlexBool             `json:"adopted"`
+	AdoptionCompleted                  FlexBool             `json:"adoption_completed"`
+	Architecture                       string               `json:"architecture"`
+	BandsteeringMode                   string               `json:"bandsteering_mode"`
+	BoardRev                           FlexInt              `json:"board_rev"`
+	Bytes                              FlexInt              `json:"bytes"`
+	BytesD                             FlexInt              `json:"bytes-d"`
+	BytesR                             FlexInt              `json:"bytes-r"`
+	Cfgversion                         string               `json:"cfgversion"`
+	ConfigNetwork                      *ConfigNetwork       `json:"config_network"`
+	ConnectRequestIP                   string               `json:"connect_request_ip"`
+	ConnectRequestPort                 string               `json:"connect_request_port"`
+	ConnectedAt                        FlexInt              `json:"connected_at"`
+	ConnectionNetworkName              string               `json:"connection_network_name"`
+	Default                            FlexBool             `json:"default"`
+	DeviceDomain                       string               `json:"device_domain"`
+	DeviceID                           string               `json:"device_id"`
+	DiscoveredVia                      string               `json:"discovered_via"`
+	DisplayableVersion                 string               `json:"displayable_version"`
+	Dot1XPortctrlEnabled               FlexBool             `json:"dot1x_portctrl_enabled"`
+	DownlinkTable                      []*DownlinkTable     `json:"downlink_table"`
+	EthernetOverrides                  []*EthernetOverrides `json:"ethernet_overrides"`
+	EthernetTable                      []*EthernetTable     `json:"ethernet_table"`
+	FlowctrlEnabled                    FlexBool             `json:"flowctrl_enabled"`
+	FwCaps                             FlexInt              `json:"fw_caps"`
+	GeoInfo                            map[string]GeoInfo   `json:"geo_info"`
+	GuestKicks                         FlexInt              `json:"guest_kicks"`
+	GuestLanNumSta                     FlexInt              `json:"guest-lan-num_sta"` // USW
+	GuestNumSta                        FlexInt              `json:"guest-num_sta"`     // USG
+	GuestToken                         string               `json:"guest_token"`
+	GuestWlanNumSta                    FlexInt              `json:"guest-wlan-num_sta"` // UAP
+	HasEth1                            FlexBool             `json:"has_eth1"`
+	HasFan                             FlexBool             `json:"has_fan"`
+	HasSpeaker                         FlexBool             `json:"has_speaker"`
+	HasTemperature                     FlexBool             `json:"has_temperature"`
+	HwCaps                             FlexInt              `json:"hw_caps"`
+	ID                                 string               `json:"_id"`
+	IP                                 string               `json:"ip"`
+	InformIP                           string               `json:"inform_ip"`
+	InformURL                          string               `json:"inform_url"`
+	Internet                           FlexBool             `json:"internet"`
+	IsAccessPoint                      FlexBool             `json:"is_access_point"`
+	JumboframeEnabled                  FlexBool             `json:"jumboframe_enabled"`
+	KernelVersion                      string               `json:"kernel_version"`
+	KnownCfgversion                    string               `json:"known_cfgversion"`
+	LanIP                              string               `json:"lan_ip"`
+	LanNumSta                          FlexInt              `json:"lan-num_sta"` // USW
+	LastLteFailoverTransitionTimestamp FlexInt              `json:"last_lte_failover_transition_timestamp"`
+	LastSeen                           FlexInt              `json:"last_seen"`
+	LastWlanIP                         string               `json:"last_wan_ip"`
+	LcmBrightness                      FlexInt              `json:"lcm_brightness"`
+	LcmNightModeBegins                 string               `json:"lcm_night_mode_begins"`
+	LcmNightModeEnabled                FlexBool             `json:"lcm_night_mode_enabled"`
+	LcmNightModeEnds                   string               `json:"lcm_night_mode_ends"`
+	LcmTrackerEnabled                  FlexBool             `json:"lcm_tracker_enabled"`
+	LcmTrackerSeed                     string               `json:"lcm_tracker_seed"`
+	LicenseState                       string               `json:"license_state"`
+	Locating                           FlexBool             `json:"locating"`
+	Mac                                string               `json:"mac"`
+	ManufacturerID                     FlexInt              `json:"manufacturer_id"`
+	MinInformIntervalSeconds           FlexInt              `json:"min_inform_interval_seconds"`
+	Model                              string               `json:"model"`
+	ModelInEOL                         FlexBool             `json:"model_in_eol"`
+	ModelInLTS                         FlexBool             `json:"model_in_lts"`
+	ModelIncompatible                  FlexBool             `json:"model_incompatible"`
+	Name                               string               `json:"name"`
+	NetworkTable                       NetworkTable         `json:"network_table"`
+	NextInterval                       FlexInt              `json:"next_interval"`
+	NumDesktop                         FlexInt              `json:"num_desktop"`  // USG
+	NumHandheld                        FlexInt              `json:"num_handheld"` // USG
+	NumMobile                          FlexInt              `json:"num_mobile"`   // USG
+	NumSta                             FlexInt              `json:"num_sta"`      // USG
+	Overheating                        FlexBool             `json:"overheating"`
+	PortOverrides                      []struct {
+		PortIdx    FlexInt `json:"port_idx"`
+		PortconfID string  `json:"portconf_id"`
+	} `json:"port_overrides"`
+	PortTable              []Port           `json:"port_table"`
+	PowerSourceCtrlEnabled FlexBool         `json:"power_source_ctrl_enabled"`
+	ProvisionedAt          FlexInt          `json:"provisioned_at"`
+	RadioTable             *RadioTable      `json:"radio_table,omitempty"`
+	RadioTableStats        *RadioTableStats `json:"radio_table_stats,omitempty"`
+	RequiredVersion        string           `json:"required_version"`
+	RollUpgrade            FlexBool         `json:"rollupgrade"`
+	RulesetInterfaces      interface{}      `json:"ruleset_interfaces"`
 	/* struct {
 		Br0  string `json:"br0"`
 		Eth0 string `json:"eth0"`
@@ -75,52 +109,69 @@ type UDM struct {
 		Eth7 string `json:"eth7"`
 		Eth8 string `json:"eth8"`
 	} */
-	KnownCfgversion      string           `json:"known_cfgversion"`
-	SysStats             SysStats         `json:"sys_stats"`
-	SystemStats          SystemStats      `json:"system-stats"`
-	GuestToken           string           `json:"guest_token"`
-	Overheating          FlexBool         `json:"overheating"`
-	SpeedtestStatus      SpeedtestStatus  `json:"speedtest-status"`
-	SpeedtestStatusSaved FlexBool         `json:"speedtest-status-saved"`
-	Wan1                 Wan              `json:"wan1"`
-	Wan2                 Wan              `json:"wan2"`
-	Uplink               Uplink           `json:"uplink"`
-	ConnectRequestIP     string           `json:"connect_request_ip"`
-	ConnectRequestPort   string           `json:"connect_request_port"`
-	DownlinkTable        []*DownlinkTable `json:"downlink_table"`
-	WlangroupIDNa        string           `json:"wlangroup_id_na"`
-	WlangroupIDNg        string           `json:"wlangroup_id_ng"`
-	BandsteeringMode     string           `json:"bandsteering_mode"`
-	RadioTable           *RadioTable      `json:"radio_table,omitempty"`
-	RadioTableStats      *RadioTableStats `json:"radio_table_stats,omitempty"`
-	VapTable             *VapTable        `json:"vap_table"`
-	XInformAuthkey       string           `json:"x_inform_authkey"`
-	NetworkTable         NetworkTable     `json:"network_table"`
-	PortOverrides        []struct {
-		PortIdx    FlexInt `json:"port_idx"`
-		PortconfID string  `json:"portconf_id"`
-	} `json:"port_overrides"`
-	Stat            UDMStat    `json:"stat"`
-	Storage         []*Storage `json:"storage"`
-	TxBytes         FlexInt    `json:"tx_bytes"`
-	RxBytes         FlexInt    `json:"rx_bytes"`
-	Bytes           FlexInt    `json:"bytes"`
-	BytesD          FlexInt    `json:"bytes-d"`
-	TxBytesD        FlexInt    `json:"tx_bytes-d"`
-	RxBytesD        FlexInt    `json:"rx_bytes-d"`
-	BytesR          FlexInt    `json:"bytes-r"`
-	NumSta          FlexInt    `json:"num_sta"`            // USG
-	WlanNumSta      FlexInt    `json:"wlan-num_sta"`       // UAP
-	LanNumSta       FlexInt    `json:"lan-num_sta"`        // USW
-	UserWlanNumSta  FlexInt    `json:"user-wlan-num_sta"`  // UAP
-	UserLanNumSta   FlexInt    `json:"user-lan-num_sta"`   // USW
-	UserNumSta      FlexInt    `json:"user-num_sta"`       // USG
-	GuestWlanNumSta FlexInt    `json:"guest-wlan-num_sta"` // UAP
-	GuestLanNumSta  FlexInt    `json:"guest-lan-num_sta"`  // USW
-	GuestNumSta     FlexInt    `json:"guest-num_sta"`      // USG
-	NumDesktop      FlexInt    `json:"num_desktop"`        // USG
-	NumMobile       FlexInt    `json:"num_mobile"`         // USG
-	NumHandheld     FlexInt    `json:"num_handheld"`       // USG
+	RxBytes                   FlexInt         `json:"rx_bytes"`
+	RxBytesD                  FlexInt         `json:"rx_bytes-d"`
+	Serial                    string          `json:"serial"`
+	SetupProvisionCompleted   FlexBool        `json:"setup_provision_completed"`
+	SetupProvisionTracking    FlexBool        `json:"setup_provision_tracking"`
+	SiteID                    string          `json:"site_id"`
+	SiteName                  string          `json:"-"`
+	SourceName                string          `json:"-"`
+	SpeedtestStatus           SpeedtestStatus `json:"speedtest-status"`
+	SpeedtestStatusSaved      FlexBool        `json:"speedtest-status-saved"`
+	StartupConnectedMillis    FlexInt         `json:"start_connected_millis"`
+	StartupDisconnectedMillis FlexInt         `json:"start_disconnected_millis"`
+	StartupTimestamp          FlexInt         `json:"startup_timestamp"`
+	Stat                      UDMStat         `json:"stat"`
+	State                     FlexInt         `json:"state"`
+	Storage                   []*Storage      `json:"storage"`
+	StpPriority               FlexInt         `json:"stp_priority"`
+	StpVersion                string          `json:"stp_version"`
+	SwitchCaps                struct {
+		MaxMirrorSessions    FlexInt `json:"max_mirror_sessions"`
+		MaxAggregateSessions FlexInt `json:"max_aggregate_sessions"`
+	} `json:"switch_caps"`
+	SysStats        SysStats      `json:"sys_stats"`
+	SyslogKey       string        `json:"syslog_key"`
+	SystemStats     SystemStats   `json:"system-stats"`
+	TeleportVersion FlexInt       `json:"teleport_version"`
+	Temperatures    []Temperature `json:"temperatures,omitempty"`
+	TwoPhaseAdopt   FlexBool      `json:"two_phase_adopt"`
+	TxBytes         FlexInt       `json:"tx_bytes"`
+	TxBytesD        FlexInt       `json:"tx_bytes-d"`
+	Type            string        `json:"type"`
+	UdapiCaps       FlexInt       `json:"udapi_caps"`
+	UnifiCare       struct {
+		ActivationDismissed FlexBool `json:"activation_dismissed"`
+		ActivationEnd       FlexInt  `json:"activation_end"`
+		ActivationUrl       string   `json:"activation_url"`
+		CoverageEnd         FlexInt  `json:"coverage_end"`
+		CoverageStart       FlexInt  `json:"coverage_start"`
+		Registration        FlexInt  `json:"registration"`
+		RmaUrl              string   `json:"rma_url"`
+		State               string   `json:"state"`
+		TrackingUrl         string   `json:"tracking_url"`
+	} `json:"unifi_care"`
+	Unsupported       FlexBool      `json:"unsupported"`
+	UnsupportedReason FlexInt       `json:"unsupported_reason"`
+	UpgradeState      FlexInt       `json:"upgrade_state"`
+	Upgradeable       FlexBool      `json:"upgradable"`
+	Uplink            Uplink        `json:"uplink"`
+	Uptime            FlexInt       `json:"uptime"`
+	UserLanNumSta     FlexInt       `json:"user-lan-num_sta"`  // USW
+	UserNumSta        FlexInt       `json:"user-num_sta"`      // USG
+	UserWlanNumSta    FlexInt       `json:"user-wlan-num_sta"` // UAP
+	UsgCaps           FlexInt       `json:"usg_caps"`
+	VapTable          *VapTable     `json:"vap_table"`
+	Version           string        `json:"version"`
+	VwireTable        []interface{} `json:"vwire_table"`
+	Wan1              Wan           `json:"wan1"`
+	Wan2              Wan           `json:"wan2"`
+	WifiCaps          FlexInt       `json:"wifi_caps"`
+	WlanNumSta        FlexInt       `json:"wlan-num_sta"` // UAP
+	WlangroupIDNa     string        `json:"wlangroup_id_na"`
+	WlangroupIDNg     string        `json:"wlangroup_id_ng"`
+	XInformAuthkey    string        `json:"x_inform_authkey"`
 }
 
 type EthernetOverrides struct {
