@@ -68,4 +68,6 @@ type User struct {
 	Blocked             FlexBool `json:"blocked,omitempty"`
 	DevIDOverride       FlexInt  `json:"dev_id_override,omitempty"`
 	FingerprintOverride FlexBool `json:"fingerprint_override,omitempty"`
+	UseFixedIp          FlexBool `json:"use_fixedip,omitempty"`
+	FixedIp             string   `json:"fixed_ip,omitempty"`
 }
