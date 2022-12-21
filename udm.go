@@ -189,48 +189,48 @@ type EthernetTable struct {
 // Not all gateways have all features.
 type NetworkTable []struct {
 	ID                     string    `json:"_id"`
-	AttrNoDelete           FlexBool  `json:"attr_no_delete"`
+	ActiveDhcpLeaseCount   FlexInt   `json:"active_dhcp_lease_count"`
 	AttrHiddenID           string    `json:"attr_hidden_id"`
-	Name                   string    `json:"name"`
-	SiteID                 string    `json:"site_id"`
-	VlanEnabled            FlexBool  `json:"vlan_enabled"`
-	Purpose                string    `json:"purpose"`
-	IPSubnet               string    `json:"ip_subnet"`
-	Ipv6InterfaceType      string    `json:"ipv6_interface_type"`
-	DomainName             string    `json:"domain_name"`
-	IsNat                  FlexBool  `json:"is_nat"`
-	DhcpdEnabled           FlexBool  `json:"dhcpd_enabled"`
-	DhcpdStart             string    `json:"dhcpd_start"`
-	DhcpdStop              string    `json:"dhcpd_stop"`
-	Dhcpdv6Enabled         FlexBool  `json:"dhcpdv6_enabled"`
-	Ipv6RaEnabled          FlexBool  `json:"ipv6_ra_enabled"`
-	LteLanEnabled          FlexBool  `json:"lte_lan_enabled"`
+	AttrNoDelete           FlexBool  `json:"attr_no_delete"`
 	AutoScaleEnabled       FlexBool  `json:"auto_scale_enabled"`
-	Networkgroup           string    `json:"networkgroup"`
-	DhcpdLeasetime         FlexInt   `json:"dhcpd_leasetime"`
-	DhcpdDNSEnabled        FlexBool  `json:"dhcpd_dns_enabled"`
-	DhcpdGatewayEnabled    FlexBool  `json:"dhcpd_gateway_enabled"`
-	DhcpdTimeOffsetEnabled FlexBool  `json:"dhcpd_time_offset_enabled"`
-	Ipv6PdStart            string    `json:"ipv6_pd_start"`
-	Ipv6PdStop             string    `json:"ipv6_pd_stop"`
+	DhcpRelayEnabled       FlexBool  `json:"dhcp_relay_enabled"`
 	DhcpdDNS1              string    `json:"dhcpd_dns_1"`
 	DhcpdDNS2              string    `json:"dhcpd_dns_2"`
 	DhcpdDNS3              string    `json:"dhcpd_dns_3"`
 	DhcpdDNS4              string    `json:"dhcpd_dns_4"`
-	Enabled                FlexBool  `json:"enabled"`
-	DhcpRelayEnabled       FlexBool  `json:"dhcp_relay_enabled"`
-	Mac                    string    `json:"mac"`
-	IsGuest                FlexBool  `json:"is_guest"`
-	IP                     string    `json:"ip"`
-	Up                     FlexBool  `json:"up"`
-	ActiveDhcpLeaseCount   int       `json:"active_dhcp_lease_count"`
-	GatewayInterfaceName   string    `json:"gateway_interface_name"`
+	DhcpdDNSEnabled        FlexBool  `json:"dhcpd_dns_enabled"`
+	DhcpdEnabled           FlexBool  `json:"dhcpd_enabled"`
+	DhcpdGatewayEnabled    FlexBool  `json:"dhcpd_gateway_enabled"`
+	DhcpdLeasetime         FlexInt   `json:"dhcpd_leasetime"`
+	DhcpdStart             string    `json:"dhcpd_start"`
+	DhcpdStop              string    `json:"dhcpd_stop"`
+	DhcpdTimeOffsetEnabled FlexBool  `json:"dhcpd_time_offset_enabled"`
+	Dhcpdv6Enabled         FlexBool  `json:"dhcpdv6_enabled"`
+	DomainName             string    `json:"domain_name"`
 	DPIStatsTable          *DPITable `json:"dpistats_table"`
+	Enabled                FlexBool  `json:"enabled"`
+	GatewayInterfaceName   string    `json:"gateway_interface_name"`
+	IP                     string    `json:"ip"`
+	IPSubnet               string    `json:"ip_subnet"`
+	Ipv6InterfaceType      string    `json:"ipv6_interface_type"`
+	Ipv6PdStart            string    `json:"ipv6_pd_start"`
+	Ipv6PdStop             string    `json:"ipv6_pd_stop"`
+	Ipv6RaEnabled          FlexBool  `json:"ipv6_ra_enabled"`
+	IsGuest                FlexBool  `json:"is_guest"`
+	IsNat                  FlexBool  `json:"is_nat"`
+	LteLanEnabled          FlexBool  `json:"lte_lan_enabled"`
+	Mac                    string    `json:"mac"`
+	Name                   string    `json:"name"`
+	Networkgroup           string    `json:"networkgroup"`
 	NumSta                 FlexInt   `json:"num_sta"`
+	Purpose                string    `json:"purpose"`
 	RxBytes                FlexInt   `json:"rx_bytes"`
 	RxPackets              FlexInt   `json:"rx_packets"`
+	SiteID                 string    `json:"site_id"`
 	TxBytes                FlexInt   `json:"tx_bytes"`
 	TxPackets              FlexInt   `json:"tx_packets"`
+	Up                     FlexBool  `json:"up"`
+	VlanEnabled            FlexBool  `json:"vlan_enabled"`
 }
 
 // Storage is hard drive into for a device with storage.

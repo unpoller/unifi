@@ -10,17 +10,17 @@ type DPITable struct {
 	MAC         string    `json:"mac"`
 	ByCat       []DPIData `json:"by_cat"`
 	ByApp       []DPIData `json:"by_app"`
-	LastUpdated int64     `json:"last_updated"`
+	LastUpdated FlexInt   `json:"last_updated"`
 }
 
 // DPIData is the DPI data in the DPI table.
 type DPIData struct {
-	Cat          int          `json:"cat"`
-	App          int          `json:"app"`
-	RxBytes      int64        `json:"rx_bytes"`
-	TxBytes      int64        `json:"tx_bytes"`
-	RxPackets    int64        `json:"rx_packets"`
-	TxPackets    int64        `json:"tx_packets"`
+	Cat          FlexInt      `json:"cat"`
+	App          FlexInt      `json:"app"`
+	RxBytes      FlexInt      `json:"rx_bytes"`
+	TxBytes      FlexInt      `json:"tx_bytes"`
+	RxPackets    FlexInt      `json:"rx_packets"`
+	TxPackets    FlexInt      `json:"tx_packets"`
 	Clients      []*DPIClient `json:"clients,omitempty"`
 	KnownClients FlexInt      `json:"known_clients,omitempty"`
 }
