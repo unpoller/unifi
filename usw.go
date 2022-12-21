@@ -122,7 +122,7 @@ type Port struct {
 	Name               string     `json:"name"`
 	NetworkName        string     `json:"network_name,omitempty"`
 	Netmask            string     `json:"netmask,omitempty"`
-	NumPort            int        `json:"num_port,omitempty"`
+	NumPort            FlexInt    `json:"num_port,omitempty"`
 	OpMode             string     `json:"op_mode"`
 	PoeCaps            FlexInt    `json:"poe_caps"`
 	PoeClass           string     `json:"poe_class,omitempty"`
