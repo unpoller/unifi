@@ -128,7 +128,7 @@ func (u *Unifi) Login() error {
 		return fmt.Errorf("making request: %w", err)
 	}
 
-	defer resp.Body.Close()                   // we need no data here.
+	defer resp.Body.Close()               // we need no data here.
 	_, _ = io.Copy(io.Discard, resp.Body) // avoid leaking.
 	u.DebugLog("Requested %s: elapsed %v, returned %d bytes",
 		req.URL, time.Since(start).Round(time.Millisecond), resp.ContentLength)
@@ -186,7 +186,7 @@ func (u *Unifi) checkNewStyleAPI() error {
 		return fmt.Errorf("making request: %w", err)
 	}
 
-	defer resp.Body.Close()                   // we need no data here.
+	defer resp.Body.Close()               // we need no data here.
 	_, _ = io.Copy(io.Discard, resp.Body) // avoid leaking.
 
 	if resp.StatusCode == http.StatusOK {

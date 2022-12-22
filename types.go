@@ -85,6 +85,7 @@ type Devices struct {
 	USWs []*USW
 	UDMs []*UDM
 	UXGs []*UXG
+	PDUs []*PDU
 }
 
 // Config is the data passed into our library. This configures things and allows

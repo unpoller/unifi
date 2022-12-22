@@ -101,20 +101,26 @@ func (u *Unifi) GetUSGs(site *Site) ([]*USG, error) {
 	return u.parseDevices(response.Data, site).USGs, nil
 }
 
+type minimalUnmarshalInfo struct {
+	Type  string `json:"type"`
+	Model string `json:"model"`
+}
+
 // parseDevices parses the raw JSON from the Unifi Controller into device structures.
 func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 	devices := new(Devices)
 
 	for _, r := range data {
 		// Loop each item in the raw JSON message, detect its type and unmarshal it.
-		o := make(map[string]interface{})
+		var o minimalUnmarshalInfo
 		if u.unmarshalDevice("map", r, &o) != nil {
 			u.ErrorLog("unknown asset type - cannot find asset type in payload - skipping")
 			continue
 		}
 
-		assetType, _ := o["type"].(string)
-		u.DebugLog("Unmarshalling Device Type: %v, site %s ", assetType, site.SiteName)
+		assetType := o.Type
+		model := o.Model
+		u.DebugLog("Unmarshalling Device Type: %v, Model: %s, site %s ", assetType, model, site.SiteName)
 		// Choose which type to unmarshal into based on the "type" json key.
 
 		switch assetType { // Unmarshal again into the correct type..
@@ -123,7 +129,11 @@ func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 		case "ugw", "usg": // in case they ever fix the name in the api.
 			u.unmarshallUSG(site, r, devices)
 		case "usw":
-			u.unmarshallUSW(site, r, devices)
+			if strings.Contains(model, "PDU") {
+				u.unmarshallPDU(site, r, devices)
+			} else {
+				u.unmarshallUSW(site, r, devices)
+			}
 		case "udm":
 			u.unmarshallUDM(site, r, devices)
 		case "uxg":
@@ -160,6 +170,15 @@ func (u *Unifi) unmarshallUSW(site *Site, payload json.RawMessage, devices *Devi
 		dev.Name = strings.TrimSpace(pick(dev.Name, dev.Mac))
 		dev.site = site
 		devices.USWs = append(devices.USWs, dev)
+	}
+}
+
+func (u *Unifi) unmarshallPDU(site *Site, payload json.RawMessage, devices *Devices) {
+	dev := &PDU{SiteName: site.SiteName, SourceName: u.URL}
+	if u.unmarshalDevice("usw", payload, dev) == nil {
+		dev.Name = strings.TrimSpace(pick(dev.Name, dev.Mac))
+		dev.site = site
+		devices.PDUs = append(devices.PDUs, dev)
 	}
 }
 

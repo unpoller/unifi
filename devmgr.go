@@ -6,6 +6,7 @@ import (
 )
 
 // Known commands that can be sent to device manager. All of these are implemented.
+//
 //nolint:lll // https://ubntwiki.com/products/software/unifi-controller/api#callable
 const (
 	DevMgrPowerCycle      = "power-cycle"      // mac = switch mac (required), port_idx = PoE port to cycle (required)
