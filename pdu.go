@@ -42,7 +42,7 @@ type PDU struct {
 	KernelVersion            string           `json:"kernel_version"`
 	KnownCfgVersion          string           `json:"known_cfgversion"`
 	LastSeen                 FlexInt          `json:"last_seen"`
-	LastUplink               Uplink           `json:"last_uplink`
+	LastUplink               Uplink           `json:"last_uplink"`
 	LcmBrightness            FlexInt          `json:"lcm_brightness"`
 	LcmBrightnessOverride    FlexBool         `json:"lcm_brightness_override"`
 	LcmNightModeBegins       string           `json:"lcm_night_mode_begins"`
