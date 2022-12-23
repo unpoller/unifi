@@ -14,7 +14,7 @@ type PDU struct {
 	BoardRev                 FlexInt          `json:"board_rev"`
 	Bytes                    FlexInt          `json:"bytes"`
 	CfgVersion               string           `json:"cfgversion"`
-	ConfigNetwork            ConfigNetwork    `json:"config_network"`
+	ConfigNetwork            *ConfigNetwork   `json:"config_network"`
 	ConnectRequestIP         string           `json:"connect_request_ip"`
 	ConnectRequestPort       FlexInt          `json:"connect_request_port"`
 	ConnectedAt              FlexInt          `json:"connected_at"`
@@ -24,8 +24,8 @@ type PDU struct {
 	DiscoveredVia            string           `json:"discovered_via"`
 	DisplayableVersion       string           `json:"displayable_version"`
 	Dot1xPortCtrlEnabled     FlexBool         `json:"dot1x_portctrl_enabled"`
-	DownlinkTable            DownlinkTable    `json:"downlink_table"`
-	EthernetTable            EthernetTable    `json:"ethernet_table"`
+	DownlinkTable            []*DownlinkTable `json:"downlink_table"`
+	EthernetTable            []*EthernetTable `json:"ethernet_table"`
 	FlowctrlEnabled          FlexBool         `json:"flowctrl_enabled"`
 	FwCaps                   FlexInt          `json:"fw_caps"`
 	GatewayMac               string           `json:"gateway_mac"`
@@ -87,7 +87,7 @@ type PDU struct {
 	State                    FlexInt          `json:"state"`
 	StpPriority              FlexInt          `json:"stp_priority"`
 	StpVersion               string           `json:"stp_version"`
-	SwitchCaps               SwitchCaps       `json:"switch_caps"`
+	SwitchCaps               *SwitchCaps      `json:"switch_caps"`
 	SysErrorCaps             FlexInt          `json:"sys_error_caps"`
 	SysStats                 SysStats         `json:"sys_stats"`
 	SyslogKey                string           `json:"syslog_key"`
