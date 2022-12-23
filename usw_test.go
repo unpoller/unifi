@@ -1,10 +1,15 @@
 package unifi // nolint: testpackage
 
 import (
+	_ "embed"
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
+
+//go:embed examples/usw.json
+var uswSample []byte
 
 func testGetControllerJSON() (string, string) {
 	return `{
@@ -62,14 +67,19 @@ func TestUSWUnmarshalJSON(t *testing.T) {
 	t.Parallel()
 	a := assert.New(t)
 	testcontroller511, testcontroller510 := testGetControllerJSON()
-	rxMulticast := 123
+	rxMulticast := float64(123)
 	u := &USWStat{}
 	err := u.UnmarshalJSON([]byte(testcontroller510))
 	a.Nil(err, "must be no error unmarshaling test strings")
-	a.Equal(float64(rxMulticast), u.RxMulticast.Val, "data was not properly unmarshaled")
+	a.Equal(rxMulticast, u.RxMulticast.Val, "data was not properly unmarshaled")
 
 	u = &USWStat{} // reset
 	err = u.UnmarshalJSON([]byte(testcontroller511))
 	a.Nil(err, "must be no error unmarshaling test strings")
-	a.Equal(float64(rxMulticast), u.RxMulticast.Val, "data was not properly unmarshaled")
+	a.Equal(rxMulticast, u.RxMulticast.Val, "data was not properly unmarshaled")
+
+	usw := &USW{}
+	err = json.Unmarshal(uswSample, usw)
+	a.Nil(err, "must be no error unmarshaling sample")
+	a.Equal(true, usw.Adopted.Val, "data was not properly unmarshaled")
 }

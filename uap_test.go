@@ -1,10 +1,15 @@
 package unifi // nolint: testpackage
 
 import (
+	_ "embed"
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
+
+//go:embed examples/uap.json
+var uapSample []byte
 
 func TestUAPUnmarshalJSON(t *testing.T) {
 	testcontroller511 := `{
@@ -50,4 +55,9 @@ func TestUAPUnmarshalJSON(t *testing.T) {
 	err = u.UnmarshalJSON([]byte(testcontroller511))
 	a.Nil(err, "must be no error unmarshaling test strings")
 	a.Equal(float64(rxPakcets), u.RxPackets.Val, "data was not properly unmarshaled")
+
+	uap := &UAP{}
+	err = json.Unmarshal(uapSample, uap)
+	a.Nil(err, "must be no error unmarshaling uap sample")
+	a.Equal(true, uap.Adopted.Val, "data was not properaly unmarshaled")
 }

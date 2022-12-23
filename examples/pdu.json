@@ -1,0 +1,539 @@
+{
+  "_id": "61bcb7016000240b5d01e5d0",
+  "ip": "1.2.3.4",
+  "mac": "aa:bb:cc:dd:ee:ff",
+  "model": "USPPDUP",
+  "model_in_lts": false,
+  "model_in_eol": false,
+  "type": "usw",
+  "version": "6.2.5.13675",
+  "adopted": true,
+  "site_id": "site_id",
+  "x_authkey": "x_authkey",
+  "cfgversion": "4eb6d01b5cb4750e",
+  "syslog_key": "ab04fc0442a03beb316682ce78db42b4f878817b1bda0009e5d43e3dd3952419",
+  "config_network": {
+    "type": "static",
+    "ip": "1.2.3.4",
+    "netmask": "255.255.255.0",
+    "gateway": "1.2.3.4",
+    "dns1": "1.2.3.4",
+    "dns2": "1.2.3.4",
+    "dnssuffix": "lan",
+    "bonding_enabled": false
+  },
+  "setup_id": "d600cee3-4f99-40bb-b445-403c16e77030",
+  "jumboframe_enabled": false,
+  "flowctrl_enabled": false,
+  "stp_version": "rstp",
+  "stp_priority": "32768",
+  "dot1x_portctrl_enabled": false,
+  "power_source_ctrl_enabled": false,
+  "outlet_overrides": [
+    {
+      "index": 1,
+      "name": "USB Outlet 1",
+      "cycle_enabled": false,
+      "relay_state": true
+    },
+    {
+      "index": 2,
+      "name": "USB Outlet 2",
+      "cycle_enabled": false,
+      "relay_state": true
+    },
+    {
+      "cycle_enabled": false,
+      "name": "USB Outlet 3",
+      "relay_state": true,
+      "index": 3
+    },
+    {
+      "cycle_enabled": false,
+      "name": "USB Outlet 4",
+      "relay_state": true,
+      "index": 4
+    },
+    {
+      "index": 5,
+      "name": "Outlet 5",
+      "cycle_enabled": true,
+      "relay_state": true
+    },
+    {
+      "index": 6,
+      "relay_state": false
+    },
+    {
+      "index": 7,
+      "relay_state": true
+    },
+    {
+      "index": 8,
+      "relay_state": false
+    },
+    {
+      "index": 9,
+      "relay_state": true
+    },
+    {
+      "index": 10,
+      "relay_state": true
+    },
+    {
+      "index": 11,
+      "relay_state": true
+    },
+    {
+      "index": 12,
+      "relay_state": true
+    },
+    {
+      "index": 13,
+      "relay_state": true
+    },
+    {
+      "index": 14,
+      "relay_state": false
+    },
+    {
+      "index": 15,
+      "relay_state": true
+    },
+    {
+      "index": 16,
+      "relay_state": false
+    },
+    {
+      "index": 17,
+      "relay_state": false
+    },
+    {
+      "index": 18,
+      "relay_state": false
+    },
+    {
+      "index": 19,
+      "relay_state": false
+    },
+    {
+      "index": 20,
+      "relay_state": false
+    }
+  ],
+  "outlet_enabled": true,
+  "license_state": "registered",
+  "two_phase_adopt": false,
+  "unsupported": false,
+  "unsupported_reason": 0,
+  "x_ssh_hostkey_fingerprint": "x_ssh_hostkey_fingerprint",
+  "inform_url": "http://1.2.3.4:8080/inform",
+  "inform_ip": "1.2.3.4",
+  "required_version": "5.28.0",
+  "kernel_version": "4.14.115",
+  "architecture": "mips",
+  "board_rev": 1,
+  "manufacturer_id": 4,
+  "model_incompatible": false,
+  "serial": "serialNumber",
+  "hash_id": "hash_id",
+  "gateway_mac": "aa:bb:cc:dd:ee:ff",
+  "anon_id": "anon_id",
+  "internet": true,
+  "x_aes_gcm": true,
+  "ethernet_table": [
+    {
+      "mac": "aa:bb:cc:dd:ee:ff",
+      "num_port": 1,
+      "name": "eth0"
+    }
+  ],
+  "port_table": [
+    {
+      "port_idx": 1,
+      "media": "FE",
+      "port_poe": false,
+      "poe_caps": 0,
+      "speed_caps": 1048591,
+      "op_mode": "switch",
+      "portconf_id": "6106b7e09b65ab069e0ab4f0",
+      "autoneg": false,
+      "enable": true,
+      "flowctrl_rx": false,
+      "flowctrl_tx": false,
+      "full_duplex": true,
+      "is_uplink": true,
+      "jumbo": false,
+      "mac_table": [],
+      "rx_broadcast": 0,
+      "rx_bytes": 20752026,
+      "rx_dropped": 0,
+      "rx_errors": 0,
+      "rx_multicast": 0,
+      "rx_packets": 129377,
+      "satisfaction": 100,
+      "satisfaction_reason": 0,
+      "speed": 100,
+      "stp_pathcost": 0,
+      "stp_state": "disabled",
+      "tx_broadcast": 0,
+      "tx_bytes": 2129642,
+      "tx_dropped": 0,
+      "tx_errors": 0,
+      "tx_multicast": 0,
+      "tx_packets": 10848,
+      "up": true,
+      "tx_bytes-r": 116,
+      "rx_bytes-r": 1998,
+      "bytes-r": 2115,
+      "name": "Port 1",
+      "masked": false,
+      "aggregated_by": false
+    }
+  ],
+  "switch_caps": {
+    "feature_caps": 0,
+    "max_mirror_sessions": 0,
+    "max_aggregate_sessions": 0,
+    "max_l3_intf": 0,
+    "max_reserved_routes": 0,
+    "max_static_routes": 0
+  },
+  "has_fan": false,
+  "has_temperature": false,
+  "hw_caps": 136,
+  "fw_caps": 1732968229,
+  "satisfaction": 100,
+  "anomalies": -1,
+  "sys_error_caps": 0,
+  "lcm_brightness": 80,
+  "lcm_night_mode_enabled": true,
+  "lcm_night_mode_begins": "09:00",
+  "lcm_night_mode_ends": "08:59",
+  "outlet_table": [
+    {
+      "index": 1,
+      "relay_state": true,
+      "cycle_enabled": false,
+      "name": "USB Outlet 1",
+      "outlet_caps": 1
+    },
+    {
+      "index": 2,
+      "relay_state": true,
+      "cycle_enabled": false,
+      "name": "USB Outlet 2",
+      "outlet_caps": 1
+    },
+    {
+      "index": 3,
+      "relay_state": true,
+      "cycle_enabled": false,
+      "name": "USB Outlet 3",
+      "outlet_caps": 1
+    },
+    {
+      "index": 4,
+      "relay_state": true,
+      "cycle_enabled": false,
+      "name": "USB Outlet 4",
+      "outlet_caps": 1
+    },
+    {
+      "index": 5,
+      "relay_state": true,
+      "cycle_enabled": true,
+      "name": "Outlet 5",
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.086",
+      "outlet_power": "5.325",
+      "outlet_power_factor": "0.514"
+    },
+    {
+      "index": 6,
+      "relay_state": false,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.000",
+      "outlet_power": "0.000",
+      "outlet_power_factor": "0.000",
+      "name": "Outlet 6"
+    },
+    {
+      "index": 7,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.277",
+      "outlet_power": "30.584",
+      "outlet_power_factor": "0.918",
+      "name": "Outlet 7"
+    },
+    {
+      "index": 8,
+      "relay_state": false,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.000",
+      "outlet_power": "0.000",
+      "outlet_power_factor": "0.000",
+      "name": "Outlet 8"
+    },
+    {
+      "index": 9,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.409",
+      "outlet_power": "46.333",
+      "outlet_power_factor": "0.941",
+      "name": "Outlet 9"
+    },
+    {
+      "index": 10,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.236",
+      "outlet_power": "15.997",
+      "outlet_power_factor": "0.563",
+      "name": "Outlet 10"
+    },
+    {
+      "index": 11,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.308",
+      "outlet_power": "35.681",
+      "outlet_power_factor": "0.963",
+      "name": "Outlet 11"
+    },
+    {
+      "index": 12,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.059",
+      "outlet_power": "3.750",
+      "outlet_power_factor": "0.528",
+      "name": "Outlet 12"
+    },
+    {
+      "index": 13,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.041",
+      "outlet_power": "2.610",
+      "outlet_power_factor": "0.529",
+      "name": "Outlet 13"
+    },
+    {
+      "index": 14,
+      "relay_state": false,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.000",
+      "outlet_power": "0.000",
+      "outlet_power_factor": "0.000",
+      "name": "Outlet 14"
+    },
+    {
+      "index": 15,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.000",
+      "outlet_power": "0.000",
+      "outlet_power_factor": "0.000",
+      "name": "Outlet 15"
+    },
+    {
+      "index": 16,
+      "relay_state": false,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.000",
+      "outlet_power": "0.000",
+      "outlet_power_factor": "0.000",
+      "name": "Outlet 16"
+    },
+    {
+      "index": 17,
+      "relay_state": false,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.000",
+      "outlet_power": "0.000",
+      "outlet_power_factor": "0.000",
+      "name": "Outlet 17"
+    },
+    {
+      "index": 18,
+      "relay_state": false,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.000",
+      "outlet_power": "0.000",
+      "outlet_power_factor": "0.000",
+      "name": "Outlet 18"
+    },
+    {
+      "index": 19,
+      "relay_state": false,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.000",
+      "outlet_power": "0.000",
+      "outlet_power_factor": "0.000",
+      "name": "Outlet 19"
+    },
+    {
+      "index": 20,
+      "relay_state": false,
+      "outlet_caps": 3,
+      "outlet_voltage": "120.272",
+      "outlet_current": "0.000",
+      "outlet_power": "0.000",
+      "outlet_power_factor": "0.000",
+      "name": "Outlet 20"
+    }
+  ],
+  "provisioned_at": 1642435387,
+  "last_uplink": {
+    "uplink_mac": "aa:bb:cc:dd:ee:ff",
+    "uplink_device_name": "USW-Enterprise-24-PoE",
+    "uplink_remote_port": 22,
+    "port_idx": 1,
+    "type": "wire"
+  },
+  "name": "USP-Pro-PDU",
+  "lcm_brightness_override": false,
+  "connected_at": 1642434915,
+  "device_id": "61bcb7016000240b5d01e5d0",
+  "uplink": {
+    "uplink_mac": "aa:bb:cc:dd:ee:ff",
+    "uplink_device_name": "USW-Enterprise-24-PoE",
+    "uplink_remote_port": 22,
+    "port_idx": 1,
+    "type": "wire",
+    "tx_bytes": 508140,
+    "rx_bytes": 472041,
+    "tx_packets": 6556,
+    "rx_packets": 5354,
+    "tx_bytes-r": 1,
+    "rx_bytes-r": 0,
+    "full_duplex": true,
+    "ip": "1.2.3.4",
+    "mac": "aa:bb:cc:dd:ee:ff",
+    "max_vlan": 4009,
+    "name": "eth0",
+    "netmask": "255.255.255.0",
+    "num_port": 1,
+    "rx_dropped": 0,
+    "rx_errors": 0,
+    "rx_multicast": 0,
+    "speed": 100,
+    "tx_dropped": 0,
+    "tx_errors": 0,
+    "up": true,
+    "media": "FE",
+    "max_speed": 100,
+    "uplink_source": "lldp"
+  },
+  "state": 1,
+  "start_disconnected_millis": 1642434904190,
+  "default": false,
+  "discovered_via": "l2",
+  "adopt_ip": "1.2.3.4",
+  "adopt_url": "http://1.2.3.4:8080/inform",
+  "last_seen": 1642450859,
+  "min_inform_interval_seconds": 10,
+  "upgradable": false,
+  "adoptable_when_upgraded": false,
+  "rollupgrade": false,
+  "known_cfgversion": "4eb6d01b5cb4750e",
+  "uptime": 16135,
+  "_uptime": 16135,
+  "locating": false,
+  "start_connected_millis": 1642434915491,
+  "prev_non_busy_state": 5,
+  "next_interval": 35,
+  "connect_request_ip": "1.2.3.4",
+  "connect_request_port": "41305",
+  "sys_stats": {
+    "loadavg_1": "0.04",
+    "loadavg_15": "0.00",
+    "loadavg_5": "0.01",
+    "mem_buffer": 0,
+    "mem_total": 61698048,
+    "mem_used": 17219584
+  },
+  "system-stats": {
+    "cpu": "1.8",
+    "mem": "27.9",
+    "uptime": "16135"
+  },
+  "ssh_session_table": [],
+  "lldp_table": [
+    {
+      "chassis_id": "68:d7:9a:4b:f1:38",
+      "chassis_id_subtype": "mac",
+      "is_wired": true,
+      "local_port_idx": 1,
+      "local_port_name": "eth0",
+      "port_id": "local Port 22"
+    }
+  ],
+  "displayable_version": "6.2.5",
+  "connection_network_name": "Default",
+  "startup_timestamp": 1642434727,
+  "overheating": false,
+  "power_source": "0",
+  "total_max_power": 0,
+  "outlet_ac_power_budget": "1875.000",
+  "outlet_ac_power_consumption": "140.280",
+  "downlink_table": [],
+  "uplink_depth": 1,
+  "dhcp_server_table": [],
+  "stat": {
+    "sw": {
+      "site_id": "site_id",
+      "o": "sw",
+      "oid": "x:x:x:x",
+      "sw": "x:x:x:x",
+      "time": 1642434900000,
+      "datetime": "2022-01-17T15:55:00Z",
+      "rx_packets": 124897,
+      "rx_bytes": 19828912,
+      "rx_errors": 0,
+      "rx_dropped": 0,
+      "rx_crypts": 0,
+      "rx_frags": 0,
+      "tx_packets": 10441,
+      "tx_bytes": 2049582,
+      "tx_errors": 0,
+      "tx_dropped": 0,
+      "tx_retries": 0,
+      "rx_multicast": 0,
+      "rx_broadcast": 0,
+      "tx_multicast": 0,
+      "tx_broadcast": 0,
+      "bytes": 21878494,
+      "duration": 15940000,
+      "port_1-rx_packets": 124897,
+      "port_1-rx_bytes": 19828912,
+      "port_1-tx_packets": 10441,
+      "port_1-tx_bytes": 2049582
+    }
+  },
+  "tx_bytes": 472041,
+  "rx_bytes": 508140,
+  "bytes": 980181,
+  "num_sta": 0,
+  "user-num_sta": 0,
+  "guest-num_sta": 0,
+  "x_has_ssh_hostkey": true
+}
