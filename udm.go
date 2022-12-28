@@ -179,12 +179,6 @@ type EthernetOverrides struct {
 	Networkgroup string `json:"networkgroup"`
 }
 
-type EthernetTable struct {
-	Mac     string  `json:"mac"`
-	NumPort FlexInt `json:"num_port"`
-	Name    string  `json:"name"`
-}
-
 // NetworkTable is the list of networks on a gateway.
 // Not all gateways have all features.
 type NetworkTable []struct {

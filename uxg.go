@@ -132,14 +132,6 @@ type ConfigNetworkLan struct {
 	Vlan        int      `json:"vlan"`
 }
 
-// DownlinkTable is part of a UXG and UDM output.
-type DownlinkTable struct {
-	PortIdx    FlexInt  `json:"port_idx"`
-	Speed      FlexInt  `json:"speed"`
-	FullDuplex FlexBool `json:"full_duplex"`
-	Mac        string   `json:"mac"`
-}
-
 // LedState is incuded with newer devices.
 type LedState struct {
 	Pattern string  `json:"pattern"`
