@@ -180,12 +180,6 @@ type SpeedtestServer struct {
 	ProviderURL string  `json:"provider_url"`
 }
 
-// ConfigNetwork comes from gateways.
-type ConfigNetwork struct {
-	Type string `json:"type"`
-	IP   string `json:"ip"`
-}
-
 // SystemStats is system info for a UDM, USG, USW.
 type SystemStats struct {
 	CPU    FlexInt `json:"cpu"`

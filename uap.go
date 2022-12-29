@@ -20,56 +20,44 @@ type UAP struct {
 		Wifi0Gain FlexInt  `json:"wifi0_gain"`
 		Wifi1Gain FlexInt  `json:"wifi1_gain"`
 	} `json:"antenna_table"`
-	Architecture     string  `json:"architecture"`
-	BandsteeringMode string  `json:"bandsteering_mode,omitempty"`
-	BoardRev         int     `json:"board_rev"`
-	Bytes            FlexInt `json:"bytes"`
-	BytesD           FlexInt `json:"bytes-d"`
-	BytesR           FlexInt `json:"bytes-r"`
-	Cfgversion       string  `json:"cfgversion"`
-	ConfigNetwork    struct {
-		Type string `json:"type"`
-		IP   string `json:"ip"`
-	} `json:"config_network"`
-	ConnectRequestIP     string   `json:"connect_request_ip"`
-	ConnectRequestPort   string   `json:"connect_request_port"`
-	ConnectedAt          FlexInt  `json:"connected_at"`
-	CountryCode          FlexInt  `json:"country_code"`
-	CountrycodeTable     []int    `json:"countrycode_table"`
-	DeviceID             string   `json:"device_id"`
-	Dot1XPortctrlEnabled FlexBool `json:"dot1x_portctrl_enabled"`
-	DownlinkTable        []struct {
-		PortIdx    int    `json:"port_idx"`
-		Speed      int    `json:"speed"`
-		FullDuplex bool   `json:"full_duplex"`
-		Mac        string `json:"mac"`
-	} `json:"downlink_table,omitempty"`
-	EthernetTable []struct {
-		Mac     string  `json:"mac"`
-		NumPort FlexInt `json:"num_port"`
-		Name    string  `json:"name"`
-	} `json:"ethernet_table"`
-	FixedAPAvailable FlexBool `json:"fixed_ap_available"`
-	FwCaps           int      `json:"fw_caps"`
-	GatewayMac       string   `json:"gateway_mac"`
-	GuestNumSta      FlexInt  `json:"guest-num_sta"`
-	GuestToken       string   `json:"guest_token"`
-	GuestWlanNumSta  FlexInt  `json:"guest-wlan-num_sta"`
-	HasEth1          FlexBool `json:"has_eth1"`
-	HasFan           FlexBool `json:"has_fan"`
-	HasSpeaker       FlexBool `json:"has_speaker"`
-	HasTemperature   FlexBool `json:"has_temperature"`
-	HwCaps           int      `json:"hw_caps"`
-	ID               string   `json:"_id"`
-	IP               string   `json:"ip"`
-	InformIP         string   `json:"inform_ip"`
-	InformURL        string   `json:"inform_url"`
-	Internet         FlexBool `json:"internet"`
-	Isolated         FlexBool `json:"isolated"`
-	KernelVersion    string   `json:"kernel_version"`
-	KnownCfgversion  string   `json:"known_cfgversion"`
-	LastSeen         FlexInt  `json:"last_seen"`
-	LastUplink       struct {
+	Architecture         string           `json:"architecture"`
+	BandsteeringMode     string           `json:"bandsteering_mode,omitempty"`
+	BoardRev             int              `json:"board_rev"`
+	Bytes                FlexInt          `json:"bytes"`
+	BytesD               FlexInt          `json:"bytes-d"`
+	BytesR               FlexInt          `json:"bytes-r"`
+	Cfgversion           string           `json:"cfgversion"`
+	ConfigNetwork        *ConfigNetwork   `json:"config_network"`
+	ConnectRequestIP     string           `json:"connect_request_ip"`
+	ConnectRequestPort   string           `json:"connect_request_port"`
+	ConnectedAt          FlexInt          `json:"connected_at"`
+	CountryCode          FlexInt          `json:"country_code"`
+	CountrycodeTable     []int            `json:"countrycode_table"`
+	DeviceID             string           `json:"device_id"`
+	Dot1XPortctrlEnabled FlexBool         `json:"dot1x_portctrl_enabled"`
+	DownlinkTable        []*DownlinkTable `json:"downlink_table,omitempty"`
+	EthernetTable        []*EthernetTable `json:"ethernet_table"`
+	FixedAPAvailable     FlexBool         `json:"fixed_ap_available"`
+	FwCaps               int              `json:"fw_caps"`
+	GatewayMac           string           `json:"gateway_mac"`
+	GuestNumSta          FlexInt          `json:"guest-num_sta"`
+	GuestToken           string           `json:"guest_token"`
+	GuestWlanNumSta      FlexInt          `json:"guest-wlan-num_sta"`
+	HasEth1              FlexBool         `json:"has_eth1"`
+	HasFan               FlexBool         `json:"has_fan"`
+	HasSpeaker           FlexBool         `json:"has_speaker"`
+	HasTemperature       FlexBool         `json:"has_temperature"`
+	HwCaps               int              `json:"hw_caps"`
+	ID                   string           `json:"_id"`
+	IP                   string           `json:"ip"`
+	InformIP             string           `json:"inform_ip"`
+	InformURL            string           `json:"inform_url"`
+	Internet             FlexBool         `json:"internet"`
+	Isolated             FlexBool         `json:"isolated"`
+	KernelVersion        string           `json:"kernel_version"`
+	KnownCfgversion      string           `json:"known_cfgversion"`
+	LastSeen             FlexInt          `json:"last_seen"`
+	LastUplink           struct {
 		UplinkMac        string `json:"uplink_mac"`
 		UplinkRemotePort int    `json:"uplink_remote_port"`
 	} `json:"last_uplink"`
