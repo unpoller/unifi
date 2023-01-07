@@ -142,6 +142,13 @@ type FlexInt struct {
 	Txt string
 }
 
+func NewFlexInt(v float64) *FlexInt {
+	return &FlexInt{
+		Val: v,
+		Txt: strconv.FormatFloat(v, 'f', -1, 64),
+	}
+}
+
 // UnmarshalJSON converts a string or number to an integer.
 // Generally, do call this directly, it's used in the json interface.
 func (f *FlexInt) UnmarshalJSON(b []byte) error {
@@ -170,6 +177,16 @@ func (f *FlexInt) UnmarshalJSON(b []byte) error {
 
 func (f *FlexInt) String() string {
 	return f.Txt
+}
+
+func (f *FlexInt) Add(o *FlexInt) {
+	f.Val += o.Val
+	f.Txt = strconv.FormatFloat(f.Val, 'f', -1, 64)
+}
+
+func (f *FlexInt) AddFloat64(v float64) {
+	f.Val += v
+	f.Txt = strconv.FormatFloat(f.Val, 'f', -1, 64)
 }
 
 // FlexBool provides a container and unmarshalling for fields that may be
