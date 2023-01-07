@@ -39,4 +39,15 @@ func TestFlexInt(t *testing.T) {
 	// test null.
 	a.EqualValues(0, r.Nil.Val)
 	a.EqualValues("0", r.Nil.Txt)
+
+	val1 := unifi.NewFlexInt(5)
+	val2 := unifi.NewFlexInt(4)
+	val1.Add(val2)
+
+	a.EqualValues(float64(9.0), val1.Val)
+	a.EqualValues("9", val1.Txt)
+
+	val1.AddFloat64(-4)
+	a.EqualValues(float64(5.0), val1.Val)
+	a.EqualValues("5", val1.Txt)
 }
