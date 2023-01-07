@@ -50,4 +50,11 @@ func TestFlexInt(t *testing.T) {
 	val1.AddFloat64(-4)
 	a.EqualValues(float64(5.0), val1.Val)
 	a.EqualValues("5", val1.Txt)
+
+	val3 := *unifi.NewFlexInt(3)
+	val3.AddFloat64(7)
+	a.EqualValues(10, val3.Val)
+
+	a.EqualValues(10, val3.Int())
+	a.EqualValues(10, val3.Int64())
 }
