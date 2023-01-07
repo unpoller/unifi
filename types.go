@@ -175,6 +175,14 @@ func (f *FlexInt) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (f *FlexInt) Int() int {
+	return int(f.Val)
+}
+
+func (f *FlexInt) Int64() int64 {
+	return int64(f.Val)
+}
+
 func (f *FlexInt) String() string {
 	return f.Txt
 }
