@@ -66,14 +66,14 @@ func (u *Unifi) GetClientsDPI(sites []*Site) ([]*DPITable, error) {
 // Client defines all the data a connected-network client contains.
 type Client struct {
 	SourceName       string   `json:"-"`
-	Anomalies        int64    `json:"anomalies,omitempty"`
+	Anomalies        FlexInt  `json:"anomalies,omitempty"`
 	ApMac            string   `json:"ap_mac"`
 	ApName           string   `json:"-"`
-	AssocTime        int64    `json:"assoc_time"`
+	AssocTime        FlexInt  `json:"assoc_time"`
 	Blocked          bool     `json:"blocked,omitempty"`
 	Bssid            string   `json:"bssid"`
-	BytesR           int64    `json:"bytes-r"`
-	Ccq              int64    `json:"ccq"`
+	BytesR           FlexInt  `json:"bytes-r"`
+	Ccq              FlexInt  `json:"ccq"`
 	Channel          FlexInt  `json:"channel"`
 	DevCat           FlexInt  `json:"dev_cat"`
 	DevFamily        FlexInt  `json:"dev_family"`
@@ -82,30 +82,30 @@ type Client struct {
 	DhcpendTime      FlexInt  `json:"dhcpend_time,omitempty"`
 	Satisfaction     FlexInt  `json:"satisfaction,omitempty"`
 	Essid            string   `json:"essid"`
-	FirstSeen        int64    `json:"first_seen"`
+	FirstSeen        FlexInt  `json:"first_seen"`
 	FixedIP          string   `json:"fixed_ip"`
 	GwMac            string   `json:"gw_mac"`
 	GwName           string   `json:"-"`
 	Hostname         string   `json:"hostname"`
 	ID               string   `json:"_id"`
 	IP               string   `json:"ip"`
-	IdleTime         int64    `json:"idle_time"`
+	IdleTime         FlexInt  `json:"idle_time"`
 	Is11R            FlexBool `json:"is_11r"`
 	IsGuest          FlexBool `json:"is_guest"`
 	IsGuestByUAP     FlexBool `json:"_is_guest_by_uap"`
 	IsGuestByUGW     FlexBool `json:"_is_guest_by_ugw"`
 	IsGuestByUSW     FlexBool `json:"_is_guest_by_usw"`
 	IsWired          FlexBool `json:"is_wired"`
-	LastSeen         int64    `json:"last_seen"`
-	LastSeenByUAP    int64    `json:"_last_seen_by_uap"`
-	LastSeenByUGW    int64    `json:"_last_seen_by_ugw"`
-	LastSeenByUSW    int64    `json:"_last_seen_by_usw"`
-	LatestAssocTime  int64    `json:"latest_assoc_time"`
+	LastSeen         FlexInt  `json:"last_seen"`
+	LastSeenByUAP    FlexInt  `json:"_last_seen_by_uap"`
+	LastSeenByUGW    FlexInt  `json:"_last_seen_by_ugw"`
+	LastSeenByUSW    FlexInt  `json:"_last_seen_by_usw"`
+	LatestAssocTime  FlexInt  `json:"latest_assoc_time"`
 	Mac              string   `json:"mac"`
 	Name             string   `json:"name"`
 	Network          string   `json:"network"`
 	NetworkID        string   `json:"network_id"`
-	Noise            int64    `json:"noise"`
+	Noise            FlexInt  `json:"noise"`
 	Note             string   `json:"note"`
 	Noted            FlexBool `json:"noted"`
 	OsClass          FlexInt  `json:"os_class"`
@@ -117,13 +117,13 @@ type Client struct {
 	RadioName        string   `json:"radio_name"`
 	RadioProto       string   `json:"radio_proto"`
 	RadioDescription string   `json:"-"`
-	RoamCount        int64    `json:"roam_count"`
-	Rssi             int64    `json:"rssi"`
+	RoamCount        FlexInt  `json:"roam_count"`
+	Rssi             FlexInt  `json:"rssi"`
 	RxBytes          FlexInt  `json:"rx_bytes"`
 	RxBytesR         FlexInt  `json:"rx_bytes-r"`
 	RxPackets        FlexInt  `json:"rx_packets"`
-	RxRate           int64    `json:"rx_rate"`
-	Signal           int64    `json:"signal"`
+	RxRate           FlexInt  `json:"rx_rate"`
+	Signal           FlexInt  `json:"signal"`
 	SiteID           string   `json:"site_id"`
 	SiteName         string   `json:"-"`
 	SwDepth          int      `json:"sw_depth"`
@@ -133,18 +133,18 @@ type Client struct {
 	TxBytes          FlexInt  `json:"tx_bytes"`
 	TxBytesR         FlexInt  `json:"tx_bytes-r"`
 	TxPackets        FlexInt  `json:"tx_packets"`
-	TxRetries        int64    `json:"tx_retries"`
+	TxRetries        FlexInt  `json:"tx_retries"`
 	TxPower          FlexInt  `json:"tx_power"`
 	TxRate           FlexInt  `json:"tx_rate"`
-	Uptime           int64    `json:"uptime"`
-	UptimeByUAP      int64    `json:"_uptime_by_uap"`
-	UptimeByUGW      int64    `json:"_uptime_by_ugw"`
-	UptimeByUSW      int64    `json:"_uptime_by_usw"`
+	Uptime           FlexInt  `json:"uptime"`
+	UptimeByUAP      FlexInt  `json:"_uptime_by_uap"`
+	UptimeByUGW      FlexInt  `json:"_uptime_by_ugw"`
+	UptimeByUSW      FlexInt  `json:"_uptime_by_usw"`
 	UseFixedIP       FlexBool `json:"use_fixedip"`
 	UserGroupID      string   `json:"usergroup_id"`
 	UserID           string   `json:"user_id"`
 	Vlan             FlexInt  `json:"vlan"`
-	WifiTxAttempts   int64    `json:"wifi_tx_attempts"`
+	WifiTxAttempts   FlexInt  `json:"wifi_tx_attempts"`
 	WiredRxBytes     FlexInt  `json:"wired-rx_bytes"`
 	WiredRxBytesR    FlexInt  `json:"wired-rx_bytes-r"`
 	WiredRxPackets   FlexInt  `json:"wired-rx_packets"`
