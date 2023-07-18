@@ -119,9 +119,9 @@ type Client struct {
 	RadioDescription string   `json:"-"`
 	RoamCount        int64    `json:"roam_count"`
 	Rssi             int64    `json:"rssi"`
-	RxBytes          int64    `json:"rx_bytes"`
-	RxBytesR         int64    `json:"rx_bytes-r"`
-	RxPackets        int64    `json:"rx_packets"`
+	RxBytes          FlexInt  `json:"rx_bytes"`
+	RxBytesR         FlexInt  `json:"rx_bytes-r"`
+	RxPackets        FlexInt  `json:"rx_packets"`
 	RxRate           int64    `json:"rx_rate"`
 	Signal           int64    `json:"signal"`
 	SiteID           string   `json:"site_id"`
@@ -130,12 +130,12 @@ type Client struct {
 	SwMac            string   `json:"sw_mac"`
 	SwName           string   `json:"-"`
 	SwPort           FlexInt  `json:"sw_port"`
-	TxBytes          int64    `json:"tx_bytes"`
-	TxBytesR         int64    `json:"tx_bytes-r"`
-	TxPackets        int64    `json:"tx_packets"`
+	TxBytes          FlexInt  `json:"tx_bytes"`
+	TxBytesR         FlexInt  `json:"tx_bytes-r"`
+	TxPackets        FlexInt  `json:"tx_packets"`
 	TxRetries        int64    `json:"tx_retries"`
-	TxPower          int64    `json:"tx_power"`
-	TxRate           int64    `json:"tx_rate"`
+	TxPower          FlexInt  `json:"tx_power"`
+	TxRate           FlexInt  `json:"tx_rate"`
 	Uptime           int64    `json:"uptime"`
 	UptimeByUAP      int64    `json:"_uptime_by_uap"`
 	UptimeByUGW      int64    `json:"_uptime_by_ugw"`
@@ -145,10 +145,10 @@ type Client struct {
 	UserID           string   `json:"user_id"`
 	Vlan             FlexInt  `json:"vlan"`
 	WifiTxAttempts   int64    `json:"wifi_tx_attempts"`
-	WiredRxBytes     int64    `json:"wired-rx_bytes"`
-	WiredRxBytesR    int64    `json:"wired-rx_bytes-r"`
-	WiredRxPackets   int64    `json:"wired-rx_packets"`
-	WiredTxBytes     int64    `json:"wired-tx_bytes"`
-	WiredTxBytesR    int64    `json:"wired-tx_bytes-r"`
-	WiredTxPackets   int64    `json:"wired-tx_packets"`
+	WiredRxBytes     FlexInt  `json:"wired-rx_bytes"`
+	WiredRxBytesR    FlexInt  `json:"wired-rx_bytes-r"`
+	WiredRxPackets   FlexInt  `json:"wired-rx_packets"`
+	WiredTxBytes     FlexInt  `json:"wired-tx_bytes"`
+	WiredTxBytesR    FlexInt  `json:"wired-tx_bytes-r"`
+	WiredTxPackets   FlexInt  `json:"wired-tx_packets"`
 }
