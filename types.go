@@ -225,6 +225,9 @@ type Unifi struct {
 	new          bool
 }
 
+// ensure Unifi implements UnifiClient fully, will fail to compile otherwise
+var _ UnifiClient = &Unifi{}
+
 type fingerprints []string
 
 // Contains returns true if the fingerprint is in the list.

@@ -11,7 +11,11 @@ import (
 
 type MockUnifi struct {
 	faker *gofakeit.Faker
+	*unifi.Config
 }
+
+// ensure MockUnifi implements the interface fully, this will fail to compile otherwise
+var _ unifi.UnifiClient = &MockUnifi{}
 
 func fakeSeedValue() int64 {
 	seedVal := os.Getenv("UNPOLLER_FAKE_GEN_SEED")
@@ -24,7 +28,12 @@ func fakeSeedValue() int64 {
 }
 
 func NewMockUnifi() *MockUnifi {
-	faker := gofakeit.New(fakeSeedValue())
+	return NewMockUnifiWithSeed(fakeSeedValue())
+
+}
+
+func NewMockUnifiWithSeed(seed int64) *MockUnifi {
+	faker := gofakeit.New(seed)
 	return &MockUnifi{
 		faker: faker,
 	}
