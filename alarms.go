@@ -8,44 +8,44 @@ import (
 
 type Alarm struct {
 	Archived              FlexBool  `json:"archived"`
-	DestPort              int       `json:"dest_port"`
-	SrcPort               int       `json:"src_port"`
+	DestPort              int       `json:"dest_port" fake:"{port}"`
+	SrcPort               int       `json:"src_port" fake:"{port}"`
 	FlowID                int64     `json:"flow_id"`
 	InnerAlertGID         int64     `json:"inner_alert_gid"`
 	InnerAlertRev         int64     `json:"inner_alert_rev"`
 	InnerAlertSeverity    int64     `json:"inner_alert_severity"`
 	InnerAlertSignatureID int64     `json:"inner_alert_signature_id"`
-	Time                  int64     `json:"time"`
-	Timestamp             int64     `json:"timestamp"`
+	Time                  int64     `json:"time" fake:"{timestamp}"`
+	Timestamp             int64     `json:"timestamp" fake:"{timestamp}"`
 	Datetime              time.Time `json:"datetime"`
 	HandledTime           time.Time `json:"handled_time,omitempty"`
 	AppProto              string    `json:"app_proto,omitempty"`
 	Catname               string    `json:"catname"`
-	DestIP                string    `json:"dest_ip"`
-	DstMAC                string    `json:"dst_mac"`
+	DestIP                string    `json:"dest_ip" fake:"{ipv4address}"`
+	DstMAC                string    `json:"dst_mac" fake:"{macaddress}"`
 	DstIPASN              string    `json:"dstipASN,omitempty"`
 	DstIPCountry          string    `json:"dstipCountry,omitempty"`
 	EventType             string    `json:"event_type"`
 	HandledAdminID        string    `json:"handled_admin_id,omitempty"`
 	Host                  string    `json:"host"`
-	ID                    string    `json:"_id"`
-	InIface               string    `json:"in_iface"`
+	ID                    string    `json:"_id" fake:"{uuid}"`
+	InIface               string    `json:"in_iface" fake:"{randomstring:[eth0,eth1,lan1,wan1,wan2]}"`
 	InnerAlertAction      string    `json:"inner_alert_action"`
 	InnerAlertCategory    string    `json:"inner_alert_category"`
 	InnerAlertSignature   string    `json:"inner_alert_signature"`
 	Key                   string    `json:"key"`
-	Msg                   string    `json:"msg"`
+	Msg                   string    `json:"msg" fake:"{sentence:5}"`
 	Proto                 string    `json:"proto"`
-	SiteID                string    `json:"site_id"`
+	SiteID                string    `json:"site_id" fake:"{uuid}"`
 	SiteName              string    `json:"-"`
 	SourceName            string    `json:"-"`
-	SrcIP                 string    `json:"src_ip"`
+	SrcIP                 string    `json:"src_ip" fake:"{ipv4address}"`
 	SrcIPASN              string    `json:"srcipASN,omitempty"`
 	SrcIPCountry          string    `json:"srcipCountry,omitempty"`
-	SrcMAC                string    `json:"src_mac"`
+	SrcMAC                string    `json:"src_mac" fake:"{macaddress}"`
 	Subsystem             string    `json:"subsystem"`
 	UniqueAlertID         string    `json:"unique_alertid"`
-	USGIP                 string    `json:"usgip"`
+	USGIP                 string    `json:"usgip" fake:"{ipv4address}"`
 	USGIPASN              string    `json:"usgipASN"`
 	USGIPCountry          string    `json:"usgipCountry"`
 	TxID                  FlexInt   `json:"tx_id,omitempty"`

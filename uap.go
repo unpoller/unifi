@@ -15,11 +15,11 @@ type UAP struct {
 	Adopted               FlexBool `json:"adopted"`
 	AntennaTable          []struct {
 		Default   FlexBool `json:"default"`
-		ID        FlexInt  `json:"id"`
-		Name      string   `json:"name"`
+		ID        FlexInt  `json:"id" fake:"{uuid}"`
+		Name      string   `json:"name" fake:"{animal}"`
 		Wifi0Gain FlexInt  `json:"wifi0_gain"`
 		Wifi1Gain FlexInt  `json:"wifi1_gain"`
-	} `json:"antenna_table"`
+	} `json:"antenna_table" fakesize:"5"`
 	Architecture         string           `json:"architecture"`
 	BandsteeringMode     string           `json:"bandsteering_mode,omitempty"`
 	BoardRev             int              `json:"board_rev"`
@@ -28,18 +28,18 @@ type UAP struct {
 	BytesR               FlexInt          `json:"bytes-r"`
 	Cfgversion           string           `json:"cfgversion"`
 	ConfigNetwork        *ConfigNetwork   `json:"config_network"`
-	ConnectRequestIP     string           `json:"connect_request_ip"`
+	ConnectRequestIP     string           `json:"connect_request_ip" fake:"{ipv4address}"`
 	ConnectRequestPort   string           `json:"connect_request_port"`
-	ConnectedAt          FlexInt          `json:"connected_at"`
+	ConnectedAt          FlexInt          `json:"connected_at" fake:"{timestamp}"`
 	CountryCode          FlexInt          `json:"country_code"`
-	CountrycodeTable     []int            `json:"countrycode_table"`
-	DeviceID             string           `json:"device_id"`
+	CountrycodeTable     []int            `json:"countrycode_table" fakesize:"5"`
+	DeviceID             string           `json:"device_id" fake:"{uuid}"`
 	Dot1XPortctrlEnabled FlexBool         `json:"dot1x_portctrl_enabled"`
-	DownlinkTable        []*DownlinkTable `json:"downlink_table,omitempty"`
-	EthernetTable        []*EthernetTable `json:"ethernet_table"`
+	DownlinkTable        []*DownlinkTable `json:"downlink_table,omitempty" fakesize:"5"`
+	EthernetTable        []*EthernetTable `json:"ethernet_table" fakesize:"5"`
 	FixedAPAvailable     FlexBool         `json:"fixed_ap_available"`
 	FwCaps               int              `json:"fw_caps"`
-	GatewayMac           string           `json:"gateway_mac"`
+	GatewayMac           string           `json:"gateway_mac" fake:"{macaddress}"`
 	GuestNumSta          FlexInt          `json:"guest-num_sta"`
 	GuestToken           string           `json:"guest_token"`
 	GuestWlanNumSta      FlexInt          `json:"guest-wlan-num_sta"`
@@ -48,18 +48,18 @@ type UAP struct {
 	HasSpeaker           FlexBool         `json:"has_speaker"`
 	HasTemperature       FlexBool         `json:"has_temperature"`
 	HwCaps               int              `json:"hw_caps"`
-	ID                   string           `json:"_id"`
-	IP                   string           `json:"ip"`
-	InformIP             string           `json:"inform_ip"`
-	InformURL            string           `json:"inform_url"`
+	ID                   string           `json:"_id" fake:"{uuid}"`
+	IP                   string           `json:"ip" fake:"{ipv4address}"`
+	InformIP             string           `json:"inform_ip" fake:"{ipv4address}"`
+	InformURL            string           `json:"inform_url" fake:"{url}"`
 	Internet             FlexBool         `json:"internet"`
 	Isolated             FlexBool         `json:"isolated"`
 	KernelVersion        string           `json:"kernel_version"`
 	KnownCfgversion      string           `json:"known_cfgversion"`
 	LastSeen             FlexInt          `json:"last_seen"`
 	LastUplink           struct {
-		UplinkMac        string `json:"uplink_mac"`
-		UplinkRemotePort int    `json:"uplink_remote_port"`
+		UplinkMac        string `json:"uplink_mac" fake:"{macaddress}"`
+		UplinkRemotePort int    `json:"uplink_remote_port" fake:"{port}"`
 	} `json:"last_uplink"`
 	LcmBrightnessOverride         FlexBool        `json:"lcm_brightness_override"`
 	LcmTimeoutOverride            FlexBool        `json:"lcm_idle_timeout_override"`
@@ -81,7 +81,7 @@ type UAP struct {
 	LteHardLimit                  FlexInt         `json:"lte_hard_limit"`
 	LteICCID                      string          `json:"lte_iccid"`
 	LteIMEI                       string          `json:"lte_imei"`
-	LteIP                         string          `json:"lte_ip"`
+	LteIP                         string          `json:"lte_ip" fake:"{ipv4address}"`
 	LteMode                       string          `json:"lte_mode"`
 	LteNetworkOperator            string          `json:"lte_networkoperator"`
 	LtePdpType                    string          `json:"lte_pdptype"`
@@ -101,7 +101,7 @@ type UAP struct {
 	LteSubscriptionCheckRequired  FlexBool        `json:"lte_subscription_check_required"`
 	LteSubscriptionStatus         FlexBool        `json:"lte_subscription_status"`
 	LteTxChannel                  FlexInt         `json:"lte_tx_chan"`
-	Mac                           string          `json:"mac"`
+	Mac                           string          `json:"mac" fake:"{macaddress}"`
 	ManufacturerID                FlexInt         `json:"manufacturer_id"`
 	MeshStaVapEnabled             FlexBool        `json:"mesh_sta_vap_enabled"`
 	Meshv3PeerMac                 string          `json:"meshv3_peer_mac"`
@@ -112,7 +112,7 @@ type UAP struct {
 	Name                          string          `json:"name"`
 	NumSta                        FlexInt         `json:"num_sta"`
 	OutdoorModeOverride           string          `json:"outdoor_mode_override"`
-	PortTable                     []Port          `json:"port_table"`
+	PortTable                     []Port          `json:"port_table" fakesize:"5"`
 	ProvisionedAt                 FlexInt         `json:"provisioned_at"`
 	RadioTable                    RadioTable      `json:"radio_table"`
 	RadioTableStats               RadioTableStats `json:"radio_table_stats"`
@@ -125,13 +125,13 @@ type UAP struct {
 	ScanRadioTable                []interface{}   `json:"scan_radio_table"`
 	Scanning                      FlexBool        `json:"scanning"`
 	Serial                        string          `json:"serial"`
-	SiteID                        string          `json:"site_id"`
+	SiteID                        string          `json:"site_id" fake:"{uuid}"`
 	SiteName                      string          `json:"-"`
 	SourceName                    string          `json:"-"`
 	SpectrumScanning              FlexBool        `json:"spectrum_scanning"`
-	StartConnectedMillis          FlexInt         `json:"start_connected_millis"`
-	StartDisconnectedMillis       FlexInt         `json:"start_disconnected_millis"`
-	StartupTimestamp              FlexInt         `json:"startup_timestamp"`
+	StartConnectedMillis          FlexInt         `json:"start_connected_millis" fake:"{timestamp}"`
+	StartDisconnectedMillis       FlexInt         `json:"start_disconnected_millis" fake:"{timestamp}"`
+	StartupTimestamp              FlexInt         `json:"startup_timestamp" fake:"{timestamp}"`
 	Stat                          UAPStat         `json:"stat"`
 	State                         FlexInt         `json:"state"`
 	SupportsFingerprintML         FlexBool        `json:"supports_fingerprint_ml"`
@@ -152,12 +152,12 @@ type UAP struct {
 	UpgradeState                  FlexInt         `json:"upgrade_state"`
 	Uplink                        struct {
 		FullDuplex       FlexBool `json:"full_duplex"`
-		IP               string   `json:"ip"`
-		Mac              string   `json:"mac"`
+		IP               string   `json:"ip" fake:"{ipv4address}"`
+		Mac              string   `json:"mac" fake:"{macaddress}"`
 		MaxVlan          int      `json:"max_vlan"`
 		Name             string   `json:"name"`
 		Netmask          string   `json:"netmask"`
-		NumPort          int      `json:"num_port"`
+		NumPort          int      `json:"num_port" fake:"{port}"`
 		RxBytes          FlexInt  `json:"rx_bytes"`
 		RxDropped        FlexInt  `json:"rx_dropped"`
 		RxErrors         FlexInt  `json:"rx_errors"`
@@ -173,8 +173,8 @@ type UAP struct {
 		Type             string   `json:"type"`
 		TxBytesR         FlexInt  `json:"tx_bytes-r"`
 		RxBytesR         FlexInt  `json:"rx_bytes-r"`
-		UplinkMac        string   `json:"uplink_mac"`
-		UplinkRemotePort int      `json:"uplink_remote_port"`
+		UplinkMac        string   `json:"uplink_mac" fake:"{macaddress}"`
+		UplinkRemotePort int      `json:"uplink_remote_port" fake:"{port}"`
 	} `json:"uplink"`
 	UplinkTable    []interface{} `json:"uplink_table"`
 	Uptime         FlexInt       `json:"uptime"`
@@ -198,11 +198,11 @@ type UAPStat struct {
 
 // Ap is a subtype of UAPStat to make unmarshalling of different controller versions possible.
 type Ap struct {
-	SiteID                   string    `json:"site_id"`
+	SiteID                   string    `json:"site_id" fake:"{uuid}"`
 	O                        string    `json:"o"`
 	Oid                      string    `json:"oid"`
 	Ap                       string    `json:"ap"`
-	Time                     FlexInt   `json:"time"`
+	Time                     FlexInt   `json:"time" fake:"{timestamp}"`
 	Datetime                 time.Time `json:"datetime"`
 	Bytes                    FlexInt   `json:"bytes"`
 	Duration                 FlexInt   `json:"duration"`
@@ -440,7 +440,7 @@ type RadioTable []struct {
 	MinRssi            FlexInt  `json:"min_rssi,omitempty"`
 	MinRssiEnabled     FlexBool `json:"min_rssi_enabled"`
 	MinTxpower         FlexInt  `json:"min_txpower"`
-	Name               string   `json:"name"`
+	Name               string   `json:"name" fake:"{animal}"`
 	Nss                FlexInt  `json:"nss"`
 	Radio              string   `json:"radio"`
 	RadioCaps          FlexInt  `json:"radio_caps"`
@@ -448,12 +448,12 @@ type RadioTable []struct {
 	TxPower            FlexInt  `json:"tx_power"`
 	TxPowerMode        string   `json:"tx_power_mode"`
 	VwireEnabled       FlexBool `json:"vwire_enabled"`
-	WlangroupID        string   `json:"wlangroup_id"`
+	WlangroupID        string   `json:"wlangroup_id" fake:"{uuid}"`
 }
 
 // RadioTableStats is part of the data shared between UAP and UDM.
 type RadioTableStats []struct {
-	Name         string      `json:"name"`
+	Name         string      `json:"name" fake:"{animal}"`
 	Channel      FlexInt     `json:"channel"`
 	Radio        string      `json:"radio"`
 	AstTxto      interface{} `json:"ast_txto"`
@@ -541,10 +541,10 @@ type VapTable []struct {
 	} `json:"rx_tcp_stats"`
 	TxTCPStats struct {
 		Goodbytes FlexInt `json:"goodbytes"`
-		LatAvg    FlexInt `json:"lat_avg"`
-		LatMax    FlexInt `json:"lat_max"`
-		LatMin    FlexInt `json:"lat_min"`
-		Stalls    FlexInt `json:"stalls"`
+		LatAvg    FlexInt `json:"lat_avg" fake:"{latitude}"`
+		LatMax    FlexInt `json:"lat_max" fake:"{latitude}"`
+		LatMin    FlexInt `json:"lat_min" fake:"{longitude}"`
+		Stalls    FlexInt `json:"stalls" fake:"{longitude}"`
 	} `json:"tx_tcp_stats"`
 	WifiTxLatencyMov struct {
 		Avg        FlexInt `json:"avg"`
@@ -553,20 +553,20 @@ type VapTable []struct {
 		Total      FlexInt `json:"total"`
 		TotalCount FlexInt `json:"total_count"`
 	} `json:"wifi_tx_latency_mov"`
-	ApMac               string      `json:"ap_mac"`
+	ApMac               string      `json:"ap_mac" fake:"{macaddress}"`
 	AvgClientSignal     FlexInt     `json:"avg_client_signal"`
-	Bssid               string      `json:"bssid"`
+	Bssid               string      `json:"bssid" fake:"{macaddress}"`
 	Ccq                 int         `json:"ccq"`
 	Channel             FlexInt     `json:"channel"`
 	DNSAvgLatency       FlexInt     `json:"dns_avg_latency"`
-	Essid               string      `json:"essid"`
+	Essid               string      `json:"essid" fake:"{macaddress}"`
 	Extchannel          int         `json:"extchannel"`
-	ID                  string      `json:"id"`
+	ID                  string      `json:"id" fake:"{uuid}"`
 	IsGuest             FlexBool    `json:"is_guest"`
 	IsWep               FlexBool    `json:"is_wep"`
 	MacFilterRejections int         `json:"mac_filter_rejections"`
 	MapID               interface{} `json:"map_id"`
-	Name                string      `json:"name"`
+	Name                string      `json:"name" fake:"{animal}"`
 	NumSatisfactionSta  FlexInt     `json:"num_satisfaction_sta"`
 	NumSta              int         `json:"num_sta"`
 	Radio               string      `json:"radio"`
@@ -580,7 +580,7 @@ type VapTable []struct {
 	RxPackets           FlexInt     `json:"rx_packets"`
 	Satisfaction        FlexInt     `json:"satisfaction"`
 	SatisfactionNow     FlexInt     `json:"satisfaction_now"`
-	SiteID              string      `json:"site_id"`
+	SiteID              string      `json:"site_id" fake:"{uuid}"`
 	State               string      `json:"state"`
 	T                   string      `json:"t"`
 	TxBytes             FlexInt     `json:"tx_bytes"`
@@ -605,16 +605,16 @@ type VapTable []struct {
 type RogueAP struct {
 	SourceName string   `json:"-"`
 	SiteName   string   `json:"-"`
-	ID         string   `json:"_id"`
-	ApMac      string   `json:"ap_mac"`
-	Bssid      string   `json:"bssid"`
-	SiteID     string   `json:"site_id"`
+	ID         string   `json:"_id" fake:"{uuid}"`
+	ApMac      string   `json:"ap_mac" fake:"{macaddress}"`
+	Bssid      string   `json:"bssid" fake:"{macaddress}"`
+	SiteID     string   `json:"site_id" fake:"{uuid}"`
 	Age        FlexInt  `json:"age"`
 	Band       string   `json:"band"`
 	Bw         FlexInt  `json:"bw"`
 	CenterFreq FlexInt  `json:"center_freq"`
 	Channel    int      `json:"channel"`
-	Essid      string   `json:"essid"`
+	Essid      string   `json:"essid" fake:"{macaddress}"`
 	Freq       FlexInt  `json:"freq"`
 	IsAdhoc    FlexBool `json:"is_adhoc"`
 	IsRogue    FlexBool `json:"is_rogue"`

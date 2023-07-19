@@ -10,44 +10,44 @@ import (
 // IDS holds an Intrusion Prevention System Event.
 type IDS struct {
 	Archived              FlexBool  `json:"archived"`
-	DestPort              int       `json:"dest_port,omitempty"`
-	SrcPort               int       `json:"src_port,omitempty"`
-	FlowID                int64     `json:"flow_id"`
+	DestPort              int       `json:"dest_port,omitempty" fake:"{port}"`
+	SrcPort               int       `json:"src_port,omitempty" fake:"{port}"`
+	FlowID                int64     `json:"flow_id" fake:"{uuid}"`
 	InnerAlertRev         int64     `json:"inner_alert_rev"`
 	InnerAlertSeverity    int64     `json:"inner_alert_severity"`
 	InnerAlertGID         int64     `json:"inner_alert_gid"`
 	InnerAlertSignatureID int64     `json:"inner_alert_signature_id"`
-	Time                  int64     `json:"time"`
-	Timestamp             int64     `json:"timestamp"`
+	Time                  int64     `json:"time" fake:"{timestamp}"`
+	Timestamp             int64     `json:"timestamp" fake:"{timestamp}"`
 	Datetime              time.Time `json:"datetime"`
 	AppProto              string    `json:"app_proto,omitempty"`
 	Catname               string    `json:"catname"`
-	DestIP                string    `json:"dest_ip"`
-	DstMAC                string    `json:"dst_mac"`
-	DstIPASN              string    `json:"dstipASN"`
-	DstIPCountry          string    `json:"dstipCountry"`
+	DestIP                string    `json:"dest_ip" fake:"{ipv4address}"`
+	DstMAC                string    `json:"dst_mac" fake:"{macaddress}"`
+	DstIPASN              string    `json:"dstipASN" fake:"{address}"`
+	DstIPCountry          string    `json:"dstipCountry" fake:"{country}"`
 	EventType             string    `json:"event_type"`
 	Host                  string    `json:"host"`
-	ID                    string    `json:"_id"`
+	ID                    string    `json:"_id" fake:"{uuid}"`
 	InIface               string    `json:"in_iface"`
 	InnerAlertAction      string    `json:"inner_alert_action"`
 	InnerAlertCategory    string    `json:"inner_alert_category"`
 	InnerAlertSignature   string    `json:"inner_alert_signature"`
-	Key                   string    `json:"key"`
-	Msg                   string    `json:"msg"`
+	Key                   string    `json:"key" fake:"{uuid}"`
+	Msg                   string    `json:"msg" fake:"{sentence:20}"`
 	Proto                 string    `json:"proto"`
-	SiteID                string    `json:"site_id"`
+	SiteID                string    `json:"site_id" fake:"{uuid}"`
 	SiteName              string    `json:"-"`
 	SourceName            string    `json:"-"`
-	SrcIP                 string    `json:"src_ip"`
-	SrcIPASN              string    `json:"srcipASN"`
-	SrcIPCountry          string    `json:"srcipCountry"`
-	SrcMAC                string    `json:"src_mac"`
+	SrcIP                 string    `json:"src_ip" fake:"{ipv4address}"`
+	SrcIPASN              string    `json:"srcipASN" fake:"{address}"`
+	SrcIPCountry          string    `json:"srcipCountry" fake:"{country}"`
+	SrcMAC                string    `json:"src_mac" fake:"{macaddress}"`
 	Subsystem             string    `json:"subsystem"`
-	UniqueAlertID         string    `json:"unique_alertid"`
-	USGIP                 string    `json:"usgip"`
-	USGIPASN              string    `json:"usgipASN"`
-	USGIPCountry          string    `json:"usgipCountry"`
+	UniqueAlertID         string    `json:"unique_alertid" fake:"{uuid}"`
+	USGIP                 string    `json:"usgip" fake:"{ipv4address}"`
+	USGIPASN              string    `json:"usgipASN" fake:"{address}"`
+	USGIPCountry          string    `json:"usgipCountry" fake:"{country}"`
 	DestIPGeo             IPGeo     `json:"dstipGeo"`
 	SourceIPGeo           IPGeo     `json:"srcipGeo"`
 	USGIPGeo              IPGeo     `json:"usgipGeo"`
@@ -71,7 +71,7 @@ func (u *Unifi) GetIDS(sites []*Site, timeRange ...time.Time) ([]*IDS, error) {
 	return data, nil
 }
 
-// GetIDSSite retreives the Intrusion Detection System Data for a single Site.
+// GetIDSSite retrieves the Intrusion Detection System Data for a single Site.
 // timeRange may have a length of 0, 1 or 2. The first time is Start, the second is End.
 // Events between start and end are returned. End defaults to time.Now().
 func (u *Unifi) GetIDSSite(site *Site, timeRange ...time.Time) ([]*IDS, error) {

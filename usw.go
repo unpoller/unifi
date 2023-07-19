@@ -140,11 +140,11 @@ type USWStat struct {
 
 // Sw is a subtype of USWStat to make unmarshalling of different controller versions possible.
 type Sw struct {
-	SiteID      string    `json:"site_id"`
+	SiteID      string    `json:"site_id" fake:"{uuid}"`
 	O           string    `json:"o"`
 	Oid         string    `json:"oid"`
 	Sw          string    `json:"sw"`
-	Time        FlexInt   `json:"time"`
+	Time        FlexInt   `json:"time" fake:"{timestamp}"`
 	Datetime    time.Time `json:"datetime"`
 	RxPackets   FlexInt   `json:"rx_packets"`
 	RxBytes     FlexInt   `json:"rx_bytes"`

@@ -27,9 +27,9 @@ const (
 // devMgrCmd is the type marshalled and sent to APIDevMgrPath.
 type devMgrCmd struct {
 	Cmd    string `json:"cmd"`                  // Required.
-	Mac    string `json:"mac"`                  // Device MAC (required for most, but not all).
-	URL    string `json:"url,omitempty"`        // External Upgrade only.
-	Inform string `json:"inform_url,omitempty"` // Migration only.
+	Mac    string `json:"mac" fake:"{macaddress}"`                  // Device MAC (required for most, but not all).
+	URL    string `json:"url,omitempty" fake:"{url}"`        // External Upgrade only.
+	Inform string `json:"inform_url,omitempty" fake:"{url}"` // Migration only.
 	Port   int    `json:"port_idx,omitempty"`   // Power Cycle only.
 }
 
