@@ -13,7 +13,7 @@ import (
 )
 
 type MockHTTPTestServer struct {
-	server *httptest.Server
+	Server *httptest.Server
 	mocked *MockUnifi
 }
 
@@ -21,7 +21,7 @@ func NewMockHTTPTestServer() *MockHTTPTestServer {
 	mocked := NewMockUnifi()
 	m := &MockHTTPTestServer{mocked: mocked}
 	s := httptest.NewServer(m)
-	m.server = s
+	m.Server = s
 	return m
 }
 
