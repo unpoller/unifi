@@ -3,11 +3,64 @@ package unifi
 import (
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/brianvoe/gofakeit/v6"
 )
+
+func init() {
+	gofakeit.AddFuncLookup("port", gofakeit.Info{
+		Category:    "custom",
+		Description: "Random Unifi Port integer value",
+		Example:     "8443",
+		Output:      "int",
+		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+			return r.Int31n(65535), nil
+		},
+	})
+
+	gofakeit.AddFuncLookup("timestamp", gofakeit.Info{
+		Category:    "custom",
+		Description: "Random timestamp value",
+		Example:     "123456",
+		Output:      "int64",
+		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+			return gofakeit.DateRange(time.Now().Add(time.Hour-2), time.Now()).Unix(), nil
+		},
+	})
+
+	gofakeit.AddFuncLookup("timestamps", gofakeit.Info{
+		Category:    "custom",
+		Description: "Random timestamp value",
+		Example:     "123456",
+		Output:      "[]int64",
+		Params: []gofakeit.Param{
+			{
+				Field:       "length",
+				Display:     "number of items to generate",
+				Type:        "uint",
+				Optional:    false,
+				Default:     "2",
+				Description: "The number of ints to generate",
+			},
+		},
+		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+			l, err := info.GetUint(m, "length")
+			if err != nil {
+				return nil, err
+			}
+			result := make([]int64, 0)
+			for i := 0; i < int(l); i++ {
+				result = append(result, gofakeit.DateRange(time.Now().Add(time.Hour-2), time.Now()).Unix())
+			}
+			return result, nil
+		},
+	})
+}
 
 var ErrCannotUnmarshalFlexInt = fmt.Errorf("cannot unmarshal to FlexInt")
 
@@ -102,6 +155,66 @@ type Config struct {
 	VerifySSL bool
 }
 
+type UnifiClient interface {
+	// GetAlarms returns Alarms for a list of Sites.
+	GetAlarms(sites []*Site) ([]*Alarm, error)
+	// GetAlarmsSite retreives the Alarms for a single Site.
+	GetAlarmsSite(site *Site) ([]*Alarm, error)
+	// GetAnomalies returns Anomalies for a list of Sites.
+	GetAnomalies(sites []*Site, timeRange ...time.Time) ([]*Anomaly, error)
+	// GetAnomaliesSite retreives the Anomalies for a single Site.
+	GetAnomaliesSite(site *Site, timeRange ...time.Time) ([]*Anomaly, error)
+	// GetClients returns a response full of clients' data from the UniFi Controller.
+	GetClients(sites []*Site) ([]*Client, error)
+	// GetClientsDPI garners dpi data for clients.
+	GetClientsDPI(sites []*Site) ([]*DPITable, error)
+	// GetDevices returns a response full of devices' data from the UniFi Controller.
+	GetDevices(sites []*Site) (*Devices, error)
+	// GetUSWs returns all switches, an error, or nil if there are no switches.
+	GetUSWs(site *Site) ([]*USW, error)
+	// GetUAPs returns all access points, an error, or nil if there are no APs.
+	GetUAPs(site *Site) ([]*UAP, error)
+	// GetUDMs returns all dream machines, an error, or nil if there are no UDMs.
+	GetUDMs(site *Site) ([]*UDM, error)
+	// GetUXGs returns all 10Gb gateways, an error, or nil if there are no UXGs.
+	GetUXGs(site *Site) ([]*UXG, error)
+	// GetUSGs returns all 1Gb gateways, an error, or nil if there are no USGs.
+	GetUSGs(site *Site) ([]*USG, error)
+	// GetEvents returns a response full of UniFi Events for the last 1 hour from multiple sites.
+	GetEvents(sites []*Site, hours time.Duration) ([]*Event, error)
+	// GetSiteEvents retrieves the last 1 hour's worth of events from a single site.
+	GetSiteEvents(site *Site, hours time.Duration) ([]*Event, error)
+	// GetIDS returns Intrusion Detection Systems events for a list of Sites.
+	// timeRange may have a length of 0, 1 or 2. The first time is Start, the second is End.
+	// Events between start and end are returned. End defaults to time.Now().
+	GetIDS(sites []*Site, timeRange ...time.Time) ([]*IDS, error)
+	// GetIDSSite retrieves the Intrusion Detection System Data for a single Site.
+	// timeRange may have a length of 0, 1 or 2. The first time is Start, the second is End.
+	// Events between start and end are returned. End defaults to time.Now().
+	GetIDSSite(site *Site, timeRange ...time.Time) ([]*IDS, error)
+	// GetNetworks returns a response full of network data from the UniFi Controller.
+	GetNetworks(sites []*Site) ([]Network, error)
+	// GetSites returns a list of configured sites on the UniFi controller.
+	GetSites() ([]*Site, error)
+	// GetSiteDPI garners dpi data for sites.
+	GetSiteDPI(sites []*Site) ([]*DPITable, error)
+	// GetRogueAPs returns RogueAPs for a list of Sites.
+	// Use GetRogueAPsSite if you want more control.
+	GetRogueAPs(sites []*Site) ([]*RogueAP, error)
+	// GetRogueAPsSite returns RogueAPs for a single Site.
+	GetRogueAPsSite(site *Site) ([]*RogueAP, error)
+	// Login is a helper method. It can be called to grab a new authentication cookie.
+	Login() error
+	// Logout closes the current session.
+	Logout() error
+	// GetServerData sets the controller's version and UUID. Only call this if you
+	// previously called Login and suspect the controller version has changed.
+	GetServerData() error
+	// GetUsers returns a response full of clients that connected to the UDM within the provided amount of time
+	// using the insight historical connection data set.
+	GetUsers(sites []*Site, hours int) ([]*User, error)
+}
+
 // Unifi is what you get in return for providing a password! Unifi represents
 // a controller that you can make authenticated requests to. Use this to make
 // additional requests for devices, clients or other custom data. Do not set
@@ -114,6 +227,9 @@ type Unifi struct {
 	fingerprints fingerprints
 	new          bool
 }
+
+// ensure Unifi implements UnifiClient fully, will fail to compile otherwise
+var _ UnifiClient = &Unifi{}
 
 type fingerprints []string
 
@@ -197,6 +313,19 @@ func (f *FlexInt) AddFloat64(v float64) {
 	f.Txt = strconv.FormatFloat(f.Val, 'f', -1, 64)
 }
 
+// Fake implements gofakeit Fake interface
+func (f *FlexInt) Fake(faker *gofakeit.Faker) interface{} {
+	randValue := faker.Rand.Float64()
+	opts := []interface{}{
+		randValue,
+		int64(randValue),
+		strconv.FormatInt(int64(randValue), 10),
+		strconv.FormatFloat(randValue, 'f', 8, 64),
+	}
+
+	return opts[faker.Rand.Intn(2)]
+}
+
 // FlexBool provides a container and unmarshalling for fields that may be
 // boolean or strings in the Unifi API.
 type FlexBool struct {
@@ -220,24 +349,35 @@ func (f *FlexBool) String() string {
 	return f.Txt
 }
 
+// Fake implements gofakeit Fake interface
+func (f *FlexBool) Fake(faker *gofakeit.Faker) interface{} {
+	opts := []interface{}{
+		"true",
+		true,
+		"false",
+		false,
+	}
+	return opts[faker.Rand.Intn(4)]
+}
+
 // DownlinkTable is part of a UXG and UDM output.
 type DownlinkTable struct {
-	PortIdx    FlexInt  `json:"port_idx"`
+	PortIdx    FlexInt  `json:"port_idx" fake:"{port}"`
 	Speed      FlexInt  `json:"speed"`
 	FullDuplex FlexBool `json:"full_duplex"`
-	Mac        string   `json:"mac"`
+	Mac        string   `json:"mac" fake:"{macaddress}"`
 }
 
 // ConfigNetwork comes from gateways.
 type ConfigNetwork struct {
-	Type string `json:"type"`
-	IP   string `json:"ip"`
+	Type string `json:"type" fake:"{randomstring:[wan,lan,vlan]}"`
+	IP   string `json:"ip" fake:"{ipv4address}"`
 }
 
 type EthernetTable struct {
-	Mac     string  `json:"mac"`
-	NumPort FlexInt `json:"num_port"`
-	Name    string  `json:"name"`
+	Mac     string  `json:"mac" fake:"{macaddress}"`
+	NumPort FlexInt `json:"num_port" fake:"{port}"`
+	Name    string  `json:"name" fake:"{animal}"`
 }
 
 // Port is a physical connection on a USW or Gateway.
@@ -246,23 +386,23 @@ type Port struct {
 	AggregatedBy       FlexBool   `json:"aggregated_by"`
 	Autoneg            FlexBool   `json:"autoneg,omitempty"`
 	BytesR             FlexInt    `json:"bytes-r"`
-	DNS                []string   `json:"dns,omitempty"`
+	DNS                []string   `json:"dns,omitempty" fakesize:"5"`
 	Dot1XMode          string     `json:"dot1x_mode"`
 	Dot1XStatus        string     `json:"dot1x_status"`
 	Enable             FlexBool   `json:"enable"`
 	FlowctrlRx         FlexBool   `json:"flowctrl_rx"`
 	FlowctrlTx         FlexBool   `json:"flowctrl_tx"`
 	FullDuplex         FlexBool   `json:"full_duplex"`
-	IP                 string     `json:"ip,omitempty"`
-	Ifname             string     `json:"ifname,omitempty"`
+	IP                 string     `json:"ip,omitempty" fake:"{ipv4address}"`
+	Ifname             string     `json:"ifname,omitempty" fake:"{randomstring:[wlan0,wlan1,lan0,lan1,vlan1,vlan0,vlan2]}"`
 	IsUplink           FlexBool   `json:"is_uplink"`
-	Mac                string     `json:"mac,omitempty"`
-	MacTable           []MacTable `json:"mac_table,omitempty"`
+	Mac                string     `json:"mac,omitempty" fake:"{macaddress}"`
+	MacTable           []MacTable `json:"mac_table,omitempty" fakesize:"5"`
 	Jumbo              FlexBool   `json:"jumbo,omitempty"`
 	Masked             FlexBool   `json:"masked"`
 	Media              string     `json:"media"`
-	Name               string     `json:"name"`
-	NetworkName        string     `json:"network_name,omitempty"`
+	Name               string     `json:"name" fake:"{animal}"`
+	NetworkName        string     `json:"network_name,omitempty" fake:"{animal}"`
 	Netmask            string     `json:"netmask,omitempty"`
 	NumPort            FlexInt    `json:"num_port,omitempty"`
 	OpMode             string     `json:"op_mode"`

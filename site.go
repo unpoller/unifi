@@ -71,9 +71,9 @@ func (u *Unifi) GetSiteDPI(sites []*Site) ([]*DPITable, error) {
 type Site struct {
 	controller   *Unifi
 	SourceName   string   `json:"-"`
-	ID           string   `json:"_id"`
+	ID           string   `json:"_id" fake:"{uuid}"`
 	Name         string   `json:"name"`
-	Desc         string   `json:"desc"`
+	Desc         string   `json:"desc" fake:"{sentence:20}"`
 	SiteName     string   `json:"-"`
 	AttrHiddenID string   `json:"attr_hidden_id"`
 	AttrNoDelete FlexBool `json:"attr_no_delete"`
@@ -91,12 +91,12 @@ type Site struct {
 		NumDisconnected FlexInt  `json:"num_disconnected,omitempty"`
 		NumPending      FlexInt  `json:"num_pending,omitempty"`
 		NumGw           FlexInt  `json:"num_gw,omitempty"`
-		WanIP           string   `json:"wan_ip,omitempty"`
-		Gateways        []string `json:"gateways,omitempty"`
+		WanIP           string   `json:"wan_ip,omitempty" fake:"{ipv4address}"`
+		Gateways        []string `json:"gateways,omitempty" fakesize:"5"`
 		Netmask         string   `json:"netmask,omitempty"`
-		Nameservers     []string `json:"nameservers,omitempty"`
+		Nameservers     []string `json:"nameservers,omitempty" fakesize:"5"`
 		NumSta          FlexInt  `json:"num_sta,omitempty"`
-		GwMac           string   `json:"gw_mac,omitempty"`
+		GwMac           string   `json:"gw_mac,omitempty" fake:"{macaddress}"`
 		GwName          string   `json:"gw_name,omitempty"`
 		GwSystemStats   struct {
 			CPU    FlexInt `json:"cpu"`
@@ -122,6 +122,6 @@ type Site struct {
 		RemoteUserRxPackets   FlexInt  `json:"remote_user_rx_packets,omitempty"`
 		RemoteUserTxPackets   FlexInt  `json:"remote_user_tx_packets,omitempty"`
 		SiteToSiteEnabled     FlexBool `json:"site_to_site_enabled,omitempty"`
-	} `json:"health"`
+	} `json:"health" fakesize:"5"`
 	NumNewAlarms FlexInt `json:"num_new_alarms"`
 }

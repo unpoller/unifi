@@ -18,15 +18,15 @@ type UXG struct {
 	ConnectRequestIP           string                  `json:"connect_request_ip"`
 	ConnectRequestPort         string                  `json:"connect_request_port"`
 	ConnectionNetworkName      string                  `json:"connection_network_name"`
-	ConnectedAt                FlexInt                 `json:"connected_at"`
-	ConsideredLostAt           FlexInt                 `json:"considered_lost_at"`
-	DeviceID                   string                  `json:"device_id"`
+	ConnectedAt                FlexInt                 `json:"connected_at" fake:"{timestamp}"`
+	ConsideredLostAt           FlexInt                 `json:"considered_lost_at" fake:"{timestamp}"`
+	DeviceID                   string                  `json:"device_id" fake:"{uuid}"`
 	DisplayableVersion         string                  `json:"displayable_version"`
-	DownlinkTable              []*DownlinkTable        `json:"downlink_table"`
-	EthernetOverrides          []*EthernetOverrides    `json:"ethernet_overrides"`
-	EthernetTable              []*EthernetTable        `json:"ethernet_table"`
+	DownlinkTable              []*DownlinkTable        `json:"downlink_table" fakesize:"5"`
+	EthernetOverrides          []*EthernetOverrides    `json:"ethernet_overrides" fakesize:"5"`
+	EthernetTable              []*EthernetTable        `json:"ethernet_table" fakesize:"5"`
 	FwCaps                     FlexInt                 `json:"fw_caps"`
-	GeoInfo                    map[string]*GeoInfo     `json:"geo_info"`
+	GeoInfo                    map[string]*GeoInfo     `json:"geo_info" fakesize:"5"`
 	GuestKicks                 FlexInt                 `json:"guest_kicks"`
 	GuestLanNumSta             FlexInt                 `json:"guest-lan-num_sta"`
 	GuestNumSta                FlexInt                 `json:"guest-num_sta"`
@@ -38,10 +38,10 @@ type UXG struct {
 	HasTemperature             FlexBool                `json:"has_temperature"`
 	HashID                     string                  `json:"hash_id"`
 	HwCaps                     FlexInt                 `json:"hw_caps"`
-	ID                         string                  `json:"_id"`
-	IP                         string                  `json:"ip"`
-	InformIP                   string                  `json:"inform_ip"`
-	InformURL                  string                  `json:"inform_url"`
+	ID                         string                  `json:"_id" fake:"{uuid}"`
+	IP                         string                  `json:"ip" fake:"{ipv4address}"`
+	InformIP                   string                  `json:"inform_ip" fake:"{ipv4address}"`
+	InformURL                  string                  `json:"inform_url" fake:"{url}"`
 	Internet                   FlexBool                `json:"internet"`
 	IsAccessPoint              FlexBool                `json:"is_access_point"`
 	KernelVersion              string                  `json:"kernel_version"`
@@ -61,7 +61,7 @@ type UXG struct {
 	LedState                   *LedState               `json:"led_state"`
 	LicenseState               string                  `json:"license_state"`
 	Locating                   FlexBool                `json:"locating"`
-	Mac                        string                  `json:"mac"`
+	Mac                        string                  `json:"mac" fake:"{timestamp}"`
 	ManufacturerID             FlexInt                 `json:"manufacturer_id"`
 	MinInformIntervalSeconds   FlexInt                 `json:"min_inform_interval_seconds"`
 	Model                      string                  `json:"model"`
@@ -87,7 +87,7 @@ type UXG struct {
 	RxBytes                    FlexInt                 `json:"rx_bytes"`
 	Serial                     string                  `json:"serial"`
 	SetupID                    string                  `json:"setup_id"`
-	SiteID                     string                  `json:"site_id"`
+	SiteID                     string                  `json:"site_id" fake:"{uuid}"`
 	SiteName                   string                  `json:"-"`
 	SourceName                 string                  `json:"-"`
 	SpeedtestStatus            SpeedtestStatus         `json:"speedtest-status"`
@@ -141,16 +141,16 @@ type LedState struct {
 // GeoInfo is incuded with certain devices.
 type GeoInfo struct {
 	Accuracy        FlexInt `json:"accuracy"`
-	Address         string  `json:"address"`
-	Asn             FlexInt `json:"asn"`
-	City            string  `json:"city"`
+	Address         string  `json:"address" fake:"{address}"`
+	Asn             FlexInt `json:"asn" fake:"{address}"`
+	City            string  `json:"city" fake:"{city}"`
 	ContinentCode   string  `json:"continent_code"`
 	CountryCode     string  `json:"country_code"`
-	CountryName     string  `json:"country_name"`
+	CountryName     string  `json:"country_name" fake:"{country}"`
 	IspName         string  `json:"isp_name"`
 	IspOrganization string  `json:"isp_organization"`
-	Latitude        FlexInt `json:"latitude"`
-	Longitude       FlexInt `json:"longitude"`
+	Latitude        FlexInt `json:"latitude" fake:"{latitude}"`
+	Longitude       FlexInt `json:"longitude" fake:"{longitude}"`
 	Timezone        string  `json:"timezone"`
 }
 

@@ -45,13 +45,13 @@ func (u *Unifi) GetUsers(sites []*Site, hours int) ([]*User, error) {
 type User struct {
 	SourceName          string   `json:"-"`
 	SiteName            string   `json:"-"`
-	ID                  string   `json:"_id"`
-	Mac                 string   `json:"mac"`
-	SiteID              string   `json:"site_id"`
+	ID                  string   `json:"_id" fake:"{uuid}"`
+	Mac                 string   `json:"mac" fake:"{macaddress}"`
+	SiteID              string   `json:"site_id" fake:"{uuid}"`
 	Oui                 string   `json:"oui,omitempty"`
 	IsGuest             bool     `json:"is_guest"`
-	FirstSeen           FlexInt  `json:"first_seen,omitempty"`
-	LastSeen            FlexInt  `json:"last_seen,omitempty"`
+	FirstSeen           FlexInt  `json:"first_seen,omitempty" fake:"{timestamp}"`
+	LastSeen            FlexInt  `json:"last_seen,omitempty" fake:"{timestamp}"`
 	IsWired             bool     `json:"is_wired,omitempty"`
 	Hostname            string   `json:"hostname,omitempty"`
 	Duration            FlexInt  `json:"duration,omitempty"`
@@ -62,12 +62,12 @@ type User struct {
 	WifiTxAttempts      FlexInt  `json:"wifi_tx_attempts,omitempty"`
 	TxRetries           FlexInt  `json:"tx_retries,omitempty"`
 	UsergroupID         string   `json:"usergroup_id,omitempty"`
-	Name                string   `json:"name,omitempty"`
-	Note                string   `json:"note,omitempty"`
+	Name                string   `json:"name,omitempty" fake:"{animal}"`
+	Note                string   `json:"note,omitempty" fake:"{sentence:20}"`
 	Noted               FlexBool `json:"noted,omitempty"`
 	Blocked             FlexBool `json:"blocked,omitempty"`
 	DevIDOverride       FlexInt  `json:"dev_id_override,omitempty"`
 	FingerprintOverride FlexBool `json:"fingerprint_override,omitempty"`
 	UseFixedIp          FlexBool `json:"use_fixedip,omitempty"`
-	FixedIp             string   `json:"fixed_ip,omitempty"`
+	FixedIp             string   `json:"fixed_ip,omitempty" fake:"{ipv4address}"`
 }

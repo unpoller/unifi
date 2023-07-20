@@ -50,13 +50,13 @@ type Network struct {
 	DhcpGuardEnabled       FlexBool `json:"dhcpguard_enabled"`
 	DomainName             string   `json:"domain_name"`
 	Enabled                FlexBool `json:"enabled"`
-	ID                     string   `json:"_id"`
+	ID                     string   `json:"_id" fake:"{uuid}"`
 	IPSubnet               string   `json:"ip_subnet"`
 	IsNat                  FlexBool `json:"is_nat"`
 	Name                   string   `json:"name"`
 	Networkgroup           string   `json:"networkgroup"`
 	Purpose                string   `json:"purpose"`
-	SiteID                 string   `json:"site_id"`
+	SiteID                 string   `json:"site_id" fake:"{uuid}"`
 	Vlan                   FlexInt  `json:"vlan"`
 	VlanEnabled            FlexBool `json:"vlan_enabled"`
 }
