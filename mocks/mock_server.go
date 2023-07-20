@@ -56,7 +56,7 @@ var (
 func respondResultOrErr(w http.ResponseWriter, v any, err error) {
 	if err != nil {
 		b, _ := json.Marshal(err)
-		w.Write(b)
+		_, _ = w.Write(b)
 		w.WriteHeader(500)
 		return
 	}
