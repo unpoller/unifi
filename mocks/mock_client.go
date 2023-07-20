@@ -369,3 +369,19 @@ func (m *MockUnifi) Logout() error {
 func (m *MockUnifi) GetServerData() error {
 	return nil
 }
+
+// GetUsers returns a response full of clients that connected to the UDM within the provided amount of time
+// using the insight historical connection data set.
+func (m *MockUnifi) GetUsers(sites []*unifi.Site, hours int) ([]*unifi.User, error) {
+	qty := m.faker.Rand.Intn(5)
+	results := make([]*unifi.User, qty)
+	for i := 0; i < qty; i++ {
+		var a unifi.User
+		err := m.faker.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+		results[i] = &a
+	}
+	return results, nil
+}

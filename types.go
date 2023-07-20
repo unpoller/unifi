@@ -210,6 +210,9 @@ type UnifiClient interface {
 	// GetServerData sets the controller's version and UUID. Only call this if you
 	// previously called Login and suspect the controller version has changed.
 	GetServerData() error
+	// GetUsers returns a response full of clients that connected to the UDM within the provided amount of time
+	// using the insight historical connection data set.
+	GetUsers(sites []*Site, hours int) ([]*User, error)
 }
 
 // Unifi is what you get in return for providing a password! Unifi represents
