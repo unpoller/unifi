@@ -37,7 +37,7 @@ type UDM struct {
 	EthernetTable                      []*EthernetTable     `json:"ethernet_table" fakesize:"5"`
 	FlowctrlEnabled                    FlexBool             `json:"flowctrl_enabled"`
 	FwCaps                             FlexInt              `json:"fw_caps"`
-	GeoInfo                            map[string]GeoInfo   `json:"geo_info" fakesize:"5""`
+	GeoInfo                            map[string]GeoInfo   `json:"geo_info" fakesize:"5"`
 	GuestKicks                         FlexInt              `json:"guest_kicks"`
 	GuestLanNumSta                     FlexInt              `json:"guest-lan-num_sta"` // USW
 	GuestNumSta                        FlexInt              `json:"guest-num_sta"`     // USG
