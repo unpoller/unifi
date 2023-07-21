@@ -55,7 +55,7 @@ func NewUnifi(config *Config) (*Unifi, error) {
 		return u, err
 	}
 
-	if err := u.GetServerData(); err != nil {
+	if _, err := u.GetServerData(); err != nil {
 		return u, fmt.Errorf("unable to get server version: %w", err)
 	}
 
@@ -201,14 +201,19 @@ func (u *Unifi) checkNewStyleAPI() error {
 
 // GetServerData sets the controller's version and UUID. Only call this if you
 // previously called Login and suspect the controller version has changed.
-func (u *Unifi) GetServerData() error {
+func (u *Unifi) GetServerData() (*ServerStatus, error) {
 	var response struct {
 		Data ServerStatus `json:"meta"`
 	}
 
+	err := u.GetData(APIStatusPath, &response)
+	if err != nil {
+		return nil, err
+	}
+
 	u.ServerStatus = &response.Data
 
-	return u.GetData(APIStatusPath, &response)
+	return u.ServerStatus, nil
 }
 
 // GetData makes a unifi request and unmarshals the response into a provided pointer.

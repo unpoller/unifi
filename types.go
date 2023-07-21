@@ -209,7 +209,7 @@ type UnifiClient interface {
 	Logout() error
 	// GetServerData sets the controller's version and UUID. Only call this if you
 	// previously called Login and suspect the controller version has changed.
-	GetServerData() error
+	GetServerData() (*ServerStatus, error)
 	// GetUsers returns a response full of clients that connected to the UDM within the provided amount of time
 	// using the insight historical connection data set.
 	GetUsers(sites []*Site, hours int) ([]*User, error)
