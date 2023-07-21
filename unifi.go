@@ -206,7 +206,7 @@ func (u *Unifi) GetServerData() error {
 		Data ServerStatus `json:"meta"`
 	}
 
-	u.server = &response.Data
+	u.ServerStatus = &response.Data
 
 	return u.GetData(APIStatusPath, &response)
 }
