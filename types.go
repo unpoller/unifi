@@ -222,7 +222,7 @@ type UnifiClient interface {
 type Unifi struct {
 	*http.Client
 	*Config
-	*server
+	server       *ServerStatus
 	csrf         string
 	fingerprints fingerprints
 	new          bool
@@ -244,11 +244,11 @@ func (f fingerprints) Contains(s string) bool {
 	return false
 }
 
-// server is the /status endpoint from the Unifi controller.
-type server struct {
+// ServerStatus is the /status endpoint from the Unifi controller.
+type ServerStatus struct {
 	Up            FlexBool `json:"up"`
 	ServerVersion string   `json:"server_version"`
-	UUID          string   `json:"uuid"`
+	UUID          string   `json:"uuid" fake:"{uuid}"`
 }
 
 // FlexInt provides a container and unmarshalling for fields that may be
