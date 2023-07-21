@@ -3,6 +3,7 @@ package mocks
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"regexp"
@@ -54,6 +55,7 @@ var (
 )
 
 func respondResultOrErr(w http.ResponseWriter, v any, err error) {
+	log.Printf("[DEBUG] Answering mock response err=%+v value=%+v\n", err, v)
 	if err != nil {
 		b, _ := json.Marshal(err)
 		w.WriteHeader(500)
@@ -67,14 +69,16 @@ func respondResultOrErr(w http.ResponseWriter, v any, err error) {
 
 func (m *MockHTTPTestServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	p := strings.TrimSpace(r.URL.Path)
+	log.Printf("[DEBUG] Received mock request path=%s\n", p)
 	switch {
 	case apiRogueAP.MatchString(p):
 		aps, err := m.mocked.GetRogueAPs(nil)
 		respondResultOrErr(w, aps, err)
 		return
 	case apiStatusPath.MatchString(p):
-		
-		// todo
+		s, err := m.mocked.GetServerData()
+		respondResultOrErr(w, s, err)
+		return
 	case apiEventPath.MatchString(p):
 		events, err := m.mocked.GetEvents(nil, time.Hour)
 		respondResultOrErr(w, events, err)
@@ -141,6 +145,7 @@ func (m *MockHTTPTestServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(501)
 		return
 	default:
+		log.Println("[DEBUG] Answering mock response err=404 not found")
 		http.NotFoundHandler().ServeHTTP(w, r)
 		return
 	}
