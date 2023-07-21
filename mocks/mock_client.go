@@ -367,6 +367,14 @@ func (m *MockUnifi) Logout() error {
 // GetServerData sets the controller's version and UUID. Only call this if you
 // previously called Login and suspect the controller version has changed.
 func (m *MockUnifi) GetServerData() error {
+	var response struct {
+		Data unifi.ServerStatus `json:"meta"`
+	}
+
+	err := m.faker.Struct(&response)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

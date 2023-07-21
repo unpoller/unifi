@@ -56,13 +56,13 @@ var (
 func respondResultOrErr(w http.ResponseWriter, v any, err error) {
 	if err != nil {
 		b, _ := json.Marshal(err)
-		_, _ = w.Write(b)
 		w.WriteHeader(500)
+		_, _ = w.Write(b)
 		return
 	}
 	b, _ := json.Marshal(v)
-	_, _ = w.Write(b)
 	w.WriteHeader(200)
+	_, _ = w.Write(b)
 }
 
 func (m *MockHTTPTestServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -71,57 +71,77 @@ func (m *MockHTTPTestServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case apiRogueAP.MatchString(p):
 		aps, err := m.mocked.GetRogueAPs(nil)
 		respondResultOrErr(w, aps, err)
+		return
 	case apiStatusPath.MatchString(p):
+		
 		// todo
 	case apiEventPath.MatchString(p):
 		events, err := m.mocked.GetEvents(nil, time.Hour)
 		respondResultOrErr(w, events, err)
+		return
+
 	case apiSiteList.MatchString(p):
 		sites, err := m.mocked.GetSites()
 		respondResultOrErr(w, sites, err)
+		return
 	case apiSiteDPI.MatchString(p):
 		dpi, err := m.mocked.GetSiteDPI(nil)
 		respondResultOrErr(w, dpi, err)
+		return
 	case apiClientDPI.MatchString(p):
 		dpi, err := m.mocked.GetClientsDPI(nil)
 		respondResultOrErr(w, dpi, err)
+		return
 	case apiClientPath.MatchString(p):
 		clients, err := m.mocked.GetClients(nil)
 		respondResultOrErr(w, clients, err)
+		return
 	case apiAllUserPath.MatchString(p):
 		users, err := m.mocked.GetUsers(nil, 1)
 		respondResultOrErr(w, users, err)
+		return
 	case apiNetworkPath.MatchString(p):
 		networks, err := m.mocked.GetNetworks(nil)
 		respondResultOrErr(w, networks, err)
+		return
 	case apiDevicePath.MatchString(p):
 		devices, err := m.mocked.GetDevices(nil)
 		respondResultOrErr(w, devices, err)
+		return
 	case apiLoginPath.MatchString(p):
 		err := m.mocked.Login()
 		respondResultOrErr(w, nil, err)
+		return
 	case apiLoginPathNew.MatchString(p):
 		err := m.mocked.Login()
 		respondResultOrErr(w, nil, err)
+		return
 	case apiLogoutPath.MatchString(p):
 		err := m.mocked.Logout()
 		respondResultOrErr(w, nil, err)
+		return
 	case apiEventPathIDS.MatchString(p):
 		ids, err := m.mocked.GetIDS(nil, time.Now())
 		respondResultOrErr(w, ids, err)
+		return
 	case apiEventPathAlarms.MatchString(p):
 		alarms, err := m.mocked.GetAlarms(nil)
 		respondResultOrErr(w, alarms, err)
+		return
 	case apiAnomaliesPath.MatchString(p):
 		anomalies, err := m.mocked.GetAnomalies(nil, time.Now())
 		respondResultOrErr(w, anomalies, err)
+		return
 	case apiDevMgrPath.MatchString(p):
 		// todo
 		w.WriteHeader(501)
+		return
 	case apiCommandPath.MatchString(p):
 		// todo
 		w.WriteHeader(501)
+		return
 	default:
 		http.NotFoundHandler().ServeHTTP(w, r)
+		return
 	}
 }

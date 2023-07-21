@@ -203,7 +203,7 @@ func (u *Unifi) checkNewStyleAPI() error {
 // previously called Login and suspect the controller version has changed.
 func (u *Unifi) GetServerData() error {
 	var response struct {
-		Data server `json:"meta"`
+		Data ServerStatus `json:"meta"`
 	}
 
 	u.server = &response.Data
