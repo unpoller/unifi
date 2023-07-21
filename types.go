@@ -222,7 +222,7 @@ type UnifiClient interface {
 type Unifi struct {
 	*http.Client
 	*Config
-	server       *ServerStatus
+	*ServerStatus
 	csrf         string
 	fingerprints fingerprints
 	new          bool
