@@ -72,8 +72,8 @@ type Site struct {
 	controller   *Unifi
 	SourceName   string   `json:"-"`
 	ID           string   `json:"_id" fake:"{uuid}"`
-	Name         string   `json:"name"`
-	Desc         string   `json:"desc" fake:"{sentence:20}"`
+	Name         string   `json:"name" fake:"{company}"`
+	Desc         string   `json:"desc" fake:"{buzzword}"`
 	SiteName     string   `json:"-"`
 	AttrHiddenID string   `json:"attr_hidden_id"`
 	AttrNoDelete FlexBool `json:"attr_no_delete"`
@@ -103,7 +103,7 @@ type Site struct {
 			Mem    FlexInt `json:"mem"`
 			Uptime FlexInt `json:"uptime"`
 		} `json:"gw_system-stats,omitempty"`
-		GwVersion             string   `json:"gw_version,omitempty"`
+		GwVersion             string   `json:"gw_version,omitempty" fake:"{appversion}"`
 		Latency               FlexInt  `json:"latency,omitempty"`
 		Uptime                FlexInt  `json:"uptime,omitempty"`
 		Drops                 FlexInt  `json:"drops,omitempty"`

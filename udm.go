@@ -20,17 +20,17 @@ type UDM struct {
 	Bytes                              FlexInt              `json:"bytes"`
 	BytesD                             FlexInt              `json:"bytes-d"`
 	BytesR                             FlexInt              `json:"bytes-r"`
-	Cfgversion                         string               `json:"cfgversion"`
+	Cfgversion                         string               `json:"cfgversion" fake:"{appversion}"`
 	ConfigNetwork                      *ConfigNetwork       `json:"config_network"`
 	ConnectRequestIP                   string               `json:"connect_request_ip" fake:"{ipv4address}"`
 	ConnectRequestPort                 string               `json:"connect_request_port"`
-	ConnectedAt                        FlexInt              `json:"connected_at" fake:"{timestamp}"`
+	ConnectedAt                        FlexInt              `json:"connected_at"`
 	ConnectionNetworkName              string               `json:"connection_network_name"`
 	Default                            FlexBool             `json:"default"`
 	DeviceDomain                       string               `json:"device_domain"`
 	DeviceID                           string               `json:"device_id" fake:"{uuid}"`
 	DiscoveredVia                      string               `json:"discovered_via"`
-	DisplayableVersion                 string               `json:"displayable_version"`
+	DisplayableVersion                 string               `json:"displayable_version" fake:"{appversion}"`
 	Dot1XPortctrlEnabled               FlexBool             `json:"dot1x_portctrl_enabled"`
 	DownlinkTable                      []*DownlinkTable     `json:"downlink_table" fakesize:"5"`
 	EthernetOverrides                  []*EthernetOverrides `json:"ethernet_overrides" fakesize:"5"`
@@ -55,12 +55,12 @@ type UDM struct {
 	Internet                           FlexBool             `json:"internet"`
 	IsAccessPoint                      FlexBool             `json:"is_access_point"`
 	JumboframeEnabled                  FlexBool             `json:"jumboframe_enabled"`
-	KernelVersion                      string               `json:"kernel_version"`
-	KnownCfgversion                    string               `json:"known_cfgversion"`
+	KernelVersion                      string               `json:"kernel_version" fake:"{appversion}"`
+	KnownCfgversion                    string               `json:"known_cfgversion" fake:"{appversion}"`
 	LanIP                              string               `json:"lan_ip" fake:"{ipv4address}"`
 	LanNumSta                          FlexInt              `json:"lan-num_sta"` // USW
-	LastLteFailoverTransitionTimestamp FlexInt              `json:"last_lte_failover_transition_timestamp" fake:"{timestamp}"`
-	LastSeen                           FlexInt              `json:"last_seen" fake:"{timestamp}"`
+	LastLteFailoverTransitionTimestamp FlexInt              `json:"last_lte_failover_transition_timestamp"`
+	LastSeen                           FlexInt              `json:"last_seen"`
 	LastWlanIP                         string               `json:"last_wan_ip" fake:"{ipv4address}"`
 	LcmBrightness                      FlexInt              `json:"lcm_brightness"`
 	LcmNightModeBegins                 string               `json:"lcm_night_mode_begins"`
@@ -86,15 +86,15 @@ type UDM struct {
 	NumSta                             FlexInt              `json:"num_sta"`      // USG
 	Overheating                        FlexBool             `json:"overheating"`
 	PortOverrides                      []struct {
-		PortIdx    FlexInt `json:"port_idx" fake:"{port}"`
+		PortIdx    FlexInt `json:"port_idx"`
 		PortconfID string  `json:"portconf_id"`
 	} `json:"port_overrides" fakesize:"5"`
 	PortTable              []Port           `json:"port_table" fakesize:"5"`
 	PowerSourceCtrlEnabled FlexBool         `json:"power_source_ctrl_enabled"`
-	ProvisionedAt          FlexInt          `json:"provisioned_at" fake:"{timestamp}"`
+	ProvisionedAt          FlexInt          `json:"provisioned_at"`
 	RadioTable             *RadioTable      `json:"radio_table,omitempty"`
 	RadioTableStats        *RadioTableStats `json:"radio_table_stats,omitempty"`
-	RequiredVersion        string           `json:"required_version"`
+	RequiredVersion        string           `json:"required_version" fake:"{appversion}"`
 	RollUpgrade            FlexBool         `json:"rollupgrade"`
 	RulesetInterfaces      interface{}      `json:"ruleset_interfaces"`
 	/* struct {
@@ -119,14 +119,14 @@ type UDM struct {
 	SourceName                string          `json:"-"`
 	SpeedtestStatus           SpeedtestStatus `json:"speedtest-status"`
 	SpeedtestStatusSaved      FlexBool        `json:"speedtest-status-saved"`
-	StartupConnectedMillis    FlexInt         `json:"start_connected_millis" fake:"{timestamp}"`
-	StartupDisconnectedMillis FlexInt         `json:"start_disconnected_millis" fake:"{timestamp}"`
-	StartupTimestamp          FlexInt         `json:"startup_timestamp" fake:"{timestamp}"`
+	StartupConnectedMillis    FlexInt         `json:"start_connected_millis"`
+	StartupDisconnectedMillis FlexInt         `json:"start_disconnected_millis"`
+	StartupTimestamp          FlexInt         `json:"startup_timestamp"`
 	Stat                      UDMStat         `json:"stat"`
 	State                     FlexInt         `json:"state"`
 	Storage                   []*Storage      `json:"storage" fakesize:"5"`
 	StpPriority               FlexInt         `json:"stp_priority"`
-	StpVersion                string          `json:"stp_version"`
+	StpVersion                string          `json:"stp_version" fake:"{appversion}"`
 	SwitchCaps                struct {
 		MaxMirrorSessions    FlexInt `json:"max_mirror_sessions"`
 		MaxAggregateSessions FlexInt `json:"max_aggregate_sessions"`
@@ -143,11 +143,11 @@ type UDM struct {
 	UdapiCaps       FlexInt       `json:"udapi_caps"`
 	UnifiCare       struct {
 		ActivationDismissed FlexBool `json:"activation_dismissed"`
-		ActivationEnd       FlexInt  `json:"activation_end" fake:"{timestamp}"`
+		ActivationEnd       FlexInt  `json:"activation_end"`
 		ActivationUrl       string   `json:"activation_url" fake:"{url}"`
-		CoverageEnd         FlexInt  `json:"coverage_end" fake:"{timestamp}"`
-		CoverageStart       FlexInt  `json:"coverage_start" fake:"{timestamp}"`
-		Registration        FlexInt  `json:"registration" fake:"{timestamp}"`
+		CoverageEnd         FlexInt  `json:"coverage_end"`
+		CoverageStart       FlexInt  `json:"coverage_start"`
+		Registration        FlexInt  `json:"registration"`
 		RmaUrl              string   `json:"rma_url" fake:"{url}"`
 		State               string   `json:"state"`
 		TrackingUrl         string   `json:"tracking_url" fake:"{url}"`
@@ -157,13 +157,13 @@ type UDM struct {
 	UpgradeState      FlexInt       `json:"upgrade_state"`
 	Upgradeable       FlexBool      `json:"upgradable"`
 	Uplink            Uplink        `json:"uplink"`
-	Uptime            FlexInt       `json:"uptime" fake:"{timestamp}"`
+	Uptime            FlexInt       `json:"uptime"`
 	UserLanNumSta     FlexInt       `json:"user-lan-num_sta"`  // USW
 	UserNumSta        FlexInt       `json:"user-num_sta"`      // USG
 	UserWlanNumSta    FlexInt       `json:"user-wlan-num_sta"` // UAP
 	UsgCaps           FlexInt       `json:"usg_caps"`
 	VapTable          *VapTable     `json:"vap_table"`
-	Version           string        `json:"version"`
+	Version           string        `json:"version" fake:"{appversion}"`
 	VwireTable        []interface{} `json:"vwire_table"`
 	Wan1              Wan           `json:"wan1"`
 	Wan2              Wan           `json:"wan2"`

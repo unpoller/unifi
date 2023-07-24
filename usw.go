@@ -144,7 +144,7 @@ type Sw struct {
 	O           string    `json:"o"`
 	Oid         string    `json:"oid"`
 	Sw          string    `json:"sw"`
-	Time        FlexInt   `json:"time" fake:"{timestamp}"`
+	Time        FlexInt   `json:"time"`
 	Datetime    time.Time `json:"datetime"`
 	RxPackets   FlexInt   `json:"rx_packets"`
 	RxBytes     FlexInt   `json:"rx_bytes"`

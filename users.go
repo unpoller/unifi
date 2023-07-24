@@ -50,8 +50,8 @@ type User struct {
 	SiteID              string   `json:"site_id" fake:"{uuid}"`
 	Oui                 string   `json:"oui,omitempty"`
 	IsGuest             bool     `json:"is_guest"`
-	FirstSeen           FlexInt  `json:"first_seen,omitempty" fake:"{timestamp}"`
-	LastSeen            FlexInt  `json:"last_seen,omitempty" fake:"{timestamp}"`
+	FirstSeen           FlexInt  `json:"first_seen,omitempty"`
+	LastSeen            FlexInt  `json:"last_seen,omitempty"`
 	IsWired             bool     `json:"is_wired,omitempty"`
 	Hostname            string   `json:"hostname,omitempty"`
 	Duration            FlexInt  `json:"duration,omitempty"`
@@ -63,7 +63,7 @@ type User struct {
 	TxRetries           FlexInt  `json:"tx_retries,omitempty"`
 	UsergroupID         string   `json:"usergroup_id,omitempty"`
 	Name                string   `json:"name,omitempty" fake:"{animal}"`
-	Note                string   `json:"note,omitempty" fake:"{sentence:20}"`
+	Note                string   `json:"note,omitempty" fake:"{buzzword}"`
 	Noted               FlexBool `json:"noted,omitempty"`
 	Blocked             FlexBool `json:"blocked,omitempty"`
 	DevIDOverride       FlexInt  `json:"dev_id_override,omitempty"`

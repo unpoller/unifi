@@ -12,7 +12,7 @@ type IDS struct {
 	Archived              FlexBool  `json:"archived"`
 	DestPort              int       `json:"dest_port,omitempty" fake:"{port}"`
 	SrcPort               int       `json:"src_port,omitempty" fake:"{port}"`
-	FlowID                int64     `json:"flow_id" fake:"{uuid}"`
+	FlowID                int64     `json:"flow_id"`
 	InnerAlertRev         int64     `json:"inner_alert_rev"`
 	InnerAlertSeverity    int64     `json:"inner_alert_severity"`
 	InnerAlertGID         int64     `json:"inner_alert_gid"`
@@ -34,7 +34,7 @@ type IDS struct {
 	InnerAlertCategory    string    `json:"inner_alert_category"`
 	InnerAlertSignature   string    `json:"inner_alert_signature"`
 	Key                   string    `json:"key" fake:"{uuid}"`
-	Msg                   string    `json:"msg" fake:"{sentence:20}"`
+	Msg                   string    `json:"msg" fake:"{buzzword}"`
 	Proto                 string    `json:"proto"`
 	SiteID                string    `json:"site_id" fake:"{uuid}"`
 	SiteName              string    `json:"-"`
@@ -44,7 +44,7 @@ type IDS struct {
 	SrcIPCountry          string    `json:"srcipCountry" fake:"{country}"`
 	SrcMAC                string    `json:"src_mac" fake:"{macaddress}"`
 	Subsystem             string    `json:"subsystem"`
-	UniqueAlertID         string    `json:"unique_alertid" fake:"{uuid}"`
+	UniqueAlertID         string    `json:"unique_alertid"`
 	USGIP                 string    `json:"usgip" fake:"{ipv4address}"`
 	USGIPASN              string    `json:"usgipASN" fake:"{address}"`
 	USGIPCountry          string    `json:"usgipCountry" fake:"{country}"`

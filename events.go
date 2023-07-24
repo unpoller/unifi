@@ -110,7 +110,7 @@ type Event struct {
 	InnerAlertCategory    string    `json:"inner_alert_category"`
 	InnerAlertSignature   string    `json:"inner_alert_signature"`
 	Key                   string    `json:"key" fake:"{uuid}"`
-	Msg                   string    `json:"msg" fake:"{sentence:20}"`
+	Msg                   string    `json:"msg" fake:"{buzzword}"`
 	Network               string    `json:"network"`
 	Proto                 string    `json:"proto"`
 	Radio                 string    `json:"radio"`
@@ -140,7 +140,7 @@ type Event struct {
 // IPGeo is part of the UniFi Event data. Each event may have up to three of these.
 // One for source, one for dest and one for the USG location.
 type IPGeo struct {
-	Asn           int64   `json:"asn" fake:"{address}"`
+	Asn           int64   `json:"asn"`
 	Latitude      float64 `json:"latitude" fake:"{latitude}"`
 	Longitude     float64 `json:"longitude" fake:"{longitude}"`
 	City          string  `json:"city" fake:"{city}"`

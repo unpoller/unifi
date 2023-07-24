@@ -11,7 +11,7 @@ type USG struct {
 	SourceName            string               `json:"-"`
 	ID                    string               `json:"_id" fake:"{uuid}"`
 	Adopted               FlexBool             `json:"adopted"`
-	Cfgversion            string               `json:"cfgversion"`
+	Cfgversion            string               `json:"cfgversion" fake:"{appversion}"`
 	ConfigNetwork         *ConfigNetwork       `json:"config_network"`
 	EthernetTable         []*EthernetTable     `json:"ethernet_table" fakesize:"5"`
 	FwCaps                FlexInt              `json:"fw_caps"`
@@ -29,8 +29,8 @@ type USG struct {
 	SiteName              string               `json:"-"`
 	Type                  string               `json:"type"`
 	UsgCaps               FlexInt              `json:"usg_caps"`
-	Version               string               `json:"version"`
-	RequiredVersion       string               `json:"required_version"`
+	Version               string               `json:"version" fake:"{appversion}"`
+	RequiredVersion       string               `json:"required_version" fake:"{appversion}"`
 	EthernetOverrides     []*EthernetOverrides `json:"ethernet_overrides" fakesize:"5"`
 	HwCaps                FlexInt              `json:"hw_caps"`
 	BoardRev              FlexInt              `json:"board_rev"`
@@ -38,12 +38,12 @@ type USG struct {
 	UnsupportedReason     FlexInt              `json:"unsupported_reason"`
 	DeviceID              string               `json:"device_id" fake:"{uuid}"`
 	State                 FlexInt              `json:"state"`
-	LastSeen              FlexInt              `json:"last_seen" fake:"{timestamp}"`
+	LastSeen              FlexInt              `json:"last_seen"`
 	Upgradable            FlexBool             `json:"upgradable"`
 	AdoptableWhenUpgraded FlexBool             `json:"adoptable_when_upgraded"`
 	Rollupgrade           FlexBool             `json:"rollupgrade"`
-	KnownCfgversion       string               `json:"known_cfgversion"`
-	Uptime                FlexInt              `json:"uptime" fake:"{timestamp}"`
+	KnownCfgversion       string               `json:"known_cfgversion" fake:"{appversion}"`
+	Uptime                FlexInt              `json:"uptime"`
 	Locating              FlexBool             `json:"locating"`
 	ConnectRequestIP      string               `json:"connect_request_ip" fake:"{ipv4address}"`
 	ConnectRequestPort    string               `json:"connect_request_port"`
@@ -106,7 +106,7 @@ type Uplink struct {
 	TxRate           FlexInt  `json:"tx_rate"`
 	Type             string   `json:"type"`
 	Up               FlexBool `json:"up"`
-	Uptime           FlexInt  `json:"uptime" fake:"{timestamp}"`
+	Uptime           FlexInt  `json:"uptime"`
 	XputDown         FlexInt  `json:"xput_down,omitempty"`
 	XputUp           FlexInt  `json:"xput_up,omitempty"`
 }
@@ -174,8 +174,8 @@ type SpeedtestServer struct {
 	Cc          string  `json:"cc"`
 	City        string  `json:"city" fake:"{city}"`
 	Country     string  `json:"country" fake:"{country}"`
-	Lat         FlexInt `json:"lat" fake:"{latitude}"`
-	Lon         FlexInt `json:"lon" fake:"{longitude}"`
+	Lat         FlexInt `json:"lat"`
+	Lon         FlexInt `json:"lon"`
 	Provider    string  `json:"provider"`
 	ProviderURL string  `json:"provider_url" fake:"{url}"`
 }
@@ -184,10 +184,10 @@ type SpeedtestServer struct {
 type SystemStats struct {
 	CPU    FlexInt `json:"cpu"`
 	Mem    FlexInt `json:"mem"`
-	Uptime FlexInt `json:"uptime" fake:"{timestamp}"`
+	Uptime FlexInt `json:"uptime"`
 	// This exists on at least USG4, may others, maybe not.
 	// {"Board (CPU)":"51 C","Board (PHY)":"51 C","CPU":"72 C","PHY":"77 C"}
-	Temps map[string]string `json:"temps,omitempty" fakesize:"5"`
+	Temps map[string]FlexTemp `json:"temps,omitempty" fakesize:"5"`
 }
 
 // SysStats is load info for a UDM, USG, USW.
