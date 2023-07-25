@@ -3,6 +3,7 @@ package unifi
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -319,7 +320,7 @@ func (f *FlexInt) AddFloat64(v float64) {
 
 // Fake implements gofakeit Fake interface
 func (f *FlexInt) Fake(faker *gofakeit.Faker) interface{} {
-	randValue := faker.Rand.Float64()
+	randValue := math.Abs(faker.Rand.Float64())
 	if faker.Rand.Intn(2) == 0 {
 		// int-value
 		return FlexInt{
@@ -465,7 +466,7 @@ func (f *FlexTemp) AddFloat64(v float64) {
 
 // Fake implements gofakeit Fake interface
 func (f *FlexTemp) Fake(faker *gofakeit.Faker) interface{} {
-	randValue := faker.Rand.Float64()
+	randValue := math.Abs(faker.Rand.Float64())
 	if faker.Rand.Intn(2) == 0 {
 		// int-value
 		return FlexTemp{
