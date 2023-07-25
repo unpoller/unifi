@@ -18,8 +18,8 @@ type UXG struct {
 	ConnectRequestIP           string                  `json:"connect_request_ip"`
 	ConnectRequestPort         string                  `json:"connect_request_port"`
 	ConnectionNetworkName      string                  `json:"connection_network_name"`
-	ConnectedAt                FlexInt                 `json:"connected_at" fake:"{timestamp}"`
-	ConsideredLostAt           FlexInt                 `json:"considered_lost_at" fake:"{timestamp}"`
+	ConnectedAt                FlexInt                 `json:"connected_at"`
+	ConsideredLostAt           FlexInt                 `json:"considered_lost_at"`
 	DeviceID                   string                  `json:"device_id" fake:"{uuid}"`
 	DisplayableVersion         string                  `json:"displayable_version"`
 	DownlinkTable              []*DownlinkTable        `json:"downlink_table" fakesize:"5"`
@@ -61,7 +61,7 @@ type UXG struct {
 	LedState                   *LedState               `json:"led_state"`
 	LicenseState               string                  `json:"license_state"`
 	Locating                   FlexBool                `json:"locating"`
-	Mac                        string                  `json:"mac" fake:"{timestamp}"`
+	Mac                        string                  `json:"mac" fake:"{macaddress}"`
 	ManufacturerID             FlexInt                 `json:"manufacturer_id"`
 	MinInformIntervalSeconds   FlexInt                 `json:"min_inform_interval_seconds"`
 	Model                      string                  `json:"model"`
@@ -142,15 +142,15 @@ type LedState struct {
 type GeoInfo struct {
 	Accuracy        FlexInt `json:"accuracy"`
 	Address         string  `json:"address" fake:"{address}"`
-	Asn             FlexInt `json:"asn" fake:"{address}"`
+	Asn             FlexInt `json:"asn"`
 	City            string  `json:"city" fake:"{city}"`
 	ContinentCode   string  `json:"continent_code"`
 	CountryCode     string  `json:"country_code"`
 	CountryName     string  `json:"country_name" fake:"{country}"`
 	IspName         string  `json:"isp_name"`
 	IspOrganization string  `json:"isp_organization"`
-	Latitude        FlexInt `json:"latitude" fake:"{latitude}"`
-	Longitude       FlexInt `json:"longitude" fake:"{longitude}"`
+	Latitude        FlexInt `json:"latitude"`
+	Longitude       FlexInt `json:"longitude"`
 	Timezone        string  `json:"timezone"`
 }
 

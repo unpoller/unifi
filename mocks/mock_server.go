@@ -27,7 +27,7 @@ func NewMockHTTPTestServer() *MockHTTPTestServer {
 }
 
 func convertPathToRegexPattern(s string) string {
-	tmp := strings.ReplaceAll(strings.ReplaceAll(s, "%s", "[a-zA-Z-_,.]+"), "%d", "[0-9]+")
+	tmp := strings.ReplaceAll(strings.ReplaceAll(s, "%s", "[^/]+"), "%d", "[0-9]+")
 	return fmt.Sprintf("(%s)?%s", unifi.APIPrefixNew, tmp)
 
 }
@@ -54,15 +54,60 @@ var (
 	apiDevMgrPath      = regexp.MustCompile(convertPathToRegexPattern(unifi.APIDevMgrPath))
 )
 
-func respondResultOrErr(w http.ResponseWriter, v any, err error) {
-	log.Printf("[DEBUG] Answering mock response err=%+v value=%+v\n", err, v)
+type errorResponse struct {
+	Error string `json:"error"`
+}
+
+type dataWrapper struct {
+	Data any `json:"data"`
+}
+
+func respondResultOrErr(w http.ResponseWriter, v any, err error, wrapWithDataAttribute bool) {
 	if err != nil {
-		b, _ := json.Marshal(err)
+		log.Printf("[ERROR] Answering mock response err=%+v value=%+v\n", err, v)
+	} else {
+		log.Printf("[DEBUG] Answering mock response value=%+v\n", v)
+	}
+	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Via", "unifi-mock-server")
+	if err != nil {
+		e := errorResponse{
+			Error: err.Error(),
+		}
+		b, _ := json.Marshal(e)
 		w.WriteHeader(500)
 		_, _ = w.Write(b)
 		return
 	}
-	b, _ := json.Marshal(v)
+
+	if wrapWithDataAttribute {
+		response := dataWrapper{Data: v}
+		b, err := json.Marshal(response)
+		if err != nil {
+			e := errorResponse{
+				Error: err.Error(),
+			}
+			b, _ := json.Marshal(e)
+			w.WriteHeader(500)
+			_, _ = w.Write(b)
+			return
+		}
+		w.WriteHeader(200)
+		_, _ = w.Write(b)
+		return
+	}
+
+	// no data wrapper
+	b, err := json.Marshal(v)
+	if err != nil {
+		e := errorResponse{
+			Error: err.Error(),
+		}
+		b, _ := json.Marshal(e)
+		w.WriteHeader(500)
+		_, _ = w.Write(b)
+		return
+	}
 	w.WriteHeader(200)
 	_, _ = w.Write(b)
 }
@@ -73,68 +118,69 @@ func (m *MockHTTPTestServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case apiRogueAP.MatchString(p):
 		aps, err := m.mocked.GetRogueAPs(nil)
-		respondResultOrErr(w, aps, err)
+		respondResultOrErr(w, aps, err, true)
 		return
 	case apiStatusPath.MatchString(p):
 		s, err := m.mocked.GetServerData()
-		respondResultOrErr(w, s, err)
+		respondResultOrErr(w, s, err, true)
 		return
 	case apiEventPath.MatchString(p):
 		events, err := m.mocked.GetEvents(nil, time.Hour)
-		respondResultOrErr(w, events, err)
+		respondResultOrErr(w, events, err, true)
 		return
-
 	case apiSiteList.MatchString(p):
 		sites, err := m.mocked.GetSites()
-		respondResultOrErr(w, sites, err)
+		respondResultOrErr(w, sites, err, true)
 		return
 	case apiSiteDPI.MatchString(p):
 		dpi, err := m.mocked.GetSiteDPI(nil)
-		respondResultOrErr(w, dpi, err)
+		respondResultOrErr(w, dpi, err, true)
 		return
 	case apiClientDPI.MatchString(p):
 		dpi, err := m.mocked.GetClientsDPI(nil)
-		respondResultOrErr(w, dpi, err)
+		respondResultOrErr(w, dpi, err, true)
 		return
 	case apiClientPath.MatchString(p):
 		clients, err := m.mocked.GetClients(nil)
-		respondResultOrErr(w, clients, err)
+		respondResultOrErr(w, clients, err, true)
 		return
 	case apiAllUserPath.MatchString(p):
 		users, err := m.mocked.GetUsers(nil, 1)
-		respondResultOrErr(w, users, err)
+		respondResultOrErr(w, users, err, true)
 		return
 	case apiNetworkPath.MatchString(p):
 		networks, err := m.mocked.GetNetworks(nil)
-		respondResultOrErr(w, networks, err)
+		respondResultOrErr(w, networks, err, true)
 		return
 	case apiDevicePath.MatchString(p):
-		devices, err := m.mocked.GetDevices(nil)
-		respondResultOrErr(w, devices, err)
+		device, err := m.mocked.GetDevices(nil)
+		// we need to wrap devices more so
+		devices := []*unifi.Devices{device}
+		respondResultOrErr(w, devices, err, true)
 		return
 	case apiLoginPath.MatchString(p):
 		err := m.mocked.Login()
-		respondResultOrErr(w, nil, err)
+		respondResultOrErr(w, nil, err, true)
 		return
 	case apiLoginPathNew.MatchString(p):
 		err := m.mocked.Login()
-		respondResultOrErr(w, nil, err)
+		respondResultOrErr(w, nil, err, true)
 		return
 	case apiLogoutPath.MatchString(p):
 		err := m.mocked.Logout()
-		respondResultOrErr(w, nil, err)
+		respondResultOrErr(w, nil, err, true)
 		return
 	case apiEventPathIDS.MatchString(p):
 		ids, err := m.mocked.GetIDS(nil, time.Now())
-		respondResultOrErr(w, ids, err)
+		respondResultOrErr(w, ids, err, true)
 		return
 	case apiEventPathAlarms.MatchString(p):
 		alarms, err := m.mocked.GetAlarms(nil)
-		respondResultOrErr(w, alarms, err)
+		respondResultOrErr(w, alarms, err, true)
 		return
 	case apiAnomaliesPath.MatchString(p):
 		anomalies, err := m.mocked.GetAnomalies(nil, time.Now())
-		respondResultOrErr(w, anomalies, err)
+		respondResultOrErr(w, anomalies, err, true)
 		return
 	case apiDevMgrPath.MatchString(p):
 		// todo

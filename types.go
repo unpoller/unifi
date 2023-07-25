@@ -3,6 +3,7 @@ package unifi
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -133,12 +134,12 @@ func discardLogs(msg string, v ...interface{}) {
 // Devices contains a list of all the unifi devices from a controller.
 // Contains Access points, security gateways and switches.
 type Devices struct {
-	UAPs []*UAP
-	USGs []*USG
-	USWs []*USW
-	UDMs []*UDM
-	UXGs []*UXG
-	PDUs []*PDU
+	UAPs []*UAP `fakesize:"5"`
+	USGs []*USG `fakesize:"5"`
+	USWs []*USW `fakesize:"5"`
+	UDMs []*UDM `fakesize:"5"`
+	UXGs []*UXG `fakesize:"5"`
+	PDUs []*PDU `fakesize:"5"`
 }
 
 // Config is the data passed into our library. This configures things and allows
@@ -247,7 +248,7 @@ func (f fingerprints) Contains(s string) bool {
 // ServerStatus is the /status endpoint from the Unifi controller.
 type ServerStatus struct {
 	Up            FlexBool `json:"up"`
-	ServerVersion string   `json:"server_version"`
+	ServerVersion string   `json:"server_version" fake:"{appversion}"`
 	UUID          string   `json:"uuid" fake:"{uuid}"`
 }
 
@@ -291,6 +292,10 @@ func (f *FlexInt) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (f *FlexInt) MarshalJSON() ([]byte, error) {
+	return json.Marshal(f.Val)
+}
+
 func (f *FlexInt) Int() int {
 	return int(f.Val)
 }
@@ -315,15 +320,18 @@ func (f *FlexInt) AddFloat64(v float64) {
 
 // Fake implements gofakeit Fake interface
 func (f *FlexInt) Fake(faker *gofakeit.Faker) interface{} {
-	randValue := faker.Rand.Float64()
-	opts := []interface{}{
-		randValue,
-		int64(randValue),
-		strconv.FormatInt(int64(randValue), 10),
-		strconv.FormatFloat(randValue, 'f', 8, 64),
+	randValue := math.Abs(faker.Rand.Float64())
+	if faker.Rand.Intn(2) == 0 {
+		// int-value
+		return FlexInt{
+			Val: float64(int64(randValue)),
+			Txt: strconv.FormatInt(int64(randValue), 10),
+		}
 	}
-
-	return opts[faker.Rand.Intn(2)]
+	return FlexInt{
+		Val: randValue,
+		Txt: strconv.FormatFloat(randValue, 'f', 8, 64),
+	}
 }
 
 // FlexBool provides a container and unmarshalling for fields that may be
@@ -345,24 +353,136 @@ func (f *FlexBool) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (f *FlexBool) MarshalJSON() ([]byte, error) {
+	return json.Marshal(f.Val)
+}
+
 func (f *FlexBool) String() string {
 	return f.Txt
 }
 
 // Fake implements gofakeit Fake interface
 func (f *FlexBool) Fake(faker *gofakeit.Faker) interface{} {
-	opts := []interface{}{
-		"true",
+	opts := []bool{
 		true,
-		"false",
 		false,
 	}
-	return opts[faker.Rand.Intn(4)]
+
+	v := opts[faker.Rand.Intn(2)]
+	return FlexBool{
+		Val: v,
+		Txt: strconv.FormatBool(v),
+	}
+}
+
+// FlexTemp provides a container and unmarshalling for fields that may be
+// numbers or strings in the Unifi API as temperatures.
+type FlexTemp struct {
+	Val float64 // in Celsius
+	Txt string
+}
+
+func NewFlexTemp(v float64) *FlexTemp {
+	return &FlexTemp{
+		Val: v,
+		Txt: strconv.FormatFloat(v, 'f', -1, 64),
+	}
+}
+
+// UnmarshalJSON converts a string or number to an integer.
+// Generally, do call this directly, it's used in the json interface.
+func (f *FlexTemp) UnmarshalJSON(b []byte) error {
+	var unk interface{}
+
+	if err := json.Unmarshal(b, &unk); err != nil {
+		return fmt.Errorf("json unmarshal: %w", err)
+	}
+
+	switch i := unk.(type) {
+	case float64:
+		f.Val = i
+		f.Txt = strconv.FormatFloat(i, 'f', -1, 64)
+	case string:
+		f.Txt = i
+		parts := strings.SplitN(string(b), " ", 2)
+		if len(parts) == 2 {
+			// format is: $val(int or float) $unit(C or F)
+			f.Val, _ = strconv.ParseFloat(parts[0], 64)
+		} else {
+			// assume Celsius
+			f.Val, _ = strconv.ParseFloat(i, 64)
+		}
+	case nil:
+		f.Txt = "0"
+		f.Val = 0
+	default:
+		return fmt.Errorf("%v: %w", b, ErrCannotUnmarshalFlexInt)
+	}
+
+	return nil
+}
+
+func (f *FlexTemp) MarshalJSON() ([]byte, error) {
+	return json.Marshal(f.Val)
+}
+
+func (f *FlexTemp) Celsius() float64 {
+	return f.Val
+}
+
+func (f *FlexTemp) CelsiusInt() int {
+	return int(f.Val)
+}
+
+func (f *FlexTemp) CelsiusInt64() int64 {
+	return int64(f.Val)
+}
+
+func (f *FlexTemp) Fahrenheit() float64 {
+	return (f.Val * (9 / 5)) + 32
+}
+
+func (f *FlexTemp) FahrenheitInt() int {
+	return int(f.Fahrenheit())
+}
+
+func (f *FlexTemp) FahrenheitInt64() int64 {
+	return int64(f.Fahrenheit())
+}
+
+func (f *FlexTemp) String() string {
+	return f.Txt
+}
+
+func (f *FlexTemp) Add(o *FlexTemp) {
+	f.Val += o.Val
+	f.Txt = strconv.FormatFloat(f.Val, 'f', -1, 64)
+}
+
+func (f *FlexTemp) AddFloat64(v float64) {
+	f.Val += v
+	f.Txt = strconv.FormatFloat(f.Val, 'f', -1, 64)
+}
+
+// Fake implements gofakeit Fake interface
+func (f *FlexTemp) Fake(faker *gofakeit.Faker) interface{} {
+	randValue := math.Abs(faker.Rand.Float64())
+	if faker.Rand.Intn(2) == 0 {
+		// int-value
+		return FlexTemp{
+			Val: float64(int64(randValue)),
+			Txt: strconv.FormatInt(int64(randValue), 10) + " C",
+		}
+	}
+	return FlexTemp{
+		Val: randValue,
+		Txt: strconv.FormatFloat(randValue, 'f', 8, 64) + " C",
+	}
 }
 
 // DownlinkTable is part of a UXG and UDM output.
 type DownlinkTable struct {
-	PortIdx    FlexInt  `json:"port_idx" fake:"{port}"`
+	PortIdx    FlexInt  `json:"port_idx"`
 	Speed      FlexInt  `json:"speed"`
 	FullDuplex FlexBool `json:"full_duplex"`
 	Mac        string   `json:"mac" fake:"{macaddress}"`
@@ -376,7 +496,7 @@ type ConfigNetwork struct {
 
 type EthernetTable struct {
 	Mac     string  `json:"mac" fake:"{macaddress}"`
-	NumPort FlexInt `json:"num_port" fake:"{port}"`
+	NumPort FlexInt `json:"num_port"`
 	Name    string  `json:"name" fake:"{animal}"`
 }
 

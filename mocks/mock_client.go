@@ -1,8 +1,7 @@
 package mocks
 
 import (
-	"os"
-	"strconv"
+	"math/rand"
 	"time"
 
 	"github.com/brianvoe/gofakeit/v6"
@@ -10,42 +9,24 @@ import (
 )
 
 type MockUnifi struct {
-	faker *gofakeit.Faker
 	*unifi.Config
 }
 
 // ensure MockUnifi implements the interface fully, this will fail to compile otherwise
 var _ unifi.UnifiClient = &MockUnifi{}
 
-func fakeSeedValue() int64 {
-	seedVal := os.Getenv("UNPOLLER_FAKE_GEN_SEED")
-	if seedVal != "" {
-		if seed, err := strconv.ParseInt(seedVal, 10, 64); err != nil {
-			return seed
-		}
-	}
-	return 0
-}
-
 func NewMockUnifi() *MockUnifi {
-	return NewMockUnifiWithSeed(fakeSeedValue())
+	return &MockUnifi{}
 
-}
-
-func NewMockUnifiWithSeed(seed int64) *MockUnifi {
-	faker := gofakeit.New(seed)
-	return &MockUnifi{
-		faker: faker,
-	}
 }
 
 // GetAlarms returns Alarms for a list of Sites.
 func (m *MockUnifi) GetAlarms(sites []*unifi.Site) ([]*unifi.Alarm, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	alarms := make([]*unifi.Alarm, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.Alarm
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return alarms, err
 		}
@@ -56,11 +37,11 @@ func (m *MockUnifi) GetAlarms(sites []*unifi.Site) ([]*unifi.Alarm, error) {
 
 // GetAlarmsSite retreives the Alarms for a single Site.
 func (m *MockUnifi) GetAlarmsSite(site *unifi.Site) ([]*unifi.Alarm, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	alarms := make([]*unifi.Alarm, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.Alarm
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return alarms, err
 		}
@@ -71,11 +52,11 @@ func (m *MockUnifi) GetAlarmsSite(site *unifi.Site) ([]*unifi.Alarm, error) {
 
 // GetAnomalies returns Anomalies for a list of Sites.
 func (m *MockUnifi) GetAnomalies(sites []*unifi.Site, timeRange ...time.Time) ([]*unifi.Anomaly, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.Anomaly, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.Anomaly
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -86,11 +67,11 @@ func (m *MockUnifi) GetAnomalies(sites []*unifi.Site, timeRange ...time.Time) ([
 
 // GetAnomaliesSite retreives the Anomalies for a single Site.
 func (m *MockUnifi) GetAnomaliesSite(site *unifi.Site, timeRange ...time.Time) ([]*unifi.Anomaly, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.Anomaly, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.Anomaly
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -101,11 +82,11 @@ func (m *MockUnifi) GetAnomaliesSite(site *unifi.Site, timeRange ...time.Time) (
 
 // GetClients returns a response full of clients' data from the UniFi Controller.
 func (m *MockUnifi) GetClients(sites []*unifi.Site) ([]*unifi.Client, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.Client, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.Client
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -116,11 +97,11 @@ func (m *MockUnifi) GetClients(sites []*unifi.Site) ([]*unifi.Client, error) {
 
 // GetClientsDPI garners dpi data for clients.
 func (m *MockUnifi) GetClientsDPI(sites []*unifi.Site) ([]*unifi.DPITable, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.DPITable, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.DPITable
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -132,7 +113,7 @@ func (m *MockUnifi) GetClientsDPI(sites []*unifi.Site) ([]*unifi.DPITable, error
 // GetDevices returns a response full of devices' data from the UniFi Controller.
 func (m *MockUnifi) GetDevices(sites []*unifi.Site) (*unifi.Devices, error) {
 	var d unifi.Devices
-	err := m.faker.Struct(&d)
+	err := gofakeit.Struct(&d)
 	if err != nil {
 		return nil, err
 	}
@@ -141,11 +122,11 @@ func (m *MockUnifi) GetDevices(sites []*unifi.Site) (*unifi.Devices, error) {
 
 // GetUSWs returns all switches, an error, or nil if there are no switches.
 func (m *MockUnifi) GetUSWs(site *unifi.Site) ([]*unifi.USW, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.USW, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.USW
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -156,11 +137,11 @@ func (m *MockUnifi) GetUSWs(site *unifi.Site) ([]*unifi.USW, error) {
 
 // GetUAPs returns all access points, an error, or nil if there are no APs.
 func (m *MockUnifi) GetUAPs(site *unifi.Site) ([]*unifi.UAP, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.UAP, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.UAP
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -171,11 +152,11 @@ func (m *MockUnifi) GetUAPs(site *unifi.Site) ([]*unifi.UAP, error) {
 
 // GetUDMs returns all dream machines, an error, or nil if there are no UDMs.
 func (m *MockUnifi) GetUDMs(site *unifi.Site) ([]*unifi.UDM, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.UDM, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.UDM
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -186,11 +167,11 @@ func (m *MockUnifi) GetUDMs(site *unifi.Site) ([]*unifi.UDM, error) {
 
 // GetUXGs returns all 10Gb gateways, an error, or nil if there are no UXGs.
 func (m *MockUnifi) GetUXGs(site *unifi.Site) ([]*unifi.UXG, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.UXG, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.UXG
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -201,11 +182,11 @@ func (m *MockUnifi) GetUXGs(site *unifi.Site) ([]*unifi.UXG, error) {
 
 // GetUSGs returns all 1Gb gateways, an error, or nil if there are no USGs.
 func (m *MockUnifi) GetUSGs(site *unifi.Site) ([]*unifi.USG, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.USG, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.USG
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -216,11 +197,11 @@ func (m *MockUnifi) GetUSGs(site *unifi.Site) ([]*unifi.USG, error) {
 
 // GetEvents returns a response full of UniFi Events for the last 1 hour from multiple sites.
 func (m *MockUnifi) GetEvents(sites []*unifi.Site, hours time.Duration) ([]*unifi.Event, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.Event, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.Event
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -231,11 +212,11 @@ func (m *MockUnifi) GetEvents(sites []*unifi.Site, hours time.Duration) ([]*unif
 
 // GetSiteEvents retrieves the last 1 hour's worth of events from a single site.
 func (m *MockUnifi) GetSiteEvents(site *unifi.Site, hours time.Duration) ([]*unifi.Event, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.Event, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.Event
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -248,11 +229,11 @@ func (m *MockUnifi) GetSiteEvents(site *unifi.Site, hours time.Duration) ([]*uni
 // timeRange may have a length of 0, 1 or 2. The first time is Start, the second is End.
 // Events between start and end are returned. End defaults to time.Now().
 func (m *MockUnifi) GetIDS(sites []*unifi.Site, timeRange ...time.Time) ([]*unifi.IDS, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.IDS, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.IDS
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -265,11 +246,11 @@ func (m *MockUnifi) GetIDS(sites []*unifi.Site, timeRange ...time.Time) ([]*unif
 // timeRange may have a length of 0, 1 or 2. The first time is Start, the second is End.
 // Events between start and end are returned. End defaults to time.Now().
 func (m *MockUnifi) GetIDSSite(site *unifi.Site, timeRange ...time.Time) ([]*unifi.IDS, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.IDS, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.IDS
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -280,11 +261,11 @@ func (m *MockUnifi) GetIDSSite(site *unifi.Site, timeRange ...time.Time) ([]*uni
 
 // GetNetworks returns a response full of network data from the UniFi Controller.
 func (m *MockUnifi) GetNetworks(sites []*unifi.Site) ([]unifi.Network, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]unifi.Network, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.Network
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -295,11 +276,11 @@ func (m *MockUnifi) GetNetworks(sites []*unifi.Site) ([]unifi.Network, error) {
 
 // GetSites returns a list of configured sites on the UniFi controller.
 func (m *MockUnifi) GetSites() ([]*unifi.Site, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.Site, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.Site
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -310,11 +291,11 @@ func (m *MockUnifi) GetSites() ([]*unifi.Site, error) {
 
 // GetSiteDPI garners dpi data for sites.
 func (m *MockUnifi) GetSiteDPI(sites []*unifi.Site) ([]*unifi.DPITable, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := 1
 	results := make([]*unifi.DPITable, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.DPITable
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -326,11 +307,11 @@ func (m *MockUnifi) GetSiteDPI(sites []*unifi.Site) ([]*unifi.DPITable, error) {
 // GetRogueAPs returns RogueAPs for a list of Sites.
 // Use GetRogueAPsSite if you want more control.
 func (m *MockUnifi) GetRogueAPs(sites []*unifi.Site) ([]*unifi.RogueAP, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.RogueAP, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.RogueAP
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -341,11 +322,11 @@ func (m *MockUnifi) GetRogueAPs(sites []*unifi.Site) ([]*unifi.RogueAP, error) {
 
 // GetRogueAPsSite returns RogueAPs for a single Site.
 func (m *MockUnifi) GetRogueAPsSite(site *unifi.Site) ([]*unifi.RogueAP, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.RogueAP, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.RogueAP
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
@@ -367,25 +348,23 @@ func (m *MockUnifi) Logout() error {
 // GetServerData sets the controller's version and UUID. Only call this if you
 // previously called Login and suspect the controller version has changed.
 func (m *MockUnifi) GetServerData() (*unifi.ServerStatus, error) {
-	var response struct {
-		Data unifi.ServerStatus `json:"meta"`
-	}
+	var response unifi.ServerStatus
 
-	err := m.faker.Struct(&response)
+	err := gofakeit.Struct(&response)
 	if err != nil {
 		return nil, err
 	}
-	return &response.Data, nil
+	return &response, nil
 }
 
 // GetUsers returns a response full of clients that connected to the UDM within the provided amount of time
 // using the insight historical connection data set.
 func (m *MockUnifi) GetUsers(sites []*unifi.Site, hours int) ([]*unifi.User, error) {
-	qty := m.faker.Rand.Intn(5)
+	qty := rand.Intn(5) + 1
 	results := make([]*unifi.User, qty)
 	for i := 0; i < qty; i++ {
 		var a unifi.User
-		err := m.faker.Struct(&a)
+		err := gofakeit.Struct(&a)
 		if err != nil {
 			return results, err
 		}
