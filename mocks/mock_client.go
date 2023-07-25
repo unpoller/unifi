@@ -2,8 +2,6 @@ package mocks
 
 import (
 	"math/rand"
-	"os"
-	"strconv"
 	"time"
 
 	"github.com/brianvoe/gofakeit/v6"
@@ -11,22 +9,11 @@ import (
 )
 
 type MockUnifi struct {
-	faker *gofakeit.Faker
 	*unifi.Config
 }
 
 // ensure MockUnifi implements the interface fully, this will fail to compile otherwise
 var _ unifi.UnifiClient = &MockUnifi{}
-
-func fakeSeedValue() int64 {
-	seedVal := os.Getenv("UNPOLLER_FAKE_GEN_SEED")
-	if seedVal != "" {
-		if seed, err := strconv.ParseInt(seedVal, 10, 64); err != nil {
-			return seed
-		}
-	}
-	return 0
-}
 
 func NewMockUnifi() *MockUnifi {
 	return &MockUnifi{}
