@@ -106,7 +106,7 @@ type UXG struct {
 	Temperatures               []Temperature           `json:"temperatures"`
 	TwoPhaseAdopt              FlexBool                `json:"two_phase_adopt"`
 	TxBytes                    FlexInt                 `json:"tx_bytes"`
-	Type                       string                  `json:"type"`
+	Type                       string                  `json:"type" fake:"{lexify:uxg}"`
 	UdapiCaps                  FlexInt                 `json:"udapi_caps"`
 	UnderscoreUptime           FlexInt                 `json:"_uptime"`
 	Unsupported                FlexBool                `json:"unsupported"`

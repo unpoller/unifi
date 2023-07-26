@@ -144,7 +144,7 @@ type UAP struct {
 	TwoPhaseAdopt                 FlexBool        `json:"two_phase_adopt,omitempty"`
 	TxBytes                       FlexInt         `json:"tx_bytes"`
 	TxBytesD                      FlexInt         `json:"tx_bytes-d"`
-	Type                          string          `json:"type"`
+	Type                          string          `json:"type" fake:"{lexify:uap}"`
 	UUptime                       FlexInt         `json:"_uptime"`
 	Unsupported                   FlexBool        `json:"unsupported"`
 	UnsupportedReason             FlexInt         `json:"unsupported_reason"`

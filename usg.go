@@ -27,7 +27,7 @@ type USG struct {
 	Serial                string               `json:"serial"`
 	SiteID                string               `json:"site_id" fake:"{uuid}"`
 	SiteName              string               `json:"-"`
-	Type                  string               `json:"type"`
+	Type                  string               `json:"type" fake:"{lexify:usg}"`
 	UsgCaps               FlexInt              `json:"usg_caps"`
 	Version               string               `json:"version" fake:"{appversion}"`
 	RequiredVersion       string               `json:"required_version" fake:"{appversion}"`

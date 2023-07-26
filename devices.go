@@ -26,6 +26,7 @@ func (u *Unifi) GetDevices(sites []*Site) (*Devices, error) {
 		devices.USWs = append(devices.USWs, loopDevices.USWs...)
 		devices.UDMs = append(devices.UDMs, loopDevices.UDMs...)
 		devices.UXGs = append(devices.UXGs, loopDevices.UXGs...)
+		devices.PDUs = append(devices.PDUs, loopDevices.PDUs...)
 	}
 
 	return devices, nil
@@ -129,17 +130,20 @@ func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 		case "ugw", "usg": // in case they ever fix the name in the api.
 			u.unmarshallUSG(site, r, devices)
 		case "usw":
-			if strings.Contains(model, "PDU") {
+			if strings.Contains(strings.ToLower(model), "pdu") {
+				// this may actually happen, unifi APIs are all over the place
 				u.unmarshallPDU(site, r, devices)
 			} else {
 				u.unmarshallUSW(site, r, devices)
 			}
+		case "pdu":
+			u.unmarshallPDU(site, r, devices)
 		case "udm":
 			u.unmarshallUDM(site, r, devices)
 		case "uxg":
 			u.unmarshallUXG(site, r, devices)
 		default:
-			u.ErrorLog("unknown asset type - %v - skipping", assetType)
+			u.ErrorLog("unknown asset type - %v - skipping: data=%+v", assetType, string(r))
 		}
 	}
 
