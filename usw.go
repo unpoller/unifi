@@ -98,7 +98,7 @@ type USW struct {
 	TotalMaxPower           FlexInt     `json:"total_max_power"`
 	TwoPhaseAdopt           FlexBool    `json:"two_phase_adopt"`
 	TxBytes                 FlexInt     `json:"tx_bytes"`
-	Type                    string      `json:"type"`
+	Type                    string      `json:"type" fake:"{randomstring:[usg,pdu]}"`
 	Unsupported             FlexBool    `json:"unsupported"`
 	UnsupportedReason       FlexInt     `json:"unsupported_reason"`
 	Upgradable              FlexBool    `json:"upgradable,omitempty"`

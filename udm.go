@@ -139,7 +139,7 @@ type UDM struct {
 	TwoPhaseAdopt   FlexBool      `json:"two_phase_adopt"`
 	TxBytes         FlexInt       `json:"tx_bytes"`
 	TxBytesD        FlexInt       `json:"tx_bytes-d"`
-	Type            string        `json:"type"`
+	Type            string        `json:"type" fake:"{lexify:udmp}"`
 	UdapiCaps       FlexInt       `json:"udapi_caps"`
 	UnifiCare       struct {
 		ActivationDismissed FlexBool `json:"activation_dismissed"`

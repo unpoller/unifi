@@ -154,8 +154,27 @@ func (m *MockHTTPTestServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	case apiDevicePath.MatchString(p):
 		device, err := m.mocked.GetDevices(nil)
-		// we need to wrap devices more so
-		devices := []*unifi.Devices{device}
+		// we need to change the format response for devices.
+		// it is an array of mixed types in a singular {"data": [...all]}
+		devices := make([]any, 0)
+		for _, d := range device.UAPs {
+			devices = append(devices, d)
+		}
+		for _, d := range device.UDMs {
+			devices = append(devices, d)
+		}
+		for _, d := range device.USGs {
+			devices = append(devices, d)
+		}
+		for _, d := range device.USWs {
+			devices = append(devices, d)
+		}
+		for _, d := range device.PDUs {
+			devices = append(devices, d)
+		}
+		for _, d := range device.UXGs {
+			devices = append(devices, d)
+		}
 		respondResultOrErr(w, devices, err, true)
 		return
 	case apiLoginPath.MatchString(p):
