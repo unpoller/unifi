@@ -56,6 +56,7 @@ func (u *Unifi) GetSiteDPI(sites []*Site) ([]*DPITable, error) {
 			return nil, ErrDPIDataBug
 		} else if l == 0 {
 			u.DebugLog("Site DPI data missing! Is DPI enabled in UniFi controller? Site %s", site.SiteName)
+			
 			continue
 		}
 
@@ -71,9 +72,9 @@ func (u *Unifi) GetSiteDPI(sites []*Site) ([]*DPITable, error) {
 type Site struct {
 	controller   *Unifi
 	SourceName   string   `json:"-"`
-	ID           string   `json:"_id" fake:"{uuid}"`
-	Name         string   `json:"name" fake:"{company}"`
-	Desc         string   `json:"desc" fake:"{buzzword}"`
+	ID           string   `fake:"{uuid}"         json:"_id"`
+	Name         string   `fake:"{company}"      json:"name"`
+	Desc         string   `fake:"{buzzword}"     json:"desc"`
 	SiteName     string   `json:"-"`
 	AttrHiddenID string   `json:"attr_hidden_id"`
 	AttrNoDelete FlexBool `json:"attr_no_delete"`
@@ -91,19 +92,19 @@ type Site struct {
 		NumDisconnected FlexInt  `json:"num_disconnected,omitempty"`
 		NumPending      FlexInt  `json:"num_pending,omitempty"`
 		NumGw           FlexInt  `json:"num_gw,omitempty"`
-		WanIP           string   `json:"wan_ip,omitempty" fake:"{ipv4address}"`
-		Gateways        []string `json:"gateways,omitempty" fakesize:"5"`
+		WanIP           string   `fake:"{ipv4address}"              json:"wan_ip,omitempty"`
+		Gateways        []string `fakesize:"5"                      json:"gateways,omitempty"`
 		Netmask         string   `json:"netmask,omitempty"`
-		Nameservers     []string `json:"nameservers,omitempty" fakesize:"5"`
+		Nameservers     []string `fakesize:"5"                      json:"nameservers,omitempty"`
 		NumSta          FlexInt  `json:"num_sta,omitempty"`
-		GwMac           string   `json:"gw_mac,omitempty" fake:"{macaddress}"`
+		GwMac           string   `fake:"{macaddress}"               json:"gw_mac,omitempty"`
 		GwName          string   `json:"gw_name,omitempty"`
 		GwSystemStats   struct {
 			CPU    FlexInt `json:"cpu"`
 			Mem    FlexInt `json:"mem"`
 			Uptime FlexInt `json:"uptime"`
 		} `json:"gw_system-stats,omitempty"`
-		GwVersion             string   `json:"gw_version,omitempty" fake:"{appversion}"`
+		GwVersion             string   `fake:"{appversion}"                       json:"gw_version,omitempty"`
 		Latency               FlexInt  `json:"latency,omitempty"`
 		Uptime                FlexInt  `json:"uptime,omitempty"`
 		Drops                 FlexInt  `json:"drops,omitempty"`
@@ -122,6 +123,6 @@ type Site struct {
 		RemoteUserRxPackets   FlexInt  `json:"remote_user_rx_packets,omitempty"`
 		RemoteUserTxPackets   FlexInt  `json:"remote_user_tx_packets,omitempty"`
 		SiteToSiteEnabled     FlexBool `json:"site_to_site_enabled,omitempty"`
-	} `json:"health" fakesize:"5"`
+	} `fakesize:"5"          json:"health"`
 	NumNewAlarms FlexInt `json:"num_new_alarms"`
 }

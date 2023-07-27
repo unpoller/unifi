@@ -11,8 +11,8 @@ import (
 // anomaly is the type UniFi returns, but not the type this library returns.
 type anomaly struct {
 	Anomaly    string  `json:"anomaly"`
-	MAC        string  `json:"mac" fake:"{macaddress}"`
-	Timestamps []int64 `json:"timestamps" fake:"{timestamps}"`
+	MAC        string  `fake:"{macaddress}" json:"mac"`
+	Timestamps []int64 `fake:"{timestamps}" json:"timestamps"`
 }
 
 // Anomaly is the reformatted data type that this library returns.

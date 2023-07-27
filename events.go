@@ -73,8 +73,8 @@ func (u *Unifi) GetSiteEvents(site *Site, hours time.Duration) ([]*Event, error)
 // API Path: /api/s/default/stat/event.
 type Event struct {
 	IsAdmin               FlexBool  `json:"is_admin"`
-	DestPort              int       `json:"dest_port" fake:"{port}"`
-	SrcPort               int       `json:"src_port" fake:"{port}"`
+	DestPort              int       `fake:"{port}"                   json:"dest_port"`
+	SrcPort               int       `fake:"{port}"                   json:"src_port"`
 	Bytes                 FlexInt   `json:"bytes"`
 	Duration              FlexInt   `json:"duration"`
 	FlowID                FlexInt   `json:"flow_id"`
@@ -85,8 +85,8 @@ type Event struct {
 	Channel               FlexInt   `json:"channel"`
 	ChannelFrom           FlexInt   `json:"channel_from"`
 	ChannelTo             FlexInt   `json:"channel_to"`
-	Time                  int64     `json:"time" fake:"{timestamp}"`
-	Timestamp             int64     `json:"timestamp" fake:"{timestamp}"`
+	Time                  int64     `fake:"{timestamp}"              json:"time"`
+	Timestamp             int64     `fake:"{timestamp}"              json:"timestamp"`
 	Datetime              time.Time `json:"datetime"`
 	Admin                 string    `json:"admin"`
 	Ap                    string    `json:"ap"`
@@ -95,43 +95,43 @@ type Event struct {
 	ApTo                  string    `json:"ap_to"`
 	AppProto              string    `json:"app_proto"`
 	Catname               string    `json:"catname"`
-	DestIP                string    `json:"dest_ip" fake:"{ipv4address}"`
-	DstMAC                string    `json:"dst_mac" fake:"{macaddress}"`
+	DestIP                string    `fake:"{ipv4address}"            json:"dest_ip"`
+	DstMAC                string    `fake:"{macaddress}"             json:"dst_mac"`
 	EventType             string    `json:"event_type"`
 	Guest                 string    `json:"guest"`
 	Gw                    string    `json:"gw"`
 	GwName                string    `json:"gw_name"`
 	Host                  string    `json:"host"`
 	Hostname              string    `json:"hostname"`
-	ID                    string    `json:"_id" fake:"{uuid}"`
-	IP                    string    `json:"ip" fake:"{ipv4address}"`
+	ID                    string    `fake:"{uuid}"                   json:"_id"`
+	IP                    string    `fake:"{ipv4address}"            json:"ip"`
 	InIface               string    `json:"in_iface"`
 	InnerAlertAction      string    `json:"inner_alert_action"`
 	InnerAlertCategory    string    `json:"inner_alert_category"`
 	InnerAlertSignature   string    `json:"inner_alert_signature"`
-	Key                   string    `json:"key" fake:"{uuid}"`
-	Msg                   string    `json:"msg" fake:"{buzzword}"`
+	Key                   string    `fake:"{uuid}"                   json:"key"`
+	Msg                   string    `fake:"{buzzword}"               json:"msg"`
 	Network               string    `json:"network"`
 	Proto                 string    `json:"proto"`
 	Radio                 string    `json:"radio"`
 	RadioFrom             string    `json:"radio_from"`
 	RadioTo               string    `json:"radio_to"`
-	SiteID                string    `json:"site_id" fake:"{}"`
+	SiteID                string    `fake:"{}"                       json:"site_id"`
 	SiteName              string    `json:"-"`
 	SourceName            string    `json:"-"`
-	SrcIP                 string    `json:"src_ip" fake:"{ipv4address}"`
-	SrcMAC                string    `json:"src_mac" fake:"{macaddress}"`
-	SrcIPASN              string    `json:"srcipASN" fake:"{address}"`
-	SrcIPCountry          string    `json:"srcipCountry" fake:"{country}"`
-	SSID                  string    `json:"ssid" fake:"{macaddress}"`
+	SrcIP                 string    `fake:"{ipv4address}"            json:"src_ip"`
+	SrcMAC                string    `fake:"{macaddress}"             json:"src_mac"`
+	SrcIPASN              string    `fake:"{address}"                json:"srcipASN"`
+	SrcIPCountry          string    `fake:"{country}"                json:"srcipCountry"`
+	SSID                  string    `fake:"{macaddress}"             json:"ssid"`
 	Subsystem             string    `json:"subsystem"`
 	Sw                    string    `json:"sw"`
 	SwName                string    `json:"sw_name"`
 	UniqueAlertID         string    `json:"unique_alertid"`
 	User                  string    `json:"user"`
-	USGIP                 string    `json:"usgip" fake:"{ipv4address}"`
-	USGIPASN              string    `json:"usgipASN" fake:"{address}"`
-	USGIPCountry          string    `json:"usgipCountry" fake:"{country}"`
+	USGIP                 string    `fake:"{ipv4address}"            json:"usgip"`
+	USGIPASN              string    `fake:"{address}"                json:"usgipASN"`
+	USGIPCountry          string    `fake:"{country}"                json:"usgipCountry"`
 	DestIPGeo             IPGeo     `json:"dstipGeo"`
 	SourceIPGeo           IPGeo     `json:"srcipGeo"`
 	USGIPGeo              IPGeo     `json:"usgipGeo"`
@@ -141,13 +141,13 @@ type Event struct {
 // One for source, one for dest and one for the USG location.
 type IPGeo struct {
 	Asn           int64   `json:"asn"`
-	Latitude      float64 `json:"latitude" fake:"{latitude}"`
-	Longitude     float64 `json:"longitude" fake:"{longitude}"`
-	City          string  `json:"city" fake:"{city}"`
+	Latitude      float64 `fake:"{latitude}"     json:"latitude"`
+	Longitude     float64 `fake:"{longitude}"    json:"longitude"`
+	City          string  `fake:"{city}"         json:"city"`
 	ContinentCode string  `json:"continent_code"`
-	CountryCode   string  `json:"country_code" fake:"{countryabr}"`
-	CountryName   string  `json:"country_name" fake:"{country}"`
-	Organization  string  `json:"organization" fake:"{company}"`
+	CountryCode   string  `fake:"{countryabr}"   json:"country_code"`
+	CountryName   string  `fake:"{country}"      json:"country_name"`
+	Organization  string  `fake:"{company}"      json:"organization"`
 }
 
 // Events satisfied the sort.Interface.

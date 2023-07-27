@@ -98,7 +98,7 @@ type USW struct {
 	TotalMaxPower           FlexInt     `json:"total_max_power"`
 	TwoPhaseAdopt           FlexBool    `json:"two_phase_adopt"`
 	TxBytes                 FlexInt     `json:"tx_bytes"`
-	Type                    string      `json:"type" fake:"{randomstring:[usg,pdu]}"`
+	Type                    string      `fake:"{randomstring:[usg,pdu]}"  json:"type"`
 	Unsupported             FlexBool    `json:"unsupported"`
 	UnsupportedReason       FlexInt     `json:"unsupported_reason"`
 	Upgradable              FlexBool    `json:"upgradable,omitempty"`
@@ -140,7 +140,7 @@ type USWStat struct {
 
 // Sw is a subtype of USWStat to make unmarshalling of different controller versions possible.
 type Sw struct {
-	SiteID      string    `json:"site_id" fake:"{uuid}"`
+	SiteID      string    `fake:"{uuid}"       json:"site_id"`
 	O           string    `json:"o"`
 	Oid         string    `json:"oid"`
 	Sw          string    `json:"sw"`

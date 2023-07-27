@@ -54,10 +54,12 @@ func init() {
 			if err != nil {
 				return nil, err
 			}
+
 			result := make([]int64, 0)
 			for i := 0; i < int(l); i++ {
 				result = append(result, gofakeit.DateRange(time.Now().Add(time.Hour-2), time.Now()).Unix())
 			}
+
 			return result, nil
 		},
 	})
@@ -127,7 +129,7 @@ func (u *Unifi) path(path string) string {
 type Logger func(msg string, fmt ...interface{})
 
 // discardLogs is the default debug logger.
-func discardLogs(msg string, v ...interface{}) {
+func discardLogs(_ string, _ ...interface{}) {
 	// do nothing.
 }
 
@@ -156,7 +158,7 @@ type Config struct {
 	VerifySSL bool
 }
 
-type UnifiClient interface {
+type UnifiClient interface { //nolint: revive
 	// GetAlarms returns Alarms for a list of Sites.
 	GetAlarms(sites []*Site) ([]*Alarm, error)
 	// GetAlarmsSite retreives the Alarms for a single Site.
@@ -248,8 +250,8 @@ func (f fingerprints) Contains(s string) bool {
 // ServerStatus is the /status endpoint from the Unifi controller.
 type ServerStatus struct {
 	Up            FlexBool `json:"up"`
-	ServerVersion string   `json:"server_version" fake:"{appversion}"`
-	UUID          string   `json:"uuid" fake:"{uuid}"`
+	ServerVersion string   `fake:"{appversion}" json:"server_version"`
+	UUID          string   `fake:"{uuid}"       json:"uuid"`
 }
 
 // FlexInt provides a container and unmarshalling for fields that may be
@@ -328,6 +330,7 @@ func (f *FlexInt) Fake(faker *gofakeit.Faker) interface{} {
 			Txt: strconv.FormatInt(int64(randValue), 10),
 		}
 	}
+
 	return FlexInt{
 		Val: randValue,
 		Txt: strconv.FormatFloat(randValue, 'f', 8, 64),
@@ -369,6 +372,7 @@ func (f *FlexBool) Fake(faker *gofakeit.Faker) interface{} {
 	}
 
 	v := opts[faker.Rand.Intn(2)]
+
 	return FlexBool{
 		Val: v,
 		Txt: strconv.FormatBool(v),
@@ -405,6 +409,7 @@ func (f *FlexTemp) UnmarshalJSON(b []byte) error {
 	case string:
 		f.Txt = i
 		parts := strings.SplitN(string(b), " ", 2)
+
 		if len(parts) == 2 {
 			// format is: $val(int or float) $unit(C or F)
 			f.Val, _ = strconv.ParseFloat(parts[0], 64)
@@ -474,6 +479,7 @@ func (f *FlexTemp) Fake(faker *gofakeit.Faker) interface{} {
 			Txt: strconv.FormatInt(int64(randValue), 10) + " C",
 		}
 	}
+
 	return FlexTemp{
 		Val: randValue,
 		Txt: strconv.FormatFloat(randValue, 'f', 8, 64) + " C",
@@ -485,19 +491,19 @@ type DownlinkTable struct {
 	PortIdx    FlexInt  `json:"port_idx"`
 	Speed      FlexInt  `json:"speed"`
 	FullDuplex FlexBool `json:"full_duplex"`
-	Mac        string   `json:"mac" fake:"{macaddress}"`
+	Mac        string   `fake:"{macaddress}" json:"mac"`
 }
 
 // ConfigNetwork comes from gateways.
 type ConfigNetwork struct {
-	Type string `json:"type" fake:"{randomstring:[wan,lan,vlan]}"`
-	IP   string `json:"ip" fake:"{ipv4address}"`
+	Type string `fake:"{randomstring:[wan,lan,vlan]}" json:"type"`
+	IP   string `fake:"{ipv4address}"                 json:"ip"`
 }
 
 type EthernetTable struct {
-	Mac     string  `json:"mac" fake:"{macaddress}"`
+	Mac     string  `fake:"{macaddress}" json:"mac"`
 	NumPort FlexInt `json:"num_port"`
-	Name    string  `json:"name" fake:"{animal}"`
+	Name    string  `fake:"{animal}"     json:"name"`
 }
 
 // Port is a physical connection on a USW or Gateway.
@@ -506,23 +512,23 @@ type Port struct {
 	AggregatedBy       FlexBool   `json:"aggregated_by"`
 	Autoneg            FlexBool   `json:"autoneg,omitempty"`
 	BytesR             FlexInt    `json:"bytes-r"`
-	DNS                []string   `json:"dns,omitempty" fakesize:"5"`
+	DNS                []string   `fakesize:"5"                                                    json:"dns,omitempty"`
 	Dot1XMode          string     `json:"dot1x_mode"`
 	Dot1XStatus        string     `json:"dot1x_status"`
 	Enable             FlexBool   `json:"enable"`
 	FlowctrlRx         FlexBool   `json:"flowctrl_rx"`
 	FlowctrlTx         FlexBool   `json:"flowctrl_tx"`
 	FullDuplex         FlexBool   `json:"full_duplex"`
-	IP                 string     `json:"ip,omitempty" fake:"{ipv4address}"`
-	Ifname             string     `json:"ifname,omitempty" fake:"{randomstring:[wlan0,wlan1,lan0,lan1,vlan1,vlan0,vlan2]}"`
+	IP                 string     `fake:"{ipv4address}"                                            json:"ip,omitempty"`
+	Ifname             string     `fake:"{randomstring:[wlan0,wlan1,lan0,lan1,vlan1,vlan0,vlan2]}" json:"ifname,omitempty"`
 	IsUplink           FlexBool   `json:"is_uplink"`
-	Mac                string     `json:"mac,omitempty" fake:"{macaddress}"`
-	MacTable           []MacTable `json:"mac_table,omitempty" fakesize:"5"`
+	Mac                string     `fake:"{macaddress}"                                             json:"mac,omitempty"`
+	MacTable           []MacTable `fakesize:"5"                                                    json:"mac_table,omitempty"`
 	Jumbo              FlexBool   `json:"jumbo,omitempty"`
 	Masked             FlexBool   `json:"masked"`
 	Media              string     `json:"media"`
-	Name               string     `json:"name" fake:"{animal}"`
-	NetworkName        string     `json:"network_name,omitempty" fake:"{animal}"`
+	Name               string     `fake:"{animal}"                                                 json:"name"`
+	NetworkName        string     `fake:"{animal}"                                                 json:"network_name,omitempty"`
 	Netmask            string     `json:"netmask,omitempty"`
 	NumPort            FlexInt    `json:"num_port,omitempty"`
 	OpMode             string     `json:"op_mode"`

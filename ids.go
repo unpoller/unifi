@@ -10,44 +10,44 @@ import (
 // IDS holds an Intrusion Prevention System Event.
 type IDS struct {
 	Archived              FlexBool  `json:"archived"`
-	DestPort              int       `json:"dest_port,omitempty" fake:"{port}"`
-	SrcPort               int       `json:"src_port,omitempty" fake:"{port}"`
+	DestPort              int       `fake:"{port}"                   json:"dest_port,omitempty"`
+	SrcPort               int       `fake:"{port}"                   json:"src_port,omitempty"`
 	FlowID                int64     `json:"flow_id"`
 	InnerAlertRev         int64     `json:"inner_alert_rev"`
 	InnerAlertSeverity    int64     `json:"inner_alert_severity"`
 	InnerAlertGID         int64     `json:"inner_alert_gid"`
 	InnerAlertSignatureID int64     `json:"inner_alert_signature_id"`
-	Time                  int64     `json:"time" fake:"{timestamp}"`
-	Timestamp             int64     `json:"timestamp" fake:"{timestamp}"`
+	Time                  int64     `fake:"{timestamp}"              json:"time"`
+	Timestamp             int64     `fake:"{timestamp}"              json:"timestamp"`
 	Datetime              time.Time `json:"datetime"`
 	AppProto              string    `json:"app_proto,omitempty"`
 	Catname               string    `json:"catname"`
-	DestIP                string    `json:"dest_ip" fake:"{ipv4address}"`
-	DstMAC                string    `json:"dst_mac" fake:"{macaddress}"`
-	DstIPASN              string    `json:"dstipASN" fake:"{address}"`
-	DstIPCountry          string    `json:"dstipCountry" fake:"{country}"`
+	DestIP                string    `fake:"{ipv4address}"            json:"dest_ip"`
+	DstMAC                string    `fake:"{macaddress}"             json:"dst_mac"`
+	DstIPASN              string    `fake:"{address}"                json:"dstipASN"`
+	DstIPCountry          string    `fake:"{country}"                json:"dstipCountry"`
 	EventType             string    `json:"event_type"`
 	Host                  string    `json:"host"`
-	ID                    string    `json:"_id" fake:"{uuid}"`
+	ID                    string    `fake:"{uuid}"                   json:"_id"`
 	InIface               string    `json:"in_iface"`
 	InnerAlertAction      string    `json:"inner_alert_action"`
 	InnerAlertCategory    string    `json:"inner_alert_category"`
 	InnerAlertSignature   string    `json:"inner_alert_signature"`
-	Key                   string    `json:"key" fake:"{uuid}"`
-	Msg                   string    `json:"msg" fake:"{buzzword}"`
+	Key                   string    `fake:"{uuid}"                   json:"key"`
+	Msg                   string    `fake:"{buzzword}"               json:"msg"`
 	Proto                 string    `json:"proto"`
-	SiteID                string    `json:"site_id" fake:"{uuid}"`
+	SiteID                string    `fake:"{uuid}"                   json:"site_id"`
 	SiteName              string    `json:"-"`
 	SourceName            string    `json:"-"`
-	SrcIP                 string    `json:"src_ip" fake:"{ipv4address}"`
-	SrcIPASN              string    `json:"srcipASN" fake:"{address}"`
-	SrcIPCountry          string    `json:"srcipCountry" fake:"{country}"`
-	SrcMAC                string    `json:"src_mac" fake:"{macaddress}"`
+	SrcIP                 string    `fake:"{ipv4address}"            json:"src_ip"`
+	SrcIPASN              string    `fake:"{address}"                json:"srcipASN"`
+	SrcIPCountry          string    `fake:"{country}"                json:"srcipCountry"`
+	SrcMAC                string    `fake:"{macaddress}"             json:"src_mac"`
 	Subsystem             string    `json:"subsystem"`
 	UniqueAlertID         string    `json:"unique_alertid"`
-	USGIP                 string    `json:"usgip" fake:"{ipv4address}"`
-	USGIPASN              string    `json:"usgipASN" fake:"{address}"`
-	USGIPCountry          string    `json:"usgipCountry" fake:"{country}"`
+	USGIP                 string    `fake:"{ipv4address}"            json:"usgip"`
+	USGIPASN              string    `fake:"{address}"                json:"usgipASN"`
+	USGIPCountry          string    `fake:"{country}"                json:"usgipCountry"`
 	DestIPGeo             IPGeo     `json:"dstipGeo"`
 	SourceIPGeo           IPGeo     `json:"srcipGeo"`
 	USGIPGeo              IPGeo     `json:"usgipGeo"`
