@@ -1,4 +1,4 @@
-package unifi
+package unifi_test
 
 import (
 	_ "embed"
@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/unpoller/unifi"
 )
 
 //go:embed examples/pdu.json
@@ -16,7 +17,7 @@ func TestPDUUnmarshalJSON(t *testing.T) {
 	a := assert.New(t)
 
 	powerBudgetVal := float64(1875)
-	p := &PDU{}
+	p := &unifi.PDU{}
 	err := json.Unmarshal(pduSample, p)
 	a.Nil(err, "must be no error unmarshaling test strings")
 	a.Equal(powerBudgetVal, p.OutletACPowerBudget.Val, "data was not properly unmarshaled")

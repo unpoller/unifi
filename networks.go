@@ -35,6 +35,7 @@ func (u *Unifi) GetNetworks(sites []*Site) ([]Network, error) {
 // parseNetwork parses the raw JSON from the Unifi Controller into network structures.
 func (u *Unifi) parseNetwork(data json.RawMessage, siteName string) (*Network, error) {
 	network := new(Network)
+	
 	return network, u.unmarshalDevice(siteName, data, network)
 }
 
@@ -50,13 +51,13 @@ type Network struct {
 	DhcpGuardEnabled       FlexBool `json:"dhcpguard_enabled"`
 	DomainName             string   `json:"domain_name"`
 	Enabled                FlexBool `json:"enabled"`
-	ID                     string   `json:"_id" fake:"{uuid}"`
+	ID                     string   `fake:"{uuid}"                    json:"_id"`
 	IPSubnet               string   `json:"ip_subnet"`
 	IsNat                  FlexBool `json:"is_nat"`
 	Name                   string   `json:"name"`
 	Networkgroup           string   `json:"networkgroup"`
 	Purpose                string   `json:"purpose"`
-	SiteID                 string   `json:"site_id" fake:"{uuid}"`
+	SiteID                 string   `fake:"{uuid}"                    json:"site_id"`
 	Vlan                   FlexInt  `json:"vlan"`
 	VlanEnabled            FlexBool `json:"vlan_enabled"`
 }

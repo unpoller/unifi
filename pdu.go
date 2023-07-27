@@ -5,44 +5,44 @@ import "encoding/json"
 // PDU is the Smart Power PDU line of products
 type PDU struct {
 	site                     *Site
-	ID                       string           `json:"_id" fake:"{uuid}"`
-	AdoptIP                  string           `json:"adopt_ip" fake:"{ipv4address}"`
-	AdoptURL                 string           `json:"adopt_url" fake:"{url}"`
+	ID                       string           `fake:"{uuid}"                      json:"_id"`
+	AdoptIP                  string           `fake:"{ipv4address}"               json:"adopt_ip"`
+	AdoptURL                 string           `fake:"{url}"                       json:"adopt_url"`
 	AdoptableWhenUpgraded    FlexBool         `json:"adoptable_when_upgraded"`
 	Adopted                  FlexBool         `json:"adopted"`
 	Anomalies                FlexInt          `json:"anomalies"`
-	AnonID                   string           `json:"anon_id" fake:"{uuid}"`
+	AnonID                   string           `fake:"{uuid}"                      json:"anon_id"`
 	Architecture             string           `json:"architecture"`
 	BoardRev                 FlexInt          `json:"board_rev"`
 	Bytes                    FlexInt          `json:"bytes"`
-	CfgVersion               string           `json:"cfgversion" fake:"{appversion}"`
+	CfgVersion               string           `fake:"{appversion}"                json:"cfgversion"`
 	ConfigNetwork            *ConfigNetwork   `json:"config_network"`
-	ConnectRequestIP         string           `json:"connect_request_ip" fake:"{ipv4address}"`
+	ConnectRequestIP         string           `fake:"{ipv4address}"               json:"connect_request_ip"`
 	ConnectRequestPort       FlexInt          `json:"connect_request_port"`
 	ConnectedAt              FlexInt          `json:"connected_at"`
 	ConnectionNetworkName    string           `json:"connection_network_name"`
 	Default                  FlexBool         `json:"default"`
-	DeviceID                 string           `json:"device_id" fake:"{uuid}"`
+	DeviceID                 string           `fake:"{uuid}"                      json:"device_id"`
 	DiscoveredVia            string           `json:"discovered_via"`
-	DisplayableVersion       string           `json:"displayable_version" fake:"{appversion}"`
+	DisplayableVersion       string           `fake:"{appversion}"                json:"displayable_version"`
 	Dot1xPortCtrlEnabled     FlexBool         `json:"dot1x_portctrl_enabled"`
-	DownlinkTable            []*DownlinkTable `json:"downlink_table" fakesize:"5"`
-	EthernetTable            []*EthernetTable `json:"ethernet_table" fakesize:"5"`
+	DownlinkTable            []*DownlinkTable `fakesize:"5"                       json:"downlink_table"`
+	EthernetTable            []*EthernetTable `fakesize:"5"                       json:"ethernet_table"`
 	FlowctrlEnabled          FlexBool         `json:"flowctrl_enabled"`
 	FwCaps                   FlexInt          `json:"fw_caps"`
-	GatewayMac               string           `json:"gateway_mac" fake:"{macaddress}"`
+	GatewayMac               string           `fake:"{macaddress}"                json:"gateway_mac"`
 	GuestNumSta              FlexInt          `json:"guest-num_sta"`
 	HasFan                   FlexBool         `json:"has_fan"`
 	HasTemperature           FlexBool         `json:"has_temperature"`
 	HashID                   string           `json:"hash_id"`
 	HwCaps                   FlexInt          `json:"hw_caps"`
-	InformIP                 string           `json:"inform_ip" fake:"{ipv4address}"`
-	InformURL                string           `json:"inform_url" fake:"{url}"`
+	InformIP                 string           `fake:"{ipv4address}"               json:"inform_ip"`
+	InformURL                string           `fake:"{url}"                       json:"inform_url"`
 	Internet                 FlexBool         `json:"internet"`
-	IP                       string           `json:"ip" fake:"{ipv4address}"`
+	IP                       string           `fake:"{ipv4address}"               json:"ip"`
 	JumboframeEnabled        FlexBool         `json:"jumboframe_enabled"`
-	KernelVersion            string           `json:"kernel_version" fake:"{appversion}"`
-	KnownCfgVersion          string           `json:"known_cfgversion" fake:"{appversion}"`
+	KernelVersion            string           `fake:"{appversion}"                json:"kernel_version"`
+	KnownCfgVersion          string           `fake:"{appversion}"                json:"known_cfgversion"`
 	LastSeen                 FlexInt          `json:"last_seen"`
 	LastUplink               Uplink           `json:"last_uplink"`
 	LcmBrightness            FlexInt          `json:"lcm_brightness"`
@@ -52,7 +52,7 @@ type PDU struct {
 	LcmNightModeEnds         string           `json:"lcm_night_mode_ends"`
 	LicenseState             string           `json:"license_state"`
 	Locating                 FlexBool         `json:"locating"`
-	Mac                      string           `json:"mac" fake:"{macaddress}"`
+	Mac                      string           `fake:"{macaddress}"                json:"mac"`
 	ManufacturerID           FlexInt          `json:"manufacturer_id"`
 	MinIfnromIntervalSeconds FlexInt          `json:"min_inform_interval_seconds"`
 	Model                    string           `json:"model"`
@@ -65,21 +65,21 @@ type PDU struct {
 	OutletACPowerBudget      FlexInt          `json:"outlet_ac_power_budget"`
 	OutletACPowerConsumption FlexInt          `json:"outlet_ac_power_consumption"`
 	OutletEnabled            FlexBool         `json:"outlet_enabled"`
-	OutletOverrides          []OutletOverride `json:"outlet_overrides" fakesize:"5"`
-	OutletTable              []OutletTable    `json:"outlet_table" fakesize:"5"`
+	OutletOverrides          []OutletOverride `fakesize:"5"                       json:"outlet_overrides"`
+	OutletTable              []OutletTable    `fakesize:"5"                       json:"outlet_table"`
 	Overheating              FlexBool         `json:"overheating"`
-	PortTable                []Port           `json:"port_table" fakesize:"5"`
+	PortTable                []Port           `fakesize:"5"                       json:"port_table"`
 	PowerSource              FlexInt          `json:"power_source"`
 	PowerSourceCtrlEnabled   FlexBool         `json:"power_source_ctrl_enabled"`
 	PrevNonBusyState         FlexInt          `json:"prev_non_busy_state"`
 	ProvisionedAt            FlexInt          `json:"provisioned_at"`
-	RequiredVersion          string           `json:"required_version" fake:"{appversion}"`
+	RequiredVersion          string           `fake:"{appversion}"                json:"required_version"`
 	RollUpgrade              FlexBool         `json:"rollupgrade"`
 	RxBytes                  FlexInt          `json:"rx_bytes"`
 	Satisfaction             FlexInt          `json:"satisfaction"`
 	Serial                   string           `json:"serial"`
-	SetupID                  string           `json:"setup_id" fake:"{uuid}"`
-	SiteID                   string           `json:"site_id" fake:"{uuid}"`
+	SetupID                  string           `fake:"{uuid}"                      json:"setup_id"`
+	SiteID                   string           `fake:"{uuid}"                      json:"site_id"`
 	SiteName                 string           `json:"site_name"`
 	SourceName               string           `json:"source_name"`
 	StartConnectedMillis     FlexInt          `json:"start_connected_millis"`
@@ -88,7 +88,7 @@ type PDU struct {
 	Stat                     PDUStat          `json:"stat"`
 	State                    FlexInt          `json:"state"`
 	StpPriority              FlexInt          `json:"stp_priority"`
-	StpVersion               string           `json:"stp_version" fake:"{appversion}"`
+	StpVersion               string           `fake:"{appversion}"                json:"stp_version"`
 	SwitchCaps               *SwitchCaps      `json:"switch_caps"`
 	SysErrorCaps             FlexInt          `json:"sys_error_caps"`
 	SysStats                 SysStats         `json:"sys_stats"`
@@ -97,7 +97,7 @@ type PDU struct {
 	TotalMaxPower            FlexInt          `json:"total_max_power"`
 	TwoPhaseAdopt            FlexBool         `json:"two_phase_adopt"`
 	TxBytes                  FlexInt          `json:"tx_bytes"`
-	Type                     string           `json:"type" fake:"{lexify:pdu}"`
+	Type                     string           `fake:"{lexify:pdu}"                json:"type"`
 	Unsupported              FlexBool         `json:"unsupported"`
 	UnsupportedReason        FlexInt          `json:"unsupported_reason"`
 	Upgradeable              FlexBool         `json:"upgradable"`
@@ -105,7 +105,7 @@ type PDU struct {
 	UplinkDepth              FlexBool         `json:"uplink_depth"`
 	Uptime                   FlexInt          `json:"uptime"`
 	UserNumSta               FlexInt          `json:"user-num_sta"`
-	Version                  string           `json:"version" fake:"{appversion}"`
+	Version                  string           `fake:"{appversion}"                json:"version"`
 }
 
 // OutletOverride hold the PDU outlet override data.

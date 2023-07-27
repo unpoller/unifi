@@ -99,7 +99,7 @@ func newUnifi(config *Config, jar http.CookieJar) *Unifi {
 	return u
 }
 
-func (u *Unifi) verifyPeerCertificate(certs [][]byte, chains [][]*x509.Certificate) error {
+func (u *Unifi) verifyPeerCertificate(certs [][]byte, _ [][]*x509.Certificate) error {
 	if len(u.fingerprints) == 0 {
 		return nil
 	}
@@ -145,6 +145,7 @@ func (u *Unifi) Login() error {
 func (u *Unifi) Logout() error {
 	// a post is needed for logout
 	_, err := u.PostJSON(APILogoutPath)
+	
 	return err
 }
 

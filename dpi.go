@@ -7,9 +7,9 @@ type DPITable struct {
 	SourceName  string    `json:"-"`
 	SiteName    string    `json:"-"`
 	Name        string    `json:"-"`
-	MAC         string    `json:"mac" fake:"{macaddress}"`
-	ByCat       []DPIData `json:"by_cat" fakesize:"5"`
-	ByApp       []DPIData `json:"by_app" fakesize:"5"`
+	MAC         string    `fake:"{macaddress}" json:"mac"`
+	ByCat       []DPIData `fakesize:"5"        json:"by_cat"`
+	ByApp       []DPIData `fakesize:"5"        json:"by_app"`
 	LastUpdated FlexInt   `json:"last_updated"`
 }
 
@@ -21,13 +21,13 @@ type DPIData struct {
 	TxBytes      FlexInt      `json:"tx_bytes"`
 	RxPackets    FlexInt      `json:"rx_packets"`
 	TxPackets    FlexInt      `json:"tx_packets"`
-	Clients      []*DPIClient `json:"clients,omitempty" fakesize:"5"`
+	Clients      []*DPIClient `fakesize:"5"                   json:"clients,omitempty"`
 	KnownClients FlexInt      `json:"known_clients,omitempty"`
 }
 
 // DPIClient data is sometimes included in ByApp output.
 type DPIClient struct {
-	Mac       string  `json:"mac" fake:"{macaddress}"`
+	Mac       string  `fake:"{macaddress}" json:"mac"`
 	RxBytes   FlexInt `json:"rx_bytes"`
 	TxBytes   FlexInt `json:"tx_bytes"`
 	RxPackets FlexInt `json:"rx_packets"`

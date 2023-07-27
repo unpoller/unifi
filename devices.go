@@ -116,6 +116,7 @@ func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 		var o minimalUnmarshalInfo
 		if u.unmarshalDevice("map", r, &o) != nil {
 			u.ErrorLog("unknown asset type - cannot find asset type in payload - skipping")
+			
 			continue
 		}
 
