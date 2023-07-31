@@ -3,9 +3,8 @@ package unifi
 // UXG represents all the data from the Ubiquiti Controller for a UniFi 10Gb Gateway.
 // The UDM shares several structs/type-data with USW and USG.
 type UXG struct {
-	site                       *Site
-	Adopted                    FlexBool                `json:"adopted"`
 	AdoptableWhenUpgraded      FlexBool                `json:"adoptable_when_upgraded"`
+	Adopted                    FlexBool                `fake:"{constFlexBool:true}"          json:"adopted"`
 	AdoptedByClient            string                  `json:"adopted_by_client"`
 	AdoptionCompleted          FlexBool                `json:"adoption_completed"`
 	AnonID                     string                  `json:"anon_id"`
@@ -15,10 +14,10 @@ type UXG struct {
 	Cfgversion                 string                  `json:"cfgversion"`
 	ConfigNetwork              *ConfigNetwork          `json:"config_network"`
 	ConfigNetworkLan           *ConfigNetworkLan       `json:"config_network_lan"`
+	ConnectedAt                FlexInt                 `json:"connected_at"`
+	ConnectionNetworkName      string                  `json:"connection_network_name"`
 	ConnectRequestIP           string                  `json:"connect_request_ip"`
 	ConnectRequestPort         string                  `json:"connect_request_port"`
-	ConnectionNetworkName      string                  `json:"connection_network_name"`
-	ConnectedAt                FlexInt                 `json:"connected_at"`
 	ConsideredLostAt           FlexInt                 `json:"considered_lost_at"`
 	DeviceID                   string                  `fake:"{uuid}"                        json:"device_id"`
 	DisplayableVersion         string                  `json:"displayable_version"`
@@ -34,15 +33,15 @@ type UXG struct {
 	GuestWlanNumSta            FlexInt                 `json:"guest-wlan-num_sta"`
 	HasEth1                    FlexBool                `json:"has_eth1"`
 	HasFan                     FlexBool                `json:"has_fan"`
+	HashID                     string                  `json:"hash_id"`
 	HasSpeaker                 FlexBool                `json:"has_speaker"`
 	HasTemperature             FlexBool                `json:"has_temperature"`
-	HashID                     string                  `json:"hash_id"`
 	HwCaps                     FlexInt                 `json:"hw_caps"`
 	ID                         string                  `fake:"{uuid}"                        json:"_id"`
-	IP                         string                  `fake:"{ipv4address}"                 json:"ip"`
 	InformIP                   string                  `fake:"{ipv4address}"                 json:"inform_ip"`
 	InformURL                  string                  `fake:"{url}"                         json:"inform_url"`
 	Internet                   FlexBool                `json:"internet"`
+	IP                         string                  `fake:"{ipv4address}"                 json:"ip"`
 	IsAccessPoint              FlexBool                `json:"is_access_point"`
 	KernelVersion              string                  `json:"kernel_version"`
 	KnownCfgversion            string                  `json:"known_cfgversion"`
@@ -60,14 +59,14 @@ type UXG struct {
 	LedOverrideColorBrightness FlexInt                 `json:"led_override_color_brightness"`
 	LedState                   *LedState               `json:"led_state"`
 	LicenseState               string                  `json:"license_state"`
-	Locating                   FlexBool                `json:"locating"`
+	Locating                   FlexBool                `fake:"{constFlexBool:false}"         json:"locating"`
 	Mac                        string                  `fake:"{macaddress}"                  json:"mac"`
 	ManufacturerID             FlexInt                 `json:"manufacturer_id"`
 	MinInformIntervalSeconds   FlexInt                 `json:"min_inform_interval_seconds"`
 	Model                      string                  `json:"model"`
+	ModelIncompatible          FlexBool                `json:"model_incompatible"`
 	ModelInEol                 FlexBool                `json:"model_in_eol"`
 	ModelInLts                 FlexBool                `json:"model_in_lts"`
-	ModelIncompatible          FlexBool                `json:"model_incompatible"`
 	Name                       string                  `json:"name"`
 	NetworkTable               NetworkTable            `json:"network_table"`
 	NextHeartbeatAt            FlexInt                 `json:"next_heartbeat_at"`
@@ -87,7 +86,8 @@ type UXG struct {
 	RxBytes                    FlexInt                 `json:"rx_bytes"`
 	Serial                     string                  `json:"serial"`
 	SetupID                    string                  `json:"setup_id"`
-	SiteID                     string                  `fake:"{uuid}"                        json:"site_id"`
+	site                       *Site
+	SiteID                     string                  `fake:"{uuid}"                    json:"site_id"`
 	SiteName                   string                  `json:"-"`
 	SourceName                 string                  `json:"-"`
 	SpeedtestStatus            SpeedtestStatus         `json:"speedtest-status"`
@@ -99,14 +99,14 @@ type UXG struct {
 	State                      FlexInt                 `json:"state"`
 	Storage                    []*Storage              `json:"storage"`
 	SwitchCaps                 *SwitchCaps             `json:"switch_caps"`
-	SysStats                   SysStats                `json:"sys_stats"`
 	SyslogKey                  string                  `json:"syslog_key"`
+	SysStats                   SysStats                `json:"sys_stats"`
 	SystemStats                SystemStats             `json:"system-stats"`
 	TeleportVersion            string                  `json:"teleport_version"`
 	Temperatures               []Temperature           `json:"temperatures"`
 	TwoPhaseAdopt              FlexBool                `json:"two_phase_adopt"`
 	TxBytes                    FlexInt                 `json:"tx_bytes"`
-	Type                       string                  `fake:"{lexify:uxg}"                  json:"type"`
+	Type                       string                  `fake:"{lexify:uxg}"              json:"type"`
 	UdapiCaps                  FlexInt                 `json:"udapi_caps"`
 	UnderscoreUptime           FlexInt                 `json:"_uptime"`
 	Unsupported                FlexBool                `json:"unsupported"`

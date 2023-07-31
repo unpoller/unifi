@@ -12,7 +12,7 @@ type UAP struct {
 	site                  *Site
 	AFTEnabled            FlexBool `json:"atf_enabled"`
 	AdoptableWhenUpgraded FlexBool `json:"adoptable_when_upgraded"`
-	Adopted               FlexBool `json:"adopted"`
+	Adopted               FlexBool `fake:"{constFlexBool:true}"    json:"adopted"`
 	AntennaTable          []struct {
 		Default   FlexBool `json:"default"`
 		ID        FlexInt  `json:"id"`
@@ -69,7 +69,7 @@ type UAP struct {
 	LedOverrideColor              string          `json:"led_override_color"`
 	LedOverrideColorBrightness    FlexInt         `json:"led_override_color_brightness"`
 	LicenseState                  string          `json:"license_state"`
-	Locating                      FlexBool        `json:"locating"`
+	Locating                      FlexBool        `fake:"{constFlexBool:false}"            json:"locating"`
 	LteAPN                        string          `json:"lte_apn"`
 	LteBand                       string          `json:"lte_band"`
 	LteCellID                     string          `json:"lte_cell_id"`
@@ -198,229 +198,229 @@ type UAPStat struct {
 
 // Ap is a subtype of UAPStat to make unmarshalling of different controller versions possible.
 type Ap struct {
-	SiteID                   string    `fake:"{uuid}"                      json:"site_id"`
+	Ap                       string    `json:"ap"`
+	Bytes                    FlexInt   `json:"bytes"`
+	Datetime                 time.Time `fake:"{recent_time}"               json:"datetime"`
+	Duration                 FlexInt   `json:"duration"`
+	GuestMacFilterRejections FlexInt   `json:"guest-mac_filter_rejections"`
+	GuestRxBytes             FlexInt   `json:"guest-rx_bytes"`
+	GuestRxCrypts            FlexInt   `json:"guest-rx_crypts"`
+	GuestRxDropped           FlexInt   `json:"guest-rx_dropped"`
+	GuestRxErrors            FlexInt   `json:"guest-rx_errors"`
+	GuestRxFrags             FlexInt   `json:"guest-rx_frags"`
+	GuestRxPackets           FlexInt   `json:"guest-rx_packets"`
+	GuestTxBytes             FlexInt   `json:"guest-tx_bytes"`
+	GuestTxDropped           FlexInt   `json:"guest-tx_dropped"`
+	GuestTxErrors            FlexInt   `json:"guest-tx_errors"`
+	GuestTxPackets           FlexInt   `json:"guest-tx_packets"`
+	GuestTxRetries           FlexInt   `json:"guest-tx_retries"`
+	GuestWifiTxAttempts      FlexInt   `json:"guest-wifi_tx_attempts"`
+	GuestWifiTxDropped       FlexInt   `json:"guest-wifi_tx_dropped"`
+	MacFilterRejections      FlexInt   `json:"mac_filter_rejections"`
 	O                        string    `json:"o"`
 	Oid                      string    `json:"oid"`
-	Ap                       string    `json:"ap"`
-	Time                     FlexInt   `json:"time"`
-	Datetime                 time.Time `json:"datetime"`
-	Bytes                    FlexInt   `json:"bytes"`
-	Duration                 FlexInt   `json:"duration"`
-	WifiTxDropped            FlexInt   `json:"wifi_tx_dropped"`
-	RxErrors                 FlexInt   `json:"rx_errors"`
-	RxDropped                FlexInt   `json:"rx_dropped"`
-	RxFrags                  FlexInt   `json:"rx_frags"`
-	RxCrypts                 FlexInt   `json:"rx_crypts"`
-	TxPackets                FlexInt   `json:"tx_packets"`
-	TxBytes                  FlexInt   `json:"tx_bytes"`
-	TxErrors                 FlexInt   `json:"tx_errors"`
-	TxDropped                FlexInt   `json:"tx_dropped"`
-	TxRetries                FlexInt   `json:"tx_retries"`
-	RxPackets                FlexInt   `json:"rx_packets"`
 	RxBytes                  FlexInt   `json:"rx_bytes"`
-	UserRxDropped            FlexInt   `json:"user-rx_dropped"`
-	GuestRxDropped           FlexInt   `json:"guest-rx_dropped"`
-	UserRxErrors             FlexInt   `json:"user-rx_errors"`
-	GuestRxErrors            FlexInt   `json:"guest-rx_errors"`
-	UserRxPackets            FlexInt   `json:"user-rx_packets"`
-	GuestRxPackets           FlexInt   `json:"guest-rx_packets"`
-	UserRxBytes              FlexInt   `json:"user-rx_bytes"`
-	GuestRxBytes             FlexInt   `json:"guest-rx_bytes"`
-	UserRxCrypts             FlexInt   `json:"user-rx_crypts"`
-	GuestRxCrypts            FlexInt   `json:"guest-rx_crypts"`
-	UserRxFrags              FlexInt   `json:"user-rx_frags"`
-	GuestRxFrags             FlexInt   `json:"guest-rx_frags"`
-	UserTxPackets            FlexInt   `json:"user-tx_packets"`
-	GuestTxPackets           FlexInt   `json:"guest-tx_packets"`
-	UserTxBytes              FlexInt   `json:"user-tx_bytes"`
-	GuestTxBytes             FlexInt   `json:"guest-tx_bytes"`
-	UserTxErrors             FlexInt   `json:"user-tx_errors"`
-	GuestTxErrors            FlexInt   `json:"guest-tx_errors"`
-	UserTxDropped            FlexInt   `json:"user-tx_dropped"`
-	GuestTxDropped           FlexInt   `json:"guest-tx_dropped"`
-	UserTxRetries            FlexInt   `json:"user-tx_retries"`
-	GuestTxRetries           FlexInt   `json:"guest-tx_retries"`
-	MacFilterRejections      FlexInt   `json:"mac_filter_rejections"`
+	RxCrypts                 FlexInt   `json:"rx_crypts"`
+	RxDropped                FlexInt   `json:"rx_dropped"`
+	RxErrors                 FlexInt   `json:"rx_errors"`
+	RxFrags                  FlexInt   `json:"rx_frags"`
+	RxPackets                FlexInt   `json:"rx_packets"`
+	SiteID                   string    `fake:"{uuid}"                      json:"site_id"`
+	Time                     FlexInt   `json:"time"`
+	TxBytes                  FlexInt   `json:"tx_bytes"`
+	TxDropped                FlexInt   `json:"tx_dropped"`
+	TxErrors                 FlexInt   `json:"tx_errors"`
+	TxPackets                FlexInt   `json:"tx_packets"`
+	TxRetries                FlexInt   `json:"tx_retries"`
 	UserMacFilterRejections  FlexInt   `json:"user-mac_filter_rejections"`
-	GuestMacFilterRejections FlexInt   `json:"guest-mac_filter_rejections"`
-	WifiTxAttempts           FlexInt   `json:"wifi_tx_attempts"`
-	UserWifiTxDropped        FlexInt   `json:"user-wifi_tx_dropped"`
-	GuestWifiTxDropped       FlexInt   `json:"guest-wifi_tx_dropped"`
+	UserRxBytes              FlexInt   `json:"user-rx_bytes"`
+	UserRxCrypts             FlexInt   `json:"user-rx_crypts"`
+	UserRxDropped            FlexInt   `json:"user-rx_dropped"`
+	UserRxErrors             FlexInt   `json:"user-rx_errors"`
+	UserRxFrags              FlexInt   `json:"user-rx_frags"`
+	UserRxPackets            FlexInt   `json:"user-rx_packets"`
+	UserTxBytes              FlexInt   `json:"user-tx_bytes"`
+	UserTxDropped            FlexInt   `json:"user-tx_dropped"`
+	UserTxErrors             FlexInt   `json:"user-tx_errors"`
+	UserTxPackets            FlexInt   `json:"user-tx_packets"`
+	UserTxRetries            FlexInt   `json:"user-tx_retries"`
 	UserWifiTxAttempts       FlexInt   `json:"user-wifi_tx_attempts"`
-	GuestWifiTxAttempts      FlexInt   `json:"guest-wifi_tx_attempts"`
+	UserWifiTxDropped        FlexInt   `json:"user-wifi_tx_dropped"`
+	WifiTxAttempts           FlexInt   `json:"wifi_tx_attempts"`
+	WifiTxDropped            FlexInt   `json:"wifi_tx_dropped"`
 
 	// UAP-AC-PRO names, others may differ.
 	/* These are all in VAP TABLE */
 	/*
-		GuestWifi0RxPackets           FlexInt `json:"guest-wifi0-rx_packets"`
-		GuestWifi1RxPackets           FlexInt `json:"guest-wifi1-rx_packets"`
-		UserWifi1RxPackets            FlexInt `json:"user-wifi1-rx_packets"`
-		UserWifi0RxPackets            FlexInt `json:"user-wifi0-rx_packets"`
-		Wifi0RxPackets                FlexInt `json:"wifi0-rx_packets"`
-		Wifi1RxPackets                FlexInt `json:"wifi1-rx_packets"`
-		GuestWifi0RxBytes             FlexInt `json:"guest-wifi0-rx_bytes"`
-		GuestWifi1RxBytes             FlexInt `json:"guest-wifi1-rx_bytes"`
-		UserWifi1RxBytes              FlexInt `json:"user-wifi1-rx_bytes"`
-		UserWifi0RxBytes              FlexInt `json:"user-wifi0-rx_bytes"`
-		Wifi0RxBytes                  FlexInt `json:"wifi0-rx_bytes"`
-		Wifi1RxBytes                  FlexInt `json:"wifi1-rx_bytes"`
-		GuestWifi0RxErrors            FlexInt `json:"guest-wifi0-rx_errors"`
-		GuestWifi1RxErrors            FlexInt `json:"guest-wifi1-rx_errors"`
-		UserWifi1RxErrors             FlexInt `json:"user-wifi1-rx_errors"`
-		UserWifi0RxErrors             FlexInt `json:"user-wifi0-rx_errors"`
-		Wifi0RxErrors                 FlexInt `json:"wifi0-rx_errors"`
-		Wifi1RxErrors                 FlexInt `json:"wifi1-rx_errors"`
-		GuestWifi0RxDropped           FlexInt `json:"guest-wifi0-rx_dropped"`
-		GuestWifi1RxDropped           FlexInt `json:"guest-wifi1-rx_dropped"`
-		UserWifi1RxDropped            FlexInt `json:"user-wifi1-rx_dropped"`
-		UserWifi0RxDropped            FlexInt `json:"user-wifi0-rx_dropped"`
-		Wifi0RxDropped                FlexInt `json:"wifi0-rx_dropped"`
-		Wifi1RxDropped                FlexInt `json:"wifi1-rx_dropped"`
-		GuestWifi0RxCrypts            FlexInt `json:"guest-wifi0-rx_crypts"`
-		GuestWifi1RxCrypts            FlexInt `json:"guest-wifi1-rx_crypts"`
-		UserWifi1RxCrypts             FlexInt `json:"user-wifi1-rx_crypts"`
-		UserWifi0RxCrypts             FlexInt `json:"user-wifi0-rx_crypts"`
-		Wifi0RxCrypts                 FlexInt `json:"wifi0-rx_crypts"`
-		Wifi1RxCrypts                 FlexInt `json:"wifi1-rx_crypts"`
-		GuestWifi0RxFrags             FlexInt `json:"guest-wifi0-rx_frags"`
-		GuestWifi1RxFrags             FlexInt `json:"guest-wifi1-rx_frags"`
-		UserWifi1RxFrags              FlexInt `json:"user-wifi1-rx_frags"`
-		UserWifi0RxFrags              FlexInt `json:"user-wifi0-rx_frags"`
-		Wifi0RxFrags                  FlexInt `json:"wifi0-rx_frags"`
-		Wifi1RxFrags                  FlexInt `json:"wifi1-rx_frags"`
-		GuestWifi0TxPackets           FlexInt `json:"guest-wifi0-tx_packets"`
-		GuestWifi1TxPackets           FlexInt `json:"guest-wifi1-tx_packets"`
-		UserWifi1TxPackets            FlexInt `json:"user-wifi1-tx_packets"`
-		UserWifi0TxPackets            FlexInt `json:"user-wifi0-tx_packets"`
-		Wifi0TxPackets                FlexInt `json:"wifi0-tx_packets"`
-		Wifi1TxPackets                FlexInt `json:"wifi1-tx_packets"`
-		GuestWifi0TxBytes             FlexInt `json:"guest-wifi0-tx_bytes"`
-		GuestWifi1TxBytes             FlexInt `json:"guest-wifi1-tx_bytes"`
-		UserWifi1TxBytes              FlexInt `json:"user-wifi1-tx_bytes"`
-		UserWifi0TxBytes              FlexInt `json:"user-wifi0-tx_bytes"`
-		Wifi0TxBytes                  FlexInt `json:"wifi0-tx_bytes"`
-		Wifi1TxBytes                  FlexInt `json:"wifi1-tx_bytes"`
-		GuestWifi0TxErrors            FlexInt `json:"guest-wifi0-tx_errors"`
-		GuestWifi1TxErrors            FlexInt `json:"guest-wifi1-tx_errors"`
-		UserWifi1TxErrors             FlexInt `json:"user-wifi1-tx_errors"`
-		UserWifi0TxErrors             FlexInt `json:"user-wifi0-tx_errors"`
-		Wifi0TxErrors                 FlexInt `json:"wifi0-tx_errors"`
-		Wifi1TxErrors                 FlexInt `json:"wifi1-tx_errors"`
-		GuestWifi0TxDropped           FlexInt `json:"guest-wifi0-tx_dropped"`
-		GuestWifi1TxDropped           FlexInt `json:"guest-wifi1-tx_dropped"`
-		UserWifi1TxDropped            FlexInt `json:"user-wifi1-tx_dropped"`
-		UserWifi0TxDropped            FlexInt `json:"user-wifi0-tx_dropped"`
-		Wifi0TxDropped                FlexInt `json:"wifi0-tx_dropped"`
-		Wifi1TxDropped                FlexInt `json:"wifi1-tx_dropped"`
-		GuestWifi0TxRetries           FlexInt `json:"guest-wifi0-tx_retries"`
-		GuestWifi1TxRetries           FlexInt `json:"guest-wifi1-tx_retries"`
-		UserWifi1TxRetries            FlexInt `json:"user-wifi1-tx_retries"`
-		UserWifi0TxRetries            FlexInt `json:"user-wifi0-tx_retries"`
-		Wifi0TxRetries                FlexInt `json:"wifi0-tx_retries"`
-		Wifi1TxRetries                FlexInt `json:"wifi1-tx_retries"`
 		GuestWifi0MacFilterRejections FlexInt `json:"guest-wifi0-mac_filter_rejections"`
-		GuestWifi1MacFilterRejections FlexInt `json:"guest-wifi1-mac_filter_rejections"`
-		UserWifi1MacFilterRejections  FlexInt `json:"user-wifi1-mac_filter_rejections"`
-		UserWifi0MacFilterRejections  FlexInt `json:"user-wifi0-mac_filter_rejections"`
-		Wifi0MacFilterRejections      FlexInt `json:"wifi0-mac_filter_rejections"`
-		Wifi1MacFilterRejections      FlexInt `json:"wifi1-mac_filter_rejections"`
+		GuestWifi0RxBytes             FlexInt `json:"guest-wifi0-rx_bytes"`
+		GuestWifi0RxCrypts            FlexInt `json:"guest-wifi0-rx_crypts"`
+		GuestWifi0RxDropped           FlexInt `json:"guest-wifi0-rx_dropped"`
+		GuestWifi0RxErrors            FlexInt `json:"guest-wifi0-rx_errors"`
+		GuestWifi0RxFrags             FlexInt `json:"guest-wifi0-rx_frags"`
+		GuestWifi0RxPackets           FlexInt `json:"guest-wifi0-rx_packets"`
+		GuestWifi0TxBytes             FlexInt `json:"guest-wifi0-tx_bytes"`
+		GuestWifi0TxDropped           FlexInt `json:"guest-wifi0-tx_dropped"`
+		GuestWifi0TxErrors            FlexInt `json:"guest-wifi0-tx_errors"`
+		GuestWifi0TxPackets           FlexInt `json:"guest-wifi0-tx_packets"`
+		GuestWifi0TxRetries           FlexInt `json:"guest-wifi0-tx_retries"`
 		GuestWifi0WifiTxAttempts      FlexInt `json:"guest-wifi0-wifi_tx_attempts"`
-		GuestWifi1WifiTxAttempts      FlexInt `json:"guest-wifi1-wifi_tx_attempts"`
-		UserWifi1WifiTxAttempts       FlexInt `json:"user-wifi1-wifi_tx_attempts"`
-		UserWifi0WifiTxAttempts       FlexInt `json:"user-wifi0-wifi_tx_attempts"`
-		Wifi0WifiTxAttempts           FlexInt `json:"wifi0-wifi_tx_attempts"`
-		Wifi1WifiTxAttempts           FlexInt `json:"wifi1-wifi_tx_attempts"`
 		GuestWifi0WifiTxDropped       FlexInt `json:"guest-wifi0-wifi_tx_dropped"`
+		GuestWifi1MacFilterRejections FlexInt `json:"guest-wifi1-mac_filter_rejections"`
+		GuestWifi1RxBytes             FlexInt `json:"guest-wifi1-rx_bytes"`
+		GuestWifi1RxCrypts            FlexInt `json:"guest-wifi1-rx_crypts"`
+		GuestWifi1RxDropped           FlexInt `json:"guest-wifi1-rx_dropped"`
+		GuestWifi1RxErrors            FlexInt `json:"guest-wifi1-rx_errors"`
+		GuestWifi1RxFrags             FlexInt `json:"guest-wifi1-rx_frags"`
+		GuestWifi1RxPackets           FlexInt `json:"guest-wifi1-rx_packets"`
+		GuestWifi1TxBytes             FlexInt `json:"guest-wifi1-tx_bytes"`
+		GuestWifi1TxDropped           FlexInt `json:"guest-wifi1-tx_dropped"`
+		GuestWifi1TxErrors            FlexInt `json:"guest-wifi1-tx_errors"`
+		GuestWifi1TxPackets           FlexInt `json:"guest-wifi1-tx_packets"`
+		GuestWifi1TxRetries           FlexInt `json:"guest-wifi1-tx_retries"`
+		GuestWifi1WifiTxAttempts      FlexInt `json:"guest-wifi1-wifi_tx_attempts"`
 		GuestWifi1WifiTxDropped       FlexInt `json:"guest-wifi1-wifi_tx_dropped"`
-		UserWifi1WifiTxDropped        FlexInt `json:"user-wifi1-wifi_tx_dropped"`
+		UserWifi0MacFilterRejections  FlexInt `json:"user-wifi0-mac_filter_rejections"`
+		UserWifi0RxBytes              FlexInt `json:"user-wifi0-rx_bytes"`
+		UserWifi0RxCrypts             FlexInt `json:"user-wifi0-rx_crypts"`
+		UserWifi0RxDropped            FlexInt `json:"user-wifi0-rx_dropped"`
+		UserWifi0RxErrors             FlexInt `json:"user-wifi0-rx_errors"`
+		UserWifi0RxFrags              FlexInt `json:"user-wifi0-rx_frags"`
+		UserWifi0RxPackets            FlexInt `json:"user-wifi0-rx_packets"`
+		UserWifi0TxBytes              FlexInt `json:"user-wifi0-tx_bytes"`
+		UserWifi0TxDropped            FlexInt `json:"user-wifi0-tx_dropped"`
+		UserWifi0TxErrors             FlexInt `json:"user-wifi0-tx_errors"`
+		UserWifi0TxPackets            FlexInt `json:"user-wifi0-tx_packets"`
+		UserWifi0TxRetries            FlexInt `json:"user-wifi0-tx_retries"`
+		UserWifi0WifiTxAttempts       FlexInt `json:"user-wifi0-wifi_tx_attempts"`
 		UserWifi0WifiTxDropped        FlexInt `json:"user-wifi0-wifi_tx_dropped"`
+		UserWifi1MacFilterRejections  FlexInt `json:"user-wifi1-mac_filter_rejections"`
+		UserWifi1RxBytes              FlexInt `json:"user-wifi1-rx_bytes"`
+		UserWifi1RxCrypts             FlexInt `json:"user-wifi1-rx_crypts"`
+		UserWifi1RxDropped            FlexInt `json:"user-wifi1-rx_dropped"`
+		UserWifi1RxErrors             FlexInt `json:"user-wifi1-rx_errors"`
+		UserWifi1RxFrags              FlexInt `json:"user-wifi1-rx_frags"`
+		UserWifi1RxPackets            FlexInt `json:"user-wifi1-rx_packets"`
+		UserWifi1TxBytes              FlexInt `json:"user-wifi1-tx_bytes"`
+		UserWifi1TxDropped            FlexInt `json:"user-wifi1-tx_dropped"`
+		UserWifi1TxErrors             FlexInt `json:"user-wifi1-tx_errors"`
+		UserWifi1TxPackets            FlexInt `json:"user-wifi1-tx_packets"`
+		UserWifi1TxRetries            FlexInt `json:"user-wifi1-tx_retries"`
+		UserWifi1WifiTxAttempts       FlexInt `json:"user-wifi1-wifi_tx_attempts"`
+		UserWifi1WifiTxDropped        FlexInt `json:"user-wifi1-wifi_tx_dropped"`
+		Wifi0MacFilterRejections      FlexInt `json:"wifi0-mac_filter_rejections"`
+		Wifi0RxBytes                  FlexInt `json:"wifi0-rx_bytes"`
+		Wifi0RxCrypts                 FlexInt `json:"wifi0-rx_crypts"`
+		Wifi0RxDropped                FlexInt `json:"wifi0-rx_dropped"`
+		Wifi0RxErrors                 FlexInt `json:"wifi0-rx_errors"`
+		Wifi0RxFrags                  FlexInt `json:"wifi0-rx_frags"`
+		Wifi0RxPackets                FlexInt `json:"wifi0-rx_packets"`
+		Wifi0TxBytes                  FlexInt `json:"wifi0-tx_bytes"`
+		Wifi0TxDropped                FlexInt `json:"wifi0-tx_dropped"`
+		Wifi0TxErrors                 FlexInt `json:"wifi0-tx_errors"`
+		Wifi0TxPackets                FlexInt `json:"wifi0-tx_packets"`
+		Wifi0TxRetries                FlexInt `json:"wifi0-tx_retries"`
+		Wifi0WifiTxAttempts           FlexInt `json:"wifi0-wifi_tx_attempts"`
 		Wifi0WifiTxDropped            FlexInt `json:"wifi0-wifi_tx_dropped"`
+		Wifi1MacFilterRejections      FlexInt `json:"wifi1-mac_filter_rejections"`
+		Wifi1RxBytes                  FlexInt `json:"wifi1-rx_bytes"`
+		Wifi1RxCrypts                 FlexInt `json:"wifi1-rx_crypts"`
+		Wifi1RxDropped                FlexInt `json:"wifi1-rx_dropped"`
+		Wifi1RxErrors                 FlexInt `json:"wifi1-rx_errors"`
+		Wifi1RxFrags                  FlexInt `json:"wifi1-rx_frags"`
+		Wifi1RxPackets                FlexInt `json:"wifi1-rx_packets"`
+		Wifi1TxBytes                  FlexInt `json:"wifi1-tx_bytes"`
+		Wifi1TxDropped                FlexInt `json:"wifi1-tx_dropped"`
+		Wifi1TxErrors                 FlexInt `json:"wifi1-tx_errors"`
+		Wifi1TxPackets                FlexInt `json:"wifi1-tx_packets"`
+		Wifi1TxRetries                FlexInt `json:"wifi1-tx_retries"`
+		Wifi1WifiTxAttempts           FlexInt `json:"wifi1-wifi_tx_attempts"`
 		Wifi1WifiTxDropped            FlexInt `json:"wifi1-wifi_tx_dropped"`
 		// UDM Names
-		GuestRa0RxPackets            FlexInt `json:"guest-ra0-rx_packets"`
-		UserRa0RxPackets             FlexInt `json:"user-ra0-rx_packets"`
-		Ra0RxPackets                 FlexInt `json:"ra0-rx_packets"`
-		GuestRa0RxBytes              FlexInt `json:"guest-ra0-rx_bytes"`
-		UserRa0RxBytes               FlexInt `json:"user-ra0-rx_bytes"`
-		Ra0RxBytes                   FlexInt `json:"ra0-rx_bytes"`
-		GuestRa0RxErrors             FlexInt `json:"guest-ra0-rx_errors"`
-		UserRa0RxErrors              FlexInt `json:"user-ra0-rx_errors"`
-		Ra0RxErrors                  FlexInt `json:"ra0-rx_errors"`
-		GuestRa0RxDropped            FlexInt `json:"guest-ra0-rx_dropped"`
-		UserRa0RxDropped             FlexInt `json:"user-ra0-rx_dropped"`
-		Ra0RxDropped                 FlexInt `json:"ra0-rx_dropped"`
-		GuestRa0RxCrypts             FlexInt `json:"guest-ra0-rx_crypts"`
-		UserRa0RxCrypts              FlexInt `json:"user-ra0-rx_crypts"`
-		Ra0RxCrypts                  FlexInt `json:"ra0-rx_crypts"`
-		GuestRa0RxFrags              FlexInt `json:"guest-ra0-rx_frags"`
-		UserRa0RxFrags               FlexInt `json:"user-ra0-rx_frags"`
-		Ra0RxFrags                   FlexInt `json:"ra0-rx_frags"`
-		GuestRa0TxPackets            FlexInt `json:"guest-ra0-tx_packets"`
-		UserRa0TxPackets             FlexInt `json:"user-ra0-tx_packets"`
-		Ra0TxPackets                 FlexInt `json:"ra0-tx_packets"`
-		GuestRa0TxBytes              FlexInt `json:"guest-ra0-tx_bytes"`
-		UserRa0TxBytes               FlexInt `json:"user-ra0-tx_bytes"`
-		Ra0TxBytes                   FlexInt `json:"ra0-tx_bytes"`
-		GuestRa0TxErrors             FlexInt `json:"guest-ra0-tx_errors"`
-		UserRa0TxErrors              FlexInt `json:"user-ra0-tx_errors"`
-		Ra0TxErrors                  FlexInt `json:"ra0-tx_errors"`
-		GuestRa0TxDropped            FlexInt `json:"guest-ra0-tx_dropped"`
-		UserRa0TxDropped             FlexInt `json:"user-ra0-tx_dropped"`
-		Ra0TxDropped                 FlexInt `json:"ra0-tx_dropped"`
-		GuestRa0TxRetries            FlexInt `json:"guest-ra0-tx_retries"`
-		UserRa0TxRetries             FlexInt `json:"user-ra0-tx_retries"`
-		Ra0TxRetries                 FlexInt `json:"ra0-tx_retries"`
 		GuestRa0MacFilterRejections  FlexInt `json:"guest-ra0-mac_filter_rejections"`
-		UserRa0MacFilterRejections   FlexInt `json:"user-ra0-mac_filter_rejections"`
-		Ra0MacFilterRejections       FlexInt `json:"ra0-mac_filter_rejections"`
+		GuestRa0RxBytes              FlexInt `json:"guest-ra0-rx_bytes"`
+		GuestRa0RxCrypts             FlexInt `json:"guest-ra0-rx_crypts"`
+		GuestRa0RxDropped            FlexInt `json:"guest-ra0-rx_dropped"`
+		GuestRa0RxErrors             FlexInt `json:"guest-ra0-rx_errors"`
+		GuestRa0RxFrags              FlexInt `json:"guest-ra0-rx_frags"`
+		GuestRa0RxPackets            FlexInt `json:"guest-ra0-rx_packets"`
+		GuestRa0TxBytes              FlexInt `json:"guest-ra0-tx_bytes"`
+		GuestRa0TxDropped            FlexInt `json:"guest-ra0-tx_dropped"`
+		GuestRa0TxErrors             FlexInt `json:"guest-ra0-tx_errors"`
+		GuestRa0TxPackets            FlexInt `json:"guest-ra0-tx_packets"`
+		GuestRa0TxRetries            FlexInt `json:"guest-ra0-tx_retries"`
 		GuestRa0WifiTxAttempts       FlexInt `json:"guest-ra0-wifi_tx_attempts"`
-		UserRa0WifiTxAttempts        FlexInt `json:"user-ra0-wifi_tx_attempts"`
-		Ra0WifiTxAttempts            FlexInt `json:"ra0-wifi_tx_attempts"`
 		GuestRa0WifiTxDropped        FlexInt `json:"guest-ra0-wifi_tx_dropped"`
-		UserRa0WifiTxDropped         FlexInt `json:"user-ra0-wifi_tx_dropped"`
-		Ra0WifiTxDropped             FlexInt `json:"ra0-wifi_tx_dropped"`
-		GuestRai0RxPackets           FlexInt `json:"guest-rai0-rx_packets"`
-		UserRai0RxPackets            FlexInt `json:"user-rai0-rx_packets"`
-		Rai0RxPackets                FlexInt `json:"rai0-rx_packets"`
-		GuestRai0RxBytes             FlexInt `json:"guest-rai0-rx_bytes"`
-		UserRai0RxBytes              FlexInt `json:"user-rai0-rx_bytes"`
-		Rai0RxBytes                  FlexInt `json:"rai0-rx_bytes"`
-		GuestRai0RxErrors            FlexInt `json:"guest-rai0-rx_errors"`
-		UserRai0RxErrors             FlexInt `json:"user-rai0-rx_errors"`
-		Rai0RxErrors                 FlexInt `json:"rai0-rx_errors"`
-		GuestRai0RxDropped           FlexInt `json:"guest-rai0-rx_dropped"`
-		UserRai0RxDropped            FlexInt `json:"user-rai0-rx_dropped"`
-		Rai0RxDropped                FlexInt `json:"rai0-rx_dropped"`
-		GuestRai0RxCrypts            FlexInt `json:"guest-rai0-rx_crypts"`
-		UserRai0RxCrypts             FlexInt `json:"user-rai0-rx_crypts"`
-		Rai0RxCrypts                 FlexInt `json:"rai0-rx_crypts"`
-		GuestRai0RxFrags             FlexInt `json:"guest-rai0-rx_frags"`
-		UserRai0RxFrags              FlexInt `json:"user-rai0-rx_frags"`
-		Rai0RxFrags                  FlexInt `json:"rai0-rx_frags"`
-		GuestRai0TxPackets           FlexInt `json:"guest-rai0-tx_packets"`
-		UserRai0TxPackets            FlexInt `json:"user-rai0-tx_packets"`
-		Rai0TxPackets                FlexInt `json:"rai0-tx_packets"`
-		GuestRai0TxBytes             FlexInt `json:"guest-rai0-tx_bytes"`
-		UserRai0TxBytes              FlexInt `json:"user-rai0-tx_bytes"`
-		Rai0TxBytes                  FlexInt `json:"rai0-tx_bytes"`
-		GuestRai0TxErrors            FlexInt `json:"guest-rai0-tx_errors"`
-		UserRai0TxErrors             FlexInt `json:"user-rai0-tx_errors"`
-		Rai0TxErrors                 FlexInt `json:"rai0-tx_errors"`
-		GuestRai0TxDropped           FlexInt `json:"guest-rai0-tx_dropped"`
-		UserRai0TxDropped            FlexInt `json:"user-rai0-tx_dropped"`
-		Rai0TxDropped                FlexInt `json:"rai0-tx_dropped"`
-		GuestRai0TxRetries           FlexInt `json:"guest-rai0-tx_retries"`
-		UserRai0TxRetries            FlexInt `json:"user-rai0-tx_retries"`
-		Rai0TxRetries                FlexInt `json:"rai0-tx_retries"`
 		GuestRai0MacFilterRejections FlexInt `json:"guest-rai0-mac_filter_rejections"`
-		UserRai0MacFilterRejections  FlexInt `json:"user-rai0-mac_filter_rejections"`
-		Rai0MacFilterRejections      FlexInt `json:"rai0-mac_filter_rejections"`
+		GuestRai0RxBytes             FlexInt `json:"guest-rai0-rx_bytes"`
+		GuestRai0RxCrypts            FlexInt `json:"guest-rai0-rx_crypts"`
+		GuestRai0RxDropped           FlexInt `json:"guest-rai0-rx_dropped"`
+		GuestRai0RxErrors            FlexInt `json:"guest-rai0-rx_errors"`
+		GuestRai0RxFrags             FlexInt `json:"guest-rai0-rx_frags"`
+		GuestRai0RxPackets           FlexInt `json:"guest-rai0-rx_packets"`
+		GuestRai0TxBytes             FlexInt `json:"guest-rai0-tx_bytes"`
+		GuestRai0TxDropped           FlexInt `json:"guest-rai0-tx_dropped"`
+		GuestRai0TxErrors            FlexInt `json:"guest-rai0-tx_errors"`
+		GuestRai0TxPackets           FlexInt `json:"guest-rai0-tx_packets"`
+		GuestRai0TxRetries           FlexInt `json:"guest-rai0-tx_retries"`
 		GuestRai0WifiTxAttempts      FlexInt `json:"guest-rai0-wifi_tx_attempts"`
-		UserRai0WifiTxAttempts       FlexInt `json:"user-rai0-wifi_tx_attempts"`
-		Rai0WifiTxAttempts           FlexInt `json:"rai0-wifi_tx_attempts"`
 		GuestRai0WifiTxDropped       FlexInt `json:"guest-rai0-wifi_tx_dropped"`
-		UserRai0WifiTxDropped        FlexInt `json:"user-rai0-wifi_tx_dropped"`
+		Ra0MacFilterRejections       FlexInt `json:"ra0-mac_filter_rejections"`
+		Ra0RxBytes                   FlexInt `json:"ra0-rx_bytes"`
+		Ra0RxCrypts                  FlexInt `json:"ra0-rx_crypts"`
+		Ra0RxDropped                 FlexInt `json:"ra0-rx_dropped"`
+		Ra0RxErrors                  FlexInt `json:"ra0-rx_errors"`
+		Ra0RxFrags                   FlexInt `json:"ra0-rx_frags"`
+		Ra0RxPackets                 FlexInt `json:"ra0-rx_packets"`
+		Ra0TxBytes                   FlexInt `json:"ra0-tx_bytes"`
+		Ra0TxDropped                 FlexInt `json:"ra0-tx_dropped"`
+		Ra0TxErrors                  FlexInt `json:"ra0-tx_errors"`
+		Ra0TxPackets                 FlexInt `json:"ra0-tx_packets"`
+		Ra0TxRetries                 FlexInt `json:"ra0-tx_retries"`
+		Ra0WifiTxAttempts            FlexInt `json:"ra0-wifi_tx_attempts"`
+		Ra0WifiTxDropped             FlexInt `json:"ra0-wifi_tx_dropped"`
+		Rai0MacFilterRejections      FlexInt `json:"rai0-mac_filter_rejections"`
+		Rai0RxBytes                  FlexInt `json:"rai0-rx_bytes"`
+		Rai0RxCrypts                 FlexInt `json:"rai0-rx_crypts"`
+		Rai0RxDropped                FlexInt `json:"rai0-rx_dropped"`
+		Rai0RxErrors                 FlexInt `json:"rai0-rx_errors"`
+		Rai0RxFrags                  FlexInt `json:"rai0-rx_frags"`
+		Rai0RxPackets                FlexInt `json:"rai0-rx_packets"`
+		Rai0TxBytes                  FlexInt `json:"rai0-tx_bytes"`
+		Rai0TxDropped                FlexInt `json:"rai0-tx_dropped"`
+		Rai0TxErrors                 FlexInt `json:"rai0-tx_errors"`
+		Rai0TxPackets                FlexInt `json:"rai0-tx_packets"`
+		Rai0TxRetries                FlexInt `json:"rai0-tx_retries"`
+		Rai0WifiTxAttempts           FlexInt `json:"rai0-wifi_tx_attempts"`
 		Rai0WifiTxDropped            FlexInt `json:"rai0-wifi_tx_dropped"`
+		UserRa0MacFilterRejections   FlexInt `json:"user-ra0-mac_filter_rejections"`
+		UserRa0RxBytes               FlexInt `json:"user-ra0-rx_bytes"`
+		UserRa0RxCrypts              FlexInt `json:"user-ra0-rx_crypts"`
+		UserRa0RxDropped             FlexInt `json:"user-ra0-rx_dropped"`
+		UserRa0RxErrors              FlexInt `json:"user-ra0-rx_errors"`
+		UserRa0RxFrags               FlexInt `json:"user-ra0-rx_frags"`
+		UserRa0RxPackets             FlexInt `json:"user-ra0-rx_packets"`
+		UserRa0TxBytes               FlexInt `json:"user-ra0-tx_bytes"`
+		UserRa0TxDropped             FlexInt `json:"user-ra0-tx_dropped"`
+		UserRa0TxErrors              FlexInt `json:"user-ra0-tx_errors"`
+		UserRa0TxPackets             FlexInt `json:"user-ra0-tx_packets"`
+		UserRa0TxRetries             FlexInt `json:"user-ra0-tx_retries"`
+		UserRa0WifiTxAttempts        FlexInt `json:"user-ra0-wifi_tx_attempts"`
+		UserRa0WifiTxDropped         FlexInt `json:"user-ra0-wifi_tx_dropped"`
+		UserRai0MacFilterRejections  FlexInt `json:"user-rai0-mac_filter_rejections"`
+		UserRai0RxBytes              FlexInt `json:"user-rai0-rx_bytes"`
+		UserRai0RxCrypts             FlexInt `json:"user-rai0-rx_crypts"`
+		UserRai0RxDropped            FlexInt `json:"user-rai0-rx_dropped"`
+		UserRai0RxErrors             FlexInt `json:"user-rai0-rx_errors"`
+		UserRai0RxFrags              FlexInt `json:"user-rai0-rx_frags"`
+		UserRai0RxPackets            FlexInt `json:"user-rai0-rx_packets"`
+		UserRai0TxBytes              FlexInt `json:"user-rai0-tx_bytes"`
+		UserRai0TxDropped            FlexInt `json:"user-rai0-tx_dropped"`
+		UserRai0TxErrors             FlexInt `json:"user-rai0-tx_errors"`
+		UserRai0TxPackets            FlexInt `json:"user-rai0-tx_packets"`
+		UserRai0TxRetries            FlexInt `json:"user-rai0-tx_retries"`
+		UserRai0WifiTxAttempts       FlexInt `json:"user-rai0-wifi_tx_attempts"`
+		UserRai0WifiTxDropped        FlexInt `json:"user-rai0-wifi_tx_dropped"`
 	*/
 }
 
@@ -440,7 +440,7 @@ type RadioTable []struct {
 	MinRssi            FlexInt  `json:"min_rssi,omitempty"`
 	MinRssiEnabled     FlexBool `json:"min_rssi_enabled"`
 	MinTxpower         FlexInt  `json:"min_txpower"`
-	Name               string   `fake:"{animal}"             json:"name"`
+	Name               string   `fake:"{lexify:mock-radio}"  json:"name"`
 	Nss                FlexInt  `json:"nss"`
 	Radio              string   `json:"radio"`
 	RadioCaps          FlexInt  `json:"radio_caps"`
@@ -453,24 +453,24 @@ type RadioTable []struct {
 
 // RadioTableStats is part of the data shared between UAP and UDM.
 type RadioTableStats []struct {
-	Name         string      `fake:"{animal}"      json:"name"`
-	Channel      FlexInt     `json:"channel"`
-	Radio        string      `json:"radio"`
-	AstTxto      interface{} `json:"ast_txto"`
-	AstCst       interface{} `json:"ast_cst"`
 	AstBeXmit    FlexInt     `json:"ast_be_xmit"`
-	CuTotal      FlexInt     `json:"cu_total"`
+	AstCst       interface{} `json:"ast_cst"`
+	AstTxto      interface{} `json:"ast_txto"`
+	Channel      FlexInt     `json:"channel"`
 	CuSelfRx     FlexInt     `json:"cu_self_rx"`
 	CuSelfTx     FlexInt     `json:"cu_self_tx"`
+	CuTotal      FlexInt     `json:"cu_total"`
+	Extchannel   FlexInt     `json:"extchannel"`
 	Gain         FlexInt     `json:"gain"`
+	GuestNumSta  FlexInt     `json:"guest-num_sta"`
+	Name         string      `fake:"{lexify:mock-radio}" json:"name"`
+	NumSta       FlexInt     `json:"num_sta"`
+	Radio        string      `json:"radio"`
 	Satisfaction FlexInt     `json:"satisfaction"`
 	State        string      `json:"state"`
-	Extchannel   FlexInt     `json:"extchannel"`
-	TxPower      FlexInt     `json:"tx_power"`
 	TxPackets    FlexInt     `json:"tx_packets"`
+	TxPower      FlexInt     `json:"tx_power"`
 	TxRetries    FlexInt     `json:"tx_retries"`
-	NumSta       FlexInt     `json:"num_sta"`
-	GuestNumSta  FlexInt     `json:"guest-num_sta"`
 	UserNumSta   FlexInt     `json:"user-num_sta"`
 }
 
@@ -504,7 +504,25 @@ type VapTable []struct {
 		StaIPTimeout      FlexInt `json:"sta_ip_timeout"`
 		WeakSignal        FlexInt `json:"weak_signal"`
 	} `json:"anomalies_bar_chart_now"`
-	ReasonsBarChart struct {
+	ApMac               string      `fake:"{macaddress}"             json:"ap_mac"`
+	AvgClientSignal     FlexInt     `json:"avg_client_signal"`
+	Bssid               string      `fake:"{macaddress}"             json:"bssid"`
+	Ccq                 int         `json:"ccq"`
+	Channel             FlexInt     `json:"channel"`
+	DNSAvgLatency       FlexInt     `json:"dns_avg_latency"`
+	Essid               string      `fake:"{macaddress}"             json:"essid"`
+	Extchannel          int         `json:"extchannel"`
+	ID                  string      `fake:"{uuid}"                   json:"id"`
+	IsGuest             FlexBool    `json:"is_guest"`
+	IsWep               FlexBool    `json:"is_wep"`
+	MacFilterRejections int         `json:"mac_filter_rejections"`
+	MapID               interface{} `json:"map_id"`
+	Name                string      `fake:"{randomstring:[foo,bar]}" json:"name"`
+	NumSatisfactionSta  FlexInt     `json:"num_satisfaction_sta"`
+	NumSta              int         `json:"num_sta"`
+	Radio               string      `json:"radio"`
+	RadioName           string      `json:"radio_name"`
+	ReasonsBarChart     struct {
 		PhyRate       FlexInt `json:"phy_rate"`
 		Signal        FlexInt `json:"signal"`
 		SleepyClient  FlexInt `json:"sleepy_client"`
@@ -532,6 +550,13 @@ type VapTable []struct {
 		WifiLatency   FlexInt `json:"wifi_latency"`
 		WifiRetries   FlexInt `json:"wifi_retries"`
 	} `json:"reasons_bar_chart_now"`
+	RxBytes    FlexInt `json:"rx_bytes"`
+	RxCrypts   FlexInt `json:"rx_crypts"`
+	RxDropped  FlexInt `json:"rx_dropped"`
+	RxErrors   FlexInt `json:"rx_errors"`
+	RxFrags    FlexInt `json:"rx_frags"`
+	RxNwids    FlexInt `json:"rx_nwids"`
+	RxPackets  FlexInt `json:"rx_packets"`
 	RxTCPStats struct {
 		Goodbytes FlexInt `json:"goodbytes"`
 		LatAvg    FlexInt `json:"lat_avg"`
@@ -539,13 +564,33 @@ type VapTable []struct {
 		LatMin    FlexInt `json:"lat_min"`
 		Stalls    FlexInt `json:"stalls"`
 	} `json:"rx_tcp_stats"`
-	TxTCPStats struct {
+	Satisfaction      FlexInt `json:"satisfaction"`
+	SatisfactionNow   FlexInt `json:"satisfaction_now"`
+	SiteID            string  `fake:"{uuid}"              json:"site_id"`
+	State             string  `json:"state"`
+	T                 string  `json:"t"`
+	TxBytes           FlexInt `json:"tx_bytes"`
+	TxCombinedRetries FlexInt `json:"tx_combined_retries"`
+	TxDataMpduBytes   FlexInt `json:"tx_data_mpdu_bytes"`
+	TxDropped         FlexInt `json:"tx_dropped"`
+	TxErrors          FlexInt `json:"tx_errors"`
+	TxPackets         FlexInt `json:"tx_packets"`
+	TxPower           FlexInt `json:"tx_power"`
+	TxRetries         FlexInt `json:"tx_retries"`
+	TxRtsRetries      FlexInt `json:"tx_rts_retries"`
+	TxSuccess         FlexInt `json:"tx_success"`
+	TxTCPStats        struct {
 		Goodbytes FlexInt `json:"goodbytes"`
 		LatAvg    FlexInt `json:"lat_avg"`
 		LatMax    FlexInt `json:"lat_max"`
 		LatMin    FlexInt `json:"lat_min"`
 		Stalls    FlexInt `json:"stalls"`
 	} `json:"tx_tcp_stats"`
+	TxTotal          FlexInt  `json:"tx_total"`
+	Up               FlexBool `json:"up"`
+	Usage            string   `json:"usage"`
+	WifiTxAttempts   FlexInt  `json:"wifi_tx_attempts"`
+	WifiTxDropped    FlexInt  `json:"wifi_tx_dropped"`
 	WifiTxLatencyMov struct {
 		Avg        FlexInt `json:"avg"`
 		Max        FlexInt `json:"max"`
@@ -553,74 +598,27 @@ type VapTable []struct {
 		Total      FlexInt `json:"total"`
 		TotalCount FlexInt `json:"total_count"`
 	} `json:"wifi_tx_latency_mov"`
-	ApMac               string      `fake:"{macaddress}"          json:"ap_mac"`
-	AvgClientSignal     FlexInt     `json:"avg_client_signal"`
-	Bssid               string      `fake:"{macaddress}"          json:"bssid"`
-	Ccq                 int         `json:"ccq"`
-	Channel             FlexInt     `json:"channel"`
-	DNSAvgLatency       FlexInt     `json:"dns_avg_latency"`
-	Essid               string      `fake:"{macaddress}"          json:"essid"`
-	Extchannel          int         `json:"extchannel"`
-	ID                  string      `fake:"{uuid}"                json:"id"`
-	IsGuest             FlexBool    `json:"is_guest"`
-	IsWep               FlexBool    `json:"is_wep"`
-	MacFilterRejections int         `json:"mac_filter_rejections"`
-	MapID               interface{} `json:"map_id"`
-	Name                string      `fake:"{animal}"              json:"name"`
-	NumSatisfactionSta  FlexInt     `json:"num_satisfaction_sta"`
-	NumSta              int         `json:"num_sta"`
-	Radio               string      `json:"radio"`
-	RadioName           string      `json:"radio_name"`
-	RxBytes             FlexInt     `json:"rx_bytes"`
-	RxCrypts            FlexInt     `json:"rx_crypts"`
-	RxDropped           FlexInt     `json:"rx_dropped"`
-	RxErrors            FlexInt     `json:"rx_errors"`
-	RxFrags             FlexInt     `json:"rx_frags"`
-	RxNwids             FlexInt     `json:"rx_nwids"`
-	RxPackets           FlexInt     `json:"rx_packets"`
-	Satisfaction        FlexInt     `json:"satisfaction"`
-	SatisfactionNow     FlexInt     `json:"satisfaction_now"`
-	SiteID              string      `fake:"{uuid}"                json:"site_id"`
-	State               string      `json:"state"`
-	T                   string      `json:"t"`
-	TxBytes             FlexInt     `json:"tx_bytes"`
-	TxCombinedRetries   FlexInt     `json:"tx_combined_retries"`
-	TxDataMpduBytes     FlexInt     `json:"tx_data_mpdu_bytes"`
-	TxDropped           FlexInt     `json:"tx_dropped"`
-	TxErrors            FlexInt     `json:"tx_errors"`
-	TxPackets           FlexInt     `json:"tx_packets"`
-	TxPower             FlexInt     `json:"tx_power"`
-	TxRetries           FlexInt     `json:"tx_retries"`
-	TxRtsRetries        FlexInt     `json:"tx_rts_retries"`
-	TxSuccess           FlexInt     `json:"tx_success"`
-	TxTotal             FlexInt     `json:"tx_total"`
-	Up                  FlexBool    `json:"up"`
-	Usage               string      `json:"usage"`
-	WifiTxAttempts      FlexInt     `json:"wifi_tx_attempts"`
-	WifiTxDropped       FlexInt     `json:"wifi_tx_dropped"`
-	WlanconfID          string      `json:"wlanconf_id"`
+	WlanconfID string `json:"wlanconf_id"`
 }
 
 // RogueAP are your neighbors access points.
 type RogueAP struct {
-	SourceName string   `json:"-"`
-	SiteName   string   `json:"-"`
-	ID         string   `fake:"{uuid}"       json:"_id"`
-	ApMac      string   `fake:"{macaddress}" json:"ap_mac"`
-	Bssid      string   `fake:"{macaddress}" json:"bssid"`
-	SiteID     string   `fake:"{uuid}"       json:"site_id"`
 	Age        FlexInt  `json:"age"`
+	ApMac      string   `fake:"{macaddress}" json:"ap_mac"`
 	Band       string   `json:"band"`
+	Bssid      string   `fake:"{macaddress}" json:"bssid"`
 	Bw         FlexInt  `json:"bw"`
 	CenterFreq FlexInt  `json:"center_freq"`
 	Channel    int      `json:"channel"`
 	Essid      string   `fake:"{macaddress}" json:"essid"`
 	Freq       FlexInt  `json:"freq"`
+	ID         string   `fake:"{uuid}"       json:"_id"`
 	IsAdhoc    FlexBool `json:"is_adhoc"`
 	IsRogue    FlexBool `json:"is_rogue"`
 	IsUbnt     FlexBool `json:"is_ubnt"`
 	LastSeen   FlexInt  `json:"last_seen"`
 	Noise      FlexInt  `json:"noise"`
+	Oui        string   `json:"oui"`
 	Radio      string   `json:"radio"`
 	RadioName  string   `json:"radio_name"`
 	ReportTime FlexInt  `json:"report_time"`
@@ -628,7 +626,9 @@ type RogueAP struct {
 	RssiAge    FlexInt  `json:"rssi_age"`
 	Security   string   `json:"security"`
 	Signal     FlexInt  `json:"signal"`
-	Oui        string   `json:"oui"`
+	SiteID     string   `fake:"{uuid}"       json:"site_id"`
+	SiteName   string   `json:"-"`
+	SourceName string   `json:"-"`
 }
 
 // GetRogueAPs returns RogueAPs for a list of Sites.

@@ -4,33 +4,33 @@ import "strconv"
 
 // DPITable contains DPI data for clients or sites, or .. things.
 type DPITable struct {
-	SourceName  string    `json:"-"`
-	SiteName    string    `json:"-"`
-	Name        string    `json:"-"`
-	MAC         string    `fake:"{macaddress}" json:"mac"`
-	ByCat       []DPIData `fakesize:"5"        json:"by_cat"`
 	ByApp       []DPIData `fakesize:"5"        json:"by_app"`
+	ByCat       []DPIData `fakesize:"5"        json:"by_cat"`
 	LastUpdated FlexInt   `json:"last_updated"`
+	MAC         string    `fake:"{macaddress}" json:"mac"`
+	Name        string    `json:"-"`
+	SiteName    string    `json:"-"`
+	SourceName  string    `json:"-"`
 }
 
 // DPIData is the DPI data in the DPI table.
 type DPIData struct {
-	Cat          FlexInt      `json:"cat"`
 	App          FlexInt      `json:"app"`
-	RxBytes      FlexInt      `json:"rx_bytes"`
-	TxBytes      FlexInt      `json:"tx_bytes"`
-	RxPackets    FlexInt      `json:"rx_packets"`
-	TxPackets    FlexInt      `json:"tx_packets"`
+	Cat          FlexInt      `json:"cat"`
 	Clients      []*DPIClient `fakesize:"5"                   json:"clients,omitempty"`
 	KnownClients FlexInt      `json:"known_clients,omitempty"`
+	RxBytes      FlexInt      `json:"rx_bytes"`
+	RxPackets    FlexInt      `json:"rx_packets"`
+	TxBytes      FlexInt      `json:"tx_bytes"`
+	TxPackets    FlexInt      `json:"tx_packets"`
 }
 
 // DPIClient data is sometimes included in ByApp output.
 type DPIClient struct {
 	Mac       string  `fake:"{macaddress}" json:"mac"`
 	RxBytes   FlexInt `json:"rx_bytes"`
-	TxBytes   FlexInt `json:"tx_bytes"`
 	RxPackets FlexInt `json:"rx_packets"`
+	TxBytes   FlexInt `json:"tx_bytes"`
 	TxPackets FlexInt `json:"tx_packets"`
 }
 

@@ -41,14 +41,14 @@ func (u *Unifi) parseNetwork(data json.RawMessage, siteName string) (*Network, e
 
 // Network is metadata about a network managed by a UniFi controller.
 type Network struct {
+	DhcpGuardEnabled       FlexBool `json:"dhcpguard_enabled"`
+	DhcpRelayEnabled       FlexBool `json:"dhcp_relay_enabled"`
 	DhcpdDNSEnabled        FlexBool `json:"dhcpd_dns_enabled"`
 	DhcpdEnabled           FlexBool `json:"dhcpd_enabled"`
 	DhcpdGatewayEnabled    FlexBool `json:"dhcpd_gateway_enabled"`
 	DhcpdIP1               string   `json:"dhcpd_ip_1"`
 	DhcpdLeasetime         FlexInt  `json:"dhcpd_leasetime"`
-	DhcpRelayEnabled       FlexBool `json:"dhcp_relay_enabled"`
 	DhcpdTimeOffsetEnabled FlexBool `json:"dhcpd_time_offset_enabled"`
-	DhcpGuardEnabled       FlexBool `json:"dhcpguard_enabled"`
 	DomainName             string   `json:"domain_name"`
 	Enabled                FlexBool `json:"enabled"`
 	ID                     string   `fake:"{uuid}"                    json:"_id"`

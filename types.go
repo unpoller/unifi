@@ -26,17 +26,27 @@ func init() {
 
 	gofakeit.AddFuncLookup("timestamp", gofakeit.Info{
 		Category:    "custom",
-		Description: "Random timestamp value",
+		Description: "Recent timestamp value",
 		Example:     "123456",
 		Output:      "int64",
 		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
-			return gofakeit.DateRange(time.Now().Add(time.Hour-2), time.Now()).Unix(), nil
+			return gofakeit.DateRange(time.Now().Add(-time.Second*59), time.Now().Add(-time.Second)).Unix(), nil
+		},
+	})
+
+	gofakeit.AddFuncLookup("recent_time", gofakeit.Info{
+		Category:    "custom",
+		Description: "Recent time.Time value",
+		Example:     "time.Now().Add(-time.Second)",
+		Output:      "time.Time",
+		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+			return gofakeit.DateRange(time.Now().Add(-time.Second*59), time.Now().Add(-time.Second)), nil
 		},
 	})
 
 	gofakeit.AddFuncLookup("timestamps", gofakeit.Info{
 		Category:    "custom",
-		Description: "Random timestamp value",
+		Description: "Recent timestamp values",
 		Example:     "123456",
 		Output:      "[]int64",
 		Params: []gofakeit.Param{
@@ -61,6 +71,31 @@ func init() {
 			}
 
 			return result, nil
+		},
+	})
+
+	gofakeit.AddFuncLookup("constFlexBool", gofakeit.Info{
+		Category:    "custom",
+		Description: "Configured FlexBool",
+		Example:     "FlexBool{Val: false, Txt: \"false\"}",
+		Output:      "FlexBool",
+		Params: []gofakeit.Param{
+			{
+				Field:       "value",
+				Display:     "value",
+				Type:        "bool",
+				Optional:    true,
+				Default:     "false",
+				Description: "The default value",
+			},
+		},
+		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+			l, err := info.GetBool(m, "value")
+			if err != nil {
+				return nil, err
+			}
+
+			return *NewFlexBool(l), nil
 		},
 	})
 }
@@ -294,7 +329,7 @@ func (f *FlexInt) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (f *FlexInt) MarshalJSON() ([]byte, error) {
+func (f FlexInt) MarshalJSON() ([]byte, error) {
 	return json.Marshal(f.Val)
 }
 
@@ -321,8 +356,9 @@ func (f *FlexInt) AddFloat64(v float64) {
 }
 
 // Fake implements gofakeit Fake interface
-func (f *FlexInt) Fake(faker *gofakeit.Faker) interface{} {
-	randValue := math.Abs(faker.Rand.Float64())
+func (f FlexInt) Fake(faker *gofakeit.Faker) interface{} {
+	randValue := math.Min(math.Max(1, math.Abs(faker.Rand.Float64())), 500)
+
 	if faker.Rand.Intn(2) == 0 {
 		// int-value
 		return FlexInt{
@@ -344,6 +380,19 @@ type FlexBool struct {
 	Txt string
 }
 
+func NewFlexBool(v bool) *FlexBool {
+	textValue := "false"
+
+	if v {
+		textValue = "true"
+	}
+
+	return &FlexBool{
+		Val: v,
+		Txt: textValue,
+	}
+}
+
 // UnmarshalJSON method converts armed/disarmed, yes/no, active/inactive or 0/1 to true/false.
 // Really it converts ready, ok, up, t, armed, yes, active, enabled, 1, true to true. Anything else is false.
 func (f *FlexBool) UnmarshalJSON(b []byte) error {
@@ -356,7 +405,7 @@ func (f *FlexBool) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (f *FlexBool) MarshalJSON() ([]byte, error) {
+func (f FlexBool) MarshalJSON() ([]byte, error) {
 	return json.Marshal(f.Val)
 }
 
@@ -364,8 +413,16 @@ func (f *FlexBool) String() string {
 	return f.Txt
 }
 
+func (f *FlexBool) Float64() float64 {
+	if f.Val {
+		return 1
+	}
+
+	return 0
+}
+
 // Fake implements gofakeit Fake interface
-func (f *FlexBool) Fake(faker *gofakeit.Faker) interface{} {
+func (f FlexBool) Fake(faker *gofakeit.Faker) interface{} {
 	opts := []bool{
 		true,
 		false,
@@ -427,7 +484,7 @@ func (f *FlexTemp) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (f *FlexTemp) MarshalJSON() ([]byte, error) {
+func (f FlexTemp) MarshalJSON() ([]byte, error) {
 	return json.Marshal(f.Val)
 }
 
@@ -470,8 +527,8 @@ func (f *FlexTemp) AddFloat64(v float64) {
 }
 
 // Fake implements gofakeit Fake interface
-func (f *FlexTemp) Fake(faker *gofakeit.Faker) interface{} {
-	randValue := math.Abs(faker.Rand.Float64())
+func (f FlexTemp) Fake(faker *gofakeit.Faker) interface{} {
+	randValue := math.Min(math.Max(0.1, math.Abs(faker.Rand.Float64())), 120)
 	if faker.Rand.Intn(2) == 0 {
 		// int-value
 		return FlexTemp{
@@ -542,7 +599,7 @@ type Port struct {
 	PoeVoltage         FlexInt    `json:"poe_voltage,omitempty"`
 	PortDelta          PortDelta  `json:"port_delta,omitempty"`
 	PortIdx            FlexInt    `json:"port_idx"`
-	PortPoe            FlexBool   `json:"port_poe"`
+	PortPoe            FlexBool   `fake:"{constFlexBool:true}"                                     json:"port_poe"`
 	PortconfID         string     `json:"portconf_id"`
 	RxBroadcast        FlexInt    `json:"rx_broadcast"`
 	RxBytes            FlexInt    `json:"rx_bytes"`
@@ -556,7 +613,7 @@ type Port struct {
 	SatisfactionReason FlexInt    `json:"satisfaction_reason"`
 	SFPCompliance      string     `json:"sfp_compliance"`
 	SFPCurrent         FlexInt    `json:"sfp_current"`
-	SFPFound           FlexBool   `json:"sfp_found"`
+	SFPFound           FlexBool   `fake:"{constFlexBool:true}"                                     json:"sfp_found"`
 	SFPPart            string     `json:"sfp_part"`
 	SFPRev             string     `json:"sfp_rev"`
 	SFPRxfault         FlexBool   `json:"sfp_rxfault"`

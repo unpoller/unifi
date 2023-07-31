@@ -9,7 +9,7 @@ import (
 type USW struct {
 	site                  *Site
 	AdoptableWhenUpgraded FlexBool         `json:"adoptable_when_upgraded,omitempty"`
-	Adopted               FlexBool         `json:"adopted"`
+	Adopted               FlexBool         `fake:"{constFlexBool:true}"              json:"adopted"`
 	AdoptionCompleted     FlexBool         `json:"adoption_completed"`
 	Anomalies             FlexInt          `json:"anomalies"`
 	Architecture          string           `json:"architecture"`
@@ -50,7 +50,7 @@ type USW struct {
 	} `json:"last_uplink"`
 	LedOverride              string   `json:"led_override"`
 	LicenseState             string   `json:"license_state"`
-	Locating                 FlexBool `json:"locating"`
+	Locating                 FlexBool `fake:"{constFlexBool:false}"       json:"locating"`
 	Mac                      string   `json:"mac"`
 	ManufacturerID           FlexInt  `json:"manufacturer_id"`
 	MinInformIntervalSeconds FlexInt  `json:"min_inform_interval_seconds"`
@@ -140,29 +140,29 @@ type USWStat struct {
 
 // Sw is a subtype of USWStat to make unmarshalling of different controller versions possible.
 type Sw struct {
-	SiteID      string    `fake:"{uuid}"       json:"site_id"`
+	Bytes       FlexInt   `json:"bytes"`
+	Datetime    time.Time `fake:"{recent_time}" json:"datetime"`
+	Duration    FlexInt   `json:"duration"`
 	O           string    `json:"o"`
 	Oid         string    `json:"oid"`
+	RxBroadcast FlexInt   `json:"rx_broadcast"`
+	RxBytes     FlexInt   `json:"rx_bytes"`
+	RxCrypts    FlexInt   `json:"rx_crypts"`
+	RxDropped   FlexInt   `json:"rx_dropped"`
+	RxErrors    FlexInt   `json:"rx_errors"`
+	RxFrags     FlexInt   `json:"rx_frags"`
+	RxMulticast FlexInt   `json:"rx_multicast"`
+	RxPackets   FlexInt   `json:"rx_packets"`
+	SiteID      string    `fake:"{uuid}"        json:"site_id"`
 	Sw          string    `json:"sw"`
 	Time        FlexInt   `json:"time"`
-	Datetime    time.Time `json:"datetime"`
-	RxPackets   FlexInt   `json:"rx_packets"`
-	RxBytes     FlexInt   `json:"rx_bytes"`
-	RxErrors    FlexInt   `json:"rx_errors"`
-	RxDropped   FlexInt   `json:"rx_dropped"`
-	RxCrypts    FlexInt   `json:"rx_crypts"`
-	RxFrags     FlexInt   `json:"rx_frags"`
-	TxPackets   FlexInt   `json:"tx_packets"`
-	TxBytes     FlexInt   `json:"tx_bytes"`
-	TxErrors    FlexInt   `json:"tx_errors"`
-	TxDropped   FlexInt   `json:"tx_dropped"`
-	TxRetries   FlexInt   `json:"tx_retries"`
-	RxMulticast FlexInt   `json:"rx_multicast"`
-	RxBroadcast FlexInt   `json:"rx_broadcast"`
-	TxMulticast FlexInt   `json:"tx_multicast"`
 	TxBroadcast FlexInt   `json:"tx_broadcast"`
-	Bytes       FlexInt   `json:"bytes"`
-	Duration    FlexInt   `json:"duration"`
+	TxBytes     FlexInt   `json:"tx_bytes"`
+	TxDropped   FlexInt   `json:"tx_dropped"`
+	TxErrors    FlexInt   `json:"tx_errors"`
+	TxMulticast FlexInt   `json:"tx_multicast"`
+	TxPackets   FlexInt   `json:"tx_packets"`
+	TxRetries   FlexInt   `json:"tx_retries"`
 	/* These are all in port table */
 	/*
 		Port1RxPackets    FlexInt   `json:"port_1-rx_packets,omitempty"`

@@ -65,7 +65,6 @@ func (u *Unifi) GetClientsDPI(sites []*Site) ([]*DPITable, error) {
 
 // Client defines all the data a connected-network client contains.
 type Client struct {
-	SourceName       string   `json:"-"`
 	Anomalies        FlexInt  `json:"anomalies,omitempty"`
 	ApMac            string   `fake:"{macaddress}"           json:"ap_mac"`
 	ApName           string   `json:"-"`
@@ -80,7 +79,6 @@ type Client struct {
 	DevID            FlexInt  `json:"dev_id"`
 	DevVendor        FlexInt  `json:"dev_vendor,omitempty"`
 	DhcpendTime      FlexInt  `json:"dhcpend_time,omitempty"`
-	Satisfaction     FlexInt  `json:"satisfaction,omitempty"`
 	Essid            string   `fake:"{macaddress}"           json:"essid"`
 	FirstSeen        FlexInt  `json:"first_seen"`
 	FixedIP          string   `fake:"{ipv4address}"          json:"fixed_ip"`
@@ -114,18 +112,20 @@ type Client struct {
 	PowersaveEnabled FlexBool `json:"powersave_enabled"`
 	QosPolicyApplied FlexBool `json:"qos_policy_applied"`
 	Radio            string   `json:"radio"`
+	RadioDescription string   `json:"-"`
 	RadioName        string   `json:"radio_name"`
 	RadioProto       string   `json:"radio_proto"`
-	RadioDescription string   `json:"-"`
 	RoamCount        FlexInt  `json:"roam_count"`
 	Rssi             FlexInt  `json:"rssi"`
 	RxBytes          FlexInt  `json:"rx_bytes"`
 	RxBytesR         FlexInt  `json:"rx_bytes-r"`
 	RxPackets        FlexInt  `json:"rx_packets"`
 	RxRate           FlexInt  `json:"rx_rate"`
+	Satisfaction     FlexInt  `json:"satisfaction,omitempty"`
 	Signal           FlexInt  `json:"signal"`
 	SiteID           string   `fake:"{uuid}"                 json:"site_id"`
 	SiteName         string   `json:"-"`
+	SourceName       string   `json:"-"`
 	SwDepth          int      `json:"sw_depth"`
 	SwMac            string   `fake:"{macaddress}"           json:"sw_mac"`
 	SwName           string   `json:"-"`
@@ -133,9 +133,9 @@ type Client struct {
 	TxBytes          FlexInt  `json:"tx_bytes"`
 	TxBytesR         FlexInt  `json:"tx_bytes-r"`
 	TxPackets        FlexInt  `json:"tx_packets"`
-	TxRetries        FlexInt  `json:"tx_retries"`
 	TxPower          FlexInt  `json:"tx_power"`
 	TxRate           FlexInt  `json:"tx_rate"`
+	TxRetries        FlexInt  `json:"tx_retries"`
 	Uptime           FlexInt  `json:"uptime"`
 	UptimeByUAP      FlexInt  `json:"_uptime_by_uap"`
 	UptimeByUGW      FlexInt  `json:"_uptime_by_ugw"`

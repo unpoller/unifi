@@ -56,7 +56,7 @@ func (u *Unifi) GetSiteDPI(sites []*Site) ([]*DPITable, error) {
 			return nil, ErrDPIDataBug
 		} else if l == 0 {
 			u.DebugLog("Site DPI data missing! Is DPI enabled in UniFi controller? Site %s", site.SiteName)
-			
+
 			continue
 		}
 
@@ -70,59 +70,59 @@ func (u *Unifi) GetSiteDPI(sites []*Site) ([]*DPITable, error) {
 
 // Site represents a site's data.
 type Site struct {
-	controller   *Unifi
-	SourceName   string   `json:"-"`
-	ID           string   `fake:"{uuid}"         json:"_id"`
-	Name         string   `fake:"{company}"      json:"name"`
-	Desc         string   `fake:"{buzzword}"     json:"desc"`
-	SiteName     string   `json:"-"`
 	AttrHiddenID string   `json:"attr_hidden_id"`
 	AttrNoDelete FlexBool `json:"attr_no_delete"`
+	controller   *Unifi
+	Desc         string `fake:"{buzzword}"     json:"desc"`
 	Health       []struct {
-		Subsystem       string   `json:"subsystem"`
-		NumUser         FlexInt  `json:"num_user,omitempty"`
-		NumGuest        FlexInt  `json:"num_guest,omitempty"`
-		NumIot          FlexInt  `json:"num_iot,omitempty"`
-		TxBytesR        FlexInt  `json:"tx_bytes-r,omitempty"`
-		RxBytesR        FlexInt  `json:"rx_bytes-r,omitempty"`
-		Status          string   `json:"status"`
-		NumAp           FlexInt  `json:"num_ap,omitempty"`
-		NumAdopted      FlexInt  `json:"num_adopted,omitempty"`
-		NumDisabled     FlexInt  `json:"num_disabled,omitempty"`
-		NumDisconnected FlexInt  `json:"num_disconnected,omitempty"`
-		NumPending      FlexInt  `json:"num_pending,omitempty"`
-		NumGw           FlexInt  `json:"num_gw,omitempty"`
-		WanIP           string   `fake:"{ipv4address}"              json:"wan_ip,omitempty"`
-		Gateways        []string `fakesize:"5"                      json:"gateways,omitempty"`
-		Netmask         string   `json:"netmask,omitempty"`
-		Nameservers     []string `fakesize:"5"                      json:"nameservers,omitempty"`
-		NumSta          FlexInt  `json:"num_sta,omitempty"`
-		GwMac           string   `fake:"{macaddress}"               json:"gw_mac,omitempty"`
-		GwName          string   `json:"gw_name,omitempty"`
-		GwSystemStats   struct {
+		Drops         FlexInt  `json:"drops,omitempty"`
+		Gateways      []string `fakesize:"5"             json:"gateways,omitempty"`
+		GwMac         string   `fake:"{macaddress}"      json:"gw_mac,omitempty"`
+		GwName        string   `json:"gw_name,omitempty"`
+		GwSystemStats struct {
 			CPU    FlexInt `json:"cpu"`
 			Mem    FlexInt `json:"mem"`
 			Uptime FlexInt `json:"uptime"`
 		} `json:"gw_system-stats,omitempty"`
 		GwVersion             string   `fake:"{appversion}"                       json:"gw_version,omitempty"`
-		Latency               FlexInt  `json:"latency,omitempty"`
-		Uptime                FlexInt  `json:"uptime,omitempty"`
-		Drops                 FlexInt  `json:"drops,omitempty"`
-		XputUp                FlexInt  `json:"xput_up,omitempty"`
-		XputDown              FlexInt  `json:"xput_down,omitempty"`
-		SpeedtestStatus       string   `json:"speedtest_status,omitempty"`
-		SpeedtestLastrun      FlexInt  `json:"speedtest_lastrun,omitempty"`
-		SpeedtestPing         FlexInt  `json:"speedtest_ping,omitempty"`
 		LanIP                 string   `json:"lan_ip,omitempty"`
+		Latency               FlexInt  `json:"latency,omitempty"`
+		Nameservers           []string `fakesize:"5"                              json:"nameservers,omitempty"`
+		Netmask               string   `json:"netmask,omitempty"`
+		NumAdopted            FlexInt  `json:"num_adopted,omitempty"`
+		NumAp                 FlexInt  `json:"num_ap,omitempty"`
+		NumDisabled           FlexInt  `json:"num_disabled,omitempty"`
+		NumDisconnected       FlexInt  `json:"num_disconnected,omitempty"`
+		NumGuest              FlexInt  `json:"num_guest,omitempty"`
+		NumGw                 FlexInt  `json:"num_gw,omitempty"`
+		NumIot                FlexInt  `json:"num_iot,omitempty"`
+		NumPending            FlexInt  `json:"num_pending,omitempty"`
+		NumSta                FlexInt  `json:"num_sta,omitempty"`
 		NumSw                 FlexInt  `json:"num_sw,omitempty"`
+		NumUser               FlexInt  `json:"num_user,omitempty"`
 		RemoteUserEnabled     FlexBool `json:"remote_user_enabled,omitempty"`
 		RemoteUserNumActive   FlexInt  `json:"remote_user_num_active,omitempty"`
 		RemoteUserNumInactive FlexInt  `json:"remote_user_num_inactive,omitempty"`
 		RemoteUserRxBytes     FlexInt  `json:"remote_user_rx_bytes,omitempty"`
-		RemoteUserTxBytes     FlexInt  `json:"remote_user_tx_bytes,omitempty"`
 		RemoteUserRxPackets   FlexInt  `json:"remote_user_rx_packets,omitempty"`
+		RemoteUserTxBytes     FlexInt  `json:"remote_user_tx_bytes,omitempty"`
 		RemoteUserTxPackets   FlexInt  `json:"remote_user_tx_packets,omitempty"`
+		RxBytesR              FlexInt  `json:"rx_bytes-r,omitempty"`
 		SiteToSiteEnabled     FlexBool `json:"site_to_site_enabled,omitempty"`
+		SpeedtestLastrun      FlexInt  `json:"speedtest_lastrun,omitempty"`
+		SpeedtestPing         FlexInt  `json:"speedtest_ping,omitempty"`
+		SpeedtestStatus       string   `json:"speedtest_status,omitempty"`
+		Status                string   `json:"status"`
+		Subsystem             string   `json:"subsystem"`
+		TxBytesR              FlexInt  `json:"tx_bytes-r,omitempty"`
+		Uptime                FlexInt  `json:"uptime,omitempty"`
+		WanIP                 string   `fake:"{ipv4address}"                      json:"wan_ip,omitempty"`
+		XputDown              FlexInt  `json:"xput_down,omitempty"`
+		XputUp                FlexInt  `json:"xput_up,omitempty"`
 	} `fakesize:"5"          json:"health"`
+	ID           string  `fake:"{uuid}"         json:"_id"`
+	Name         string  `fake:"{company}"      json:"name"`
 	NumNewAlarms FlexInt `json:"num_new_alarms"`
+	SiteName     string  `json:"-"`
+	SourceName   string  `json:"-"`
 }
