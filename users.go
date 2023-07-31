@@ -43,31 +43,31 @@ func (u *Unifi) GetUsers(sites []*Site, hours int) ([]*User, error) {
 
 // User defines the metadata available for previously connected clients.
 type User struct {
-	SourceName          string   `json:"-"`
-	SiteName            string   `json:"-"`
-	ID                  string   `fake:"{uuid}"                         json:"_id"`
-	Mac                 string   `fake:"{macaddress}"                   json:"mac"`
-	SiteID              string   `fake:"{uuid}"                         json:"site_id"`
-	Oui                 string   `json:"oui,omitempty"`
-	IsGuest             bool     `json:"is_guest"`
-	FirstSeen           FlexInt  `json:"first_seen,omitempty"`
-	LastSeen            FlexInt  `json:"last_seen,omitempty"`
-	IsWired             bool     `json:"is_wired,omitempty"`
-	Hostname            string   `json:"hostname,omitempty"`
+	Blocked             FlexBool `json:"blocked,omitempty"`
+	DevIDOverride       FlexInt  `json:"dev_id_override,omitempty"`
 	Duration            FlexInt  `json:"duration,omitempty"`
-	TxBytes             FlexInt  `json:"tx_bytes,omitempty"`
-	TxPackets           FlexInt  `json:"tx_packets,omitempty"`
-	RxBytes             FlexInt  `json:"rx_bytes,omitempty"`
-	RxPackets           FlexInt  `json:"rx_packets,omitempty"`
-	WifiTxAttempts      FlexInt  `json:"wifi_tx_attempts,omitempty"`
-	TxRetries           FlexInt  `json:"tx_retries,omitempty"`
-	UsergroupID         string   `json:"usergroup_id,omitempty"`
+	FingerprintOverride FlexBool `json:"fingerprint_override,omitempty"`
+	FirstSeen           FlexInt  `json:"first_seen,omitempty"`
+	FixedIp             string   `fake:"{ipv4address}"                  json:"fixed_ip,omitempty"` //nolint:revive
+	Hostname            string   `json:"hostname,omitempty"`
+	ID                  string   `fake:"{uuid}"                         json:"_id"`
+	IsGuest             bool     `json:"is_guest"`
+	IsWired             bool     `json:"is_wired,omitempty"`
+	LastSeen            FlexInt  `json:"last_seen,omitempty"`
+	Mac                 string   `fake:"{macaddress}"                   json:"mac"`
 	Name                string   `fake:"{animal}"                       json:"name,omitempty"`
 	Note                string   `fake:"{buzzword}"                     json:"note,omitempty"`
 	Noted               FlexBool `json:"noted,omitempty"`
-	Blocked             FlexBool `json:"blocked,omitempty"`
-	DevIDOverride       FlexInt  `json:"dev_id_override,omitempty"`
-	FingerprintOverride FlexBool `json:"fingerprint_override,omitempty"`
+	Oui                 string   `json:"oui,omitempty"`
+	RxBytes             FlexInt  `json:"rx_bytes,omitempty"`
+	RxPackets           FlexInt  `json:"rx_packets,omitempty"`
+	SiteID              string   `fake:"{uuid}"                         json:"site_id"`
+	SiteName            string   `json:"-"`
+	SourceName          string   `json:"-"`
+	TxBytes             FlexInt  `json:"tx_bytes,omitempty"`
+	TxPackets           FlexInt  `json:"tx_packets,omitempty"`
+	TxRetries           FlexInt  `json:"tx_retries,omitempty"`
 	UseFixedIp          FlexBool `json:"use_fixedip,omitempty"` //nolint:revive
-	FixedIp             string   `fake:"{ipv4address}"                  json:"fixed_ip,omitempty"` //nolint:revive
+	UsergroupID         string   `json:"usergroup_id,omitempty"`
+	WifiTxAttempts      FlexInt  `json:"wifi_tx_attempts,omitempty"`
 }

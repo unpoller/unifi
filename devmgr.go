@@ -27,10 +27,10 @@ const (
 // devMgrCmd is the type marshalled and sent to APIDevMgrPath.
 type devMgrCmd struct {
 	Cmd    string `json:"cmd"`                               // Required.
-	Mac    string `fake:"{macaddress}"       json:"mac"`           // Device MAC (required for most, but not all).
-	URL    string `fake:"{url}"              json:"url,omitempty"`        // External Upgrade only.
 	Inform string `fake:"{url}"              json:"inform_url,omitempty"` // Migration only.
+	Mac    string `fake:"{macaddress}"       json:"mac"`           // Device MAC (required for most, but not all).
 	Port   int    `json:"port_idx,omitempty"`                // Power Cycle only.
+	URL    string `fake:"{url}"              json:"url,omitempty"`        // External Upgrade only.
 }
 
 // devMgrCommandReply is for commands with a return value.

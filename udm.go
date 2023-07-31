@@ -11,9 +11,9 @@ type UDM struct {
 	AdoptStatus                        FlexInt              `json:"adopt_status"`
 	AdoptTries                         FlexInt              `json:"adopt_tries"`
 	AdoptURL                           string               `fake:"{url}"                                  json:"adopt_url"`
-	AdoptableWhenUpgraded              FlexBool             `json:"adoptable_when_upgraded"`
-	Adopted                            FlexBool             `json:"adopted"`
-	AdoptionCompleted                  FlexBool             `json:"adoption_completed"`
+	AdoptableWhenUpgraded              FlexBool             `fake:"{constFlexBool:true}"                   json:"adoptable_when_upgraded"`
+	Adopted                            FlexBool             `fake:"{constFlexBool:true}"                   json:"adopted"`
+	AdoptionCompleted                  FlexBool             `fake:"{constFlexBool:true}"                   json:"adoption_completed"`
 	Architecture                       string               `json:"architecture"`
 	BandsteeringMode                   string               `json:"bandsteering_mode"`
 	BoardRev                           FlexInt              `json:"board_rev"`
@@ -69,7 +69,7 @@ type UDM struct {
 	LcmTrackerEnabled                  FlexBool             `json:"lcm_tracker_enabled"`
 	LcmTrackerSeed                     string               `json:"lcm_tracker_seed"`
 	LicenseState                       string               `json:"license_state"`
-	Locating                           FlexBool             `json:"locating"`
+	Locating                           FlexBool             `fake:"{constFlexBool:false}"                  json:"locating"`
 	Mac                                string               `fake:"{macaddress}"                           json:"mac"`
 	ManufacturerID                     FlexInt              `json:"manufacturer_id"`
 	MinInformIntervalSeconds           FlexInt              `json:"min_inform_interval_seconds"`
@@ -139,7 +139,7 @@ type UDM struct {
 	TwoPhaseAdopt   FlexBool      `json:"two_phase_adopt"`
 	TxBytes         FlexInt       `json:"tx_bytes"`
 	TxBytesD        FlexInt       `json:"tx_bytes-d"`
-	Type            string        `fake:"{lexify:udmp}"    json:"type"`
+	Type            string        `fake:"{lexify:udm}"     json:"type"`
 	UdapiCaps       FlexInt       `json:"udapi_caps"`
 	UnifiCare       struct {
 		ActivationDismissed FlexBool `json:"activation_dismissed"`
@@ -182,11 +182,11 @@ type EthernetOverrides struct {
 // NetworkTable is the list of networks on a gateway.
 // Not all gateways have all features.
 type NetworkTable []struct {
-	ID                     string    `fake:"{uuid}"                    json:"_id"`
 	ActiveDhcpLeaseCount   FlexInt   `json:"active_dhcp_lease_count"`
 	AttrHiddenID           string    `json:"attr_hidden_id"`
 	AttrNoDelete           FlexBool  `json:"attr_no_delete"`
 	AutoScaleEnabled       FlexBool  `json:"auto_scale_enabled"`
+	DPIStatsTable          *DPITable `json:"dpistats_table"`
 	DhcpRelayEnabled       FlexBool  `json:"dhcp_relay_enabled"`
 	DhcpdDNS1              string    `json:"dhcpd_dns_1"`
 	DhcpdDNS2              string    `json:"dhcpd_dns_2"`
@@ -201,9 +201,9 @@ type NetworkTable []struct {
 	DhcpdTimeOffsetEnabled FlexBool  `json:"dhcpd_time_offset_enabled"`
 	Dhcpdv6Enabled         FlexBool  `json:"dhcpdv6_enabled"`
 	DomainName             string    `json:"domain_name"`
-	DPIStatsTable          *DPITable `json:"dpistats_table"`
 	Enabled                FlexBool  `json:"enabled"`
 	GatewayInterfaceName   string    `json:"gateway_interface_name"`
+	ID                     string    `fake:"{uuid}"                    json:"_id"`
 	IP                     string    `fake:"{ipv4address}"             json:"ip"`
 	IPSubnet               string    `json:"ip_subnet"`
 	Ipv6InterfaceType      string    `json:"ipv6_interface_type"`
@@ -230,15 +230,15 @@ type NetworkTable []struct {
 // Storage is hard drive into for a device with storage.
 type Storage struct {
 	MountPoint string  `json:"mount_point"`
-	Name       string  `fake:"{animal}"    json:"name"`
+	Name       string  `fake:"{randomstring:[foo,bar]}" json:"name"`
 	Size       FlexInt `json:"size"`
-	Type       string  `json:"type"`
+	Type       string  `fake:"{randomstring:[foo,bar]}" json:"type"`
 	Used       FlexInt `json:"used"`
 }
 
 type Temperature struct {
-	Name  string  `fake:"{animal}" json:"name"`
-	Type  string  `json:"type"`
+	Name  string  `fake:"{randomstring:[cpu,sys]}" json:"name"`
+	Type  string  `fake:"{randomstring:[foo,bar]}" json:"type"`
 	Value float64 `json:"value"`
 }
 

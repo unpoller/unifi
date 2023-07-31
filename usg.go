@@ -3,71 +3,73 @@ package unifi
 import (
 	"encoding/json"
 	"time"
+
+	"github.com/brianvoe/gofakeit/v6"
 )
 
 // USG represents all the data from the Ubiquiti Controller for a Unifi Security Gateway.
 type USG struct {
-	site                  *Site
-	SourceName            string               `json:"-"`
-	ID                    string               `fake:"{uuid}"                  json:"_id"`
-	Adopted               FlexBool             `json:"adopted"`
+	AdoptableWhenUpgraded FlexBool             `json:"adoptable_when_upgraded"`
+	Adopted               FlexBool             `fake:"{constFlexBool:true}"    json:"adopted"`
+	BoardRev              FlexInt              `json:"board_rev"`
+	Bytes                 FlexInt              `json:"bytes"`
 	Cfgversion            string               `fake:"{appversion}"            json:"cfgversion"`
 	ConfigNetwork         *ConfigNetwork       `json:"config_network"`
+	ConnectRequestIP      string               `fake:"{ipv4address}"           json:"connect_request_ip"`
+	ConnectRequestPort    string               `json:"connect_request_port"`
+	DeviceID              string               `fake:"{uuid}"                  json:"device_id"`
+	EthernetOverrides     []*EthernetOverrides `fakesize:"5"                   json:"ethernet_overrides"`
 	EthernetTable         []*EthernetTable     `fakesize:"5"                   json:"ethernet_table"`
 	FwCaps                FlexInt              `json:"fw_caps"`
+	GuestNumSta           FlexInt              `json:"guest-num_sta"`
+	GuestToken            string               `json:"guest_token"`
+	HwCaps                FlexInt              `json:"hw_caps"`
+	ID                    string               `fake:"{uuid}"                  json:"_id"`
 	InformIP              string               `fake:"{ipv4address}"           json:"inform_ip"`
 	InformURL             string               `fake:"{url}"                   json:"inform_url"`
 	IP                    string               `fake:"{ipv4address}"           json:"ip"`
+	KnownCfgversion       string               `fake:"{appversion}"            json:"known_cfgversion"`
+	LastSeen              FlexInt              `json:"last_seen"`
 	LedOverride           string               `json:"led_override"`
 	LicenseState          string               `json:"license_state"`
+	Locating              FlexBool             `fake:"{constFlexBool:false}"   json:"locating"`
 	Mac                   string               `fake:"{macaddress}"            json:"mac"`
 	Model                 string               `json:"model"`
 	Name                  string               `fake:"{animal}"                json:"name"`
+	NetworkTable          NetworkTable         `json:"network_table"`
+	NumDesktop            FlexInt              `json:"num_desktop"`
+	NumHandheld           FlexInt              `json:"num_handheld"`
+	NumMobile             FlexInt              `json:"num_mobile"`
+	NumSta                FlexInt              `json:"num_sta"`
 	OutdoorModeOverride   string               `json:"outdoor_mode_override"`
-	Serial                string               `json:"serial"`
-	SiteID                string               `fake:"{uuid}"                  json:"site_id"`
-	SiteName              string               `json:"-"`
-	Type                  string               `fake:"{lexify:usg}"            json:"type"`
-	UsgCaps               FlexInt              `json:"usg_caps"`
-	Version               string               `fake:"{appversion}"            json:"version"`
+	PortTable             []*Port              `fakesize:"5"                   json:"port_table"`
 	RequiredVersion       string               `fake:"{appversion}"            json:"required_version"`
-	EthernetOverrides     []*EthernetOverrides `fakesize:"5"                   json:"ethernet_overrides"`
-	HwCaps                FlexInt              `json:"hw_caps"`
-	BoardRev              FlexInt              `json:"board_rev"`
-	Unsupported           FlexBool             `json:"unsupported"`
-	UnsupportedReason     FlexInt              `json:"unsupported_reason"`
-	DeviceID              string               `fake:"{uuid}"                  json:"device_id"`
-	State                 FlexInt              `json:"state"`
-	LastSeen              FlexInt              `json:"last_seen"`
-	Upgradable            FlexBool             `json:"upgradable"`
-	AdoptableWhenUpgraded FlexBool             `json:"adoptable_when_upgraded"`
 	Rollupgrade           FlexBool             `json:"rollupgrade"`
-	KnownCfgversion       string               `fake:"{appversion}"            json:"known_cfgversion"`
-	Uptime                FlexInt              `json:"uptime"`
-	Locating              FlexBool             `json:"locating"`
-	ConnectRequestIP      string               `fake:"{ipv4address}"           json:"connect_request_ip"`
-	ConnectRequestPort    string               `json:"connect_request_port"`
-	SysStats              SysStats             `json:"sys_stats"`
-	Temperatures          []Temperature        `fakesize:"5"                   json:"temperatures,omitempty"`
-	SystemStats           SystemStats          `json:"system-stats"`
-	GuestToken            string               `json:"guest_token"`
+	RxBytes               FlexInt              `json:"rx_bytes"`
+	Serial                string               `json:"serial"`
+	site                  *Site
+	SiteID                string               `fake:"{uuid}"                 json:"site_id"`
+	SiteName              string               `json:"-"`
+	SourceName            string               `json:"-"`
 	SpeedtestStatus       SpeedtestStatus      `json:"speedtest-status"`
 	SpeedtestStatusSaved  FlexBool             `json:"speedtest-status-saved"`
+	Stat                  USGStat              `json:"stat"`
+	State                 FlexInt              `json:"state"`
+	SysStats              SysStats             `json:"sys_stats"`
+	SystemStats           SystemStats          `json:"system-stats"`
+	Temperatures          []Temperature        `fakesize:"5"                  json:"temperatures,omitempty"`
+	TxBytes               FlexInt              `json:"tx_bytes"`
+	Type                  string               `fake:"{lexify:usg}"           json:"type"`
+	Unsupported           FlexBool             `json:"unsupported"`
+	UnsupportedReason     FlexInt              `json:"unsupported_reason"`
+	Upgradable            FlexBool             `json:"upgradable"`
+	Uplink                Uplink               `json:"uplink"`
+	Uptime                FlexInt              `json:"uptime"`
+	UserNumSta            FlexInt              `json:"user-num_sta"`
+	UsgCaps               FlexInt              `json:"usg_caps"`
+	Version               string               `fake:"{appversion}"           json:"version"`
 	Wan1                  Wan                  `json:"wan1"`
 	Wan2                  Wan                  `json:"wan2"`
-	PortTable             []*Port              `fakesize:"5"                   json:"port_table"`
-	NetworkTable          NetworkTable         `json:"network_table"`
-	Uplink                Uplink               `json:"uplink"`
-	Stat                  USGStat              `json:"stat"`
-	TxBytes               FlexInt              `json:"tx_bytes"`
-	RxBytes               FlexInt              `json:"rx_bytes"`
-	Bytes                 FlexInt              `json:"bytes"`
-	NumSta                FlexInt              `json:"num_sta"`
-	UserNumSta            FlexInt              `json:"user-num_sta"`
-	GuestNumSta           FlexInt              `json:"guest-num_sta"`
-	NumDesktop            FlexInt              `json:"num_desktop"`
-	NumMobile             FlexInt              `json:"num_mobile"`
-	NumHandheld           FlexInt              `json:"num_handheld"`
 }
 
 // Uplink is the Internet connection (or uplink) on a UniFi device.
@@ -81,11 +83,11 @@ type Uplink struct {
 	Latency          FlexInt  `json:"latency"`
 	Mac              string   `json:"mac,omitempty"`
 	MaxSpeed         FlexInt  `json:"max_speed"`
+	Media            string   `json:"media"`
 	Name             string   `fake:"{animal}"                    json:"name"`
 	Nameservers      []string `json:"nameservers"`
 	Netmask          string   `json:"netmask"`
 	NumPort          FlexInt  `json:"num_port"`
-	Media            string   `json:"media"`
 	PortIdx          FlexInt  `json:"port_idx"`
 	RxBytes          FlexInt  `json:"rx_bytes"`
 	RxBytesR         FlexInt  `json:"rx_bytes-r"`
@@ -115,19 +117,19 @@ type Uplink struct {
 type Wan struct {
 	Autoneg     FlexBool `json:"autoneg"`
 	BytesR      FlexInt  `json:"bytes-r"`
-	DNS         []string `fakesize:"5"         json:"dns"` // may be deprecated
+	DNS         []string `fakesize:"5"                json:"dns"` // may be deprecated
 	Enable      FlexBool `json:"enable"`
 	FlowctrlRx  FlexBool `json:"flowctrl_rx"`
 	FlowctrlTx  FlexBool `json:"flowctrl_tx"`
 	FullDuplex  FlexBool `json:"full_duplex"`
 	Gateway     string   `json:"gateway"` // may be deprecated
-	IP          string   `fake:"{ipv4address}" json:"ip"`
+	IP          string   `fake:"{ipv4address}"        json:"ip"`
 	Ifname      string   `json:"ifname"`
 	IsUplink    FlexBool `json:"is_uplink"`
-	Mac         string   `fake:"{macaddress}"  json:"mac"`
+	Mac         string   `fake:"{macaddress}"         json:"mac"`
 	MaxSpeed    FlexInt  `json:"max_speed"`
 	Media       string   `json:"media"`
-	Name        string   `fake:"{animal}"      json:"name"`
+	Name        string   `fake:"{animal}"             json:"name"`
 	Netmask     string   `json:"netmask"` // may be deprecated
 	NumPort     int      `json:"num_port"`
 	PortIdx     int      `json:"port_idx"`
@@ -151,7 +153,7 @@ type Wan struct {
 	TxPackets   FlexInt  `json:"tx_packets"`
 	TxRate      FlexInt  `json:"tx_rate"`
 	Type        string   `json:"type"`
-	Up          FlexBool `json:"up"`
+	Up          FlexBool `fake:"{constFlexBool:true}" json:"up"`
 }
 
 // SpeedtestStatus is the speed test info on a USG or UDM.
@@ -159,8 +161,8 @@ type SpeedtestStatus struct {
 	Latency         FlexInt          `json:"latency"`
 	Rundate         FlexInt          `json:"rundate"`
 	Runtime         FlexInt          `json:"runtime"`
-	ServerDesc      string           `json:"server_desc,omitempty"`
 	Server          *SpeedtestServer `json:"server"`
+	ServerDesc      string           `json:"server_desc,omitempty"`
 	SourceInterface string           `json:"source_interface"`
 	StatusDownload  FlexInt          `json:"status_download"`
 	StatusPing      FlexInt          `json:"status_ping"`
@@ -180,6 +182,18 @@ type SpeedtestServer struct {
 	ProviderURL string  `fake:"{url}"     json:"provider_url"`
 }
 
+type TempStatusByName map[string]*FlexTemp
+
+func (t TempStatusByName) Fake(faker *gofakeit.Faker) interface{} {
+	return TempStatusByName{
+		"cpu":     NewFlexTemp(float64(faker.Rand.Int63n(100))),
+		"sys":     NewFlexTemp(float64(faker.Rand.Int63n(100))),
+		"probe":   NewFlexTemp(float64(faker.Rand.Int63n(100))),
+		"memory":  NewFlexTemp(float64(faker.Rand.Int63n(100))),
+		"network": NewFlexTemp(float64(faker.Rand.Int63n(100))),
+	}
+}
+
 // SystemStats is system info for a UDM, USG, USW.
 type SystemStats struct {
 	CPU    FlexInt `json:"cpu"`
@@ -187,7 +201,7 @@ type SystemStats struct {
 	Uptime FlexInt `json:"uptime"`
 	// This exists on at least USG4, may others, maybe not.
 	// {"Board (CPU)":"51 C","Board (PHY)":"51 C","CPU":"72 C","PHY":"77 C"}
-	Temps map[string]FlexTemp `fakesize:"5" json:"temps,omitempty"`
+	Temps TempStatusByName `json:"temps,omitempty"`
 }
 
 // SysStats is load info for a UDM, USG, USW.
@@ -208,25 +222,25 @@ type USGStat struct {
 
 // Gw is a subtype of USGStat to make unmarshalling of different controller versions possible.
 type Gw struct {
-	SiteID       string    `json:"site_id"`
+	Datetime     time.Time `fake:"{recent_time}"           json:"datetime"`
+	Duration     FlexInt   `json:"duration"`
+	Gw           string    `json:"gw"`
+	LanRxBytes   FlexInt   `json:"lan-rx_bytes"`
+	LanRxDropped FlexInt   `json:"lan-rx_dropped"`
+	LanRxErrors  FlexInt   `json:"lan-rx_errors,omitempty"`
+	LanRxPackets FlexInt   `json:"lan-rx_packets"`
+	LanTxBytes   FlexInt   `json:"lan-tx_bytes"`
+	LanTxPackets FlexInt   `json:"lan-tx_packets"`
 	O            string    `json:"o"`
 	Oid          string    `json:"oid"`
-	Gw           string    `json:"gw"`
+	SiteID       string    `json:"site_id"`
 	Time         FlexInt   `json:"time"`
-	Datetime     time.Time `json:"datetime"`
-	Duration     FlexInt   `json:"duration"`
-	WanRxPackets FlexInt   `json:"wan-rx_packets"`
 	WanRxBytes   FlexInt   `json:"wan-rx_bytes"`
 	WanRxDropped FlexInt   `json:"wan-rx_dropped"`
-	WanTxPackets FlexInt   `json:"wan-tx_packets"`
-	WanTxBytes   FlexInt   `json:"wan-tx_bytes"`
-	LanRxPackets FlexInt   `json:"lan-rx_packets"`
-	LanRxBytes   FlexInt   `json:"lan-rx_bytes"`
-	LanTxPackets FlexInt   `json:"lan-tx_packets"`
-	LanTxBytes   FlexInt   `json:"lan-tx_bytes"`
-	LanRxDropped FlexInt   `json:"lan-rx_dropped"`
 	WanRxErrors  FlexInt   `json:"wan-rx_errors,omitempty"`
-	LanRxErrors  FlexInt   `json:"lan-rx_errors,omitempty"`
+	WanRxPackets FlexInt   `json:"wan-rx_packets"`
+	WanTxBytes   FlexInt   `json:"wan-tx_bytes"`
+	WanTxPackets FlexInt   `json:"wan-tx_packets"`
 }
 
 // UnmarshalJSON unmarshalls 5.10 or 5.11 formatted Gateway Stat data.

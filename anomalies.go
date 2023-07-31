@@ -17,12 +17,12 @@ type anomaly struct {
 
 // Anomaly is the reformatted data type that this library returns.
 type Anomaly struct {
-	Datetime   time.Time
-	SourceName string
-	SiteName   string
-	Anomaly    string
-	DeviceMAC  string `fake:"{macaddress}"`
 	//	DeviceName string // we do not have this....
+	Anomaly    string
+	Datetime   time.Time `fake:"{recent_time}"`
+	DeviceMAC  string `fake:"{macaddress}"`
+	SiteName   string
+	SourceName string
 }
 
 // GetAnomalies returns Anomalies for a list of Sites.
