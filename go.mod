@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/brianvoe/gofakeit/v6 v6.23.1
 	github.com/stretchr/testify v1.8.4
-	golang.org/x/net v0.12.0
+	golang.org/x/net v0.14.0
 )
 
 require (
