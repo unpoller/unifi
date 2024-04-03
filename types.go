@@ -343,6 +343,7 @@ func (f *FlexString) UnmarshalJSON(b []byte) error {
 	default:
 		return fmt.Errorf("%v: %w", b, ErrCannotUnmarshalFlexString)
 	}
+
 	return nil
 }
 
@@ -363,6 +364,7 @@ func (f FlexString) String() string {
 func (f FlexString) Fake(faker *gofakeit.Faker) interface{} {
 	randValue := math.Min(math.Max(0.1, math.Abs(faker.Rand.Float64())), 120)
 	s := fmt.Sprintf("fake-%0.2f", randValue)
+
 	if faker.Rand.Intn(2) == 0 {
 		// plain string value
 		return FlexString{
@@ -375,6 +377,7 @@ func (f FlexString) Fake(faker *gofakeit.Faker) interface{} {
 	s2 := fmt.Sprintf("fake-%0.2f-2", randValue)
 	s3 := fmt.Sprintf("fake-%0.2f-3", randValue)
 	arr := []string{s, s2, s3}
+
 	return FlexString{
 		Val: strings.Join(arr, ", "),
 		Arr: arr,
