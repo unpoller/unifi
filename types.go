@@ -330,6 +330,7 @@ func (f *FlexString) UnmarshalJSON(b []byte) error {
 				f.Arr = append(f.Arr, s)
 			}
 		}
+
 		f.Val = strings.Join(f.Arr, ", ")
 	case []string:
 		f.hintIsArray = true
