@@ -291,19 +291,29 @@ type ServerStatus struct {
 }
 
 type FlexString struct {
-	Val string
-	Arr []string
+	Val         string
+	Arr         []string
+	hintIsArray bool
 }
 
 func NewFlexString(v string) *FlexString {
 	return &FlexString{
-		Val: v,
-		Arr: []string{v},
+		Val:         v,
+		Arr:         []string{v},
+		hintIsArray: false,
+	}
+}
+
+func NewFlexStringArray(v []string) *FlexString {
+	return &FlexString{
+		Val:         strings.Join(v, ", "),
+		Arr:         v,
+		hintIsArray: true,
 	}
 }
 
 // UnmarshalJSON converts a string or number to an integer.
-// Generally, do call this directly, it's used in the json interface.
+// Generally, do not call this directly, it's used in the json interface.
 func (f *FlexString) UnmarshalJSON(b []byte) error {
 	var ust interface{}
 
@@ -313,24 +323,23 @@ func (f *FlexString) UnmarshalJSON(b []byte) error {
 
 	switch i := ust.(type) {
 	case []interface{}:
+		f.hintIsArray = true
 		// try to cast to string
-		res := make([]string, 0)
 		for _, v := range i {
 			if s, ok := v.(string); ok {
-				res = append(res, s)
+				f.Arr = append(f.Arr, s)
 			}
 		}
-		f.Arr = res
-		f.Val = strings.Join(res, ", ")
+		f.Val = strings.Join(f.Arr, ", ")
 	case []string:
+		f.hintIsArray = true
 		f.Val = strings.Join(i, ", ")
 		f.Arr = i
 	case string:
 		f.Val = i
 		f.Arr = []string{i}
 	case nil:
-		f.Val = ""
-		f.Arr = []string{}
+		// noop, consider it empty values
 	default:
 		return fmt.Errorf("%v: %w", b, ErrCannotUnmarshalFlexString)
 	}
@@ -339,7 +348,7 @@ func (f *FlexString) UnmarshalJSON(b []byte) error {
 
 func (f FlexString) MarshalJSON() ([]byte, error) {
 	// array case
-	if f.Arr != nil && len(f.Arr) > 1 {
+	if f.hintIsArray {
 		return json.Marshal(f.Arr)
 	}
 
@@ -387,7 +396,7 @@ func NewFlexInt(v float64) *FlexInt {
 }
 
 // UnmarshalJSON converts a string or number to an integer.
-// Generally, do call this directly, it's used in the json interface.
+// Generally, do not call this directly, it's used in the json interface.
 func (f *FlexInt) UnmarshalJSON(b []byte) error {
 	var unk interface{}
 
@@ -534,7 +543,7 @@ func NewFlexTemp(v float64) *FlexTemp {
 }
 
 // UnmarshalJSON converts a string or number to an integer.
-// Generally, do call this directly, it's used in the json interface.
+// Generally, do not call this directly, it's used in the json interface.
 func (f *FlexTemp) UnmarshalJSON(b []byte) error {
 	var unk interface{}
 
