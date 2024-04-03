@@ -100,7 +100,7 @@ type Client struct {
 	LastSeenByUSW    FlexInt  `json:"_last_seen_by_usw"`
 	LatestAssocTime  FlexInt  `json:"latest_assoc_time"`
 	Mac              string   `fake:"{macaddress}"           json:"mac"`
-	Name             string   `json:"name"`
+	Name             string   `fake:"{randomstring:[client-1,client-2,client-3]}" json:"name"`
 	Network          string   `json:"network"`
 	NetworkID        string   `fake:"{uuid}"                 json:"network_id"`
 	Noise            FlexInt  `json:"noise"`

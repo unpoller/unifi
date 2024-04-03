@@ -58,13 +58,13 @@ type USW struct {
 	ModelInEOL               FlexBool `json:"model_in_eol"`
 	ModelInLTS               FlexBool `json:"model_in_lts"`
 	ModelIncompatible        FlexBool `json:"model_incompatible"`
-	Name                     string   `json:"name"`
+	Name                     string   `fake:"{animal}" json:"name"`
 	NextInterval             FlexInt  `json:"next_interval"`
 	NumSta                   FlexInt  `json:"num_sta"`
 	OutdoorModeOverride      string   `json:"outdoor_mode_override"`
 	Overheating              FlexBool `json:"overheating"`
 	PortOverrides            []struct {
-		Name       string  `json:"name,omitempty"`
+		Name       string  `fake:"{randomstring:[override-1,override-2]}" json:"name,omitempty"`
 		PoeMode    string  `json:"poe_mode,omitempty"`
 		PortIdx    FlexInt `json:"port_idx"`
 		PortconfID string  `json:"portconf_id"`

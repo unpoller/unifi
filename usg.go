@@ -3,8 +3,6 @@ package unifi
 import (
 	"encoding/json"
 	"time"
-
-	"github.com/brianvoe/gofakeit/v6"
 )
 
 // USG represents all the data from the Ubiquiti Controller for a Unifi Security Gateway.
@@ -48,28 +46,28 @@ type USG struct {
 	RxBytes               FlexInt              `json:"rx_bytes"`
 	Serial                string               `json:"serial"`
 	site                  *Site
-	SiteID                string               `fake:"{uuid}"                 json:"site_id"`
-	SiteName              string               `json:"-"`
-	SourceName            string               `json:"-"`
-	SpeedtestStatus       SpeedtestStatus      `json:"speedtest-status"`
-	SpeedtestStatusSaved  FlexBool             `json:"speedtest-status-saved"`
-	Stat                  USGStat              `json:"stat"`
-	State                 FlexInt              `json:"state"`
-	SysStats              SysStats             `json:"sys_stats"`
-	SystemStats           SystemStats          `json:"system-stats"`
-	Temperatures          []Temperature        `fakesize:"5"                  json:"temperatures,omitempty"`
-	TxBytes               FlexInt              `json:"tx_bytes"`
-	Type                  string               `fake:"{lexify:usg}"           json:"type"`
-	Unsupported           FlexBool             `json:"unsupported"`
-	UnsupportedReason     FlexInt              `json:"unsupported_reason"`
-	Upgradable            FlexBool             `json:"upgradable"`
-	Uplink                Uplink               `json:"uplink"`
-	Uptime                FlexInt              `json:"uptime"`
-	UserNumSta            FlexInt              `json:"user-num_sta"`
-	UsgCaps               FlexInt              `json:"usg_caps"`
-	Version               string               `fake:"{appversion}"           json:"version"`
-	Wan1                  Wan                  `json:"wan1"`
-	Wan2                  Wan                  `json:"wan2"`
+	SiteID                string          `fake:"{uuid}"                 json:"site_id"`
+	SiteName              string          `json:"-"`
+	SourceName            string          `json:"-"`
+	SpeedtestStatus       SpeedtestStatus `json:"speedtest-status"`
+	SpeedtestStatusSaved  FlexBool        `json:"speedtest-status-saved"`
+	Stat                  USGStat         `json:"stat"`
+	State                 FlexInt         `json:"state"`
+	SysStats              SysStats        `json:"sys_stats"`
+	SystemStats           SystemStats     `json:"system-stats"`
+	Temperatures          []Temperature   `fakesize:"5"                  json:"temperatures,omitempty"`
+	TxBytes               FlexInt         `json:"tx_bytes"`
+	Type                  string          `fake:"{lexify:usg}"           json:"type"`
+	Unsupported           FlexBool        `json:"unsupported"`
+	UnsupportedReason     FlexInt         `json:"unsupported_reason"`
+	Upgradable            FlexBool        `json:"upgradable"`
+	Uplink                Uplink          `json:"uplink"`
+	Uptime                FlexInt         `json:"uptime"`
+	UserNumSta            FlexInt         `json:"user-num_sta"`
+	UsgCaps               FlexInt         `json:"usg_caps"`
+	Version               string          `fake:"{appversion}"           json:"version"`
+	Wan1                  Wan             `json:"wan1"`
+	Wan2                  Wan             `json:"wan2"`
 }
 
 // Uplink is the Internet connection (or uplink) on a UniFi device.
@@ -184,16 +182,6 @@ type SpeedtestServer struct {
 
 type TempStatusByName map[string]*FlexTemp
 
-func (t TempStatusByName) Fake(faker *gofakeit.Faker) interface{} {
-	return TempStatusByName{
-		"cpu":     NewFlexTemp(float64(faker.Rand.Int63n(100))),
-		"sys":     NewFlexTemp(float64(faker.Rand.Int63n(100))),
-		"probe":   NewFlexTemp(float64(faker.Rand.Int63n(100))),
-		"memory":  NewFlexTemp(float64(faker.Rand.Int63n(100))),
-		"network": NewFlexTemp(float64(faker.Rand.Int63n(100))),
-	}
-}
-
 // SystemStats is system info for a UDM, USG, USW.
 type SystemStats struct {
 	CPU    FlexInt `json:"cpu"`
@@ -201,7 +189,7 @@ type SystemStats struct {
 	Uptime FlexInt `json:"uptime"`
 	// This exists on at least USG4, may others, maybe not.
 	// {"Board (CPU)":"51 C","Board (PHY)":"51 C","CPU":"72 C","PHY":"77 C"}
-	Temps TempStatusByName `json:"temps,omitempty"`
+	Temps TempStatusByName `fake:"{tempStatusByName}" json:"temps,omitempty"`
 }
 
 // SysStats is load info for a UDM, USG, USW.
