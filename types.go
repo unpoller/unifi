@@ -101,6 +101,7 @@ func init() {
 }
 
 var ErrCannotUnmarshalFlexInt = fmt.Errorf("cannot unmarshal to FlexInt")
+var ErrCannotUnmarshalFlexString = fmt.Errorf("cannot unmarshal to FlexString")
 
 // This is a list of unifi API paths.
 // The %s in each string must be replaced with a Site.Name.
@@ -287,6 +288,88 @@ type ServerStatus struct {
 	Up            FlexBool `json:"up"`
 	ServerVersion string   `fake:"{appversion}" json:"server_version"`
 	UUID          string   `fake:"{uuid}"       json:"uuid"`
+}
+
+type FlexString struct {
+	Val string
+	Arr []string
+}
+
+func NewFlexString(v string) *FlexString {
+	return &FlexString{
+		Val: v,
+		Arr: []string{v},
+	}
+}
+
+// UnmarshalJSON converts a string or number to an integer.
+// Generally, do call this directly, it's used in the json interface.
+func (f *FlexString) UnmarshalJSON(b []byte) error {
+	var ust interface{}
+
+	if err := json.Unmarshal(b, &ust); err != nil {
+		return fmt.Errorf("json unmarshal: %w", err)
+	}
+
+	switch i := ust.(type) {
+	case []interface{}:
+		// try to cast to string
+		res := make([]string, 0)
+		for _, v := range i {
+			if s, err := v.(string); err == nil {
+				res = append(res, s)
+			}
+		}
+		f.Arr = res
+		f.Val = strings.Join(res, ", ")
+	case []string:
+		f.Val = strings.Join(i, ", ")
+		f.Arr = i
+	case string:
+		f.Val = i
+		f.Arr = []string{i}
+	case nil:
+		f.Val = ""
+		f.Arr = []string{}
+	default:
+		return fmt.Errorf("%v: %w", b, ErrCannotUnmarshalFlexString)
+	}
+	return nil
+}
+
+func (f FlexString) MarshalJSON() ([]byte, error) {
+	// array case
+	if f.Arr != nil && len(f.Arr) > 1 {
+		return json.Marshal(f.Arr)
+	}
+
+	// plain string case
+	return json.Marshal(f.Val)
+}
+
+func (f FlexString) String() string {
+	return f.Val
+}
+
+func (f FlexString) Fake(faker *gofakeit.Faker) interface{} {
+	randValue := math.Min(math.Max(0.1, math.Abs(faker.Rand.Float64())), 120)
+	s := fmt.Sprintf("fake-%0.2f", randValue)
+	if faker.Rand.Intn(2) == 0 {
+		// plain string value
+		return FlexString{
+			Val: s,
+			Arr: []string{s},
+		}
+	}
+
+	// array case
+	s2 := fmt.Sprintf("fake-%0.2f-2", randValue)
+	s3 := fmt.Sprintf("fake-%0.2f-3", randValue)
+	arr := []string{s, s2, s3}
+	return FlexString{
+		Val: strings.Join(arr, ", "),
+		Arr: arr,
+	}
 }
 
 // FlexInt provides a container and unmarshalling for fields that may be
