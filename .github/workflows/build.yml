@@ -14,14 +14,14 @@ jobs:
   test:
     strategy:
       matrix:
-        go: ["1.20"]
+        go: ["1.21"]
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go }}
 
@@ -33,18 +33,19 @@ jobs:
   lint:
     strategy:
       matrix:
-        go: ["1.20"]
+        go: ["1.21"]
         os: [ubuntu-latest]
     name: lint
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go }}
+          cache: false
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
+        uses: golangci/golangci-lint-action@v4
         with:
           # Required: the version of golangci-lint is required and must be specified without patch version: we always use the latest patch version.
-          version: v1.53
+          version: v1.54
