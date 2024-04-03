@@ -98,6 +98,22 @@ func init() {
 			return *NewFlexBool(l), nil
 		},
 	})
+
+	gofakeit.AddFuncLookup("tempStatusByName", gofakeit.Info{
+		Category:    "custom",
+		Description: "Configured TempStatusByName",
+		Example:     "TempStatusByName{...}",
+		Output:      "TempStatusByName",
+		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+			return TempStatusByName{
+				"cpu":     NewFlexTemp(float64(r.Int31n(100))),
+				"sys":     NewFlexTemp(float64(r.Int31n(100))),
+				"probe":   NewFlexTemp(float64(r.Int31n(100))),
+				"memory":  NewFlexTemp(float64(r.Int31n(100))),
+				"network": NewFlexTemp(float64(r.Int31n(100))),
+			}, nil
+		},
+	})
 }
 
 var ErrCannotUnmarshalFlexInt = fmt.Errorf("cannot unmarshal to FlexInt")

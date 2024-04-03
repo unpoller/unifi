@@ -54,11 +54,11 @@ type PDU struct {
 	Mac                      string           `fake:"{macaddress}"                json:"mac"`
 	ManufacturerID           FlexInt          `json:"manufacturer_id"`
 	MinIfnromIntervalSeconds FlexInt          `json:"min_inform_interval_seconds"`
-	Model                    string           `json:"model"`
+	Model                    string           `fake:"{randomstring:[model-1,model-2,model-3]}" json:"model"`
 	ModelIncompatible        FlexBool         `json:"model_incompatible"`
 	ModelInEOL               FlexBool         `json:"model_in_eol"`
 	ModelInLTS               FlexBool         `json:"model_in_lts"`
-	Name                     string           `json:"name"`
+	Name                     string           `fake:"{randomstring:[pdu-1,pdu-2]}" json:"name"`
 	NextInterval             FlexInt          `json:"next_interval"`
 	NumSta                   FlexInt          `json:"num_sta"`
 	OutletACPowerBudget      FlexInt          `json:"outlet_ac_power_budget"`
@@ -76,43 +76,43 @@ type PDU struct {
 	RollUpgrade              FlexBool         `json:"rollupgrade"`
 	RxBytes                  FlexInt          `json:"rx_bytes"`
 	Satisfaction             FlexInt          `json:"satisfaction"`
-	Serial                   string           `json:"serial"`
+	Serial                   string           `fake:"{uuid}" json:"serial"`
 	SetupID                  string           `fake:"{uuid}"                      json:"setup_id"`
 	site                     *Site
-	SiteID                   string           `fake:"{uuid}"                    json:"site_id"`
-	SiteName                 string           `json:"site_name"`
-	SourceName               string           `json:"source_name"`
-	StartConnectedMillis     FlexInt          `json:"start_connected_millis"`
-	StartDisconnectedMillis  FlexInt          `json:"start_disconnected_millis"`
-	StartupTimestamp         FlexInt          `json:"startup_timestamp"`
-	Stat                     PDUStat          `json:"stat"`
-	State                    FlexInt          `json:"state"`
-	StpPriority              FlexInt          `json:"stp_priority"`
-	StpVersion               string           `fake:"{appversion}"              json:"stp_version"`
-	SwitchCaps               *SwitchCaps      `json:"switch_caps"`
-	SysErrorCaps             FlexInt          `json:"sys_error_caps"`
-	SyslogKey                string           `json:"syslog_key"`
-	SysStats                 SysStats         `json:"sys_stats"`
-	SystemStats              SystemStats      `json:"system-stats"`
-	TotalMaxPower            FlexInt          `json:"total_max_power"`
-	TwoPhaseAdopt            FlexBool         `json:"two_phase_adopt"`
-	TxBytes                  FlexInt          `json:"tx_bytes"`
-	Type                     string           `fake:"{lexify:pdu}"              json:"type"`
-	Unsupported              FlexBool         `json:"unsupported"`
-	UnsupportedReason        FlexInt          `json:"unsupported_reason"`
-	Upgradeable              FlexBool         `json:"upgradable"`
-	Uplink                   Uplink           `json:"uplink"`
-	UplinkDepth              FlexBool         `json:"uplink_depth"`
-	Uptime                   FlexInt          `json:"uptime"`
-	UserNumSta               FlexInt          `json:"user-num_sta"`
-	Version                  string           `fake:"{appversion}"              json:"version"`
+	SiteID                   string      `fake:"{uuid}"                    json:"site_id"`
+	SiteName                 string      `fake:"{company}" json:"site_name"`
+	SourceName               string      `fake:"{animal}" json:"source_name"`
+	StartConnectedMillis     FlexInt     `json:"start_connected_millis"`
+	StartDisconnectedMillis  FlexInt     `json:"start_disconnected_millis"`
+	StartupTimestamp         FlexInt     `json:"startup_timestamp"`
+	Stat                     PDUStat     `json:"stat"`
+	State                    FlexInt     `json:"state"`
+	StpPriority              FlexInt     `json:"stp_priority"`
+	StpVersion               string      `fake:"{appversion}"              json:"stp_version"`
+	SwitchCaps               *SwitchCaps `json:"switch_caps"`
+	SysErrorCaps             FlexInt     `json:"sys_error_caps"`
+	SyslogKey                string      `fake:"{animal}" json:"syslog_key"`
+	SysStats                 SysStats    `json:"sys_stats"`
+	SystemStats              SystemStats `json:"system-stats"`
+	TotalMaxPower            FlexInt     `json:"total_max_power"`
+	TwoPhaseAdopt            FlexBool    `json:"two_phase_adopt"`
+	TxBytes                  FlexInt     `json:"tx_bytes"`
+	Type                     string      `fake:"{lexify:pdu}"              json:"type"`
+	Unsupported              FlexBool    `json:"unsupported"`
+	UnsupportedReason        FlexInt     `json:"unsupported_reason"`
+	Upgradeable              FlexBool    `json:"upgradable"`
+	Uplink                   Uplink      `json:"uplink"`
+	UplinkDepth              FlexBool    `json:"uplink_depth"`
+	Uptime                   FlexInt     `json:"uptime"`
+	UserNumSta               FlexInt     `json:"user-num_sta"`
+	Version                  string      `fake:"{appversion}"              json:"version"`
 }
 
 // OutletOverride hold the PDU outlet override data.
 type OutletOverride struct {
 	CycleEnabled FlexBool `json:"cycle_enabled"`
 	Index        FlexInt  `json:"index"`
-	Name         string   `json:"name"`
+	Name         string   `fake:"{randomstring:[override-1,override-2]}" json:"name"`
 	RelayState   FlexBool `json:"relay_state"`
 }
 
@@ -120,7 +120,7 @@ type OutletOverride struct {
 type OutletTable struct {
 	CycleEnabled      FlexBool `json:"cycle_enabled"`
 	Index             FlexInt  `json:"index"`
-	Name              string   `json:"name"`
+	Name              string   `fake:"{randomstring:[table-1,table-2,table-3]]" json:"name"`
 	OutletCaps        FlexInt  `json:"outlet_caps"`
 	OutletCurrent     FlexInt  `json:"outlet_current"`
 	OutletPower       FlexInt  `json:"outlet_power"`

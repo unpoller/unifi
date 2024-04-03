@@ -109,7 +109,7 @@ type UAP struct {
 	ModelInEOL                    FlexBool        `json:"model_in_eol"`
 	ModelInLTS                    FlexBool        `json:"model_in_lts"`
 	ModelIncompatible             FlexBool        `json:"model_incompatible"`
-	Name                          string          `json:"name"`
+	Name                          string          `fake:"{randomstring:[uap-1,uap-2]}" json:"name"`
 	NumSta                        FlexInt         `json:"num_sta"`
 	OutdoorModeOverride           string          `json:"outdoor_mode_override"`
 	PortTable                     []Port          `fakesize:"5"                            json:"port_table"`

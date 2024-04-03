@@ -121,7 +121,7 @@ type Site struct {
 		XputUp                FlexInt  `json:"xput_up,omitempty"`
 	} `fakesize:"5"          json:"health"`
 	ID           string  `fake:"{uuid}"         json:"_id"`
-	Name         string  `fake:"{company}"      json:"name"`
+	Name         string  `fake:"{randomstring:[site-1,site-2]}"      json:"name"`
 	NumNewAlarms FlexInt `json:"num_new_alarms"`
 	SiteName     string  `json:"-"`
 	SourceName   string  `json:"-"`
