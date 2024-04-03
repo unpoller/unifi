@@ -58,3 +58,28 @@ func TestFlexInt(t *testing.T) {
 	a.EqualValues(10, val3.Int())
 	a.EqualValues(10, val3.Int64())
 }
+
+func TestFlexString(t *testing.T) {
+	t.Parallel()
+	a := assert.New(t)
+
+	var r struct {
+		JustString        unifi.FlexString `json:"just_string"`
+		SingleArrayString unifi.FlexString `json:"single_array_string"`
+		MultiArrayString  unifi.FlexString `json:"multi_array_string"`
+	}
+	// no errors unmarshalling
+	a.Nil(json.Unmarshal([]byte(`{"just_string": "foo", "single_array_string": ["bar"], "multi_array_string": ["baz", "foo"]}`), &r))
+
+	// simple string
+	a.Equal("foo", r.JustString.Val)
+	a.EqualValues([]string{"foo"}, r.JustString.Arr)
+
+	// single array string
+	a.Equal("bar", r.SingleArrayString.Val)
+	a.EqualValues([]string{"bar"}, r.SingleArrayString.Arr)
+
+	// multi array string
+	a.Equal("baz, foo", r.MultiArrayString.Val)
+	a.EqualValues([]string{"baz", "foo"}, r.MultiArrayString.Arr)
+}

@@ -316,7 +316,7 @@ func (f *FlexString) UnmarshalJSON(b []byte) error {
 		// try to cast to string
 		res := make([]string, 0)
 		for _, v := range i {
-			if s, err := v.(string); err == nil {
+			if s, ok := v.(string); ok {
 				res = append(res, s)
 			}
 		}
