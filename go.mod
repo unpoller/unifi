@@ -7,7 +7,7 @@ toolchain go1.22.1
 require (
 	github.com/brianvoe/gofakeit/v6 v6.28.0
 	github.com/stretchr/testify v1.9.0
-	golang.org/x/net v0.23.0
+	golang.org/x/net v0.24.0
 )
 
 require (
