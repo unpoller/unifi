@@ -7,51 +7,51 @@ import (
 )
 
 type Alarm struct {
-	AppProto              string    `json:"app_proto,omitempty"`
-	Archived              FlexBool  `json:"archived"`
-	Catname               string    `json:"catname"`
-	Datetime              time.Time `fake:"{recent_time}"                             json:"datetime"`
-	DestIP                string    `fake:"{ipv4address}"                             json:"dest_ip"`
-	DestIPGeo             IPGeo     `json:"dstipGeo"`
-	DestPort              int       `fake:"{port}"                                    json:"dest_port"`
-	DstIPASN              string    `json:"dstipASN,omitempty"`
-	DstIPCountry          string    `json:"dstipCountry,omitempty"`
-	DstMAC                string    `fake:"{macaddress}"                              json:"dst_mac"`
-	EventType             string    `json:"event_type"`
-	FlowID                int64     `json:"flow_id"`
-	HandledAdminID        string    `json:"handled_admin_id,omitempty"`
-	HandledTime           time.Time `json:"handled_time,omitempty"`
-	Host                  string    `json:"host"`
-	ID                    string    `fake:"{uuid}"                                    json:"_id"`
-	InIface               string    `fake:"{randomstring:[eth0,eth1,lan1,wan1,wan2]}" json:"in_iface"`
-	InnerAlertAction      string    `json:"inner_alert_action"`
-	InnerAlertCategory    string    `json:"inner_alert_category"`
-	InnerAlertGID         int64     `json:"inner_alert_gid"`
-	InnerAlertRev         int64     `json:"inner_alert_rev"`
-	InnerAlertSeverity    int64     `json:"inner_alert_severity"`
-	InnerAlertSignature   string    `json:"inner_alert_signature"`
-	InnerAlertSignatureID int64     `json:"inner_alert_signature_id"`
-	Key                   string    `json:"key"`
-	Msg                   string    `fake:"{sentence:5}"                              json:"msg"`
-	Proto                 string    `json:"proto"`
-	SiteID                string    `fake:"{uuid}"                                    json:"site_id"`
-	SiteName              string    `json:"-"`
-	SourceIPGeo           IPGeo     `json:"usgipGeo"`
-	SourceName            string    `json:"-"`
-	SrcIP                 string    `fake:"{ipv4address}"                             json:"src_ip"`
-	SrcIPASN              string    `json:"srcipASN,omitempty"`
-	SrcIPCountry          string    `json:"srcipCountry,omitempty"`
-	SrcMAC                string    `fake:"{macaddress}"                              json:"src_mac"`
-	SrcPort               int       `fake:"{port}"                                    json:"src_port"`
-	Subsystem             string    `json:"subsystem"`
-	Time                  int64     `fake:"{timestamp}"                               json:"time"`
-	Timestamp             int64     `fake:"{timestamp}"                               json:"timestamp"`
-	TxID                  FlexInt   `json:"tx_id,omitempty"`
-	USGIP                 string    `fake:"{ipv4address}"                             json:"usgip"`
-	USGIPASN              string    `json:"usgipASN"`
-	USGIPCountry          string    `json:"usgipCountry"`
-	USGIPGeo              IPGeo     `json:"srcipGeo,omitempty"`
-	UniqueAlertID         string    `json:"unique_alertid"`
+	AppProto              string     `json:"app_proto,omitempty"`
+	Archived              FlexBool   `json:"archived"`
+	Catname               FlexString `json:"catname"`
+	Datetime              time.Time  `fake:"{recent_time}"                             json:"datetime"`
+	DestIP                string     `fake:"{ipv4address}"                             json:"dest_ip"`
+	DestIPGeo             IPGeo      `json:"dstipGeo"`
+	DestPort              int        `fake:"{port}"                                    json:"dest_port"`
+	DstIPASN              string     `json:"dstipASN,omitempty"`
+	DstIPCountry          string     `json:"dstipCountry,omitempty"`
+	DstMAC                string     `fake:"{macaddress}"                              json:"dst_mac"`
+	EventType             string     `json:"event_type"`
+	FlowID                int64      `json:"flow_id"`
+	HandledAdminID        string     `json:"handled_admin_id,omitempty"`
+	HandledTime           time.Time  `json:"handled_time,omitempty"`
+	Host                  string     `json:"host"`
+	ID                    string     `fake:"{uuid}"                                    json:"_id"`
+	InIface               string     `fake:"{randomstring:[eth0,eth1,lan1,wan1,wan2]}" json:"in_iface"`
+	InnerAlertAction      string     `json:"inner_alert_action"`
+	InnerAlertCategory    string     `json:"inner_alert_category"`
+	InnerAlertGID         int64      `json:"inner_alert_gid"`
+	InnerAlertRev         int64      `json:"inner_alert_rev"`
+	InnerAlertSeverity    int64      `json:"inner_alert_severity"`
+	InnerAlertSignature   string     `json:"inner_alert_signature"`
+	InnerAlertSignatureID int64      `json:"inner_alert_signature_id"`
+	Key                   string     `json:"key"`
+	Msg                   string     `fake:"{sentence:5}"                              json:"msg"`
+	Proto                 string     `json:"proto"`
+	SiteID                string     `fake:"{uuid}"                                    json:"site_id"`
+	SiteName              string     `json:"-"`
+	SourceIPGeo           IPGeo      `json:"usgipGeo"`
+	SourceName            string     `json:"-"`
+	SrcIP                 string     `fake:"{ipv4address}"                             json:"src_ip"`
+	SrcIPASN              string     `json:"srcipASN,omitempty"`
+	SrcIPCountry          string     `json:"srcipCountry,omitempty"`
+	SrcMAC                string     `fake:"{macaddress}"                              json:"src_mac"`
+	SrcPort               int        `fake:"{port}"                                    json:"src_port"`
+	Subsystem             string     `json:"subsystem"`
+	Time                  int64      `fake:"{timestamp}"                               json:"time"`
+	Timestamp             int64      `fake:"{timestamp}"                               json:"timestamp"`
+	TxID                  FlexInt    `json:"tx_id,omitempty"`
+	USGIP                 string     `fake:"{ipv4address}"                             json:"usgip"`
+	USGIPASN              string     `json:"usgipASN"`
+	USGIPCountry          string     `json:"usgipCountry"`
+	USGIPGeo              IPGeo      `json:"srcipGeo,omitempty"`
+	UniqueAlertID         string     `json:"unique_alertid"`
 }
 
 // GetAlarms returns Alarms for a list of Sites.

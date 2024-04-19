@@ -72,69 +72,69 @@ func (u *Unifi) GetSiteEvents(site *Site, hours time.Duration) ([]*Event, error)
 // Event describes a UniFi Event.
 // API Path: /api/s/default/stat/event.
 type Event struct {
-	Admin                 string    `json:"admin"`
-	Ap                    string    `json:"ap"`
-	ApFrom                string    `json:"ap_from"`
-	ApName                string    `json:"ap_name"`
-	ApTo                  string    `json:"ap_to"`
-	AppProto              string    `json:"app_proto"`
-	Bytes                 FlexInt   `json:"bytes"`
-	Catname               string    `json:"catname"`
-	Channel               FlexInt   `json:"channel"`
-	ChannelFrom           FlexInt   `json:"channel_from"`
-	ChannelTo             FlexInt   `json:"channel_to"`
-	Datetime              time.Time `fake:"{recent_time}"            json:"datetime"`
-	DestIP                string    `fake:"{ipv4address}"            json:"dest_ip"`
-	DestIPGeo             IPGeo     `json:"dstipGeo"`
-	DestPort              int       `fake:"{port}"                   json:"dest_port"`
-	DstMAC                string    `fake:"{macaddress}"             json:"dst_mac"`
-	Duration              FlexInt   `json:"duration"`
-	EventType             string    `json:"event_type"`
-	FlowID                FlexInt   `json:"flow_id"`
-	Guest                 string    `json:"guest"`
-	Gw                    string    `json:"gw"`
-	GwName                string    `json:"gw_name"`
-	Host                  string    `json:"host"`
-	Hostname              string    `json:"hostname"`
-	ID                    string    `fake:"{uuid}"                   json:"_id"`
-	IP                    string    `fake:"{ipv4address}"            json:"ip"`
-	InIface               string    `json:"in_iface"`
-	InnerAlertAction      string    `json:"inner_alert_action"`
-	InnerAlertCategory    string    `json:"inner_alert_category"`
-	InnerAlertGID         FlexInt   `json:"inner_alert_gid"`
-	InnerAlertRev         FlexInt   `json:"inner_alert_rev"`
-	InnerAlertSeverity    FlexInt   `json:"inner_alert_severity"`
-	InnerAlertSignature   string    `json:"inner_alert_signature"`
-	InnerAlertSignatureID FlexInt   `json:"inner_alert_signature_id"`
-	IsAdmin               FlexBool  `json:"is_admin"`
-	Key                   string    `fake:"{uuid}"                   json:"key"`
-	Msg                   string    `fake:"{buzzword}"               json:"msg"`
-	Network               string    `json:"network"`
-	Proto                 string    `json:"proto"`
-	Radio                 string    `json:"radio"`
-	RadioFrom             string    `json:"radio_from"`
-	RadioTo               string    `json:"radio_to"`
-	SSID                  string    `fake:"{macaddress}"             json:"ssid"`
-	SiteID                string    `fake:"{}"                       json:"site_id"`
-	SiteName              string    `json:"-"`
-	SourceIPGeo           IPGeo     `json:"srcipGeo"`
-	SourceName            string    `json:"-"`
-	SrcIP                 string    `fake:"{ipv4address}"            json:"src_ip"`
-	SrcIPASN              string    `fake:"{address}"                json:"srcipASN"`
-	SrcIPCountry          string    `fake:"{country}"                json:"srcipCountry"`
-	SrcMAC                string    `fake:"{macaddress}"             json:"src_mac"`
-	SrcPort               int       `fake:"{port}"                   json:"src_port"`
-	Subsystem             string    `json:"subsystem"`
-	Sw                    string    `json:"sw"`
-	SwName                string    `json:"sw_name"`
-	Time                  int64     `fake:"{timestamp}"              json:"time"`
-	Timestamp             int64     `fake:"{timestamp}"              json:"timestamp"`
-	USGIP                 string    `fake:"{ipv4address}"            json:"usgip"`
-	USGIPASN              string    `fake:"{address}"                json:"usgipASN"`
-	USGIPCountry          string    `fake:"{country}"                json:"usgipCountry"`
-	USGIPGeo              IPGeo     `json:"usgipGeo"`
-	UniqueAlertID         string    `json:"unique_alertid"`
-	User                  string    `json:"user"`
+	Admin                 string     `json:"admin"`
+	Ap                    string     `json:"ap"`
+	ApFrom                string     `json:"ap_from"`
+	ApName                string     `json:"ap_name"`
+	ApTo                  string     `json:"ap_to"`
+	AppProto              string     `json:"app_proto"`
+	Bytes                 FlexInt    `json:"bytes"`
+	Catname               FlexString `json:"catname"`
+	Channel               FlexInt    `json:"channel"`
+	ChannelFrom           FlexInt    `json:"channel_from"`
+	ChannelTo             FlexInt    `json:"channel_to"`
+	Datetime              time.Time  `fake:"{recent_time}"            json:"datetime"`
+	DestIP                string     `fake:"{ipv4address}"            json:"dest_ip"`
+	DestIPGeo             IPGeo      `json:"dstipGeo"`
+	DestPort              int        `fake:"{port}"                   json:"dest_port"`
+	DstMAC                string     `fake:"{macaddress}"             json:"dst_mac"`
+	Duration              FlexInt    `json:"duration"`
+	EventType             string     `json:"event_type"`
+	FlowID                FlexInt    `json:"flow_id"`
+	Guest                 string     `json:"guest"`
+	Gw                    string     `json:"gw"`
+	GwName                string     `json:"gw_name"`
+	Host                  string     `json:"host"`
+	Hostname              string     `json:"hostname"`
+	ID                    string     `fake:"{uuid}"                   json:"_id"`
+	IP                    string     `fake:"{ipv4address}"            json:"ip"`
+	InIface               string     `json:"in_iface"`
+	InnerAlertAction      string     `json:"inner_alert_action"`
+	InnerAlertCategory    string     `json:"inner_alert_category"`
+	InnerAlertGID         FlexInt    `json:"inner_alert_gid"`
+	InnerAlertRev         FlexInt    `json:"inner_alert_rev"`
+	InnerAlertSeverity    FlexInt    `json:"inner_alert_severity"`
+	InnerAlertSignature   string     `json:"inner_alert_signature"`
+	InnerAlertSignatureID FlexInt    `json:"inner_alert_signature_id"`
+	IsAdmin               FlexBool   `json:"is_admin"`
+	Key                   string     `fake:"{uuid}"                   json:"key"`
+	Msg                   string     `fake:"{buzzword}"               json:"msg"`
+	Network               string     `json:"network"`
+	Proto                 string     `json:"proto"`
+	Radio                 string     `json:"radio"`
+	RadioFrom             string     `json:"radio_from"`
+	RadioTo               string     `json:"radio_to"`
+	SSID                  string     `fake:"{macaddress}"             json:"ssid"`
+	SiteID                string     `fake:"{}"                       json:"site_id"`
+	SiteName              string     `json:"-"`
+	SourceIPGeo           IPGeo      `json:"srcipGeo"`
+	SourceName            string     `json:"-"`
+	SrcIP                 string     `fake:"{ipv4address}"            json:"src_ip"`
+	SrcIPASN              string     `fake:"{address}"                json:"srcipASN"`
+	SrcIPCountry          string     `fake:"{country}"                json:"srcipCountry"`
+	SrcMAC                string     `fake:"{macaddress}"             json:"src_mac"`
+	SrcPort               int        `fake:"{port}"                   json:"src_port"`
+	Subsystem             string     `json:"subsystem"`
+	Sw                    string     `json:"sw"`
+	SwName                string     `json:"sw_name"`
+	Time                  int64      `fake:"{timestamp}"              json:"time"`
+	Timestamp             int64      `fake:"{timestamp}"              json:"timestamp"`
+	USGIP                 string     `fake:"{ipv4address}"            json:"usgip"`
+	USGIPASN              string     `fake:"{address}"                json:"usgipASN"`
+	USGIPCountry          string     `fake:"{country}"                json:"usgipCountry"`
+	USGIPGeo              IPGeo      `json:"usgipGeo"`
+	UniqueAlertID         string     `json:"unique_alertid"`
+	User                  string     `json:"user"`
 }
 
 // IPGeo is part of the UniFi Event data. Each event may have up to three of these.
