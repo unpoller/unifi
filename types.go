@@ -136,6 +136,8 @@ const (
 	APIClientDPI string = "/api/s/%s/stat/stadpi"
 	// APIClientPath is Unifi Clients API Path.
 	APIClientPath string = "/api/s/%s/stat/sta"
+	// APIClientHistoryPath is Unifi Clients History API Path.
+	APIClientHistoryPath string = "/v2/api/s/%s/stat/sta"
 	// APIAllUserPath is Unifi Insight all previous Clients API Path.
 	APIAllUserPath string = "/api/s/%s/stat/alluser"
 	// APINetworkPath is where we get data about Unifi networks.
