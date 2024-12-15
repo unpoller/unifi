@@ -74,6 +74,7 @@ func (u *Unifi) GetClientHistory(sites []*Site, opts *ClientHistoryOpts) ([]Clie
 	params.Add("onlyNonBlocked", fmt.Sprint(opts.OnlyNonBlocked))
 	params.Add("includeUnifiDevices", fmt.Sprint(opts.IncludeUnifiDevices))
 	params.Add("withinHours", fmt.Sprint(opts.WithinHours))
+	paramStr := params.Encode()
 
 	data := make([]ClientHistory, 0)
 
@@ -82,8 +83,8 @@ func (u *Unifi) GetClientHistory(sites []*Site, opts *ClientHistoryOpts) ([]Clie
 
 		u.DebugLog("Polling Controller, retreiving UniFi Client History, site %s ", site.SiteName)
 
-		clientPath := fmt.Sprintf(APIClientHistoryPath, site.Name)
-		if err := u.GetData(clientPath, &response, params.Encode()); err != nil {
+		clientPath := fmt.Sprintf(APIClientHistoryPath, site.Name, paramStr)
+		if err := u.GetData(clientPath, &response, ""); err != nil {
 			return nil, err
 		}
 
