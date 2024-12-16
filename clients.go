@@ -66,7 +66,6 @@ func (u *Unifi) GetClientsDPI(sites []*Site) ([]*DPITable, error) {
 
 // GetClientHistory pulls client history data from the controller.
 func (u *Unifi) GetClientHistory(sites []*Site, opts *ClientHistoryOpts) ([]ClientHistory, error) {
-	// TODO: could use external library to convert struct to url query params ?
 	if opts == nil {
 		opts = NewClientHistoryOpts()
 	}
@@ -202,19 +201,20 @@ type ClientHistory struct {
 		HasOverride FlexBool `json:"has_override"`
 	} `json:"fingerprint"`
 	FirstSeen                     FlexInt      `json:"first_seen"`
-	Hostname                      string       `json:"hostname,omitempty"`
-	ID                            string       `json:"id"`
+	Hostname                      string       `fake:"noun" json:"hostname,omitempty"`
+	ID                            string       `fake:"{uuid}" json:"id"`
 	IsAllowedInVisualProgramming  FlexBool     `json:"is_allowed_in_visual_programming"`
 	IsGuest                       FlexBool     `json:"is_guest"`
 	IsMlo                         FlexBool     `json:"is_mlo"`
 	IsWired                       FlexBool     `json:"is_wired"`
-	LastIP                        string       `json:"last_ip"`
+	LastIP                        string       `fake:"ipv4address" json:"last_ip"`
 	LastRadio                     string       `json:"last_radio"`
 	LastSeen                      FlexInt      `json:"last_seen"`
-	LastUplinkMac                 string       `json:"last_uplink_mac"`
+	LastUplinkMac                 string       `fake:"macaddress" json:"last_uplink_mac"`
 	LastUplinkName                string       `json:"last_uplink_name"`
 	LocalDNSRecordEnabled         FlexBool     `json:"local_dns_record_enabled"`
-	Mac                           string       `json:"mac"`
+	Mac                           string       `fake:"macaddress" json:"mac"`
+	Note                          string       `json:"note"`
 	Noted                         FlexBool     `json:"noted"`
 	Oui                           string       `json:"oui"`
 	SiteID                        string       `json:"site_id"`
@@ -222,7 +222,7 @@ type ClientHistory struct {
 	Tags                          []FlexString `json:"tags"`
 	Type                          string       `json:"type"`
 	UnifiDevice                   FlexBool     `json:"unifi_device"`
-	UplinkMac                     string       `json:"uplink_mac"`
+	UplinkMac                     string       `fake:"macaddress" json:"uplink_mac"`
 	UseFixedip                    FlexBool     `json:"use_fixedip"`
 	UserID                        string       `json:"user_id"`
 	UsergroupID                   string       `json:"usergroup_id"`
