@@ -65,7 +65,7 @@ func (u *Unifi) GetClientsDPI(sites []*Site) ([]*DPITable, error) {
 	return data, nil
 }
 
-// GetClientHistory pulls client history data from the controller.
+// GetClientHistory returns client history data from the controller for clients that conform to the provided filter options within the requested site(s).
 func (u *Unifi) GetClientHistory(sites []*Site, opts *ClientHistoryOpts) ([]*ClientHistory, error) {
 	if opts == nil {
 		opts = NewClientHistoryOpts()
