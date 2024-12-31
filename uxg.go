@@ -67,7 +67,7 @@ type UXG struct {
 	ModelIncompatible          FlexBool             `json:"model_incompatible"`
 	ModelInEol                 FlexBool             `json:"model_in_eol"`
 	ModelInLts                 FlexBool             `json:"model_in_lts"`
-	Name                       string               `fake:"{animal}" json:"name"`
+	Name                       string               `fake:"{animal}"                      json:"name"`
 	NetworkTable               NetworkTable         `json:"network_table"`
 	NextHeartbeatAt            FlexInt              `json:"next_heartbeat_at"`
 	NextInterval               FlexInt              `json:"next_interval"`

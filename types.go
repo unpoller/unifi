@@ -19,7 +19,7 @@ func init() {
 		Description: "Random Unifi Port integer value",
 		Example:     "8443",
 		Output:      "int",
-		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+		Generate: func(r *rand.Rand, _ *gofakeit.MapParams, _ *gofakeit.Info) (interface{}, error) {
 			return r.Int31n(65535), nil
 		},
 	})
@@ -29,7 +29,7 @@ func init() {
 		Description: "Recent timestamp value",
 		Example:     "123456",
 		Output:      "int64",
-		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+		Generate: func(_ *rand.Rand, _ *gofakeit.MapParams, _ *gofakeit.Info) (interface{}, error) {
 			return gofakeit.DateRange(time.Now().Add(-time.Second*59), time.Now().Add(-time.Second)).Unix(), nil
 		},
 	})
@@ -39,7 +39,7 @@ func init() {
 		Description: "Recent time.Time value",
 		Example:     "time.Now().Add(-time.Second)",
 		Output:      "time.Time",
-		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+		Generate: func(_ *rand.Rand, _ *gofakeit.MapParams, _ *gofakeit.Info) (interface{}, error) {
 			return gofakeit.DateRange(time.Now().Add(-time.Second*59), time.Now().Add(-time.Second)), nil
 		},
 	})
@@ -59,7 +59,7 @@ func init() {
 				Description: "The number of ints to generate",
 			},
 		},
-		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+		Generate: func(_ *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
 			l, err := info.GetUint(m, "length")
 			if err != nil {
 				return nil, err
@@ -89,7 +89,7 @@ func init() {
 				Description: "The default value",
 			},
 		},
-		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+		Generate: func(_ *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
 			l, err := info.GetBool(m, "value")
 			if err != nil {
 				return nil, err
@@ -104,7 +104,7 @@ func init() {
 		Description: "Configured TempStatusByName",
 		Example:     "TempStatusByName{...}",
 		Output:      "TempStatusByName",
-		Generate: func(r *rand.Rand, m *gofakeit.MapParams, info *gofakeit.Info) (interface{}, error) {
+		Generate: func(r *rand.Rand, _ *gofakeit.MapParams, _ *gofakeit.Info) (interface{}, error) {
 			return TempStatusByName{
 				"cpu":     NewFlexTemp(float64(r.Int31n(100))),
 				"sys":     NewFlexTemp(float64(r.Int31n(100))),
@@ -149,7 +149,7 @@ const (
 	// APILogoutPath is how we logout from UDM.
 	APILogoutPath string = "/api/logout"
 	// APIEventPathIDS returns Intrusion Detection/Prevention Systems Events.
-	APIEventPathIDS string = "/api/s/%s/stat/ips/event"
+	APIEventPathIDS string = "/api/s/%s/stat/ips/event" //nolint:revive
 	// APIEventPathAlarms contains the site alarms.
 	APIEventPathAlarms string = "/api/s/%s/list/alarm"
 	// APIPrefixNew is the prefix added to the new API paths; except login. duh.

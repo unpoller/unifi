@@ -8,7 +8,7 @@ import (
 )
 
 // IDS holds an Intrusion Prevention System Event.
-type IDS struct {
+type IDS struct { //nolint:revive
 	AppProto              string     `json:"app_proto,omitempty"`
 	Archived              FlexBool   `json:"archived"`
 	Catname               FlexString `json:"catname"`
@@ -56,7 +56,7 @@ type IDS struct {
 // GetIDS returns Intrusion Detection Systems events for a list of Sites.
 // timeRange may have a length of 0, 1 or 2. The first time is Start, the second is End.
 // Events between start and end are returned. End defaults to time.Now().
-func (u *Unifi) GetIDS(sites []*Site, timeRange ...time.Time) ([]*IDS, error) {
+func (u *Unifi) GetIDS(sites []*Site, timeRange ...time.Time) ([]*IDS, error) { //nolint:revive
 	data := []*IDS{}
 
 	for _, site := range sites {

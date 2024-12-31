@@ -145,7 +145,7 @@ func (u *Unifi) Login() error {
 func (u *Unifi) Logout() error {
 	// a post is needed for logout
 	_, err := u.PostJSON(APILogoutPath)
-	
+
 	return err
 }
 
@@ -174,7 +174,7 @@ func (u *Unifi) checkNewStyleAPI() error {
 	// We can't share these cookies with other requests, so make a new client.
 	// Checking the return code on the first request so don't follow a redirect.
 	client := &http.Client{
-		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+		CheckRedirect: func(_ *http.Request, _ []*http.Request) error {
 			return http.ErrUseLastResponse
 		},
 		Transport: &http.Transport{
