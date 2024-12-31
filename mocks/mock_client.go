@@ -223,6 +223,44 @@ func (m *MockUnifi) GetUXGs(_ *unifi.Site) ([]*unifi.UXG, error) {
 	return results, nil
 }
 
+// GetUBBs returns all UBB devices, an error, or nil if there are no UBBs.
+func (m *MockUnifi) GetUBBs(_ *unifi.Site) ([]*unifi.UBB, error) {
+	results := make([]*unifi.UBB, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.UBB
+
+		err := gofakeit.Struct(&a)
+
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetUCIs returns all UCI devices, an error, or nil if there are no UCIs.
+func (m *MockUnifi) GetUCIs(_ *unifi.Site) ([]*unifi.UCI, error) {
+	results := make([]*unifi.UCI, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.UCI
+
+		err := gofakeit.Struct(&a)
+
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
 // GetUSGs returns all 1Gb gateways, an error, or nil if there are no USGs.
 func (m *MockUnifi) GetUSGs(_ *unifi.Site) ([]*unifi.USG, error) {
 	results := make([]*unifi.USG, numItemsMocked)

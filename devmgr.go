@@ -26,10 +26,10 @@ const (
 
 // devMgrCmd is the type marshalled and sent to APIDevMgrPath.
 type devMgrCmd struct {
-	Cmd    string `json:"cmd"`                               // Required.
+	Cmd    string `json:"cmd"`                                            // Required.
 	Inform string `fake:"{url}"              json:"inform_url,omitempty"` // Migration only.
-	Mac    string `fake:"{macaddress}"       json:"mac"`           // Device MAC (required for most, but not all).
-	Port   int    `json:"port_idx,omitempty"`                // Power Cycle only.
+	Mac    string `fake:"{macaddress}"       json:"mac"`                  // Device MAC (required for most, but not all).
+	Port   int    `json:"port_idx,omitempty"`                             // Power Cycle only.
 	URL    string `fake:"{url}"              json:"url,omitempty"`        // External Upgrade only.
 }
 
@@ -51,7 +51,7 @@ func (s *Site) devMgrCommandReply(cmd *devMgrCmd) ([]byte, error) {
 // devMgrCommandSimple is for commands with no return value.
 func (s *Site) devMgrCommandSimple(cmd *devMgrCmd) error {
 	_, err := s.devMgrCommandReply(cmd)
-	
+
 	return err
 }
 

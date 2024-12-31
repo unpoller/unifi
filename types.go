@@ -194,6 +194,8 @@ type Devices struct {
 	UDMs []*UDM `fakesize:"5"`
 	UXGs []*UXG `fakesize:"5"`
 	PDUs []*PDU `fakesize:"5"`
+	UBBs []*UBB `fakesize:"5"`
+	UCIs []*UCI `fakesize:"5"`
 }
 
 // Config is the data passed into our library. This configures things and allows
@@ -235,6 +237,10 @@ type UnifiClient interface { //nolint: revive
 	GetUXGs(site *Site) ([]*UXG, error)
 	// GetUSGs returns all 1Gb gateways, an error, or nil if there are no USGs.
 	GetUSGs(site *Site) ([]*USG, error)
+	// GetUBBs returns all UBB devices, an error, or nil if there are no UBBs.
+	GetUBBs(site *Site) ([]*UBB, error)
+	// GetUCIs returns all UCI devices, an error, or nil if there are no UCIs.
+	GetUCIs(site *Site) ([]*UCI, error)
 	// GetEvents returns a response full of UniFi Events for the last 1 hour from multiple sites.
 	GetEvents(sites []*Site, hours time.Duration) ([]*Event, error)
 	// GetSiteEvents retrieves the last 1 hour's worth of events from a single site.

@@ -102,6 +102,34 @@ func (u *Unifi) GetUSGs(site *Site) ([]*USG, error) {
 	return u.parseDevices(response.Data, site).USGs, nil
 }
 
+// GetUBBs returns all UBB devices, an error, or nil if there are no UBBs.
+func (u *Unifi) GetUBBs(site *Site) ([]*UBB, error) {
+	var response struct {
+		Data []json.RawMessage `json:"data"`
+	}
+
+	err := u.GetData(fmt.Sprintf(APIDevicePath, site.Name), &response)
+	if err != nil {
+		return nil, err
+	}
+
+	return u.parseDevices(response.Data, site).UBBs, nil
+}
+
+// GetUCIs returns all UCI devices, an error, or nil if there are no UCIs.
+func (u *Unifi) GetUCIs(site *Site) ([]*UCI, error) {
+	var response struct {
+		Data []json.RawMessage `json:"data"`
+	}
+
+	err := u.GetData(fmt.Sprintf(APIDevicePath, site.Name), &response)
+	if err != nil {
+		return nil, err
+	}
+
+	return u.parseDevices(response.Data, site).UCIs, nil
+}
+
 type minimalUnmarshalInfo struct {
 	Type  string `json:"type"`
 	Model string `json:"model"`
@@ -116,7 +144,7 @@ func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 		var o minimalUnmarshalInfo
 		if u.unmarshalDevice("map", r, &o) != nil {
 			u.ErrorLog("unknown asset type - cannot find asset type in payload - skipping")
-			
+
 			continue
 		}
 
@@ -143,6 +171,10 @@ func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 			u.unmarshallUDM(site, r, devices)
 		case "uxg":
 			u.unmarshallUXG(site, r, devices)
+		case "ubb":
+			u.unmarshallUBB(site, r, devices)
+		case "uci":
+			u.unmarshallUCI(site, r, devices)
 		default:
 			u.ErrorLog("unknown asset type - %v - skipping: data=%+v", assetType, string(r))
 		}
@@ -193,6 +225,24 @@ func (u *Unifi) unmarshallUXG(site *Site, payload json.RawMessage, devices *Devi
 		dev.Name = strings.TrimSpace(pick(dev.Name, dev.Mac))
 		dev.site = site
 		devices.UXGs = append(devices.UXGs, dev)
+	}
+}
+
+func (u *Unifi) unmarshallUBB(site *Site, payload json.RawMessage, devices *Devices) {
+	dev := &UBB{SiteName: site.SiteName, SourceName: u.URL}
+	if u.unmarshalDevice("ubb", payload, dev) == nil {
+		dev.Name = strings.TrimSpace(pick(dev.Name, dev.Mac))
+		dev.site = site
+		devices.UBBs = append(devices.UBBs, dev)
+	}
+}
+
+func (u *Unifi) unmarshallUCI(site *Site, payload json.RawMessage, devices *Devices) {
+	dev := &UCI{SiteName: site.SiteName, SourceName: u.URL}
+	if u.unmarshalDevice("uci", payload, dev) == nil {
+		dev.Name = strings.TrimSpace(pick(dev.Name, dev.Mac))
+		dev.site = site
+		devices.UCIs = append(devices.UCIs, dev)
 	}
 }
 
