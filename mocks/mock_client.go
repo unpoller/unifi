@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/brianvoe/gofakeit/v6"
-	"github.com/unpoller/unifi"
+	"github.com/unpoller/unifi/v5"
 )
 
 type MockUnifi struct {

@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/unpoller/unifi"
+	"github.com/unpoller/unifi/v5"
 )
 
 type MockHTTPTestServer struct {
