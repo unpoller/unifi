@@ -15,7 +15,7 @@ type IDS struct { //nolint:revive
 	Datetime              time.Time  `fake:"{recent_time}"            json:"datetime"`
 	DestIP                string     `fake:"{ipv4address}"            json:"dest_ip"`
 	DestIPGeo             IPGeo      `json:"dstipGeo"`
-	DestPort              FlexInt    `fake:"{port}"                   json:"dest_port,omitempty"`
+	DestPort              FlexInt    `json:"dest_port,omitempty"`
 	DstIPASN              string     `fake:"{address}"                json:"dstipASN"`
 	DstIPCountry          string     `fake:"{country}"                json:"dstipCountry"`
 	DstMAC                string     `fake:"{macaddress}"             json:"dst_mac"`
@@ -42,10 +42,10 @@ type IDS struct { //nolint:revive
 	SrcIPASN              string     `fake:"{address}"                json:"srcipASN"`
 	SrcIPCountry          string     `fake:"{country}"                json:"srcipCountry"`
 	SrcMAC                string     `fake:"{macaddress}"             json:"src_mac"`
-	SrcPort               FlexInt    `fake:"{port}"                   json:"src_port,omitempty"`
+	SrcPort               FlexInt    `json:"src_port,omitempty"`
 	Subsystem             string     `json:"subsystem"`
-	Time                  FlexInt    `fake:"{timestamp}"              json:"time"`
-	Timestamp             FlexInt    `fake:"{timestamp}"              json:"timestamp"`
+	Time                  FlexInt    `json:"time"`
+	Timestamp             FlexInt    `json:"timestamp"`
 	USGIP                 string     `fake:"{ipv4address}"            json:"usgip"`
 	USGIPASN              string     `fake:"{address}"                json:"usgipASN"`
 	USGIPCountry          string     `fake:"{country}"                json:"usgipCountry"`
