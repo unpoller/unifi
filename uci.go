@@ -34,6 +34,9 @@ type CIStateTable struct {
 }
 
 type UCI struct {
+	SiteName                 string `json:"-"`
+	SourceName               string `json:"-"`
+	site                     *Site
 	RequiredVersion          string           `json:"required_version"`
 	PortTable                []*Port          `json:"port_table"`
 	LicenseState             string           `json:"license_state"`

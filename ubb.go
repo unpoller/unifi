@@ -134,6 +134,9 @@ func (v *UBBStat) UnmarshalJSON(data []byte) error {
 }
 
 type UBB struct {
+	SiteName                  string `json:"-"`
+	SourceName                string `json:"-"`
+	site                      *Site
 	RequiredVersion           string           `json:"required_version"`
 	HasSpeaker                FlexBool         `json:"has_speaker"`
 	LicenseState              string           `json:"license_state"`
