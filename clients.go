@@ -66,11 +66,11 @@ func (u *Unifi) GetClientsDPI(sites []*Site) ([]*DPITable, error) {
 // Client defines all the data a connected-network client contains.
 type Client struct {
 	Anomalies        FlexInt  `json:"anomalies,omitempty"`
-	ApMac            string   `fake:"{macaddress}"           json:"ap_mac"`
+	ApMac            string   `fake:"{macaddress}"                                json:"ap_mac"`
 	ApName           string   `json:"-"`
 	AssocTime        FlexInt  `json:"assoc_time"`
 	Blocked          bool     `json:"blocked,omitempty"`
-	Bssid            string   `fake:"{macaddress}"           json:"bssid"`
+	Bssid            string   `fake:"{macaddress}"                                json:"bssid"`
 	BytesR           FlexInt  `json:"bytes-r"`
 	Ccq              FlexInt  `json:"ccq"`
 	Channel          FlexInt  `json:"channel"`
@@ -79,14 +79,14 @@ type Client struct {
 	DevID            FlexInt  `json:"dev_id"`
 	DevVendor        FlexInt  `json:"dev_vendor,omitempty"`
 	DhcpendTime      FlexInt  `json:"dhcpend_time,omitempty"`
-	Essid            string   `fake:"{macaddress}"           json:"essid"`
+	Essid            string   `fake:"{macaddress}"                                json:"essid"`
 	FirstSeen        FlexInt  `json:"first_seen"`
-	FixedIP          string   `fake:"{ipv4address}"          json:"fixed_ip"`
-	GwMac            string   `fake:"{macaddress}"           json:"gw_mac"`
+	FixedIP          string   `fake:"{ipv4address}"                               json:"fixed_ip"`
+	GwMac            string   `fake:"{macaddress}"                                json:"gw_mac"`
 	GwName           string   `json:"-"`
 	Hostname         string   `json:"hostname"`
-	ID               string   `fake:"{uuid}"                 json:"_id"`
-	IP               string   `fake:"{ipv4address}"          json:"ip"`
+	ID               string   `fake:"{uuid}"                                      json:"_id"`
+	IP               string   `fake:"{ipv4address}"                               json:"ip"`
 	IdleTime         FlexInt  `json:"idle_time"`
 	Is11R            FlexBool `json:"is_11r"`
 	IsGuest          FlexBool `json:"is_guest"`
@@ -99,12 +99,12 @@ type Client struct {
 	LastSeenByUGW    FlexInt  `json:"_last_seen_by_ugw"`
 	LastSeenByUSW    FlexInt  `json:"_last_seen_by_usw"`
 	LatestAssocTime  FlexInt  `json:"latest_assoc_time"`
-	Mac              string   `fake:"{macaddress}"           json:"mac"`
+	Mac              string   `fake:"{macaddress}"                                json:"mac"`
 	Name             string   `fake:"{randomstring:[client-1,client-2,client-3]}" json:"name"`
 	Network          string   `json:"network"`
-	NetworkID        string   `fake:"{uuid}"                 json:"network_id"`
+	NetworkID        string   `fake:"{uuid}"                                      json:"network_id"`
 	Noise            FlexInt  `json:"noise"`
-	Note             string   `fake:"{sentence 20}"          json:"note"`
+	Note             string   `fake:"{sentence 20}"                               json:"note"`
 	Noted            FlexBool `json:"noted"`
 	OsClass          FlexInt  `json:"os_class"`
 	OsName           FlexInt  `json:"os_name"`
@@ -123,11 +123,11 @@ type Client struct {
 	RxRate           FlexInt  `json:"rx_rate"`
 	Satisfaction     FlexInt  `json:"satisfaction,omitempty"`
 	Signal           FlexInt  `json:"signal"`
-	SiteID           string   `fake:"{uuid}"                 json:"site_id"`
+	SiteID           string   `fake:"{uuid}"                                      json:"site_id"`
 	SiteName         string   `json:"-"`
 	SourceName       string   `json:"-"`
 	SwDepth          int      `json:"sw_depth"`
-	SwMac            string   `fake:"{macaddress}"           json:"sw_mac"`
+	SwMac            string   `fake:"{macaddress}"                                json:"sw_mac"`
 	SwName           string   `json:"-"`
 	SwPort           FlexInt  `json:"sw_port"`
 	TxBytes          FlexInt  `json:"tx_bytes"`
@@ -141,8 +141,8 @@ type Client struct {
 	UptimeByUGW      FlexInt  `json:"_uptime_by_ugw"`
 	UptimeByUSW      FlexInt  `json:"_uptime_by_usw"`
 	UseFixedIP       FlexBool `json:"use_fixedip"`
-	UserGroupID      string   `fake:"{uuid}"                 json:"usergroup_id"`
-	UserID           string   `fake:"{uuid}"                 json:"user_id"`
+	UserGroupID      string   `fake:"{uuid}"                                      json:"usergroup_id"`
+	UserID           string   `fake:"{uuid}"                                      json:"user_id"`
 	Vlan             FlexInt  `json:"vlan"`
 	WifiTxAttempts   FlexInt  `json:"wifi_tx_attempts"`
 	WiredRxBytes     FlexInt  `json:"wired-rx_bytes"`

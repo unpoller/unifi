@@ -283,7 +283,7 @@ func (m *MockUnifi) GetSiteEvents(_ *unifi.Site, _ time.Duration) ([]*unifi.Even
 // GetIDS returns Intrusion Detection Systems events for a list of Sites.
 // timeRange may have a length of 0, 1 or 2. The first time is Start, the second is End.
 // Events between start and end are returned. End defaults to time.Now().
-func (m *MockUnifi) GetIDS(_ []*unifi.Site, _ ...time.Time) ([]*unifi.IDS, error) {
+func (m *MockUnifi) GetIDS(_ []*unifi.Site, _ ...time.Time) ([]*unifi.IDS, error) { //nolint:revive
 	results := make([]*unifi.IDS, numItemsMocked)
 
 	for i := 0; i < numItemsMocked; i++ {

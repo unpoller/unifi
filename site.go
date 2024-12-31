@@ -73,7 +73,7 @@ type Site struct {
 	AttrHiddenID string   `json:"attr_hidden_id"`
 	AttrNoDelete FlexBool `json:"attr_no_delete"`
 	controller   *Unifi
-	Desc         string `fake:"{buzzword}"     json:"desc"`
+	Desc         string `fake:"{buzzword}" json:"desc"`
 	Health       []struct {
 		Drops         FlexInt  `json:"drops,omitempty"`
 		Gateways      []string `fakesize:"5"             json:"gateways,omitempty"`
@@ -119,9 +119,9 @@ type Site struct {
 		WanIP                 string   `fake:"{ipv4address}"                      json:"wan_ip,omitempty"`
 		XputDown              FlexInt  `json:"xput_down,omitempty"`
 		XputUp                FlexInt  `json:"xput_up,omitempty"`
-	} `fakesize:"5"          json:"health"`
-	ID           string  `fake:"{uuid}"         json:"_id"`
-	Name         string  `fake:"{randomstring:[site-1,site-2]}"      json:"name"`
+	} `fakesize:"5"                          json:"health"`
+	ID           string  `fake:"{uuid}"                         json:"_id"`
+	Name         string  `fake:"{randomstring:[site-1,site-2]}" json:"name"`
 	NumNewAlarms FlexInt `json:"num_new_alarms"`
 	SiteName     string  `json:"-"`
 	SourceName   string  `json:"-"`
