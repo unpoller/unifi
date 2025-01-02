@@ -17,7 +17,7 @@ type Bb struct {
 	Oid                           string    `json:"oid"`
 	Bb                            string    `json:"bb"`
 	Time                          FlexInt   `json:"time"`
-	Datetime                      time.Time `json:"datetime"`
+	Datetime                      time.Time `fake:"{recent_time}"                     json:"datetime"`
 	UserWifi0RxPackets            FlexInt   `json:"user-wifi0-rx_packets"`
 	UserTerra2RxPackets           FlexInt   `json:"user-terra2-rx_packets"`
 	UserRxPackets                 FlexInt   `json:"user-rx_packets"`
@@ -133,141 +133,151 @@ func (v *UBBStat) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+type AntennaTable struct {
+	Default   FlexBool   `json:"default"`
+	ID        FlexInt    `json:"id"`
+	Name      FlexString `json:"name"`
+	Wifi0Gain FlexInt    `json:"wifi0_gain"`
+	Wifi1Gain FlexInt    `json:"wifi1_gain"`
+}
+
 type UBB struct {
-	SiteName                  string `json:"-"`
-	SourceName                string `json:"-"`
-	site                      *Site
-	RequiredVersion           string           `json:"required_version"`
-	HasSpeaker                FlexBool         `json:"has_speaker"`
-	LicenseState              string           `json:"license_state"`
-	MeshStaVapEnabled         FlexBool         `json:"mesh_sta_vap_enabled"`
-	Type                      string           `json:"type"`
-	SetupID                   string           `json:"setup_id"`
-	HwCaps                    FlexInt          `json:"hw_caps"`
-	RebootDuration            FlexInt          `json:"reboot_duration"`
-	ConfigNetwork             *ConfigNetwork   `json:"config_network"`
-	SyslogKey                 string           `json:"syslog_key"`
-	Model                     string           `json:"model"`
-	LcmTrackerEnabled         FlexBool         `json:"lcm_tracker_enabled"`
-	BandsteeringMode          string           `json:"bandsteering_mode"`
-	IP                        string           `json:"ip"`
-	LastConnectionNetworkName string           `json:"last_connection_network_name"`
-	UbbIsAp                   FlexBool         `json:"ubb_is_ap"`
-	LedOverrideColor          string           `json:"led_override_color"`
-	Version                   string           `json:"version"`
-	UnsupportedReason         FlexInt          `json:"unsupported_reason"`
-	AdoptionCompleted         FlexBool         `json:"adoption_completed"`
-	AnonID                    string           `json:"anon_id"`
-	LastConnectionNetworkID   string           `json:"last_connection_network_id"`
-	CountryCode               FlexInt          `json:"country_code"`
-	WlangroupIDNa             string           `json:"wlangroup_id_na"`
-	UbbSsid                   string           `json:"ubb_ssid"`
-	AntennaTable              []any            `json:"antenna_table"`
-	WifiCaps                  FlexInt          `json:"wifi_caps"`
-	SiteID                    string           `json:"site_id"`
-	AdoptedAt                 FlexInt          `json:"adopted_at"`
-	Name                      string           `json:"name"`
-	FwCaps                    FlexInt          `json:"fw_caps"`
-	ID                        string           `json:"_id"`
-	UbbBssid                  string           `json:"ubb_bssid"`
-	MgmtNetworkID             string           `json:"mgmt_network_id"`
-	GatewayMac                string           `json:"gateway_mac"`
-	AtfEnabled                FlexBool         `json:"atf_enabled"`
-	RadioTable                []*RadioTable    `json:"radio_table"`
-	ConnectedAt               FlexInt          `json:"connected_at"`
-	TwoPhaseAdopt             FlexBool         `json:"two_phase_adopt"`
-	InformIP                  string           `json:"inform_ip"`
-	Cfgversion                string           `json:"cfgversion"`
-	Mac                       string           `json:"mac"`
-	ProvisionedAt             FlexInt          `json:"provisioned_at"`
-	InformURL                 string           `json:"inform_url"`
-	EthernetTable             []*EthernetTable `json:"ethernet_table"`
-	UpgradeDuration           FlexInt          `json:"upgrade_duration"`
-	Unsupported               FlexBool         `json:"unsupported"`
-	SysErrorCaps              FlexInt          `json:"sys_error_caps"`
+	AdoptableWhenUpgraded     FlexBool        `json:"adoptable_when_upgraded"`
+	Adopted                   FlexBool        `json:"adopted"`
+	AdoptedAt                 FlexInt         `json:"adopted_at"`
+	AdoptedByClient           string          `json:"adopted_by_client"`
+	AdoptionCompleted         FlexBool        `json:"adoption_completed"`
+	AnonID                    string          `json:"anon_id"`
+	AntennaTable              []AntennaTable  `fakesize:"1"                        json:"antenna_table"`
+	Architecture              string          `json:"architecture"`
+	AtfEnabled                FlexBool        `json:"atf_enabled"`
+	BandsteeringMode          string          `json:"bandsteering_mode"`
+	Bytes                     FlexInt         `json:"bytes"`
+	BytesD                    FlexInt         `json:"bytes-d"`
+	BytesR                    FlexInt         `json:"bytes-r"`
+	Cfgversion                string          `json:"cfgversion"`
+	ConfigNetwork             *ConfigNetwork  `json:"config_network"`
+	ConnectRequestIP          string          `json:"connect_request_ip"`
+	ConnectRequestPort        string          `json:"connect_request_port"`
+	ConnectedAt               FlexInt         `json:"connected_at"`
+	ConnectionNetworkID       string          `json:"connection_network_id"`
+	ConnectionNetworkName     string          `json:"connection_network_name"`
+	CountryCode               FlexInt         `json:"country_code"`
+	DeviceID                  string          `json:"device_id"`
+	DisconnectedAt            FlexInt         `json:"disconnected_at"`
+	DisconnectionReason       string          `json:"disconnection_reason"`
+	DisplayableVersion        string          `json:"displayable_version"`
+	DownlinkLLDPMacs          []LLDPTable     `fakesize:"1"                        json:"downlink_lldp_macs"`
+	DownlinkTable             []DownlinkTable `fakesize:"1"                        json:"downlink_table"`
+	EthernetTable             []EthernetTable `fakesize:"1"                        json:"ethernet_table"`
+	FixedApAvailable          FlexBool        `json:"fixed_ap_available"`
+	FwCaps                    FlexInt         `json:"fw_caps"`
+	GatewayMac                string          `json:"gateway_mac"`
+	GeneralTemperature        FlexInt         `json:"general_temperature"`
+	HasEth1                   FlexBool        `json:"has_eth1"`
+	HasFan                    FlexBool        `json:"has_fan"`
+	HasSpeaker                FlexBool        `json:"has_speaker"`
+	HasTemperature            FlexBool        `json:"has_temperature"`
+	HashID                    string          `json:"hash_id"`
+	HwCaps                    FlexInt         `json:"hw_caps"`
+	ID                        string          `json:"_id"`
+	IP                        string          `json:"ip"`
+	InformIP                  string          `json:"inform_ip"`
+	InformURL                 string          `json:"inform_url"`
+	IsAccessPoint             FlexBool        `json:"is_access_point"`
+	Isolated                  FlexBool        `json:"isolated"`
+	KernelVersion             string          `json:"kernel_version"`
+	KnownCfgversion           string          `json:"known_cfgversion"`
+	LastConnectionNetworkID   string          `json:"last_connection_network_id"`
+	LastConnectionNetworkName string          `json:"last_connection_network_name"`
+	LastSeen                  FlexInt         `json:"last_seen"`
 	LastUplink                struct {
 		UplinkMac        string  `json:"uplink_mac"`
 		UplinkRemotePort FlexInt `json:"uplink_remote_port"`
 		PortIdx          FlexInt `json:"port_idx"`
 		Type             string  `json:"type"`
 	} `json:"last_uplink"`
-	LedOverride                string             `json:"led_override"`
-	DisconnectedAt             FlexInt            `json:"disconnected_at"`
-	UbbPairName                string             `json:"ubb_pair_name"`
-	Architecture               string             `json:"architecture"`
-	XAesGcm                    FlexBool           `json:"x_aes_gcm"`
-	HasFan                     FlexBool           `json:"has_fan"`
-	HasEth1                    FlexBool           `json:"has_eth1"`
-	ModelIncompatible          FlexBool           `json:"model_incompatible"`
-	XAuthkey                   string             `json:"x_authkey"`
-	ModelInEol                 FlexBool           `json:"model_in_eol"`
-	HasTemperature             FlexBool           `json:"has_temperature"`
-	AdoptedByClient            string             `json:"adopted_by_client"`
-	ModelInLts                 FlexBool           `json:"model_in_lts"`
-	UbbPairID                  string             `json:"ubb_pair_id"`
-	KernelVersion              string             `json:"kernel_version"`
-	Serial                     string             `json:"serial"`
-	UbbPsk                     string             `json:"ubb_psk"`
-	FixedApAvailable           FlexBool           `json:"fixed_ap_available"`
-	LedOverrideColorBrightness FlexInt            `json:"led_override_color_brightness"`
-	Adopted                    FlexBool           `json:"adopted"`
-	HashID                     string             `json:"hash_id"`
-	DeviceID                   string             `json:"device_id"`
-	Uplink                     *Uplink            `json:"uplink"`
-	State                      FlexInt            `json:"state"`
-	StartDisconnectedMillis    FlexInt            `json:"start_disconnected_millis"`
-	UpgradeState               FlexInt            `json:"upgrade_state"`
-	StartConnectedMillis       FlexInt            `json:"start_connected_millis"`
-	LastSeen                   FlexInt            `json:"last_seen"`
-	NextInterval               FlexInt            `json:"next_interval"`
-	DisconnectionReason        string             `json:"disconnection_reason"`
-	Upgradable                 FlexBool           `json:"upgradable"`
-	AdoptableWhenUpgraded      FlexBool           `json:"adoptable_when_upgraded"`
-	UpgradeToFirmware          string             `json:"upgrade_to_firmware"`
-	KnownCfgversion            string             `json:"known_cfgversion"`
-	Uptime                     FlexInt            `json:"uptime"`
-	Uptime0                    FlexInt            `json:"_uptime"`
-	Locating                   FlexBool           `json:"locating"`
-	ConnectRequestIP           string             `json:"connect_request_ip"`
-	ConnectRequestPort         string             `json:"connect_request_port"`
-	SysStats                   *SysStats          `json:"sys_stats"`
-	SystemStats                *SystemStats       `json:"system-stats"`
-	SSHSessionTable            []any              `json:"ssh_session_table"`
-	LldpTable                  []*LLDPTable       `json:"lldp_table"`
-	DisplayableVersion         string             `json:"displayable_version"`
-	ConnectionNetworkID        string             `json:"connection_network_id"`
-	ConnectionNetworkName      string             `json:"connection_network_name"`
-	StartupTimestamp           FlexInt            `json:"startup_timestamp"`
-	IsAccessPoint              FlexBool           `json:"is_access_point"`
-	SafeForAutoupgrade         FlexBool           `json:"safe_for_autoupgrade"`
-	UbbPeerState               FlexInt            `json:"ubb_peer_state"`
-	LinkQuality                FlexInt            `json:"link_quality"`
-	LinkQualityCurrent         FlexInt            `json:"link_quality_current"`
-	GeneralTemperature         FlexInt            `json:"general_temperature"`
-	LinkCapacity               FlexInt            `json:"link_capacity"`
-	Mode                       string             `json:"mode"`
-	P2PStats                   *P2PStats          `json:"p2p_stats"`
-	Isolated                   FlexBool           `json:"isolated"`
-	RadioTableStats            []*RadioTableStats `json:"radio_table_stats"`
-	PortStats                  []any              `json:"port_stats"`
-	VwireTable                 []any              `json:"vwire_table"`
-	VwireVapTable              []any              `json:"vwire_vap_table"`
-	DownlinkLLDPMacs           []*LLDPTable       `json:"downlink_lldp_macs"`
-	VapTable                   []*VapTable        `json:"vap_table"`
-	DownlinkTable              []any              `json:"downlink_table"`
-	BytesD                     FlexInt            `json:"bytes-d"`
-	TxBytesD                   FlexInt            `json:"tx_bytes-d"`
-	RxBytesD                   FlexInt            `json:"rx_bytes-d"`
-	BytesR                     FlexInt            `json:"bytes-r"`
-	PeerUbb                    *UBB               `json:"peer_ubb"`
-	Stat                       *UBBStat           `json:"stat"`
-	TxBytes                    FlexInt            `json:"tx_bytes"`
-	RxBytes                    FlexInt            `json:"rx_bytes"`
-	Bytes                      FlexInt            `json:"bytes"`
-	NumSta                     FlexInt            `json:"num_sta"`
-	UserNumSta                 FlexInt            `json:"user-num_sta"`
-	UserWlanNumSta             FlexInt            `json:"user-wlan-num_sta"`
-	XHasSSHHostkey             FlexBool           `json:"x_has_ssh_hostkey"`
+	LcmTrackerEnabled          FlexBool          `json:"lcm_tracker_enabled"`
+	LedOverride                string            `json:"led_override"`
+	LedOverrideColor           string            `json:"led_override_color"`
+	LedOverrideColorBrightness FlexInt           `json:"led_override_color_brightness"`
+	LicenseState               string            `json:"license_state"`
+	LinkCapacity               FlexInt           `json:"link_capacity"`
+	LinkQuality                FlexInt           `json:"link_quality"`
+	LinkQualityCurrent         FlexInt           `json:"link_quality_current"`
+	LldpTable                  []LLDPTable       `json:"lldp_table"`
+	Locating                   FlexBool          `json:"locating"`
+	Mac                        string            `json:"mac"`
+	MeshStaVapEnabled          FlexBool          `json:"mesh_sta_vap_enabled"`
+	MgmtNetworkID              string            `json:"mgmt_network_id"`
+	Mode                       string            `json:"mode"`
+	Model                      string            `json:"model"`
+	ModelInEol                 FlexBool          `json:"model_in_eol"`
+	ModelInLts                 FlexBool          `json:"model_in_lts"`
+	ModelIncompatible          FlexBool          `json:"model_incompatible"`
+	Name                       string            `json:"name"`
+	NextInterval               FlexInt           `json:"next_interval"`
+	NumSta                     FlexInt           `json:"num_sta"`
+	P2PStats                   *P2PStats         `json:"p2p_stats"`
+	PeerUbb                    *UBB              `fake:"-"                             json:"peer_ubb"`
+	ProvisionedAt              FlexInt           `json:"provisioned_at"`
+	RadioTable                 []RadioTable      `fakesize:"1"                         json:"radio_table"`
+	RadioTableStats            []RadioTableStats `fakesize:"1"                         json:"radio_table_stats"`
+	RebootDuration             FlexInt           `json:"reboot_duration"`
+	RequiredVersion            string            `json:"required_version"`
+	RxBytes                    FlexInt           `json:"rx_bytes"`
+	RxBytesD                   FlexInt           `json:"rx_bytes-d"`
+	SafeForAutoupgrade         FlexBool          `json:"safe_for_autoupgrade"`
+	Serial                     string            `json:"serial"`
+	SetupID                    string            `json:"setup_id"`
+	SiteID                     string            `fake:"{uuid}"                        json:"site_id"`
+	SiteName                   string            `fake:"{company}"                     json:"site_name"`
+	SourceName                 string            `fake:"{animal}"                      json:"source_name"`
+	StartConnectedMillis       FlexInt           `json:"start_connected_millis"`
+	StartDisconnectedMillis    FlexInt           `json:"start_disconnected_millis"`
+	StartupTimestamp           FlexInt           `json:"startup_timestamp"`
+	Stat                       *UBBStat          `json:"stat"`
+	State                      FlexInt           `json:"state"`
+	SysErrorCaps               FlexInt           `json:"sys_error_caps"`
+	SysStats                   *SysStats         `json:"sys_stats"`
+	SyslogKey                  string            `json:"syslog_key"`
+	SystemStats                *SystemStats      `json:"system-stats"`
+	TwoPhaseAdopt              FlexBool          `json:"two_phase_adopt"`
+	TxBytes                    FlexInt           `json:"tx_bytes"`
+	TxBytesD                   FlexInt           `json:"tx_bytes-d"`
+	Type                       string            `fake:"{lexify:ubb}"                  json:"type"`
+	UbbBssid                   string            `json:"ubb_bssid"`
+	UbbIsAp                    FlexBool          `json:"ubb_is_ap"`
+	UbbPairID                  string            `json:"ubb_pair_id"`
+	UbbPairName                string            `json:"ubb_pair_name"`
+	UbbPeerState               FlexInt           `json:"ubb_peer_state"`
+	UbbPsk                     string            `json:"ubb_psk"`
+	UbbSsid                    string            `json:"ubb_ssid"`
+	Unsupported                FlexBool          `json:"unsupported"`
+	UnsupportedReason          FlexInt           `json:"unsupported_reason"`
+	Upgradable                 FlexBool          `json:"upgradable"`
+	UpgradeDuration            FlexInt           `json:"upgrade_duration"`
+	UpgradeState               FlexInt           `json:"upgrade_state"`
+	UpgradeToFirmware          string            `json:"upgrade_to_firmware"`
+	Uplink                     *Uplink           `json:"uplink"`
+	Uptime                     FlexInt           `json:"uptime"`
+	Uptime0                    FlexInt           `json:"_uptime"`
+	UserNumSta                 FlexInt           `json:"user-num_sta"`
+	UserWlanNumSta             FlexInt           `json:"user-wlan-num_sta"`
+	VapTable                   []VapTable        `fakesize:"1"                         json:"vap_table"`
+	Version                    string            `json:"version"`
+	WifiCaps                   FlexInt           `json:"wifi_caps"`
+	WlangroupIDNa              string            `json:"wlangroup_id_na"`
+	XAesGcm                    FlexBool          `json:"x_aes_gcm"`
+	XAuthkey                   string            `json:"x_authkey"`
+	XHasSSHHostkey             FlexBool          `json:"x_has_ssh_hostkey"`
+	site                       *Site             `fake:"-"`
+
+	// unknown types, but appear in user capture
+	PortStats       []any `fake:"-" json:"port_stats"`
+	SSHSessionTable []any `fake:"-" json:"ssh_session_table"`
+	VwireTable      []any `fake:"-" json:"vwire_table"`
+	VwireVapTable   []any `fake:"-" json:"vwire_vap_table"`
 }
 
 type P2PStats struct {
