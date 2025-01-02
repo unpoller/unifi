@@ -27,6 +27,8 @@ func (u *Unifi) GetDevices(sites []*Site) (*Devices, error) {
 		devices.UDMs = append(devices.UDMs, loopDevices.UDMs...)
 		devices.UXGs = append(devices.UXGs, loopDevices.UXGs...)
 		devices.PDUs = append(devices.PDUs, loopDevices.PDUs...)
+		devices.UBBs = append(devices.UBBs, loopDevices.UBBs...)
+		devices.UCIs = append(devices.UCIs, loopDevices.UCIs...)
 	}
 
 	return devices, nil

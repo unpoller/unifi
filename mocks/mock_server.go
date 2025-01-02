@@ -208,6 +208,14 @@ func (m *MockHTTPTestServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			devices = append(devices, d)
 		}
 
+		for _, d := range device.UBBs {
+			devices = append(devices, d)
+		}
+
+		for _, d := range device.UCIs {
+			devices = append(devices, d)
+		}
+
 		respondResultOrErr(w, devices, err, true)
 
 		return
