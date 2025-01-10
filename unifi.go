@@ -126,10 +126,18 @@ func (u *Unifi) verifyPeerCertificate(certs [][]byte, _ [][]*x509.Certificate) e
 
 // Login is a helper method. It can be called to grab a new authentication cookie.
 func (u *Unifi) Login() error {
+	loginPath := APIStatusPath
+	params := ""
+
+	if u.Config.APIKey == "" {
+		params = fmt.Sprintf(`{"username":"%s","password":"%s"}`, u.User, u.Pass)
+		loginPath = APILoginPath
+	}
+
 	start := time.Now()
 
 	// magic login.
-	req, err := u.UniReq(APILoginPath, fmt.Sprintf(`{"username":"%s","password":"%s"}`, u.User, u.Pass))
+	req, err := u.UniReq(loginPath, params)
 	if err != nil {
 		return err
 	}
