@@ -154,6 +154,11 @@ func (u *Unifi) Login() error {
 
 // Logout closes the current session.
 func (u *Unifi) Logout() error {
+	if u.Config.APIKey != "" {
+		// no need to logout on api-key auth
+		return nil
+	}
+
 	// a post is needed for logout
 	_, err := u.PostJSON(APILogoutPath)
 
