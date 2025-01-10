@@ -35,9 +35,14 @@ var (
 // Used to make additional, authenticated requests to the APIs.
 // Start here.
 func NewUnifi(config *Config) (*Unifi, error) {
-	jar, err := cookiejar.New(&cookiejar.Options{PublicSuffixList: publicsuffix.List})
-	if err != nil {
-		return nil, fmt.Errorf("creating cookiejar: %w", err)
+	var jar http.CookieJar
+
+	var err error
+	if config.APIKey == "" {
+		jar, err = cookiejar.New(&cookiejar.Options{PublicSuffixList: publicsuffix.List})
+		if err != nil {
+			return nil, fmt.Errorf("creating cookiejar: %w", err)
+		}
 	}
 
 	u := newUnifi(config, jar)
@@ -73,17 +78,23 @@ func newUnifi(config *Config, jar http.CookieJar) *Unifi {
 		config.DebugLog = discardLogs
 	}
 
-	u := &Unifi{
-		Config: config,
-		Client: &http.Client{
-			Timeout: config.Timeout,
-			Jar:     jar,
-			Transport: &http.Transport{
-				TLSClientConfig: &tls.Config{
-					InsecureSkipVerify: !config.VerifySSL, // nolint: gosec
-				},
+	client := &http.Client{
+		Timeout: config.Timeout,
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: !config.VerifySSL, // nolint: gosec
 			},
 		},
+	}
+
+	if config.APIKey == "" {
+		// old user/pass style use the cookie jar
+		client.Jar = jar
+	}
+
+	u := &Unifi{
+		Config: config,
+		Client: client,
 	}
 
 	if len(config.SSLCert) > 0 {
@@ -154,6 +165,14 @@ func (u *Unifi) Logout() error {
 // check if this is a newer controller or not. If it is, we set new to true.
 // Setting new to true makes the path() method return different (new) paths.
 func (u *Unifi) checkNewStyleAPI() error {
+	if u.Config.APIKey != "" {
+		// we are using api keys so this must be the new style api
+		u.new = true
+		u.DebugLog("Using NEW UniFi controller API paths given an API Key was provided")
+
+		return nil
+	}
+
 	var (
 		ctx    = context.Background()
 		cancel func()
@@ -373,8 +392,13 @@ func (u *Unifi) do(req *http.Request) ([]byte, error) {
 }
 
 func (u *Unifi) setHeaders(req *http.Request, params string) {
-	// Add the saved CSRF header.
-	req.Header.Set("X-CSRF-Token", u.csrf)
+	if u.Config.APIKey != "" {
+		req.Header.Set("X-API-Key", u.Config.APIKey)
+	} else {
+		// Add the saved CSRF header.
+		req.Header.Set("X-CSRF-Token", u.csrf)
+	}
+
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("Content-Type", "application/json; charset=utf-8")
 

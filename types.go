@@ -204,6 +204,7 @@ type Devices struct {
 type Config struct {
 	User      string
 	Pass      string
+	APIKey    string
 	URL       string
 	SSLCert   [][]byte
 	ErrorLog  Logger
