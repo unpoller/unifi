@@ -1,8 +1,12 @@
 package unifi // nolint: testpackage
 
 import (
+	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
+	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -15,6 +19,22 @@ func TestNewUnifi(t *testing.T) {
 	c := &Config{
 		User:      "user1",
 		Pass:      "pass2",
+		URL:       u,
+		VerifySSL: false,
+		DebugLog:  discardLogs,
+	}
+	authReq, err := NewUnifi(c)
+	a.NotNil(err)
+	a.EqualValues(u, authReq.URL)
+	a.Contains(err.Error(), "connection refused", "an invalid destination should produce a connection error.")
+}
+
+func TestNewUnifiAPIKey(t *testing.T) {
+	t.Parallel()
+	a := assert.New(t)
+	u := "http://127.0.0.1:64431"
+	c := &Config{
+		APIKey:    "fakekey",
 		URL:       u,
 		VerifySSL: false,
 		DebugLog:  discardLogs,
@@ -87,6 +107,68 @@ func TestUniReqPut(t *testing.T) {
 	d, err := io.ReadAll(r.Body)
 	a.Nil(err, "problem reading request body, PUT parameters may be malformed")
 	a.EqualValues(k, string(d), "PUT parameters improperly encoded")
+}
+
+func TestUnifiIntegrationAPIKeyInjected(t *testing.T) {
+	t.Parallel()
+	a := assert.New(t)
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("X-API-Key") == "fakekey" {
+			w.WriteHeader(http.StatusOK)
+
+			return
+		}
+
+		w.WriteHeader(http.StatusBadRequest)
+	}))
+	authReq := &Unifi{Client: &http.Client{}, Config: &Config{APIKey: "fakekey", URL: srv.URL, DebugLog: discardLogs}}
+	authResp, err := authReq.UniReqPost("/test", "")
+	a.Nil(err, "newrequest must not produce an error")
+	a.EqualValues("POST", authResp.Method, "with parameters the method must be POST")
+}
+
+func TestUnifiIntegrationUserPassInjected(t *testing.T) {
+	t.Parallel()
+	a := assert.New(t)
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if !strings.EqualFold(r.URL.Path, "/api/login") {
+			w.WriteHeader(http.StatusNotFound)
+
+			return
+		}
+
+		data, err := io.ReadAll(r.Body)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Printf("error reading body:%v\n", err)
+
+			return
+		}
+
+		type userPass struct {
+			Username string `json:"username"`
+			Password string `json:"password"`
+		}
+
+		var up userPass
+
+		err = json.Unmarshal(data, &up)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Printf("error decoding body: %s: %s\n", string(data), err)
+
+			return
+		}
+
+		if strings.EqualFold(up.Username, "fakeuser") && strings.EqualFold(up.Password, "fakepass") {
+			w.WriteHeader(http.StatusOK)
+		}
+
+		w.WriteHeader(http.StatusUnauthorized)
+	}))
+	authReq := &Unifi{Client: &http.Client{}, Config: &Config{User: "fakeuser", Pass: "fakepass", URL: srv.URL, DebugLog: discardLogs}}
+	err := authReq.Login()
+	a.Nil(err, "user/pass login must not produce an error")
 }
 
 /* NOT DONE: OPEN web server, check parameters posted, more. These tests are incomplete.
