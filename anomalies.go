@@ -20,7 +20,7 @@ type Anomaly struct {
 	//	DeviceName string // we do not have this....
 	Anomaly    string
 	Datetime   time.Time `fake:"{recent_time}"`
-	DeviceMAC  string `fake:"{macaddress}"`
+	DeviceMAC  string    `fake:"{macaddress}"`
 	SiteName   string
 	SourceName string
 }

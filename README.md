@@ -18,7 +18,7 @@ Here's a working example:
 package main
 
 import "log"
-import "github.com/unpoller/unifi"
+import "github.com/unpoller/unifi/v5"
 
 func main() {
 	c := *unifi.Config{

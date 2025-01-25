@@ -58,7 +58,7 @@ type USW struct {
 	ModelInEOL               FlexBool `json:"model_in_eol"`
 	ModelInLTS               FlexBool `json:"model_in_lts"`
 	ModelIncompatible        FlexBool `json:"model_incompatible"`
-	Name                     string   `fake:"{animal}" json:"name"`
+	Name                     string   `fake:"{animal}"                    json:"name"`
 	NextInterval             FlexInt  `json:"next_interval"`
 	NumSta                   FlexInt  `json:"num_sta"`
 	OutdoorModeOverride      string   `json:"outdoor_mode_override"`
