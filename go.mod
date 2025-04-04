@@ -1,8 +1,8 @@
 module github.com/unpoller/unifi/v5
 
-go 1.23
+go 1.24
 
-toolchain go1.23.4
+toolchain go1.24.1
 
 require (
 	github.com/brianvoe/gofakeit/v6 v6.28.0
