@@ -1,13 +1,13 @@
 module github.com/unpoller/unifi/v5
 
-go 1.24
+go 1.24.0
 
 toolchain go1.24.1
 
 require (
 	github.com/brianvoe/gofakeit/v6 v6.28.0
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/net v0.43.0
+	golang.org/x/net v0.44.0
 )
 
 require (
