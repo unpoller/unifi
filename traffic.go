@@ -1,7 +1,6 @@
 package unifi
 
 import (
-	"errors"
 	"fmt"
 	"time"
 )
@@ -9,7 +8,7 @@ import (
 func (u *Unifi) GetClientTraffic(sites []*Site, params *ClientTrafficParameters) ([]*ClientUsageByApp, error) {
 
 	if !params.Period.isValid() {
-		return nil, errors.New(fmt.Sprintf("start must be before end (%s)", params.Period.String()))
+		return nil, fmt.Errorf("start must be before end (%s)", params.Period.String())
 	}
 
 	data := make([]*ClientUsageByApp, 0)
@@ -46,7 +45,7 @@ func (u *Unifi) GetClientTraffic(sites []*Site, params *ClientTrafficParameters)
 func (u *Unifi) GetClientTrafficByMac(site *Site, mac string, params *ClientTrafficParameters) (*ClientUsageByApp, error) {
 
 	if !params.Period.isValid() {
-		return nil, errors.New(fmt.Sprintf("start must be before end (%s)", params.Period.String()))
+		return nil, fmt.Errorf("start must be before end (%s)", params.Period.String())
 	}
 
 	var response struct {
@@ -71,13 +70,13 @@ func (u *Unifi) GetClientTrafficByMac(site *Site, mac string, params *ClientTraf
 		response.ClientUsageByApp[0].SiteName = site.SiteName
 		return response.ClientUsageByApp[0], nil
 	}
-	return nil, errors.New(fmt.Sprintf("No traffic found at site %s for mac %s", site.SiteName, mac))
+	return nil, fmt.Errorf("no traffic found at site %s for mac %s", site.SiteName, mac)
 }
 
 func (u *Unifi) GetCountryTraffic(sites []*Site, params *TimePeriod) ([]*UsageByCountry, error) {
 
 	if !params.isValid() {
-		return nil, errors.New(fmt.Sprintf("start must be before end (%s)", params.String()))
+		return nil, fmt.Errorf("start must be before end (%s)", params.String())
 	}
 
 	data := make([]*UsageByCountry, 0)
