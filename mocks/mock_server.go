@@ -35,24 +35,27 @@ func convertPathToRegexPattern(s string) string {
 
 // compile regexp matches to paths
 var (
-	apiRogueAP         = regexp.MustCompile(convertPathToRegexPattern(unifi.APIRogueAP))
-	apiStatusPath      = regexp.MustCompile(convertPathToRegexPattern(unifi.APIStatusPath))
-	apiEventPath       = regexp.MustCompile(convertPathToRegexPattern(unifi.APIEventPath))
-	apiSiteList        = regexp.MustCompile(convertPathToRegexPattern(unifi.APISiteList))
-	apiSiteDPI         = regexp.MustCompile(convertPathToRegexPattern(unifi.APISiteDPI))
-	apiClientDPI       = regexp.MustCompile(convertPathToRegexPattern(unifi.APIClientDPI))
-	apiClientPath      = regexp.MustCompile(convertPathToRegexPattern(unifi.APIClientPath))
-	apiAllUserPath     = regexp.MustCompile(convertPathToRegexPattern(unifi.APIAllUserPath))
-	apiNetworkPath     = regexp.MustCompile(convertPathToRegexPattern(unifi.APINetworkPath))
-	apiDevicePath      = regexp.MustCompile(convertPathToRegexPattern(unifi.APIDevicePath))
-	apiLoginPath       = regexp.MustCompile(convertPathToRegexPattern(unifi.APILoginPath))
-	apiLoginPathNew    = regexp.MustCompile(convertPathToRegexPattern(unifi.APILoginPathNew))
-	apiLogoutPath      = regexp.MustCompile(convertPathToRegexPattern(unifi.APILogoutPath))
-	apiEventPathIDS    = regexp.MustCompile(convertPathToRegexPattern(unifi.APIEventPathIDS)) //nolint:revive
-	apiEventPathAlarms = regexp.MustCompile(convertPathToRegexPattern(unifi.APIEventPathAlarms))
-	apiAnomaliesPath   = regexp.MustCompile(convertPathToRegexPattern(unifi.APIAnomaliesPath))
-	apiCommandPath     = regexp.MustCompile(convertPathToRegexPattern(unifi.APICommandPath))
-	apiDevMgrPath      = regexp.MustCompile(convertPathToRegexPattern(unifi.APIDevMgrPath))
+	apiRogueAP            = regexp.MustCompile(convertPathToRegexPattern(unifi.APIRogueAP))
+	apiStatusPath         = regexp.MustCompile(convertPathToRegexPattern(unifi.APIStatusPath))
+	apiEventPath          = regexp.MustCompile(convertPathToRegexPattern(unifi.APIEventPath))
+	apiSiteList           = regexp.MustCompile(convertPathToRegexPattern(unifi.APISiteList))
+	apiSiteDPI            = regexp.MustCompile(convertPathToRegexPattern(unifi.APISiteDPI))
+	apiClientDPI          = regexp.MustCompile(convertPathToRegexPattern(unifi.APIClientDPI))
+	apiClientPath         = regexp.MustCompile(convertPathToRegexPattern(unifi.APIClientPath))
+	apiAllUserPath        = regexp.MustCompile(convertPathToRegexPattern(unifi.APIAllUserPath))
+	apiNetworkPath        = regexp.MustCompile(convertPathToRegexPattern(unifi.APINetworkPath))
+	apiDevicePath         = regexp.MustCompile(convertPathToRegexPattern(unifi.APIDevicePath))
+	apiLoginPath          = regexp.MustCompile(convertPathToRegexPattern(unifi.APILoginPath))
+	apiLoginPathNew       = regexp.MustCompile(convertPathToRegexPattern(unifi.APILoginPathNew))
+	apiLogoutPath         = regexp.MustCompile(convertPathToRegexPattern(unifi.APILogoutPath))
+	apiEventPathIDS       = regexp.MustCompile(convertPathToRegexPattern(unifi.APIEventPathIDS)) //nolint:revive
+	apiEventPathAlarms    = regexp.MustCompile(convertPathToRegexPattern(unifi.APIEventPathAlarms))
+	apiAnomaliesPath      = regexp.MustCompile(convertPathToRegexPattern(unifi.APIAnomaliesPath))
+	apiCommandPath        = regexp.MustCompile(convertPathToRegexPattern(unifi.APICommandPath))
+	apiDevMgrPath         = regexp.MustCompile(convertPathToRegexPattern(unifi.APIDevMgrPath))
+	apiClientTraffic      = regexp.MustCompile(convertPathToRegexPattern(unifi.APIClientTrafficPath))
+	apiClientTrafficByMac = regexp.MustCompile(convertPathToRegexPattern(unifi.APIClientTrafficByMacPath))
+	apiCountryTraffic     = regexp.MustCompile(convertPathToRegexPattern(unifi.APICountryTrafficPath))
 )
 
 type errorResponse struct {
@@ -258,6 +261,18 @@ func (m *MockHTTPTestServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		// todo
 		w.WriteHeader(501)
 
+		return
+	case apiClientTraffic.MatchString(p):
+		data, err := m.mocked.GetClientTraffic(nil, nil, true)
+		respondResultOrErr(w, data, err, true)
+		return
+	case apiClientTrafficByMac.MatchString(p):
+		data, err := m.mocked.GetClientTrafficByMac(nil, nil, true, "00:00:00:00:00:00")
+		respondResultOrErr(w, data, err, true)
+		return
+	case apiCountryTraffic.MatchString(p):
+		data, err := m.mocked.GetCountryTraffic(nil, nil)
+		respondResultOrErr(w, data, err, true)
 		return
 	default:
 		log.Println("[DEBUG] Answering mock response err=404 not found")

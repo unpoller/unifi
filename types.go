@@ -278,6 +278,13 @@ type UnifiClient interface { //nolint: revive
 	// GetUsers returns a response full of clients that connected to the UDM within the provided amount of time
 	// using the insight historical connection data set.
 	GetUsers(sites []*Site, hours int) ([]*User, error)
+	// GetClientTraffic returns a response full of clients' traffic data from the UniFi Controller for the provided time period.
+	GetClientTraffic(sites []*Site, epochMillisTimePeriod *EpochMillisTimePeriod, includeUnidentified bool) ([]*ClientUsageByApp, error)
+	// GetClientTrafficByMac returns a response full of clients' traffic data from the UniFi Controller for the provided time period
+	// and each of the mac addressees provided.
+	GetClientTrafficByMac(site *Site, epochMillisTimePeriod *EpochMillisTimePeriod, includeUnidentified bool, macs ...string) ([]*ClientUsageByApp, error)
+	// GetCountryTraffic returns a response full of clients' traffic data from the UniFi Controller for the provided time period.'
+	GetCountryTraffic(sites []*Site, epochMillisTimePeriod *EpochMillisTimePeriod) ([]*UsageByCountry, error)
 }
 
 // Unifi is what you get in return for providing a password! Unifi represents

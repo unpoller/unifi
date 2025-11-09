@@ -2,12 +2,11 @@ package unifi
 
 import (
 	"fmt"
-	"time"
 )
 
-func (u *Unifi) GetClientTraffic(sites []*Site, params *ClientTrafficParameters) ([]*ClientUsageByApp, error) {
+func (u *Unifi) GetClientTraffic(sites []*Site, epochMillisTimePeriod *EpochMillisTimePeriod, includeUnidentified bool) ([]*ClientUsageByApp, error) {
 
-	_, err := params.Period.isValid()
+	_, err := epochMillisTimePeriod.isValid()
 	if err != nil {
 		return nil, err
 	}
@@ -20,21 +19,25 @@ func (u *Unifi) GetClientTraffic(sites []*Site, params *ClientTrafficParameters)
 			ClientUsageByApp []*ClientUsageByApp `json:"client_usage_by_app"`
 		}
 
+		trafficSite := &TrafficSite{
+			SiteID:     site.ID,
+			SiteName:   site.SiteName,
+			SourceName: site.SourceName,
+		}
+
 		u.DebugLog("Polling Controller, retrieving UniFi Client Traffic, site %s ", site.SiteName)
 
 		clientPath := fmt.Sprintf(APIClientTrafficPath,
 			site.Name,
-			params.Period.Start.UnixMilli(),
-			params.Period.End.UnixMilli(),
-			params.IncludeUnidentified)
+			epochMillisTimePeriod.StartEpochMillis,
+			epochMillisTimePeriod.EndEpochMillis,
+			includeUnidentified)
 		if err := u.GetData(clientPath, &response); err != nil {
 			return nil, err
 		}
 
 		for _, elem := range response.ClientUsageByApp {
-			elem.SourceName = site.SourceName
-			elem.SiteID = site.ID
-			elem.SiteName = site.SiteName
+			elem.TrafficSite = trafficSite
 		}
 
 		data = append(data, response.ClientUsageByApp...)
@@ -43,41 +46,51 @@ func (u *Unifi) GetClientTraffic(sites []*Site, params *ClientTrafficParameters)
 	return data, nil
 }
 
-func (u *Unifi) GetClientTrafficByMac(site *Site, mac string, params *ClientTrafficParameters) (*ClientUsageByApp, error) {
+func (u *Unifi) GetClientTrafficByMac(site *Site, epochMillisTimePeriod *EpochMillisTimePeriod, includeUnidentified bool, macs ...string) ([]*ClientUsageByApp, error) {
 
-	_, err := params.Period.isValid()
+	_, err := epochMillisTimePeriod.isValid()
 	if err != nil {
 		return nil, err
 	}
+
+	data := make([]*ClientUsageByApp, 0)
 
 	var response struct {
 		ClientUsageByApp []*ClientUsageByApp `json:"client_usage_by_app"`
 	}
 
-	u.DebugLog("Polling Controller, retrieving UniFi Client Traffic By MAC address, site %s and mac %s", site.SiteName, mac)
+	trafficSite := &TrafficSite{
+		SiteID:     site.ID,
+		SiteName:   site.SiteName,
+		SourceName: site.SourceName,
+	}
 
-	clientPath := fmt.Sprintf(APIClientTrafficByMacPath,
-		site.Name,
-		mac,
-		params.Period.Start.UnixMilli(),
-		params.Period.End.UnixMilli(),
-		params.IncludeUnidentified,
-		mac)
-	if err := u.GetData(clientPath, &response); err != nil {
-		return nil, err
+	for _, mac := range macs {
+
+		u.DebugLog("Polling Controller, retrieving UniFi Client Traffic By MAC address, site %s and mac %s", site.SiteName, mac)
+
+		clientPath := fmt.Sprintf(APIClientTrafficByMacPath,
+			site.Name,
+			mac,
+			epochMillisTimePeriod.StartEpochMillis,
+			epochMillisTimePeriod.EndEpochMillis,
+			includeUnidentified,
+			mac)
+		if err := u.GetData(clientPath, &response); err != nil {
+			return nil, err
+		}
+
+		for _, elem := range response.ClientUsageByApp {
+			elem.TrafficSite = trafficSite
+		}
+		data = append(data, response.ClientUsageByApp...)
 	}
-	if len(response.ClientUsageByApp) == 1 {
-		response.ClientUsageByApp[0].SourceName = site.SourceName
-		response.ClientUsageByApp[0].SiteID = site.ID
-		response.ClientUsageByApp[0].SiteName = site.SiteName
-		return response.ClientUsageByApp[0], nil
-	}
-	return nil, fmt.Errorf("no traffic found at site %s for mac %s", site.SiteName, mac)
+	return data, nil
 }
 
-func (u *Unifi) GetCountryTraffic(sites []*Site, params *TimePeriod) ([]*UsageByCountry, error) {
+func (u *Unifi) GetCountryTraffic(sites []*Site, epochMillisTimePeriod *EpochMillisTimePeriod) ([]*UsageByCountry, error) {
 
-	_, err := params.isValid()
+	_, err := epochMillisTimePeriod.isValid()
 	if err != nil {
 		return nil, err
 	}
@@ -90,20 +103,24 @@ func (u *Unifi) GetCountryTraffic(sites []*Site, params *TimePeriod) ([]*UsageBy
 			UsageByCountry []*UsageByCountry `json:"usage_by_country"`
 		}
 
+		trafficSite := &TrafficSite{
+			SiteID:     site.ID,
+			SiteName:   site.SiteName,
+			SourceName: site.SourceName,
+		}
+
 		u.DebugLog("Polling Controller, retrieving UniFi Country Traffic, site %s ", site.SiteName)
 
 		clientPath := fmt.Sprintf(APICountryTrafficPath,
 			site.Name,
-			params.Start.UnixMilli(),
-			params.End.UnixMilli())
+			epochMillisTimePeriod.StartEpochMillis,
+			epochMillisTimePeriod.EndEpochMillis)
 		if err := u.GetData(clientPath, &response); err != nil {
 			return nil, err
 		}
 
 		for _, elem := range response.UsageByCountry {
-			elem.SourceName = site.SourceName
-			elem.SiteID = site.ID
-			elem.SiteName = site.SiteName
+			elem.TrafficSite = trafficSite
 		}
 
 		data = append(data, response.UsageByCountry...)
@@ -113,19 +130,17 @@ func (u *Unifi) GetCountryTraffic(sites []*Site, params *TimePeriod) ([]*UsageBy
 }
 
 type ClientUsageByApp struct {
-	SiteID     string       `json:"-"`
-	SiteName   string       `json:"-"`
-	SourceName string       `json:"-"`
-	Client     ClientInfo   `json:"client"`
-	UsageByApp []UsageByApp `json:"usage_by_app"`
+	TrafficSite *TrafficSite `json:"site"`
+	Client      ClientInfo   `json:"client"`
+	UsageByApp  []UsageByApp `json:"usage_by_app"`
 }
 
 // ClientInfo contains information about the network client
 type ClientInfo struct {
 	Fingerprint Fingerprint `json:"fingerprint"`
-	Hostname    string      `json:"hostname"`
+	Hostname    string      `fake:"{domainname}"                  json:"hostname"`
 	IsWired     bool        `json:"is_wired"`
-	Mac         string      `json:"mac"`
+	Mac         string      `fake:"{macaddress}"                  json:"mac"`
 	Name        string      `json:"name"`
 	Oui         string      `json:"oui"`
 	WlanconfID  string      `json:"wlanconf_id,omitempty"`
@@ -157,32 +172,33 @@ type UsageByApp struct {
 }
 
 type UsageByCountry struct {
-	SiteID           string `json:"-"`
-	SiteName         string `json:"-"`
-	SourceName       string `json:"-"`
-	BytesReceived    int64  `json:"bytes_received"`
-	BytesTransmitted int64  `json:"bytes_transmitted"`
-	Country          string
-	TotalBytes       int64
+	TrafficSite      *TrafficSite `json:"site"`
+	BytesReceived    int64        `json:"bytes_received"`
+	BytesTransmitted int64        `json:"bytes_transmitted"`
+	Country          string       `fake:"{countryabr}"                   json:"country"`
+	TotalBytes       int64        `json:"total_bytes"`
 }
 
-type TimePeriod struct {
-	Start time.Time
-	End   time.Time
+type TrafficSite struct {
+	SiteID     string `fake:"{uuid}"                    json:"site_id"`
+	SiteName   string `json:"name"`
+	SourceName string `json:"source"`
 }
 
-func (p *TimePeriod) isValid() (bool, error) {
-	if p.Start.Before(p.End) {
+// Parameters
+
+type EpochMillisTimePeriod struct {
+	StartEpochMillis int64
+	EndEpochMillis   int64
+}
+
+func (p *EpochMillisTimePeriod) isValid() (bool, error) {
+	if p.StartEpochMillis < p.EndEpochMillis {
 		return true, nil
 	}
 	return false, fmt.Errorf("start must be before end (%s)", p.String())
 }
 
-func (p *TimePeriod) String() string {
-	return p.Start.String() + " to " + p.End.String()
-}
-
-type ClientTrafficParameters struct {
-	Period              TimePeriod
-	IncludeUnidentified bool
+func (p *EpochMillisTimePeriod) String() string {
+	return fmt.Sprintf("%d to %d", p.StartEpochMillis, p.EndEpochMillis)
 }
