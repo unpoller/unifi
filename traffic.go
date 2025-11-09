@@ -7,8 +7,9 @@ import (
 
 func (u *Unifi) GetClientTraffic(sites []*Site, params *ClientTrafficParameters) ([]*ClientUsageByApp, error) {
 
-	if !params.Period.isValid() {
-		return nil, fmt.Errorf("start must be before end (%s)", params.Period.String())
+	_, err := params.Period.isValid()
+	if err != nil {
+		return nil, err
 	}
 
 	data := make([]*ClientUsageByApp, 0)
@@ -19,7 +20,7 @@ func (u *Unifi) GetClientTraffic(sites []*Site, params *ClientTrafficParameters)
 			ClientUsageByApp []*ClientUsageByApp `json:"client_usage_by_app"`
 		}
 
-		u.DebugLog("Polling Controller, retrieving UniFi Traffic, site %s ", site.SiteName)
+		u.DebugLog("Polling Controller, retrieving UniFi Client Traffic, site %s ", site.SiteName)
 
 		clientPath := fmt.Sprintf(APIClientTrafficPath,
 			site.Name,
@@ -44,15 +45,16 @@ func (u *Unifi) GetClientTraffic(sites []*Site, params *ClientTrafficParameters)
 
 func (u *Unifi) GetClientTrafficByMac(site *Site, mac string, params *ClientTrafficParameters) (*ClientUsageByApp, error) {
 
-	if !params.Period.isValid() {
-		return nil, fmt.Errorf("start must be before end (%s)", params.Period.String())
+	_, err := params.Period.isValid()
+	if err != nil {
+		return nil, err
 	}
 
 	var response struct {
 		ClientUsageByApp []*ClientUsageByApp `json:"client_usage_by_app"`
 	}
 
-	u.DebugLog("Polling Controller, retrieving UniFi Traffic, site %s and mac %s", site.SiteName, mac)
+	u.DebugLog("Polling Controller, retrieving UniFi Client Traffic By MAC address, site %s and mac %s", site.SiteName, mac)
 
 	clientPath := fmt.Sprintf(APIClientTrafficByMacPath,
 		site.Name,
@@ -75,8 +77,9 @@ func (u *Unifi) GetClientTrafficByMac(site *Site, mac string, params *ClientTraf
 
 func (u *Unifi) GetCountryTraffic(sites []*Site, params *TimePeriod) ([]*UsageByCountry, error) {
 
-	if !params.isValid() {
-		return nil, fmt.Errorf("start must be before end (%s)", params.String())
+	_, err := params.isValid()
+	if err != nil {
+		return nil, err
 	}
 
 	data := make([]*UsageByCountry, 0)
@@ -87,7 +90,7 @@ func (u *Unifi) GetCountryTraffic(sites []*Site, params *TimePeriod) ([]*UsageBy
 			UsageByCountry []*UsageByCountry `json:"usage_by_country"`
 		}
 
-		u.DebugLog("Polling Controller, retrieving UniFi Traffic, site %s ", site.SiteName)
+		u.DebugLog("Polling Controller, retrieving UniFi Country Traffic, site %s ", site.SiteName)
 
 		clientPath := fmt.Sprintf(APICountryTrafficPath,
 			site.Name,
@@ -168,8 +171,11 @@ type TimePeriod struct {
 	End   time.Time
 }
 
-func (p *TimePeriod) isValid() bool {
-	return p.Start.Before(p.End)
+func (p *TimePeriod) isValid() (bool, error) {
+	if p.Start.Before(p.End) {
+		return true, nil
+	}
+	return false, fmt.Errorf("start must be before end (%s)", p.String())
 }
 
 func (p *TimePeriod) String() string {
