@@ -1,9 +1,10 @@
 package mocks_test
 
 import (
+	"testing"
+
 	"github.com/stretchr/testify/require"
 	"github.com/unpoller/unifi/v5/mocks"
-	"testing"
 )
 
 func TestMockUnifiClient(t *testing.T) {
@@ -18,4 +19,16 @@ func TestMockUnifiClient(t *testing.T) {
 	require.NotEmpty(t, devices.UCIs)
 	require.NotEmpty(t, devices.UXGs)
 	require.NotEmpty(t, devices.UBBs)
+
+	clients, err := m.GetClientTraffic(nil, nil, true)
+	require.NoError(t, err)
+	require.NotEmpty(t, clients)
+
+	macClients, err := m.GetClientTrafficByMac(nil, nil, true, "00:00:00:00:00:00")
+	require.NoError(t, err)
+	require.NotEmpty(t, macClients)
+
+	countries, err := m.GetCountryTraffic(nil, nil)
+	require.NoError(t, err)
+	require.NotEmpty(t, countries)
 }

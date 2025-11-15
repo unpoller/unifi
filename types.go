@@ -155,9 +155,12 @@ const (
 	// APIPrefixNew is the prefix added to the new API paths; except login. duh.
 	APIPrefixNew string = "/proxy/network"
 	// APIAnomaliesPath returns site anomalies.
-	APIAnomaliesPath string = "/api/s/%s/stat/anomalies"
-	APICommandPath   string = "/api/s/%s/cmd"
-	APIDevMgrPath    string = APICommandPath + "/devmgr"
+	APIAnomaliesPath          string = "/api/s/%s/stat/anomalies"
+	APICommandPath            string = "/api/s/%s/cmd"
+	APIDevMgrPath             string = APICommandPath + "/devmgr"
+	APIClientTrafficPath      string = "/v2/api/site/%s/traffic?start=%d&end=%d&includeUnidentified=%t"
+	APIClientTrafficByMacPath string = "/v2/api/site/%s/traffic/%s?start=%d&end=%d&includeUnidentified=%t&mac=%s"
+	APICountryTrafficPath     string = "/v2/api/site/%s/country-traffic?start=%d&end=%d"
 )
 
 // path returns the correct api path based on the new variable.
@@ -275,6 +278,13 @@ type UnifiClient interface { //nolint: revive
 	// GetUsers returns a response full of clients that connected to the UDM within the provided amount of time
 	// using the insight historical connection data set.
 	GetUsers(sites []*Site, hours int) ([]*User, error)
+	// GetClientTraffic returns a response full of clients' traffic data from the UniFi Controller for the provided time period.
+	GetClientTraffic(sites []*Site, epochMillisTimePeriod *EpochMillisTimePeriod, includeUnidentified bool) ([]*ClientUsageByApp, error)
+	// GetClientTrafficByMac returns a response full of clients' traffic data from the UniFi Controller for the provided time period
+	// and each of the mac addressees provided.
+	GetClientTrafficByMac(site *Site, epochMillisTimePeriod *EpochMillisTimePeriod, includeUnidentified bool, macs ...string) ([]*ClientUsageByApp, error)
+	// GetCountryTraffic returns a response full of clients' traffic data from the UniFi Controller for the provided time period.'
+	GetCountryTraffic(sites []*Site, epochMillisTimePeriod *EpochMillisTimePeriod) ([]*UsageByCountry, error)
 }
 
 // Unifi is what you get in return for providing a password! Unifi represents

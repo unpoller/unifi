@@ -493,3 +493,57 @@ func (m *MockUnifi) GetUsers(_ []*unifi.Site, _ int) ([]*unifi.User, error) {
 
 	return results, nil
 }
+
+func (m *MockUnifi) GetClientTraffic(_ []*unifi.Site, _ *unifi.EpochMillisTimePeriod, _ bool) ([]*unifi.ClientUsageByApp, error) {
+	results := make([]*unifi.ClientUsageByApp, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.ClientUsageByApp
+
+		err := gofakeit.Struct(&a)
+
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+func (m *MockUnifi) GetClientTrafficByMac(_ *unifi.Site, _ *unifi.EpochMillisTimePeriod, _ bool, macs ...string) ([]*unifi.ClientUsageByApp, error) {
+	results := make([]*unifi.ClientUsageByApp, len(macs))
+
+	for i := 0; i < len(macs); i++ {
+		var a unifi.ClientUsageByApp
+
+		err := gofakeit.Struct(&a)
+
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+func (m *MockUnifi) GetCountryTraffic(_ []*unifi.Site, _ *unifi.EpochMillisTimePeriod) ([]*unifi.UsageByCountry, error) {
+	results := make([]*unifi.UsageByCountry, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.UsageByCountry
+
+		err := gofakeit.Struct(&a)
+
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
