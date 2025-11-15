@@ -5,7 +5,6 @@ import (
 )
 
 func (u *Unifi) GetClientTraffic(sites []*Site, epochMillisTimePeriod *EpochMillisTimePeriod, includeUnidentified bool) ([]*ClientUsageByApp, error) {
-
 	_, err := epochMillisTimePeriod.isValid()
 	if err != nil {
 		return nil, err
@@ -14,7 +13,6 @@ func (u *Unifi) GetClientTraffic(sites []*Site, epochMillisTimePeriod *EpochMill
 	data := make([]*ClientUsageByApp, 0)
 
 	for _, site := range sites {
-
 		var response struct {
 			ClientUsageByApp []*ClientUsageByApp `json:"client_usage_by_app"`
 		}
@@ -47,7 +45,6 @@ func (u *Unifi) GetClientTraffic(sites []*Site, epochMillisTimePeriod *EpochMill
 }
 
 func (u *Unifi) GetClientTrafficByMac(site *Site, epochMillisTimePeriod *EpochMillisTimePeriod, includeUnidentified bool, macs ...string) ([]*ClientUsageByApp, error) {
-
 	_, err := epochMillisTimePeriod.isValid()
 	if err != nil {
 		return nil, err
@@ -66,7 +63,6 @@ func (u *Unifi) GetClientTrafficByMac(site *Site, epochMillisTimePeriod *EpochMi
 	}
 
 	for _, mac := range macs {
-
 		u.DebugLog("Polling Controller, retrieving UniFi Client Traffic By MAC address, site %s and mac %s", site.SiteName, mac)
 
 		clientPath := fmt.Sprintf(APIClientTrafficByMacPath,
@@ -83,13 +79,14 @@ func (u *Unifi) GetClientTrafficByMac(site *Site, epochMillisTimePeriod *EpochMi
 		for _, elem := range response.ClientUsageByApp {
 			elem.TrafficSite = trafficSite
 		}
+
 		data = append(data, response.ClientUsageByApp...)
 	}
+
 	return data, nil
 }
 
 func (u *Unifi) GetCountryTraffic(sites []*Site, epochMillisTimePeriod *EpochMillisTimePeriod) ([]*UsageByCountry, error) {
-
 	_, err := epochMillisTimePeriod.isValid()
 	if err != nil {
 		return nil, err
@@ -98,7 +95,6 @@ func (u *Unifi) GetCountryTraffic(sites []*Site, epochMillisTimePeriod *EpochMil
 	data := make([]*UsageByCountry, 0)
 
 	for _, site := range sites {
-
 		var response struct {
 			UsageByCountry []*UsageByCountry `json:"usage_by_country"`
 		}
@@ -138,9 +134,9 @@ type ClientUsageByApp struct {
 // ClientInfo contains information about the network client
 type ClientInfo struct {
 	Fingerprint Fingerprint `json:"fingerprint"`
-	Hostname    string      `fake:"{domainname}"                  json:"hostname"`
+	Hostname    string      `fake:"{domainname}"          json:"hostname"`
 	IsWired     bool        `json:"is_wired"`
-	Mac         string      `fake:"{macaddress}"                  json:"mac"`
+	Mac         string      `fake:"{macaddress}"          json:"mac"`
 	Name        string      `json:"name"`
 	Oui         string      `json:"oui"`
 	WlanconfID  string      `json:"wlanconf_id,omitempty"`
@@ -175,12 +171,12 @@ type UsageByCountry struct {
 	TrafficSite      *TrafficSite `json:"site"`
 	BytesReceived    int64        `json:"bytes_received"`
 	BytesTransmitted int64        `json:"bytes_transmitted"`
-	Country          string       `fake:"{countryabr}"                   json:"country"`
+	Country          string       `fake:"{countryabr}"      json:"country"`
 	TotalBytes       int64        `json:"total_bytes"`
 }
 
 type TrafficSite struct {
-	SiteID     string `fake:"{uuid}"                    json:"site_id"`
+	SiteID     string `fake:"{uuid}" json:"site_id"`
 	SiteName   string `json:"name"`
 	SourceName string `json:"source"`
 }
@@ -196,6 +192,7 @@ func (p *EpochMillisTimePeriod) isValid() (bool, error) {
 	if p.StartEpochMillis < p.EndEpochMillis {
 		return true, nil
 	}
+
 	return false, fmt.Errorf("start must be before end (%s)", p.String())
 }
 

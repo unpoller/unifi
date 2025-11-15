@@ -24,9 +24,9 @@ func TestMockUnifiClient(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, clients)
 
-	mac_clients, err := m.GetClientTrafficByMac(nil, nil, true, "00:00:00:00:00:00")
+	macClients, err := m.GetClientTrafficByMac(nil, nil, true, "00:00:00:00:00:00")
 	require.NoError(t, err)
-	require.NotEmpty(t, mac_clients)
+	require.NotEmpty(t, macClients)
 
 	countries, err := m.GetCountryTraffic(nil, nil)
 	require.NoError(t, err)

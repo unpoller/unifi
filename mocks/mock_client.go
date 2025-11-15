@@ -490,6 +490,7 @@ func (m *MockUnifi) GetUsers(_ []*unifi.Site, _ int) ([]*unifi.User, error) {
 
 		results[i] = &a
 	}
+
 	return results, nil
 }
 
@@ -507,6 +508,7 @@ func (m *MockUnifi) GetClientTraffic(_ []*unifi.Site, _ *unifi.EpochMillisTimePe
 
 		results[i] = &a
 	}
+
 	return results, nil
 }
 
@@ -524,6 +526,7 @@ func (m *MockUnifi) GetClientTrafficByMac(_ *unifi.Site, _ *unifi.EpochMillisTim
 
 		results[i] = &a
 	}
+
 	return results, nil
 }
 
@@ -541,5 +544,6 @@ func (m *MockUnifi) GetCountryTraffic(_ []*unifi.Site, _ *unifi.EpochMillisTimeP
 
 		results[i] = &a
 	}
+
 	return results, nil
 }

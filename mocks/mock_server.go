@@ -265,14 +265,17 @@ func (m *MockHTTPTestServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case apiClientTraffic.MatchString(p):
 		data, err := m.mocked.GetClientTraffic(nil, nil, true)
 		respondResultOrErr(w, data, err, true)
+
 		return
 	case apiClientTrafficByMac.MatchString(p):
 		data, err := m.mocked.GetClientTrafficByMac(nil, nil, true, "00:00:00:00:00:00")
 		respondResultOrErr(w, data, err, true)
+
 		return
 	case apiCountryTraffic.MatchString(p):
 		data, err := m.mocked.GetCountryTraffic(nil, nil)
 		respondResultOrErr(w, data, err, true)
+
 		return
 	default:
 		log.Println("[DEBUG] Answering mock response err=404 not found")
