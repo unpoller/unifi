@@ -222,7 +222,7 @@ type UBB struct {
 	PeerUbb                    *UBB              `fake:"-"                             json:"peer_ubb"`
 	ProvisionedAt              FlexInt           `json:"provisioned_at"`
 	RadioTable                 []RadioTable      `fakesize:"1"                         json:"radio_table"`
-	RadioTableStats            []RadioTableStats `fakesize:"1"                         json:"radio_table_stats"`
+	RadioTableStats            RadioTableStats   `json:"radio_table_stats"`
 	RebootDuration             FlexInt           `json:"reboot_duration"`
 	RequiredVersion            string            `json:"required_version"`
 	RxBytes                    FlexInt           `json:"rx_bytes"`
