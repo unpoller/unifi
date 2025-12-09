@@ -114,7 +114,7 @@ func makeAnomalyParams(scale string, timeRange ...time.Time) (string, error) {
 		start := timeRange[0].Unix() * int64(time.Microsecond)
 		end := time.Now().Unix() * int64(time.Microsecond)
 		out = append(out, "end="+strconv.FormatInt(end, 10), "start="+strconv.FormatInt(start, 10))
-	case 2: // nolint: gomnd
+	case 2: // nolint
 		start := timeRange[0].Unix() * int64(time.Microsecond)
 		end := timeRange[1].Unix() * int64(time.Microsecond)
 		out = append(out, "end="+strconv.FormatInt(end, 10), "start="+strconv.FormatInt(start, 10))

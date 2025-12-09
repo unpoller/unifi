@@ -37,8 +37,8 @@ func TestUBBIssue821(t *testing.T) {
 	}`
 
 	var ubb unifi.UBB
-	err := json.Unmarshal([]byte(jsonData), &ubb)
 
+	err := json.Unmarshal([]byte(jsonData), &ubb)
 	if err != nil {
 		t.Logf("Unmarshal error: %v", err)
 	}

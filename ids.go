@@ -122,7 +122,7 @@ func makeEventParams(timeRange ...time.Time) (string, error) {
 	case 1:
 		rp.Start = timeRange[0].Unix() * int64(time.Microsecond)
 		rp.End = time.Now().Unix() * int64(time.Microsecond)
-	case 2: // nolint: gomnd
+	case 2: // nolint
 		rp.Start = timeRange[0].Unix() * int64(time.Microsecond)
 		rp.End = timeRange[1].Unix() * int64(time.Microsecond)
 	default:

@@ -91,8 +91,8 @@ func respondResultOrErr(w http.ResponseWriter, v any, err error, wrapWithDataAtt
 
 	if wrapWithDataAttribute {
 		response := dataWrapper{Data: v}
-		b, err := json.Marshal(response)
 
+		b, err := json.Marshal(response)
 		if err != nil {
 			e := errorResponse{
 				Error: err.Error(),
