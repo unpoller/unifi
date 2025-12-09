@@ -246,3 +246,35 @@ func (v *USGStat) UnmarshalJSON(data []byte) error {
 
 	return nil
 }
+
+// AggregatedDashboard contains dashboard data including speed test results.
+type AggregatedDashboard struct {
+	SpeedTest SpeedTestData `json:"speed_test"`
+}
+
+// SpeedTestData contains speed test information for WAN interfaces.
+type SpeedTestData struct {
+	Data        []*SpeedTestResult `json:"data"`
+	IsSupported bool               `json:"is_supported"`
+}
+
+// SpeedTestResult contains a single speed test result for a WAN interface.
+type SpeedTestResult struct {
+	DownloadMbps             FlexInt                   `json:"download_mbps"`
+	ID                       string                    `json:"id"`
+	InterfaceName            string                    `json:"interface_name"`
+	LatencyMs                FlexInt                   `json:"latency_ms"`
+	NetworkConfID            string                    `json:"network_conf_id"`
+	Time                     FlexInt                   `json:"time"`
+	UploadMbps               FlexInt                   `json:"upload_mbps"`
+	WANNetworkGroup          string                    `json:"wan_networkgroup"`
+	WANProviderCapabilities  *WANProviderCapabilities  `json:"wan_provider_capabilities,omitempty"`
+	SiteName                 string                    `json:"-"`
+	SourceName               string                    `json:"-"`
+}
+
+// WANProviderCapabilities contains the WAN provider's advertised capabilities.
+type WANProviderCapabilities struct {
+	DownloadKbps FlexInt `json:"download_kilobits_per_second"`
+	UploadKbps   FlexInt `json:"upload_kilobits_per_second"`
+}
