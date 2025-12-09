@@ -99,7 +99,7 @@ func newUnifi(config *Config, jar http.CookieJar) *Unifi {
 
 	if len(config.SSLCert) > 0 {
 		u.fingerprints = make(fingerprints, len(config.SSLCert))
-		u.Client.Transport = &http.Transport{
+		u.Transport = &http.Transport{
 			TLSClientConfig: &tls.Config{
 				InsecureSkipVerify:    true, // nolint: gosec
 				VerifyPeerCertificate: u.verifyPeerCertificate,
@@ -129,7 +129,7 @@ func (u *Unifi) Login() error {
 	loginPath := APIStatusPath
 	params := ""
 
-	if u.Config.APIKey == "" {
+	if u.APIKey == "" {
 		params = fmt.Sprintf(`{"username":"%s","password":"%s"}`, u.User, u.Pass)
 		loginPath = APILoginPath
 	}
@@ -147,7 +147,8 @@ func (u *Unifi) Login() error {
 		return fmt.Errorf("making request: %w", err)
 	}
 
-	defer resp.Body.Close()               // we need no data here.
+	defer resp.Body.Close() // we need no data here.
+
 	_, _ = io.Copy(io.Discard, resp.Body) // avoid leaking.
 	u.DebugLog("Requested %s: elapsed %v, returned %d bytes",
 		req.URL, time.Since(start).Round(time.Millisecond), resp.ContentLength)
@@ -162,7 +163,7 @@ func (u *Unifi) Login() error {
 
 // Logout closes the current session.
 func (u *Unifi) Logout() error {
-	if u.Config.APIKey != "" {
+	if u.APIKey != "" {
 		// no need to logout on api-key auth
 		return nil
 	}
@@ -178,7 +179,7 @@ func (u *Unifi) Logout() error {
 // check if this is a newer controller or not. If it is, we set new to true.
 // Setting new to true makes the path() method return different (new) paths.
 func (u *Unifi) checkNewStyleAPI() error {
-	if u.Config.APIKey != "" {
+	if u.APIKey != "" {
 		// we are using api keys so this must be the new style api
 		u.new = true
 		u.DebugLog("Using NEW UniFi controller API paths given an API Key was provided")
@@ -219,7 +220,8 @@ func (u *Unifi) checkNewStyleAPI() error {
 		return fmt.Errorf("making request: %w", err)
 	}
 
-	defer resp.Body.Close()               // we need no data here.
+	defer resp.Body.Close() // we need no data here.
+
 	_, _ = io.Copy(io.Discard, resp.Body) // avoid leaking.
 
 	if resp.StatusCode == http.StatusOK {
@@ -405,8 +407,8 @@ func (u *Unifi) do(req *http.Request) ([]byte, error) {
 }
 
 func (u *Unifi) setHeaders(req *http.Request, params string) {
-	if u.Config.APIKey != "" {
-		req.Header.Set("X-API-Key", u.Config.APIKey)
+	if u.APIKey != "" {
+		req.Header.Set("X-API-Key", u.APIKey)
 	} else {
 		// Add the saved CSRF header.
 		req.Header.Set("X-CSRF-Token", u.csrf)
@@ -415,9 +417,9 @@ func (u *Unifi) setHeaders(req *http.Request, params string) {
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("Content-Type", "application/json; charset=utf-8")
 
-	if u.Client.Jar != nil {
+	if u.Jar != nil {
 		parsedURL, _ := url.Parse(req.URL.String())
-		u.DebugLog("Requesting %s, with params: %v, cookies: %d", req.URL, params != "", len(u.Client.Jar.Cookies(parsedURL)))
+		u.DebugLog("Requesting %s, with params: %v, cookies: %d", req.URL, params != "", len(u.Jar.Cookies(parsedURL)))
 	} else {
 		u.DebugLog("Requesting %s, with params: %v,", req.URL, params != "")
 	}

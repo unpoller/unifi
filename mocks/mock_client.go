@@ -28,7 +28,6 @@ func (m *MockUnifi) GetAlarms(_ []*unifi.Site) ([]*unifi.Alarm, error) {
 		var a unifi.Alarm
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return alarms, err
 		}
@@ -47,7 +46,6 @@ func (m *MockUnifi) GetAlarmsSite(_ *unifi.Site) ([]*unifi.Alarm, error) {
 		var a unifi.Alarm
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return alarms, err
 		}
@@ -66,7 +64,6 @@ func (m *MockUnifi) GetAnomalies(_ []*unifi.Site, _ ...time.Time) ([]*unifi.Anom
 		var a unifi.Anomaly
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -85,7 +82,6 @@ func (m *MockUnifi) GetAnomaliesSite(_ *unifi.Site, _ ...time.Time) ([]*unifi.An
 		var a unifi.Anomaly
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -104,7 +100,6 @@ func (m *MockUnifi) GetClients(_ []*unifi.Site) ([]*unifi.Client, error) {
 		var a unifi.Client
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -123,7 +118,6 @@ func (m *MockUnifi) GetClientsDPI(_ []*unifi.Site) ([]*unifi.DPITable, error) {
 		var a unifi.DPITable
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -139,7 +133,6 @@ func (m *MockUnifi) GetDevices(_ []*unifi.Site) (*unifi.Devices, error) {
 	var d unifi.Devices
 
 	err := gofakeit.Struct(&d)
-
 	if err != nil {
 		return nil, err
 	}
@@ -155,7 +148,6 @@ func (m *MockUnifi) GetUSWs(_ *unifi.Site) ([]*unifi.USW, error) {
 		var a unifi.USW
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -174,7 +166,6 @@ func (m *MockUnifi) GetUAPs(_ *unifi.Site) ([]*unifi.UAP, error) {
 		var a unifi.UAP
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -193,7 +184,6 @@ func (m *MockUnifi) GetUDMs(_ *unifi.Site) ([]*unifi.UDM, error) {
 		var a unifi.UDM
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -212,7 +202,6 @@ func (m *MockUnifi) GetUXGs(_ *unifi.Site) ([]*unifi.UXG, error) {
 		var a unifi.UXG
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -231,7 +220,6 @@ func (m *MockUnifi) GetUBBs(_ *unifi.Site) ([]*unifi.UBB, error) {
 		var a unifi.UBB
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -250,7 +238,6 @@ func (m *MockUnifi) GetUCIs(_ *unifi.Site) ([]*unifi.UCI, error) {
 		var a unifi.UCI
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -269,7 +256,6 @@ func (m *MockUnifi) GetUSGs(_ *unifi.Site) ([]*unifi.USG, error) {
 		var a unifi.USG
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -288,7 +274,6 @@ func (m *MockUnifi) GetEvents(_ []*unifi.Site, _ time.Duration) ([]*unifi.Event,
 		var a unifi.Event
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -307,7 +292,6 @@ func (m *MockUnifi) GetSiteEvents(_ *unifi.Site, _ time.Duration) ([]*unifi.Even
 		var a unifi.Event
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -328,7 +312,6 @@ func (m *MockUnifi) GetIDS(_ []*unifi.Site, _ ...time.Time) ([]*unifi.IDS, error
 		var a unifi.IDS
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -349,7 +332,6 @@ func (m *MockUnifi) GetIDSSite(_ *unifi.Site, _ ...time.Time) ([]*unifi.IDS, err
 		var a unifi.IDS
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -368,7 +350,6 @@ func (m *MockUnifi) GetNetworks(_ []*unifi.Site) ([]unifi.Network, error) {
 		var a unifi.Network
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -387,7 +368,6 @@ func (m *MockUnifi) GetSites() ([]*unifi.Site, error) {
 		var a unifi.Site
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -404,7 +384,6 @@ func (m *MockUnifi) GetSiteDPI(_ []*unifi.Site) ([]*unifi.DPITable, error) {
 	var a unifi.DPITable
 
 	err := gofakeit.Struct(&a)
-
 	if err != nil {
 		return []*unifi.DPITable{}, err
 	}
@@ -421,7 +400,6 @@ func (m *MockUnifi) GetRogueAPs(_ []*unifi.Site) ([]*unifi.RogueAP, error) {
 		var a unifi.RogueAP
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -440,7 +418,6 @@ func (m *MockUnifi) GetRogueAPsSite(_ *unifi.Site) ([]*unifi.RogueAP, error) {
 		var a unifi.RogueAP
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -483,7 +460,6 @@ func (m *MockUnifi) GetUsers(_ []*unifi.Site, _ int) ([]*unifi.User, error) {
 		var a unifi.User
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -501,7 +477,6 @@ func (m *MockUnifi) GetClientTraffic(_ []*unifi.Site, _ *unifi.EpochMillisTimePe
 		var a unifi.ClientUsageByApp
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -519,7 +494,6 @@ func (m *MockUnifi) GetClientTrafficByMac(_ *unifi.Site, _ *unifi.EpochMillisTim
 		var a unifi.ClientUsageByApp
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
@@ -537,7 +511,6 @@ func (m *MockUnifi) GetCountryTraffic(_ []*unifi.Site, _ *unifi.EpochMillisTimeP
 		var a unifi.UsageByCountry
 
 		err := gofakeit.Struct(&a)
-
 		if err != nil {
 			return results, err
 		}
