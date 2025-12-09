@@ -221,7 +221,7 @@ type UBB struct {
 	P2PStats                   *P2PStats         `json:"p2p_stats"`
 	PeerUbb                    *UBB              `fake:"-"                             json:"peer_ubb"`
 	ProvisionedAt              FlexInt           `json:"provisioned_at"`
-	RadioTable                 []RadioTable      `fakesize:"1"                         json:"radio_table"`
+	RadioTable                 RadioTable        `json:"radio_table"`
 	RadioTableStats            RadioTableStats   `json:"radio_table_stats"`
 	RebootDuration             FlexInt           `json:"reboot_duration"`
 	RequiredVersion            string            `json:"required_version"`
@@ -264,7 +264,7 @@ type UBB struct {
 	Uptime0                    FlexInt           `json:"_uptime"`
 	UserNumSta                 FlexInt           `json:"user-num_sta"`
 	UserWlanNumSta             FlexInt           `json:"user-wlan-num_sta"`
-	VapTable                   []VapTable        `fakesize:"1"                         json:"vap_table"`
+	VapTable                   VapTable          `json:"vap_table"`
 	Version                    string            `json:"version"`
 	WifiCaps                   FlexInt           `json:"wifi_caps"`
 	WlangroupIDNa              string            `json:"wlangroup_id_na"`
