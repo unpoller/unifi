@@ -68,6 +68,46 @@ func (u *Unifi) GetSiteDPI(sites []*Site) ([]*DPITable, error) {
 	return data, nil
 }
 
+// GetSiteSpeedTests returns speed test results for all WANs in a site.
+func (u *Unifi) GetSiteSpeedTests(site *Site, historySeconds int) ([]*SpeedTestResult, error) {
+	if historySeconds <= 0 {
+		historySeconds = 86400 // Default to 24 hours
+	}
+
+	u.DebugLog("Polling Controller, retrieving Site Speed Test data, site %s", site.SiteName)
+
+	var response AggregatedDashboard
+
+	apiPath := fmt.Sprintf(APIAggregatedDashboard, site.Name, historySeconds)
+	if err := u.GetData(apiPath, &response); err != nil {
+		return nil, err
+	}
+
+	// Add site context to each result
+	for _, result := range response.SpeedTest.Data {
+		result.SiteName = site.SiteName
+		result.SourceName = site.SourceName
+	}
+
+	return response.SpeedTest.Data, nil
+}
+
+// GetSpeedTests returns speed test results for all sites.
+func (u *Unifi) GetSpeedTests(sites []*Site, historySeconds int) ([]*SpeedTestResult, error) {
+	data := []*SpeedTestResult{}
+
+	for _, site := range sites {
+		siteData, err := u.GetSiteSpeedTests(site, historySeconds)
+		if err != nil {
+			return nil, err
+		}
+
+		data = append(data, siteData...)
+	}
+
+	return data, nil
+}
+
 // Site represents a site's data.
 type Site struct {
 	AttrHiddenID string   `json:"attr_hidden_id"`

@@ -161,6 +161,7 @@ const (
 	APIClientTrafficPath      string = "/v2/api/site/%s/traffic?start=%d&end=%d&includeUnidentified=%t"
 	APIClientTrafficByMacPath string = "/v2/api/site/%s/traffic/%s?start=%d&end=%d&includeUnidentified=%t&mac=%s"
 	APICountryTrafficPath     string = "/v2/api/site/%s/country-traffic?start=%d&end=%d"
+	APIAggregatedDashboard    string = "/v2/api/site/%s/aggregated-dashboard?historySeconds=%d"
 )
 
 // path returns the correct api path based on the new variable.
