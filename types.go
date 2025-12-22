@@ -158,6 +158,8 @@ const (
 	APIPrefixNew string = "/proxy/network"
 	// APIAnomaliesPath returns site anomalies.
 	APIAnomaliesPath          string = "/api/s/%s/stat/anomalies"
+	// APISystemLogPath returns system log events (v2 API).
+	APISystemLogPath          string = "/v2/api/site/%s/system-log/all"
 	APICommandPath            string = "/api/s/%s/cmd"
 	APIDevMgrPath             string = APICommandPath + "/devmgr"
 	APIClientTrafficPath      string = "/v2/api/site/%s/traffic?start=%d&end=%d&includeUnidentified=%t"
