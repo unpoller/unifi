@@ -136,6 +136,8 @@ const (
 	APIClientDPI string = "/api/s/%s/stat/stadpi"
 	// APIClientPath is Unifi Clients API Path.
 	APIClientPath string = "/api/s/%s/stat/sta"
+	// APIClientHistoryPath is Unifi Clients History API Path.
+	APIClientHistoryPath string = "/v2/api/site/%s/clients/history?%s"
 	// APIAllUserPath is Unifi Insight all previous Clients API Path.
 	APIAllUserPath string = "/api/s/%s/stat/alluser"
 	// APINetworkPath is where we get data about Unifi networks.
@@ -228,6 +230,8 @@ type UnifiClient interface { //nolint: revive
 	GetAnomaliesSite(site *Site, timeRange ...time.Time) ([]*Anomaly, error)
 	// GetClients returns a response full of clients' data from the UniFi Controller.
 	GetClients(sites []*Site) ([]*Client, error)
+	// GetClients returns a response full of client history data from the UniFi Controller.
+	GetClientHistory(sites []*Site, opts *ClientHistoryOpts) ([]*ClientHistory, error)
 	// GetClientsDPI garners dpi data for clients.
 	GetClientsDPI(sites []*Site) ([]*DPITable, error)
 	// GetDevices returns a response full of devices' data from the UniFi Controller.

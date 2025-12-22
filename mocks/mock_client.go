@@ -128,6 +128,25 @@ func (m *MockUnifi) GetClientsDPI(_ []*unifi.Site) ([]*unifi.DPITable, error) {
 	return results, nil
 }
 
+// GetClientHistory returns a response full of client history from the UniFi Controller
+func (m *MockUnifi) GetClientHistory(_ []*unifi.Site, _ *unifi.ClientHistoryOpts) ([]*unifi.ClientHistory, error) {
+	// TODO : add logic to generate data based on ClientHistoryOpts
+	results := make([]*unifi.ClientHistory, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.ClientHistory
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
 // GetDevices returns a response full of devices' data from the UniFi Controller.
 func (m *MockUnifi) GetDevices(_ []*unifi.Site) (*unifi.Devices, error) {
 	var d unifi.Devices

@@ -2,6 +2,8 @@ package unifi
 
 import (
 	"fmt"
+	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -58,6 +60,46 @@ func (u *Unifi) GetClientsDPI(sites []*Site) ([]*DPITable, error) {
 			d.SiteName = site.SiteName
 			data = append(data, d)
 		}
+	}
+
+	return data, nil
+}
+
+// GetClientHistory returns client history data from the controller for clients that conform to the provided filter options within the requested site(s).
+func (u *Unifi) GetClientHistory(sites []*Site, opts *ClientHistoryOpts) ([]*ClientHistory, error) {
+	if opts == nil {
+		opts = NewClientHistoryOpts()
+	}
+
+	params := url.Values{}
+	params.Add("onlyNonBlocked", strconv.FormatBool(opts.OnlyNonBlocked))
+	params.Add("includeUnifiDevices", strconv.FormatBool(opts.IncludeUnifiDevices))
+	params.Add("withinHours", strconv.FormatUint(uint64(opts.WithinHours), 10))
+	paramStr := params.Encode()
+
+	data := make([]*ClientHistory, 0)
+
+	for _, site := range sites {
+		response := []*ClientHistory{}
+
+		u.DebugLog("Polling Controller, retreiving UniFi Client History, site %s ", site.SiteName)
+
+		clientPath := fmt.Sprintf(APIClientHistoryPath, site.Name, paramStr)
+		if err := u.GetData(clientPath, &response, ""); err != nil {
+			return nil, err
+		}
+
+		for i, d := range response {
+			// Add special SourceName value.
+			response[i].SourceName = u.URL
+			// Add the special "Site Name" to each client. This becomes a Grafana filter somewhere.
+			response[i].SiteName = site.SiteName
+			// Fix name and hostname fields. Sometimes one or the other is blank.
+			response[i].Hostname = strings.TrimSpace(pick(d.Hostname, d.Name, d.Mac))
+			response[i].Name = strings.TrimSpace(pick(d.Name, d.Hostname))
+		}
+
+		data = append(data, response...)
 	}
 
 	return data, nil
@@ -151,4 +193,91 @@ type Client struct {
 	WiredTxBytes     FlexInt  `json:"wired-tx_bytes"`
 	WiredTxBytesR    FlexInt  `json:"wired-tx_bytes-r"`
 	WiredTxPackets   FlexInt  `json:"wired-tx_packets"`
+}
+
+// ClientHistory defines the data of a connected or previously connected client
+type ClientHistory struct {
+	Blocked     FlexBool `json:"blocked"`
+	Channel     FlexInt  `json:"channel"`
+	DisplayName string   `json:"display_name"`
+	Fingerprint struct {
+		HasOverride FlexBool `json:"has_override"`
+	} `json:"fingerprint"`
+	FirstSeen                     FlexInt      `json:"first_seen"`
+	FixedApEnabled                FlexBool     `json:"fixed_ap_enabled,omitempty"`
+	Hostname                      string       `fake:"noun" json:"hostname,omitempty"`
+	ID                            string       `fake:"{uuid}" json:"id"`
+	IsAllowedInVisualProgramming  FlexBool     `json:"is_allowed_in_visual_programming"`
+	IsGuest                       FlexBool     `json:"is_guest"`
+	IsMlo                         FlexBool     `json:"is_mlo"`
+	IsWired                       FlexBool     `json:"is_wired"`
+	LastIP                        string       `fake:"ipv4address" json:"last_ip"`
+	LastRadio                     string       `json:"last_radio"`
+	LastSeen                      FlexInt      `json:"last_seen"`
+	LastUplinkMac                 string       `fake:"macaddress" json:"last_uplink_mac"`
+	LastUplinkName                string       `json:"last_uplink_name"`
+	LocalDNSRecord                string       `json:"local_dns_record,omitempty"`
+	LocalDNSRecordEnabled         FlexBool     `json:"local_dns_record_enabled"`
+	Mac                           string       `fake:"macaddress" json:"mac"`
+	Note                          string       `json:"note"`
+	Noted                         FlexBool     `json:"noted"`
+	Oui                           string       `json:"oui"`
+	SiteID                        string       `json:"site_id"`
+	Status                        string       `json:"status"`
+	Tags                          []FlexString `json:"tags"`
+	Type                          string       `json:"type"`
+	UnifiDevice                   FlexBool     `json:"unifi_device"`
+	UplinkMac                     string       `fake:"macaddress" json:"uplink_mac"`
+	UseFixedip                    FlexBool     `json:"use_fixedip"`
+	UserID                        string       `json:"user_id"`
+	UsergroupID                   string       `json:"usergroup_id"`
+	VirtualNetworkOverrideEnabled FlexBool     `json:"virtual_network_override_enabled"`
+	VirtualNetworkOverrideID      string       `json:"virtual_network_override_id,omitempty"`
+	WlanconfID                    string       `json:"wlanconf_id"`
+	Name                          string       `json:"name,omitempty"`
+	UnifiDeviceInfo               struct {
+		IconFilename      string  `json:"icon_filename"`
+		IconResolutions   [][]int `json:"icon_resolutions"`
+		ViewInApplication bool    `json:"view_in_application"`
+	} `json:"unifi_device_info,omitempty"`
+	SiteName   string `json:"-"`
+	SourceName string `json:"-"`
+	FixedIP    string `json:"fixed_ip,omitempty"`
+}
+
+// ClientHistoryOpts contains the query options for GetClientHistory
+type ClientHistoryOpts struct {
+	OnlyNonBlocked      bool
+	IncludeUnifiDevices bool
+	WithinHours         uint // WithinHours is the length of time since the controller has seen the device(s). Use 0 for no limit
+}
+
+// NewClientHistoryOpts returns a new ClientHistoryOpts with values set to include all device history
+func NewClientHistoryOpts() *ClientHistoryOpts {
+	return &ClientHistoryOpts{
+		OnlyNonBlocked:      false,
+		IncludeUnifiDevices: true,
+		WithinHours:         0,
+	}
+}
+
+// SetOnlyNonBlocked sets the OnlyNonBlocked field of the ClientHistoryOpts struct
+// returns a pointer to the ClientHistoryOpts struct to allow for chaining of the options methods
+func (c *ClientHistoryOpts) SetOnlyNonBlocked(onlyNonBlocked bool) *ClientHistoryOpts {
+	c.OnlyNonBlocked = onlyNonBlocked
+	return c
+}
+
+// SetIncludeUnifiDevices sets the IncludeUnifiDevices field of the ClientHistoryOpts struct
+// returns a pointer to the ClientHistoryOpts struct to allow for chaining of the options methods
+func (c *ClientHistoryOpts) SetIncludeUnifiDevices(includeUnifiDevices bool) *ClientHistoryOpts {
+	c.IncludeUnifiDevices = includeUnifiDevices
+	return c
+}
+
+// SetWithinHours sets the WithinHours field of the ClientHistoryOpts struct
+// returns a pointer to the ClientHistoryOpts struct to allow for chaining of the options methods
+func (c *ClientHistoryOpts) SetWithinHours(withinHours uint) *ClientHistoryOpts {
+	c.WithinHours = withinHours
+	return c
 }
