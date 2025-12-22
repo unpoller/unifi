@@ -166,6 +166,10 @@ const (
 	APIClientTrafficByMacPath string = "/v2/api/site/%s/traffic/%s?start=%d&end=%d&includeUnidentified=%t&mac=%s"
 	APICountryTrafficPath     string = "/v2/api/site/%s/country-traffic?start=%d&end=%d"
 	APIAggregatedDashboard    string = "/v2/api/site/%s/aggregated-dashboard?historySeconds=%d"
+	// APIProtectLogPath returns Protect system log events.
+	APIProtectLogPath         string = "/proxy/protect/api/events/system-logs"
+	// APIProtectEventsPath is the base path for Protect events (for thumbnails, etc.).
+	APIProtectEventsPath      string = "/proxy/protect/api/events"
 )
 
 // path returns the correct api path based on the new variable.
@@ -176,7 +180,8 @@ func (u *Unifi) path(path string) string {
 			return APILoginPathNew
 		}
 
-		if !strings.HasPrefix(path, APIPrefixNew) && path != APILoginPathNew {
+		// Don't add prefix if path already has /proxy/network or starts with /proxy/ (e.g., /proxy/protect/)
+		if !strings.HasPrefix(path, APIPrefixNew) && !strings.HasPrefix(path, "/proxy/") && path != APILoginPathNew {
 			return APIPrefixNew + path
 		}
 	}
@@ -292,6 +297,8 @@ type UnifiClient interface { //nolint: revive
 	GetClientTrafficByMac(site *Site, epochMillisTimePeriod *EpochMillisTimePeriod, includeUnidentified bool, macs ...string) ([]*ClientUsageByApp, error)
 	// GetCountryTraffic returns a response full of clients' traffic data from the UniFi Controller for the provided time period.'
 	GetCountryTraffic(sites []*Site, epochMillisTimePeriod *EpochMillisTimePeriod) ([]*UsageByCountry, error)
+	// GetProtectLogs returns Protect system log events.
+	GetProtectLogs(req *ProtectLogRequest) ([]*ProtectLogEntry, error)
 }
 
 // Unifi is what you get in return for providing a password! Unifi represents
