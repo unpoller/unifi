@@ -70,6 +70,7 @@ func (u *Unifi) GetClientHistory(sites []*Site, opts *ClientHistoryOpts) ([]*Cli
 	if opts == nil {
 		opts = NewClientHistoryOpts()
 	}
+
 	params := url.Values{}
 	params.Add("onlyNonBlocked", strconv.FormatBool(opts.OnlyNonBlocked))
 	params.Add("includeUnifiDevices", strconv.FormatBool(opts.IncludeUnifiDevices))
