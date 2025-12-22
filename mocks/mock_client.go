@@ -539,3 +539,21 @@ func (m *MockUnifi) GetCountryTraffic(_ []*unifi.Site, _ *unifi.EpochMillisTimeP
 
 	return results, nil
 }
+
+// GetProtectLogs returns Protect system log events.
+func (m *MockUnifi) GetProtectLogs(_ *unifi.ProtectLogRequest) ([]*unifi.ProtectLogEntry, error) {
+	results := make([]*unifi.ProtectLogEntry, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.ProtectLogEntry
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
