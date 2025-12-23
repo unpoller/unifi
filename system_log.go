@@ -79,6 +79,7 @@ func DefaultSystemLogRequest(hours time.Duration) *SystemLogRequest {
 	}
 
 	now := time.Now()
+
 	return &SystemLogRequest{
 		Severities:    []string{"LOW", "MEDIUM", "HIGH", "VERY_HIGH"},
 		TimestampFrom: now.Add(-hours).UnixMilli(),
@@ -118,6 +119,7 @@ func (u *Unifi) GetSiteSystemLog(site *Site, req *SystemLogRequest) ([]*SystemLo
 	u.DebugLog("Polling Controller for System Log (v2), site %s", site.SiteName)
 
 	var allEntries []*SystemLogEntry
+
 	currentPage := req.PageNumber
 
 	// Paginate through all results
@@ -154,6 +156,7 @@ func (u *Unifi) GetSiteSystemLog(site *Site, req *SystemLogRequest) ([]*SystemLo
 		// Safety limit to prevent infinite loops
 		if currentPage > 100 {
 			u.DebugLog("System log pagination limit reached (100 pages)")
+
 			break
 		}
 	}
@@ -203,8 +206,10 @@ func (s *SystemLogEntry) GetClientName() string {
 		if client.Name != "" {
 			return client.Name
 		}
+
 		return client.Hostname
 	}
+
 	return ""
 }
 
@@ -213,6 +218,7 @@ func (s *SystemLogEntry) GetClientMAC() string {
 	if client, ok := s.Parameters["CLIENT"]; ok {
 		return client.ID
 	}
+
 	return ""
 }
 
@@ -221,9 +227,11 @@ func (s *SystemLogEntry) GetDeviceName() string {
 	if device, ok := s.Parameters["DEVICE"]; ok {
 		return device.Name
 	}
+
 	if device, ok := s.Parameters["DEVICE_TO"]; ok {
 		return device.Name
 	}
+
 	return ""
 }
 
