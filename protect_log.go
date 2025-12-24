@@ -1,6 +1,7 @@
 package unifi
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -363,7 +364,18 @@ func (u *Unifi) GetProtectEventThumbnail(eventID string) ([]byte, error) {
 	// Override Accept header for binary data
 	req.Header.Set("Accept", "image/jpeg, image/*")
 
-	resp, err := u.Do(req)
+	// Apply context timeout (same pattern as u.do() for other requests)
+	var (
+		cancel func()
+		ctx    = context.Background()
+	)
+
+	if u.Config.Timeout != 0 {
+		ctx, cancel = context.WithTimeout(ctx, u.Config.Timeout)
+		defer cancel()
+	}
+
+	resp, err := u.Do(req.WithContext(ctx))
 	if err != nil {
 		return nil, fmt.Errorf("fetching thumbnail: %w", err)
 	}
