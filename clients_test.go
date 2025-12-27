@@ -27,6 +27,7 @@ func TestParseClientHistory(t *testing.T) {
 
 func TestClientHistoryOpts(t *testing.T) {
 	t.Parallel()
+
 	tests := []struct {
 		actual   *unifi.ClientHistoryOpts
 		expected *unifi.ClientHistoryOpts

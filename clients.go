@@ -205,20 +205,20 @@ type ClientHistory struct {
 	} `json:"fingerprint"`
 	FirstSeen                     FlexInt      `json:"first_seen"`
 	FixedApEnabled                FlexBool     `json:"fixed_ap_enabled,omitempty"`
-	Hostname                      string       `fake:"noun" json:"hostname,omitempty"`
-	ID                            string       `fake:"{uuid}" json:"id"`
+	Hostname                      string       `fake:"noun"                                  json:"hostname,omitempty"`
+	ID                            string       `fake:"{uuid}"                                json:"id"`
 	IsAllowedInVisualProgramming  FlexBool     `json:"is_allowed_in_visual_programming"`
 	IsGuest                       FlexBool     `json:"is_guest"`
 	IsMlo                         FlexBool     `json:"is_mlo"`
 	IsWired                       FlexBool     `json:"is_wired"`
-	LastIP                        string       `fake:"ipv4address" json:"last_ip"`
+	LastIP                        string       `fake:"ipv4address"                           json:"last_ip"`
 	LastRadio                     string       `json:"last_radio"`
 	LastSeen                      FlexInt      `json:"last_seen"`
-	LastUplinkMac                 string       `fake:"macaddress" json:"last_uplink_mac"`
+	LastUplinkMac                 string       `fake:"macaddress"                            json:"last_uplink_mac"`
 	LastUplinkName                string       `json:"last_uplink_name"`
 	LocalDNSRecord                string       `json:"local_dns_record,omitempty"`
 	LocalDNSRecordEnabled         FlexBool     `json:"local_dns_record_enabled"`
-	Mac                           string       `fake:"macaddress" json:"mac"`
+	Mac                           string       `fake:"macaddress"                            json:"mac"`
 	Note                          string       `json:"note"`
 	Noted                         FlexBool     `json:"noted"`
 	Oui                           string       `json:"oui"`
@@ -227,7 +227,7 @@ type ClientHistory struct {
 	Tags                          []FlexString `json:"tags"`
 	Type                          string       `json:"type"`
 	UnifiDevice                   FlexBool     `json:"unifi_device"`
-	UplinkMac                     string       `fake:"macaddress" json:"uplink_mac"`
+	UplinkMac                     string       `fake:"macaddress"                            json:"uplink_mac"`
 	UseFixedip                    FlexBool     `json:"use_fixedip"`
 	UserID                        string       `json:"user_id"`
 	UsergroupID                   string       `json:"usergroup_id"`
@@ -265,6 +265,7 @@ func NewClientHistoryOpts() *ClientHistoryOpts {
 // returns a pointer to the ClientHistoryOpts struct to allow for chaining of the options methods
 func (c *ClientHistoryOpts) SetOnlyNonBlocked(onlyNonBlocked bool) *ClientHistoryOpts {
 	c.OnlyNonBlocked = onlyNonBlocked
+
 	return c
 }
 
@@ -272,6 +273,7 @@ func (c *ClientHistoryOpts) SetOnlyNonBlocked(onlyNonBlocked bool) *ClientHistor
 // returns a pointer to the ClientHistoryOpts struct to allow for chaining of the options methods
 func (c *ClientHistoryOpts) SetIncludeUnifiDevices(includeUnifiDevices bool) *ClientHistoryOpts {
 	c.IncludeUnifiDevices = includeUnifiDevices
+
 	return c
 }
 
@@ -279,5 +281,6 @@ func (c *ClientHistoryOpts) SetIncludeUnifiDevices(includeUnifiDevices bool) *Cl
 // returns a pointer to the ClientHistoryOpts struct to allow for chaining of the options methods
 func (c *ClientHistoryOpts) SetWithinHours(withinHours uint) *ClientHistoryOpts {
 	c.WithinHours = withinHours
+
 	return c
 }
