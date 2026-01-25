@@ -133,8 +133,9 @@ func (u *Unifi) GetUCIs(site *Site) ([]*UCI, error) {
 }
 
 type minimalUnmarshalInfo struct {
-	Type  string `json:"type"`
-	Model string `json:"model"`
+	Type      string `json:"type"`
+	Model     string `json:"model"`
+	Shortname string `json:"shortname"`
 }
 
 // parseDevices parses the raw JSON from the Unifi Controller into device structures.
@@ -152,16 +153,20 @@ func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 
 		assetType := o.Type
 		model := o.Model
-		u.DebugLog("Unmarshalling Device Type: %v, Model: %s, site %s ", assetType, model, site.SiteName)
+		shortname := o.Shortname
+		u.DebugLog("Unmarshalling Device Type: %v, Model: %s, Shortname: %s, site %s ", assetType, model, shortname, site.SiteName)
 		// Choose which type to unmarshal into based on the "type" json key.
 
 		switch assetType { // Unmarshal again into the correct type..
 		case "uap":
 			u.unmarshallUAP(site, r, devices)
-		case "ugw", "usg": // in case they ever fix the name in the api.
+		case "ugw", "usg", "ucg": // in case they ever fix the name in the api. UCG Ultra is a cloud gateway.
 			u.unmarshallUSG(site, r, devices)
 		case "usw":
-			if strings.Contains(strings.ToLower(model), "pdu") {
+			// Check if it's a PDU or UPS device that's incorrectly typed as usw
+			modelLower := strings.ToLower(model)
+			shortnameLower := strings.ToLower(shortname)
+			if strings.Contains(modelLower, "pdu") || strings.Contains(shortnameLower, "ups") {
 				// this may actually happen, unifi APIs are all over the place
 				u.unmarshallPDU(site, r, devices)
 			} else {
