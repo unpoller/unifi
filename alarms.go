@@ -52,6 +52,7 @@ type Alarm struct {
 	USGIPCountry          string     `json:"usgipCountry"`
 	USGIPGeo              IPGeo      `json:"srcipGeo,omitempty"`
 	UniqueAlertID         string     `json:"unique_alertid"`
+	DeviceName            string     `json:"device_name,omitempty"`
 }
 
 // GetAlarms returns Alarms for a list of Sites.
