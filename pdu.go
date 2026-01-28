@@ -106,6 +106,7 @@ type PDU struct {
 	Uptime                   FlexInt     `json:"uptime"`
 	UserNumSta               FlexInt     `json:"user-num_sta"`
 	Version                  string      `fake:"{appversion}"              json:"version"`
+	VBMSTable                *VBMSTable  `json:"vbms_table"`
 }
 
 // OutletOverride hold the PDU outlet override data.
@@ -127,6 +128,29 @@ type OutletTable struct {
 	OutletPowerFactor FlexInt  `json:"outlet_power_factor"`
 	OutletVoltage     FlexInt  `json:"outlet_voltage"`
 	RelayState        FlexBool `json:"relay_state"`
+}
+
+// VBMSTable holds the Battery Management System data for UPS devices.
+type VBMSTable struct {
+	BattPool      *BattPool `json:"battpool"`
+	BMSRunAnomaly FlexInt   `json:"bms_run_anomaly"`
+	IsBatteryMode FlexBool  `json:"is_battery_mode"`
+	BatteryTable  []interface{} `json:"battery_table"`
+}
+
+// BattPool holds battery pool information from the VBMS table.
+type BattPool struct {
+	BattAvailableCnt      FlexInt `json:"batt_available_cnt"`
+	BatteryLevel          FlexInt `json:"batteryLevel"`
+	BatteryAvrTime        FlexInt `json:"battery_avr_time"`
+	DeviceTotalPowerBudget FlexInt `json:"device_total_power_budget"`
+	DeviceTotalPowerOutput FlexInt `json:"device_total_power_output"`
+	DeviceTotalPowerFactor FlexInt `json:"device_total_power_factor"`
+	DeviceOutputVoltage   FlexInt `json:"device_output_voltage"`
+	DeviceOutputCurrent   FlexInt `json:"device_output_current"`
+	IsCharging            FlexBool `json:"ischarging"`
+	ReadyCnt              FlexInt `json:"readycnt"`
+	TimeToRemain          FlexInt `json:"timeToRemain"`
 }
 
 // PDUStat holds the "stat" data for a pdu.
