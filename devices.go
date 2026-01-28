@@ -146,7 +146,7 @@ func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 		// Loop each item in the raw JSON message, detect its type and unmarshal it.
 		var o minimalUnmarshalInfo
 		if u.unmarshalDevice("map", r, &o) != nil {
-			u.ErrorLog("unknown asset type - cannot find asset type in payload - skipping")
+			u.DebugLog("unknown asset type - cannot find asset type in payload - skipping")
 
 			continue
 		}
@@ -183,7 +183,7 @@ func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 		case "uci":
 			u.unmarshallUCI(site, r, devices)
 		default:
-			u.ErrorLog("unknown asset type - %v - skipping: data=%+v", assetType, string(r))
+			u.DebugLog("unknown asset type - %v - skipping: data=%+v", assetType, string(r))
 		}
 	}
 
