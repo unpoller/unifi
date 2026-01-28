@@ -8,7 +8,7 @@ alwaysApply: false
 
 **Note**: See `unifi-api-reference.mdc` for detailed API endpoint documentation (local controller vs remote Site Manager).
 
-- **HTTP**: Use `u.GetData(apiPath, &response)` for GET. API paths use `fmt.Sprintf(APIDevicePath, site.Name)` etc. Constants in `types.go` (`APIDevicePath`, `APIClientPath`, …). Many additional endpoints exist (networkconf, setting, firewall-policies, portforward, etc.) - see `unifi-api-reference.mdc` for full list.
+- **HTTP**: Use `u.GetData(apiPath, &response)` for GET. API paths use `fmt.Sprintf(APIDevicePath, site.Name)` etc. Constants in `types.go` (`APIDevicePath`, `APIClientPath`, …).
 - **Authentication**: Local controller uses cookie-based auth (`/api/login` or `/api/auth/login` for UDM Pro). Remote API uses `X-API-Key` header. Library handles both via `Config.User`/`Config.Pass` or `Config.APIKey`.
 - **Sites**: Most fetches are per-site. `GetSites()` first, then loop `GetDevices(sites)`, `GetClients(sites)`, etc. Single-site helpers like `GetUAPs(site)` also exist.
 - **Devices**: `GetDevices` returns `*Devices` (UAPs, USWs, USGs, UDMs, UXGs, PDUs, UBBs, UCIs). Device-specific data lives in `uap.go`, `usw.go`, `usg.go`, etc. Parsing uses `parseDevices` with `json.RawMessage` and type detection.
