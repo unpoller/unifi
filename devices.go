@@ -132,10 +132,25 @@ func (u *Unifi) GetUCIs(site *Site) ([]*UCI, error) {
 	return u.parseDevices(response.Data, site).UCIs, nil
 }
 
+// GetPDUs returns all PDU devices, an error, or nil if there are no PDUs.
+func (u *Unifi) GetPDUs(site *Site) ([]*PDU, error) {
+	var response struct {
+		Data []json.RawMessage `json:"data"`
+	}
+
+	err := u.GetData(fmt.Sprintf(APIDevicePath, site.Name), &response)
+	if err != nil {
+		return nil, err
+	}
+
+	return u.parseDevices(response.Data, site).PDUs, nil
+}
+
 type minimalUnmarshalInfo struct {
 	Type      string `json:"type"`
 	Model     string `json:"model"`
 	Shortname string `json:"shortname"`
+	Name      string `json:"name"`
 }
 
 // parseDevices parses the raw JSON from the Unifi Controller into device structures.
@@ -154,7 +169,8 @@ func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 		assetType := o.Type
 		model := o.Model
 		shortname := o.Shortname
-		u.DebugLog("Unmarshalling Device Type: %v, Model: %s, Shortname: %s, site %s ", assetType, model, shortname, site.SiteName)
+		name := o.Name
+		u.DebugLog("Unmarshalling Device Type: %v, Model: %s, Shortname: %s, Name: %s, site %s ", assetType, model, shortname, name, site.SiteName)
 		// Choose which type to unmarshal into based on the "type" json key.
 
 		switch assetType { // Unmarshal again into the correct type..
@@ -164,10 +180,8 @@ func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 			u.unmarshallUSG(site, r, devices)
 		case "usw":
 			// Check if it's a PDU or UPS device that's incorrectly typed as usw
-			modelLower := strings.ToLower(model)
-			shortnameLower := strings.ToLower(shortname)
-			if strings.Contains(modelLower, "pdu") || strings.Contains(shortnameLower, "ups") {
-				// this may actually happen, unifi APIs are all over the place
+			// UniFi API sometimes returns type=usw for PDU/UPS devices
+			if u.isPDUOrUPS(r, model, shortname, o.Name) {
 				u.unmarshallPDU(site, r, devices)
 			} else {
 				u.unmarshallUSW(site, r, devices)
@@ -219,8 +233,11 @@ func (u *Unifi) unmarshallUSW(site *Site, payload json.RawMessage, devices *Devi
 
 func (u *Unifi) unmarshallPDU(site *Site, payload json.RawMessage, devices *Devices) {
 	dev := &PDU{SiteName: site.SiteName, SourceName: u.URL}
+	// Note: UniFi API returns type="usw" for PDU devices, so we unmarshal as "usw"
+	// but then set the Type field to "pdu" to correctly identify it
 	if u.unmarshalDevice("usw", payload, dev) == nil {
 		dev.Name = strings.TrimSpace(pick(dev.Name, dev.Mac))
+		dev.Type = "pdu" // Correct the type field since API incorrectly returns "usw"
 		dev.site = site
 		devices.PDUs = append(devices.PDUs, dev)
 	}
@@ -279,6 +296,32 @@ func (u *Unifi) unmarshalDevice(dev string, data json.RawMessage, v interface{})
 	}
 
 	return nil
+}
+
+// isPDUOrUPS checks if a device is a PDU or UPS device that's incorrectly typed as usw.
+// It checks the model, shortname, name fields, and also looks for outlet_table/outlet_enabled
+// in the raw JSON which are unique to PDU/UPS devices.
+func (u *Unifi) isPDUOrUPS(rawJSON json.RawMessage, model, shortname, name string) bool {
+	// Check model, shortname, and name fields for PDU/UPS indicators
+	modelLower := strings.ToLower(model)
+	shortnameLower := strings.ToLower(shortname)
+	nameLower := strings.ToLower(name)
+
+	// Check if any field contains pdu or ups
+	if strings.Contains(modelLower, "pdu") || strings.Contains(modelLower, "ups") ||
+		strings.Contains(shortnameLower, "pdu") || strings.Contains(shortnameLower, "ups") ||
+		strings.Contains(nameLower, "pdu") || strings.Contains(nameLower, "ups") ||
+		strings.Contains(nameLower, "tower") { // "UPS Tower" is a common name
+		return true
+	}
+
+	// Check for outlet_table or outlet_enabled in raw JSON - these are unique to PDU/UPS
+	rawStr := string(rawJSON)
+	if strings.Contains(rawStr, `"outlet_table"`) || strings.Contains(rawStr, `"outlet_enabled"`) {
+		return true
+	}
+
+	return false
 }
 
 // pick returns the first non empty string in a list.

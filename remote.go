@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 )
 
@@ -37,9 +38,9 @@ type Console struct {
 // HostsResponse represents the response from /v1/hosts endpoint.
 type HostsResponse struct {
 	Data           []Console `json:"data"`
-	HTTPStatusCode int      `json:"httpStatusCode"`
-	TraceID        string   `json:"traceId"`
-	NextToken      string   `json:"nextToken,omitempty"`
+	HTTPStatusCode int       `json:"httpStatusCode"`
+	TraceID        string    `json:"traceId"`
+	NextToken      string    `json:"nextToken,omitempty"`
 }
 
 // RemoteSite represents a site from the remote API.
@@ -54,6 +55,14 @@ type SitesResponse struct {
 	Data           []RemoteSite `json:"data"`
 	HTTPStatusCode int          `json:"httpStatusCode"`
 	TraceID        string       `json:"traceId"`
+}
+
+// APIErrorResponse represents an error response from the remote API.
+type APIErrorResponse struct {
+	Code           string `json:"code"`
+	HTTPStatusCode int    `json:"httpStatusCode"`
+	Message        string `json:"message"`
+	TraceID        string `json:"traceId"`
 }
 
 // RemoteAPIClient handles HTTP requests to the remote UniFi API.
@@ -74,9 +83,11 @@ func NewRemoteAPIClient(apiKey string, errorLog, debugLog, log Logger) *RemoteAP
 	if errorLog == nil {
 		errorLog = discardLogs
 	}
+
 	if debugLog == nil {
 		debugLog = discardLogs
 	}
+
 	if log == nil {
 		log = discardLogs
 	}
@@ -112,6 +123,7 @@ func (c *RemoteAPIClient) makeRequest(method, path string, queryParams map[strin
 		for k, v := range queryParams {
 			q.Set(k, v)
 		}
+
 		u.RawQuery = q.Encode()
 		fullURL = u.String()
 	}
@@ -138,10 +150,71 @@ func (c *RemoteAPIClient) makeRequest(method, path string, queryParams map[strin
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		// Try to parse the error response for better error messages
+		var apiErr APIErrorResponse
+		if err := json.Unmarshal(body, &apiErr); err == nil && apiErr.Message != "" {
+			// Build a helpful error message based on status code
+			errMsg := fmt.Sprintf("API request failed with status %d: %s", resp.StatusCode, apiErr.Message)
+
+			// Add helpful suggestions for common error cases
+			if resp.StatusCode == 403 || resp.StatusCode == 404 {
+				suggestions := c.getErrorSuggestions(resp.StatusCode, apiErr.Message, path)
+				if suggestions != "" {
+					errMsg += "\n" + suggestions
+				}
+			}
+
+			return nil, fmt.Errorf("%s", errMsg)
+		}
+
+		// Fallback to generic error if we can't parse the response
 		return nil, fmt.Errorf("API request failed with status %d: %s", resp.StatusCode, string(body))
 	}
 
 	return body, nil
+}
+
+// getErrorSuggestions provides helpful suggestions for common API errors.
+func (c *RemoteAPIClient) getErrorSuggestions(statusCode int, _ string, path string) string {
+	var suggestions []string
+
+	switch statusCode {
+	case 403:
+		// Check if this is a sites endpoint (which might indicate NVR or firmware issues)
+		if strings.Contains(path, "/sites") {
+			suggestions = append(suggestions,
+				"  • This API key may be associated with a UniFi Protect (NVR) console, which does not support Network API endpoints.",
+				"  • Ensure the API key was created for a UniFi Network console, not a UniFi Protect console.",
+				"  • Verify the console firmware is compatible with the Network API (UDM/UDM-Pro/Cloud Gateway with Network application).",
+				"  • Check that the console has the Network application installed and running.",
+			)
+		} else {
+			suggestions = append(suggestions,
+				"  • Verify the API key has the necessary permissions for this operation.",
+				"  • Ensure the API key was created for the correct console type.",
+				"  • Check that the console firmware version supports this API endpoint.",
+			)
+		}
+	case 404:
+		if strings.Contains(path, "/sites") {
+			suggestions = append(suggestions,
+				"  • The console may not have the Network application installed or enabled.",
+				"  • Verify the console firmware version is compatible with the Network API.",
+				"  • This endpoint may not be available for this console type (e.g., UniFi Protect/NVR consoles).",
+			)
+		} else {
+			suggestions = append(suggestions,
+				"  • The requested endpoint may not be available for this console type or firmware version.",
+				"  • Verify the console firmware is up to date and supports this API endpoint.",
+			)
+		}
+	}
+
+	if len(suggestions) > 0 {
+		return "Possible solutions:\n" + strings.Join(suggestions, "\n")
+	}
+
+	return ""
 }
 
 // DiscoverConsoles discovers all consoles available via the remote API.
@@ -153,6 +226,7 @@ func (c *RemoteAPIClient) DiscoverConsoles() ([]Console, error) {
 	}
 
 	var allConsoles []Console
+
 	nextToken := ""
 
 	for {
@@ -181,6 +255,7 @@ func (c *RemoteAPIClient) DiscoverConsoles() ([]Console, error) {
 				if console.ConsoleName == "" {
 					console.ConsoleName = console.ReportedState.Hostname
 				}
+
 				allConsoles = append(allConsoles, console)
 			}
 		}
