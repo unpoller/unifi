@@ -257,6 +257,8 @@ type UnifiClient interface { //nolint: revive
 	GetUBBs(site *Site) ([]*UBB, error)
 	// GetUCIs returns all UCI devices, an error, or nil if there are no UCIs.
 	GetUCIs(site *Site) ([]*UCI, error)
+	// GetPDUs returns all PDU devices, an error, or nil if there are no PDUs.
+	GetPDUs(site *Site) ([]*PDU, error)
 	// GetEvents returns a response full of UniFi Events for the last 1 hour from multiple sites.
 	GetEvents(sites []*Site, hours time.Duration) ([]*Event, error)
 	// GetSiteEvents retrieves the last 1 hour's worth of events from a single site.

@@ -267,6 +267,24 @@ func (m *MockUnifi) GetUCIs(_ *unifi.Site) ([]*unifi.UCI, error) {
 	return results, nil
 }
 
+// GetPDUs returns all PDU devices, an error, or nil if there are no PDUs.
+func (m *MockUnifi) GetPDUs(_ *unifi.Site) ([]*unifi.PDU, error) {
+	results := make([]*unifi.PDU, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.PDU
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
 // GetUSGs returns all 1Gb gateways, an error, or nil if there are no USGs.
 func (m *MockUnifi) GetUSGs(_ *unifi.Site) ([]*unifi.USG, error) {
 	results := make([]*unifi.USG, numItemsMocked)

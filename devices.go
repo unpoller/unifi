@@ -132,6 +132,20 @@ func (u *Unifi) GetUCIs(site *Site) ([]*UCI, error) {
 	return u.parseDevices(response.Data, site).UCIs, nil
 }
 
+// GetPDUs returns all PDU devices, an error, or nil if there are no PDUs.
+func (u *Unifi) GetPDUs(site *Site) ([]*PDU, error) {
+	var response struct {
+		Data []json.RawMessage `json:"data"`
+	}
+
+	err := u.GetData(fmt.Sprintf(APIDevicePath, site.Name), &response)
+	if err != nil {
+		return nil, err
+	}
+
+	return u.parseDevices(response.Data, site).PDUs, nil
+}
+
 type minimalUnmarshalInfo struct {
 	Type      string `json:"type"`
 	Model     string `json:"model"`
