@@ -38,9 +38,9 @@ type Console struct {
 // HostsResponse represents the response from /v1/hosts endpoint.
 type HostsResponse struct {
 	Data           []Console `json:"data"`
-	HTTPStatusCode int      `json:"httpStatusCode"`
-	TraceID        string   `json:"traceId"`
-	NextToken      string   `json:"nextToken,omitempty"`
+	HTTPStatusCode int       `json:"httpStatusCode"`
+	TraceID        string    `json:"traceId"`
+	NextToken      string    `json:"nextToken,omitempty"`
 }
 
 // RemoteSite represents a site from the remote API.
@@ -83,9 +83,11 @@ func NewRemoteAPIClient(apiKey string, errorLog, debugLog, log Logger) *RemoteAP
 	if errorLog == nil {
 		errorLog = discardLogs
 	}
+
 	if debugLog == nil {
 		debugLog = discardLogs
 	}
+
 	if log == nil {
 		log = discardLogs
 	}
@@ -121,6 +123,7 @@ func (c *RemoteAPIClient) makeRequest(method, path string, queryParams map[strin
 		for k, v := range queryParams {
 			q.Set(k, v)
 		}
+
 		u.RawQuery = q.Encode()
 		fullURL = u.String()
 	}
@@ -152,7 +155,7 @@ func (c *RemoteAPIClient) makeRequest(method, path string, queryParams map[strin
 		if err := json.Unmarshal(body, &apiErr); err == nil && apiErr.Message != "" {
 			// Build a helpful error message based on status code
 			errMsg := fmt.Sprintf("API request failed with status %d: %s", resp.StatusCode, apiErr.Message)
-			
+
 			// Add helpful suggestions for common error cases
 			if resp.StatusCode == 403 || resp.StatusCode == 404 {
 				suggestions := c.getErrorSuggestions(resp.StatusCode, apiErr.Message, path)
@@ -160,10 +163,10 @@ func (c *RemoteAPIClient) makeRequest(method, path string, queryParams map[strin
 					errMsg += "\n" + suggestions
 				}
 			}
-			
-			return nil, fmt.Errorf(errMsg)
+
+			return nil, fmt.Errorf("%s", errMsg)
 		}
-		
+
 		// Fallback to generic error if we can't parse the response
 		return nil, fmt.Errorf("API request failed with status %d: %s", resp.StatusCode, string(body))
 	}
@@ -172,13 +175,14 @@ func (c *RemoteAPIClient) makeRequest(method, path string, queryParams map[strin
 }
 
 // getErrorSuggestions provides helpful suggestions for common API errors.
-func (c *RemoteAPIClient) getErrorSuggestions(statusCode int, message, path string) string {
+func (c *RemoteAPIClient) getErrorSuggestions(statusCode int, _ string, path string) string {
 	var suggestions []string
-	
-	if statusCode == 403 {
+
+	switch statusCode {
+	case 403:
 		// Check if this is a sites endpoint (which might indicate NVR or firmware issues)
 		if strings.Contains(path, "/sites") {
-			suggestions = append(suggestions, 
+			suggestions = append(suggestions,
 				"  • This API key may be associated with a UniFi Protect (NVR) console, which does not support Network API endpoints.",
 				"  • Ensure the API key was created for a UniFi Network console, not a UniFi Protect console.",
 				"  • Verify the console firmware is compatible with the Network API (UDM/UDM-Pro/Cloud Gateway with Network application).",
@@ -191,7 +195,7 @@ func (c *RemoteAPIClient) getErrorSuggestions(statusCode int, message, path stri
 				"  • Check that the console firmware version supports this API endpoint.",
 			)
 		}
-	} else if statusCode == 404 {
+	case 404:
 		if strings.Contains(path, "/sites") {
 			suggestions = append(suggestions,
 				"  • The console may not have the Network application installed or enabled.",
@@ -205,11 +209,11 @@ func (c *RemoteAPIClient) getErrorSuggestions(statusCode int, message, path stri
 			)
 		}
 	}
-	
+
 	if len(suggestions) > 0 {
 		return "Possible solutions:\n" + strings.Join(suggestions, "\n")
 	}
-	
+
 	return ""
 }
 
@@ -222,6 +226,7 @@ func (c *RemoteAPIClient) DiscoverConsoles() ([]Console, error) {
 	}
 
 	var allConsoles []Console
+
 	nextToken := ""
 
 	for {
@@ -250,6 +255,7 @@ func (c *RemoteAPIClient) DiscoverConsoles() ([]Console, error) {
 				if console.ConsoleName == "" {
 					console.ConsoleName = console.ReportedState.Hostname
 				}
+
 				allConsoles = append(allConsoles, console)
 			}
 		}
