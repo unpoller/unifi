@@ -1,0 +1,14 @@
+{
+    "wan_interfaces": [
+        {
+            "name": "Westelcom",
+            "state": "ACTIVE",
+            "wan_networkgroup": "WAN"
+        },
+        {
+            "name": "Internet 2",
+            "state": "BACKUP",
+            "wan_networkgroup": "WAN2"
+        }
+    ]
+}

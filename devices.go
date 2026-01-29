@@ -364,6 +364,7 @@ func (u *Unifi) enrichDevicesWithTags(devices *Devices, site *Site) error {
 	// Create a map of MAC -> tag names
 	// Multiple tags per device are supported - each tag creates a separate entry
 	macToTags := make(map[string][]string)
+
 	for _, tag := range tags {
 		for _, mac := range tag.MemberDeviceMacs {
 			// Normalize MAC address to lowercase for matching
@@ -377,7 +378,9 @@ func (u *Unifi) enrichDevicesWithTags(devices *Devices, site *Site) error {
 		if mac == "" {
 			return nil
 		}
+
 		normalizedMac := strings.ToLower(strings.TrimSpace(mac))
+
 		return macToTags[normalizedMac]
 	}
 
@@ -385,24 +388,31 @@ func (u *Unifi) enrichDevicesWithTags(devices *Devices, site *Site) error {
 	for _, device := range devices.UAPs {
 		device.Tags = enrichDevice(device.Mac)
 	}
+
 	for _, device := range devices.USWs {
 		device.Tags = enrichDevice(device.Mac)
 	}
+
 	for _, device := range devices.UDMs {
 		device.Tags = enrichDevice(device.Mac)
 	}
+
 	for _, device := range devices.USGs {
 		device.Tags = enrichDevice(device.Mac)
 	}
+
 	for _, device := range devices.UXGs {
 		device.Tags = enrichDevice(device.Mac)
 	}
+
 	for _, device := range devices.PDUs {
 		device.Tags = enrichDevice(device.Mac)
 	}
+
 	for _, device := range devices.UBBs {
 		device.Tags = enrichDevice(device.Mac)
 	}
+
 	for _, device := range devices.UCIs {
 		device.Tags = enrichDevice(device.Mac)
 	}

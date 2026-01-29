@@ -433,6 +433,71 @@ func (m *MockUnifi) GetActiveDHCPLeasesWithAssociations(_ []*unifi.Site) ([]*uni
 	return results, nil
 }
 
+// AssociateDHCPLeases associates DHCP leases with clients, devices, and networks using pre-fetched data.
+func (m *MockUnifi) AssociateDHCPLeases(_ []*unifi.DHCPLease, _ []*unifi.Client, _ *unifi.Devices, _ []unifi.Network) error {
+	return nil
+}
+
+// GetWANEnrichedConfiguration returns enriched WAN configuration for all WAN interfaces.
+func (m *MockUnifi) GetWANEnrichedConfiguration(_ []*unifi.Site) ([]*unifi.WANEnrichedConfiguration, error) {
+	results := make([]*unifi.WANEnrichedConfiguration, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var w unifi.WANEnrichedConfiguration
+
+		err := gofakeit.Struct(&w)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &w
+	}
+
+	return results, nil
+}
+
+// GetWANLoadBalancingStatus returns the current load balancing status for WAN interfaces.
+func (m *MockUnifi) GetWANLoadBalancingStatus(_ []*unifi.Site) (*unifi.WANLoadBalancingStatus, error) {
+	var w unifi.WANLoadBalancingStatus
+
+	err := gofakeit.Struct(&w)
+	if err != nil {
+		return &w, err
+	}
+
+	return &w, nil
+}
+
+// GetWANISPStatus returns the ISP status for WAN interfaces.
+func (m *MockUnifi) GetWANISPStatus(_ []*unifi.Site, _ string) (*unifi.WANISPStatusDetailed, error) {
+	var w unifi.WANISPStatusDetailed
+
+	err := gofakeit.Struct(&w)
+	if err != nil {
+		return &w, err
+	}
+
+	return &w, nil
+}
+
+// GetWANSLAs returns WAN SLA monitoring data.
+func (m *MockUnifi) GetWANSLAs(_ []*unifi.Site) ([]*unifi.WANSLA, error) {
+	results := make([]*unifi.WANSLA, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var w unifi.WANSLA
+
+		err := gofakeit.Struct(&w)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &w
+	}
+
+	return results, nil
+}
+
 // GetSites returns a list of configured sites on the UniFi controller.
 func (m *MockUnifi) GetSites() ([]*unifi.Site, error) {
 	results := make([]*unifi.Site, numItemsMocked)

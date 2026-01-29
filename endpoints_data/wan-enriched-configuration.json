@@ -1,0 +1,111 @@
+[
+    {
+        "configuration": {
+            "_id": "6711e729be659a441ec8e57c",
+            "attr_hidden_id": "WAN",
+            "attr_no_delete": true,
+            "igmpProxyUpstream": false,
+            "igmp_proxy_downstream_networkconf_ids": [],
+            "igmp_proxy_for": "none",
+            "igmp_proxy_upstream": false,
+            "ipv6_wan_delegation_type": "none",
+            "lanTunnelWanNetwork": false,
+            "mac_override_enabled": false,
+            "name": "Westelcom",
+            "purpose": "wan",
+            "report_wan_event": false,
+            "setting_preference": "manual",
+            "single_network_lan": "",
+            "wan5gNetwork": false,
+            "wanMagicEnabled": false,
+            "wan_dhcp_cos": 0,
+            "wan_dhcp_options": [],
+            "wan_dns_preference": "auto",
+            "wan_dslite_remote_host_auto": false,
+            "wan_failover_priority": 1,
+            "wan_ip_aliases": [],
+            "wan_ipv6_dns1": "",
+            "wan_ipv6_dns2": "",
+            "wan_ipv6_dns_preference": "auto",
+            "wan_load_balance_type": "weighted",
+            "wan_load_balance_weight": 99,
+            "wan_magic_enabled": false,
+            "wan_networkgroup": "WAN",
+            "wan_provider_capabilities": {
+                "download_kilobits_per_second": 1000000,
+                "upload_kilobits_per_second": 1000000
+            },
+            "wan_smartq_enabled": false,
+            "wan_type": "dhcp",
+            "wan_type_v6": "disabled",
+            "wan_vlan_enabled": false
+        },
+        "details": {
+            "creation_timestamp": 1729226537,
+            "service_provider": {
+                "asn": 11722,
+                "city": "Potsdam",
+                "name": "Westelcom Internet"
+            }
+        },
+        "statistics": {
+            "peak_usage": {
+                "download_percentage": 11.108230663999999,
+                "max_rx_bytes-r": 56749139,
+                "max_tx_bytes-r": 20572298,
+                "upload_percentage": 1.3396832293333332
+            },
+            "uptime_percentage": 100.0
+        }
+    },
+    {
+        "configuration": {
+            "_id": "671184d9be659a441ec8e58b",
+            "attr_no_delete": true,
+            "igmpProxyUpstream": false,
+            "igmp_proxy_downstream_networkconf_ids": [],
+            "igmp_proxy_for": "none",
+            "igmp_proxy_upstream": false,
+            "ipv6_wan_delegation_type": "none",
+            "lanTunnelWanNetwork": false,
+            "mac_override_enabled": false,
+            "name": "Internet 2",
+            "purpose": "wan",
+            "report_wan_event": false,
+            "setting_preference": "auto",
+            "wan5gNetwork": false,
+            "wanMagicEnabled": false,
+            "wan_dhcp_options": [],
+            "wan_dns_preference": "auto",
+            "wan_dslite_remote_host_auto": false,
+            "wan_failover_priority": 2,
+            "wan_ip_aliases": [],
+            "wan_ipv6_dns_preference": "auto",
+            "wan_load_balance_type": "failover-only",
+            "wan_load_balance_weight": 1,
+            "wan_magic_enabled": false,
+            "wan_networkgroup": "WAN2",
+            "wan_provider_capabilities": {
+                "download_kilobits_per_second": 0,
+                "upload_kilobits_per_second": 0
+            },
+            "wan_smartq_enabled": false,
+            "wan_type": "dhcp",
+            "wan_type_v6": "disabled",
+            "wan_vlan_enabled": false
+        },
+        "details": {
+            "creation_timestamp": 1729201369,
+            "service_provider": {}
+        },
+        "statistics": {
+            "peak_usage": {
+                "download_percentage": -1.0,
+                "max_rx_bytes-r": 0,
+                "max_tx_bytes-r": 0,
+                "upload_percentage": -1.0
+            },
+            "uptime_percentage": -1.0
+        }
+    }
+]

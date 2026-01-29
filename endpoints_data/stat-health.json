@@ -1,0 +1,135 @@
+{
+    "meta": {
+        "rc": "ok"
+    },
+    "data": [
+        {
+            "subsystem": "wlan",
+            "num_user": 7,
+            "num_guest": 0,
+            "num_iot": 0,
+            "tx_bytes-r": 0,
+            "rx_bytes-r": 0,
+            "status": "ok",
+            "num_ap": 1,
+            "num_adopted": 1,
+            "num_disabled": 0,
+            "num_disconnected": 0,
+            "num_pending": 0
+        },
+        {
+            "subsystem": "wan",
+            "num_gw": 1,
+            "num_adopted": 1,
+            "num_disconnected": 0,
+            "num_pending": 0,
+            "status": "ok",
+            "wan_ip": "209.23.82.154",
+            "gateways": [],
+            "netmask": "255.255.255.0",
+            "nameservers": [],
+            "num_sta": 8,
+            "tx_bytes-r": 34263,
+            "rx_bytes-r": 19465,
+            "gw_mac": "28:70:4e:85:a9:e9",
+            "gw_name": "236 State Highway 11B",
+            "gw_system-stats": {
+                "cpu": "5.6",
+                "mem": "67.2",
+                "uptime": "492633"
+            },
+            "gw_version": "5.0.12.30269",
+            "isp_name": "Westelcom Internet",
+            "isp_organization": "Westelcom Internet, Inc.",
+            "uptime_stats": {
+                "WAN": {
+                    "alerting_monitors": [
+                        {
+                            "availability": 100.0,
+                            "latency_average": 9,
+                            "target": "ping.ui.com",
+                            "type": "icmp"
+                        },
+                        {
+                            "availability": 100.0,
+                            "latency_average": 34,
+                            "target": "1.1.1.1",
+                            "type": "dns"
+                        },
+                        {
+                            "availability": 100.0,
+                            "latency_average": 14,
+                            "target": "8.8.8.8",
+                            "type": "dns"
+                        }
+                    ],
+                    "availability": 100.0,
+                    "latency_average": 9,
+                    "monitors": [
+                        {
+                            "availability": 100.0,
+                            "latency_average": 15,
+                            "target": "www.microsoft.com",
+                            "type": "icmp"
+                        },
+                        {
+                            "availability": 100.0,
+                            "latency_average": 13,
+                            "target": "google.com",
+                            "type": "icmp"
+                        },
+                        {
+                            "availability": 100.0,
+                            "latency_average": 9,
+                            "target": "1.1.1.1",
+                            "type": "icmp"
+                        }
+                    ],
+                    "time_period": 86400,
+                    "uptime": 492522
+                }
+            }
+        },
+        {
+            "subsystem": "www",
+            "status": "ok",
+            "tx_bytes-r": 34263,
+            "rx_bytes-r": 19465,
+            "latency": 9,
+            "uptime": 492506,
+            "drops": 1,
+            "xput_up": 1017.0,
+            "xput_down": 999.0,
+            "speedtest_status": "Success",
+            "speedtest_lastrun": 1769686425,
+            "speedtest_ping": 10,
+            "gw_mac": "28:70:4e:85:a9:e9"
+        },
+        {
+            "subsystem": "lan",
+            "lan_ip": null,
+            "status": "ok",
+            "num_user": 1,
+            "num_guest": 0,
+            "num_iot": 0,
+            "tx_bytes-r": 0,
+            "rx_bytes-r": 0,
+            "num_sw": 2,
+            "num_adopted": 2,
+            "num_disconnected": 0,
+            "num_pending": 0
+        },
+        {
+            "subsystem": "vpn",
+            "status": "error",
+            "remote_user_enabled": false,
+            "site_to_site_enabled": true,
+            "site_to_site_num_active": 0,
+            "site_to_site_num_inactive": 1,
+            "site_to_site_rx_bytes": 0,
+            "site_to_site_tx_bytes": 0,
+            "site_to_site_rx_packets": 0,
+            "site_to_site_tx_packets": 0
+        }
+    ]
+}

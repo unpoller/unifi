@@ -1,0 +1,4687 @@
+{
+    "connection_warnings": {
+        "downtimes": [],
+        "high_latencies": [],
+        "packet_loss": []
+    },
+    "internet_alerts": {
+        "data": [],
+        "page_number": 0,
+        "total_element_count": 0,
+        "total_page_count": 0
+    },
+    "latency_max": 13,
+    "ping_server": "ping.ui.com",
+    "speedtest_historical": [
+        {
+            "download_mbps": 999,
+            "id": "69735c8a1d9118d2744658cf",
+            "interface_name": "eth4",
+            "latency_ms": 10,
+            "time": 1769168010000,
+            "upload_mbps": 1015,
+            "wan_networkgroup": "WAN"
+        },
+        {
+            "download_mbps": 1008,
+            "id": "6974ae1889efae9af2dc36bf",
+            "interface_name": "eth4",
+            "latency_ms": 13,
+            "time": 1769254424000,
+            "upload_mbps": 1026,
+            "wan_networkgroup": "WAN"
+        },
+        {
+            "download_mbps": 1007,
+            "id": "6975ff881d7aad5222f368b6",
+            "interface_name": "eth4",
+            "latency_ms": 10,
+            "time": 1769340808000,
+            "upload_mbps": 1021,
+            "wan_networkgroup": "WAN"
+        },
+        {
+            "download_mbps": 998,
+            "id": "6977510a1d7aad5222f39932",
+            "interface_name": "eth4",
+            "latency_ms": 13,
+            "time": 1769427210000,
+            "upload_mbps": 1028,
+            "wan_networkgroup": "WAN"
+        },
+        {
+            "download_mbps": 999,
+            "id": "6978a28e1d7aad5222f3c98b",
+            "interface_name": "eth4",
+            "latency_ms": 10,
+            "time": 1769513614000,
+            "upload_mbps": 1018,
+            "wan_networkgroup": "WAN"
+        },
+        {
+            "download_mbps": 998,
+            "id": "6979f4151d7aad5222f40af6",
+            "interface_name": "eth4",
+            "latency_ms": 10,
+            "time": 1769600021000,
+            "upload_mbps": 1022,
+            "wan_networkgroup": "WAN"
+        },
+        {
+            "download_mbps": 999,
+            "id": "697b4599f08e07d750b2aa50",
+            "interface_name": "eth4",
+            "latency_ms": 10,
+            "time": 1769686425000,
+            "upload_mbps": 1017,
+            "wan_networkgroup": "WAN"
+        }
+    ],
+    "uplink_status": {
+        "latency_threshold": 30,
+        "received_bytes": 71461516940,
+        "statistics": [
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 569588,
+                "timestamp": 1769638500000,
+                "transmitted_bytes_rate_avg": 20416
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 913889,
+                "timestamp": 1769638800000,
+                "transmitted_bytes_rate_avg": 15449
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 430190,
+                "timestamp": 1769639100000,
+                "transmitted_bytes_rate_avg": 7115
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 7945165,
+                "timestamp": 1769639400000,
+                "transmitted_bytes_rate_avg": 16901
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 13885288,
+                "timestamp": 1769639700000,
+                "transmitted_bytes_rate_avg": 560729
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1461812,
+                "timestamp": 1769640000000,
+                "transmitted_bytes_rate_avg": 13624
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 427375,
+                "timestamp": 1769640300000,
+                "transmitted_bytes_rate_avg": 5613
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 779043,
+                "timestamp": 1769640600000,
+                "transmitted_bytes_rate_avg": 11453
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 727814,
+                "timestamp": 1769640900000,
+                "transmitted_bytes_rate_avg": 11383
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 771767,
+                "timestamp": 1769641200000,
+                "transmitted_bytes_rate_avg": 18337
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 8180177,
+                "timestamp": 1769641500000,
+                "transmitted_bytes_rate_avg": 22465
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 633767,
+                "timestamp": 1769641800000,
+                "transmitted_bytes_rate_avg": 130229
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 3987142,
+                "timestamp": 1769642100000,
+                "transmitted_bytes_rate_avg": 75680
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 5950750,
+                "timestamp": 1769642400000,
+                "transmitted_bytes_rate_avg": 24531
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 661213,
+                "timestamp": 1769642700000,
+                "transmitted_bytes_rate_avg": 19629
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 615038,
+                "timestamp": 1769643000000,
+                "transmitted_bytes_rate_avg": 25584
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 135489,
+                "timestamp": 1769643300000,
+                "transmitted_bytes_rate_avg": 8879
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 375456,
+                "timestamp": 1769643600000,
+                "transmitted_bytes_rate_avg": 8096
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 267970,
+                "timestamp": 1769643900000,
+                "transmitted_bytes_rate_avg": 10051
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 453299,
+                "timestamp": 1769644200000,
+                "transmitted_bytes_rate_avg": 16939
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1025716,
+                "timestamp": 1769644500000,
+                "transmitted_bytes_rate_avg": 31883
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 2771046,
+                "timestamp": 1769644800000,
+                "transmitted_bytes_rate_avg": 81289
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 904031,
+                "timestamp": 1769645100000,
+                "transmitted_bytes_rate_avg": 33481
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 8117018,
+                "timestamp": 1769645400000,
+                "transmitted_bytes_rate_avg": 159835
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 10,
+                "received_bytes_rate_avg": 4263414,
+                "timestamp": 1769645700000,
+                "transmitted_bytes_rate_avg": 42741
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 10,
+                "received_bytes_rate_avg": 795476,
+                "timestamp": 1769646000000,
+                "transmitted_bytes_rate_avg": 30701
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 633511,
+                "timestamp": 1769646300000,
+                "transmitted_bytes_rate_avg": 24684
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1400997,
+                "timestamp": 1769646600000,
+                "transmitted_bytes_rate_avg": 26689
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 913302,
+                "timestamp": 1769646900000,
+                "transmitted_bytes_rate_avg": 33329
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 959432,
+                "timestamp": 1769647200000,
+                "transmitted_bytes_rate_avg": 28004
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1258373,
+                "timestamp": 1769647500000,
+                "transmitted_bytes_rate_avg": 34153
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 731130,
+                "timestamp": 1769647800000,
+                "transmitted_bytes_rate_avg": 43790
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 387324,
+                "timestamp": 1769648100000,
+                "transmitted_bytes_rate_avg": 149455
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 2323004,
+                "timestamp": 1769648400000,
+                "transmitted_bytes_rate_avg": 448254
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 694206,
+                "timestamp": 1769648700000,
+                "transmitted_bytes_rate_avg": 12080
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 954775,
+                "timestamp": 1769649000000,
+                "transmitted_bytes_rate_avg": 53754
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1044718,
+                "timestamp": 1769649300000,
+                "transmitted_bytes_rate_avg": 34234
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1401030,
+                "timestamp": 1769649600000,
+                "transmitted_bytes_rate_avg": 22490
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 935394,
+                "timestamp": 1769649900000,
+                "transmitted_bytes_rate_avg": 29161
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 749764,
+                "timestamp": 1769650200000,
+                "transmitted_bytes_rate_avg": 18712
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1137117,
+                "timestamp": 1769650500000,
+                "transmitted_bytes_rate_avg": 81994
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 690379,
+                "timestamp": 1769650800000,
+                "transmitted_bytes_rate_avg": 116948
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1340550,
+                "timestamp": 1769651100000,
+                "transmitted_bytes_rate_avg": 84108
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1473090,
+                "timestamp": 1769651400000,
+                "transmitted_bytes_rate_avg": 94156
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 798619,
+                "timestamp": 1769651700000,
+                "transmitted_bytes_rate_avg": 35633
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 684449,
+                "timestamp": 1769652000000,
+                "transmitted_bytes_rate_avg": 31745
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 4955381,
+                "timestamp": 1769652300000,
+                "transmitted_bytes_rate_avg": 63564
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 762269,
+                "timestamp": 1769652600000,
+                "transmitted_bytes_rate_avg": 50517
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 794757,
+                "timestamp": 1769652900000,
+                "transmitted_bytes_rate_avg": 32534
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 869233,
+                "timestamp": 1769653200000,
+                "transmitted_bytes_rate_avg": 519153
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 763681,
+                "timestamp": 1769653500000,
+                "transmitted_bytes_rate_avg": 21112
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 668083,
+                "timestamp": 1769653800000,
+                "transmitted_bytes_rate_avg": 29771
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1160627,
+                "timestamp": 1769654100000,
+                "transmitted_bytes_rate_avg": 1674604
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 3506843,
+                "timestamp": 1769654400000,
+                "transmitted_bytes_rate_avg": 39339
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1105529,
+                "timestamp": 1769654700000,
+                "transmitted_bytes_rate_avg": 31129
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 11,
+                "received_bytes_rate_avg": 1017996,
+                "timestamp": 1769655000000,
+                "transmitted_bytes_rate_avg": 58337
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 713637,
+                "timestamp": 1769655300000,
+                "transmitted_bytes_rate_avg": 31554
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 652482,
+                "timestamp": 1769655600000,
+                "transmitted_bytes_rate_avg": 28181
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 754788,
+                "timestamp": 1769655900000,
+                "transmitted_bytes_rate_avg": 41587
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 793849,
+                "timestamp": 1769656200000,
+                "transmitted_bytes_rate_avg": 44484
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 778899,
+                "timestamp": 1769656500000,
+                "transmitted_bytes_rate_avg": 22547
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 181320,
+                "timestamp": 1769656800000,
+                "transmitted_bytes_rate_avg": 4774
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 624635,
+                "timestamp": 1769657100000,
+                "transmitted_bytes_rate_avg": 5024
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 527511,
+                "timestamp": 1769657400000,
+                "transmitted_bytes_rate_avg": 6202
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 503755,
+                "timestamp": 1769657700000,
+                "transmitted_bytes_rate_avg": 4896
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 922365,
+                "timestamp": 1769658000000,
+                "transmitted_bytes_rate_avg": 7860
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 919395,
+                "timestamp": 1769658600000,
+                "transmitted_bytes_rate_avg": 9440
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 213104,
+                "timestamp": 1769658900000,
+                "transmitted_bytes_rate_avg": 3488
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 210587,
+                "timestamp": 1769659200000,
+                "transmitted_bytes_rate_avg": 3811
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 315148,
+                "timestamp": 1769659500000,
+                "transmitted_bytes_rate_avg": 6914
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 710946,
+                "timestamp": 1769659800000,
+                "transmitted_bytes_rate_avg": 8486
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 256793,
+                "timestamp": 1769660100000,
+                "transmitted_bytes_rate_avg": 2743
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 744642,
+                "timestamp": 1769660400000,
+                "transmitted_bytes_rate_avg": 6313
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 125213,
+                "timestamp": 1769660700000,
+                "transmitted_bytes_rate_avg": 2392
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 319493,
+                "timestamp": 1769661000000,
+                "transmitted_bytes_rate_avg": 6112
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 495067,
+                "timestamp": 1769661300000,
+                "transmitted_bytes_rate_avg": 5740
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 304601,
+                "timestamp": 1769661600000,
+                "transmitted_bytes_rate_avg": 5520
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 361981,
+                "timestamp": 1769661900000,
+                "transmitted_bytes_rate_avg": 7413
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 427321,
+                "timestamp": 1769662200000,
+                "transmitted_bytes_rate_avg": 3635
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 503959,
+                "timestamp": 1769662500000,
+                "transmitted_bytes_rate_avg": 3939
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 932251,
+                "timestamp": 1769662800000,
+                "transmitted_bytes_rate_avg": 19570
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 385155,
+                "timestamp": 1769663100000,
+                "transmitted_bytes_rate_avg": 9783
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 221997,
+                "timestamp": 1769663400000,
+                "transmitted_bytes_rate_avg": 4538
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 113017,
+                "timestamp": 1769663700000,
+                "transmitted_bytes_rate_avg": 5500
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 322636,
+                "timestamp": 1769664000000,
+                "transmitted_bytes_rate_avg": 5859
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 329032,
+                "timestamp": 1769664300000,
+                "transmitted_bytes_rate_avg": 5079
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 359219,
+                "timestamp": 1769664600000,
+                "transmitted_bytes_rate_avg": 4531
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 795623,
+                "timestamp": 1769664900000,
+                "transmitted_bytes_rate_avg": 6482
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 602898,
+                "timestamp": 1769665200000,
+                "transmitted_bytes_rate_avg": 4615
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 363140,
+                "timestamp": 1769665500000,
+                "transmitted_bytes_rate_avg": 5853
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 724812,
+                "timestamp": 1769665800000,
+                "transmitted_bytes_rate_avg": 10431
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 345530,
+                "timestamp": 1769666100000,
+                "transmitted_bytes_rate_avg": 2999
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 305847,
+                "timestamp": 1769666400000,
+                "transmitted_bytes_rate_avg": 3068
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 151766,
+                "timestamp": 1769666700000,
+                "transmitted_bytes_rate_avg": 6845
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 415501,
+                "timestamp": 1769667000000,
+                "transmitted_bytes_rate_avg": 2886
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1274163,
+                "timestamp": 1769667300000,
+                "transmitted_bytes_rate_avg": 6123
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 205045,
+                "timestamp": 1769667600000,
+                "transmitted_bytes_rate_avg": 2195
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 423526,
+                "timestamp": 1769667900000,
+                "transmitted_bytes_rate_avg": 4107
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 537980,
+                "timestamp": 1769668200000,
+                "transmitted_bytes_rate_avg": 4588
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 542072,
+                "timestamp": 1769668500000,
+                "transmitted_bytes_rate_avg": 5000
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 616151,
+                "timestamp": 1769668800000,
+                "transmitted_bytes_rate_avg": 5407
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 58678,
+                "timestamp": 1769669100000,
+                "transmitted_bytes_rate_avg": 5390
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 497260,
+                "timestamp": 1769669400000,
+                "transmitted_bytes_rate_avg": 3915
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 280694,
+                "timestamp": 1769669700000,
+                "transmitted_bytes_rate_avg": 2226
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 438960,
+                "timestamp": 1769670000000,
+                "transmitted_bytes_rate_avg": 5550
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 375977,
+                "timestamp": 1769670300000,
+                "transmitted_bytes_rate_avg": 5904
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 214264,
+                "timestamp": 1769670600000,
+                "transmitted_bytes_rate_avg": 2240
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 95051,
+                "timestamp": 1769670900000,
+                "transmitted_bytes_rate_avg": 1423
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 440506,
+                "timestamp": 1769671200000,
+                "transmitted_bytes_rate_avg": 3329
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 190571,
+                "timestamp": 1769671500000,
+                "transmitted_bytes_rate_avg": 2418
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 398296,
+                "timestamp": 1769671800000,
+                "transmitted_bytes_rate_avg": 5854
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 722656,
+                "timestamp": 1769672100000,
+                "transmitted_bytes_rate_avg": 5047
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 308295,
+                "timestamp": 1769672400000,
+                "transmitted_bytes_rate_avg": 3209
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 497481,
+                "timestamp": 1769672700000,
+                "transmitted_bytes_rate_avg": 3549
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 749576,
+                "timestamp": 1769673000000,
+                "transmitted_bytes_rate_avg": 5462
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 275261,
+                "timestamp": 1769673300000,
+                "transmitted_bytes_rate_avg": 2609
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 659712,
+                "timestamp": 1769673600000,
+                "transmitted_bytes_rate_avg": 4856
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 396320,
+                "timestamp": 1769673900000,
+                "transmitted_bytes_rate_avg": 3244
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 141851,
+                "timestamp": 1769674200000,
+                "transmitted_bytes_rate_avg": 5165
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 208086,
+                "timestamp": 1769674500000,
+                "transmitted_bytes_rate_avg": 2441
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 72173,
+                "timestamp": 1769674800000,
+                "transmitted_bytes_rate_avg": 1484
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 379618,
+                "timestamp": 1769675100000,
+                "transmitted_bytes_rate_avg": 3859
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 335205,
+                "timestamp": 1769675400000,
+                "transmitted_bytes_rate_avg": 15376
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 372266,
+                "timestamp": 1769675700000,
+                "transmitted_bytes_rate_avg": 3967
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 501014,
+                "timestamp": 1769676000000,
+                "transmitted_bytes_rate_avg": 4390
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 855849,
+                "timestamp": 1769676300000,
+                "transmitted_bytes_rate_avg": 6977
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 229826,
+                "timestamp": 1769676600000,
+                "transmitted_bytes_rate_avg": 2135
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 449783,
+                "timestamp": 1769676900000,
+                "transmitted_bytes_rate_avg": 3851
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 216175,
+                "timestamp": 1769677200000,
+                "transmitted_bytes_rate_avg": 1624
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 400134,
+                "timestamp": 1769677500000,
+                "transmitted_bytes_rate_avg": 3429
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 677561,
+                "timestamp": 1769677800000,
+                "transmitted_bytes_rate_avg": 5957
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 11,
+                "received_bytes_rate_avg": 239778,
+                "timestamp": 1769678100000,
+                "transmitted_bytes_rate_avg": 2129
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 500701,
+                "timestamp": 1769678400000,
+                "transmitted_bytes_rate_avg": 4821
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 3836,
+                "timestamp": 1769678700000,
+                "transmitted_bytes_rate_avg": 3760
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 539,
+                "timestamp": 1769679000000,
+                "transmitted_bytes_rate_avg": 553
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1354,
+                "timestamp": 1769679300000,
+                "transmitted_bytes_rate_avg": 778
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1526,
+                "timestamp": 1769679600000,
+                "transmitted_bytes_rate_avg": 781
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 433,
+                "timestamp": 1769679900000,
+                "transmitted_bytes_rate_avg": 260
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 835,
+                "timestamp": 1769680200000,
+                "transmitted_bytes_rate_avg": 623
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 2443688,
+                "timestamp": 1769680500000,
+                "transmitted_bytes_rate_avg": 8195
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 3803,
+                "timestamp": 1769680800000,
+                "transmitted_bytes_rate_avg": 1616
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 7621,
+                "timestamp": 1769681100000,
+                "transmitted_bytes_rate_avg": 4552
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 33783,
+                "timestamp": 1769681400000,
+                "transmitted_bytes_rate_avg": 1244
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 185,
+                "timestamp": 1769681700000,
+                "transmitted_bytes_rate_avg": 140
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 2705,
+                "timestamp": 1769682000000,
+                "transmitted_bytes_rate_avg": 981
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 36198,
+                "timestamp": 1769682300000,
+                "transmitted_bytes_rate_avg": 3354
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 153601,
+                "timestamp": 1769682600000,
+                "transmitted_bytes_rate_avg": 4575
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 3788,
+                "timestamp": 1769682900000,
+                "transmitted_bytes_rate_avg": 2139
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 77407,
+                "timestamp": 1769683200000,
+                "transmitted_bytes_rate_avg": 4165
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 801,
+                "timestamp": 1769683500000,
+                "transmitted_bytes_rate_avg": 424
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 3315,
+                "timestamp": 1769683800000,
+                "transmitted_bytes_rate_avg": 3685
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 2780,
+                "timestamp": 1769684100000,
+                "transmitted_bytes_rate_avg": 1102
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 4064509,
+                "timestamp": 1769684400000,
+                "transmitted_bytes_rate_avg": 10567
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 101712,
+                "timestamp": 1769684700000,
+                "transmitted_bytes_rate_avg": 5847
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 11627,
+                "timestamp": 1769685000000,
+                "transmitted_bytes_rate_avg": 409
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 36223,
+                "timestamp": 1769685300000,
+                "transmitted_bytes_rate_avg": 7196
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 35263,
+                "timestamp": 1769685600000,
+                "transmitted_bytes_rate_avg": 15848
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 538519,
+                "timestamp": 1769685900000,
+                "transmitted_bytes_rate_avg": 8969
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 362386,
+                "timestamp": 1769686200000,
+                "transmitted_bytes_rate_avg": 11004
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 951126,
+                "timestamp": 1769686500000,
+                "transmitted_bytes_rate_avg": 24178
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 792343,
+                "timestamp": 1769686800000,
+                "transmitted_bytes_rate_avg": 26221
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 432691,
+                "timestamp": 1769687100000,
+                "transmitted_bytes_rate_avg": 2349
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 10,
+                "received_bytes_rate_avg": 635976,
+                "timestamp": 1769687400000,
+                "transmitted_bytes_rate_avg": 1865
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 608895,
+                "timestamp": 1769687700000,
+                "transmitted_bytes_rate_avg": 2765
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 850169,
+                "timestamp": 1769688000000,
+                "transmitted_bytes_rate_avg": 2471
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1333494,
+                "timestamp": 1769688300000,
+                "transmitted_bytes_rate_avg": 5100
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 120945,
+                "timestamp": 1769688600000,
+                "transmitted_bytes_rate_avg": 1659
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 652902,
+                "timestamp": 1769688900000,
+                "transmitted_bytes_rate_avg": 3373
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1362807,
+                "timestamp": 1769689200000,
+                "transmitted_bytes_rate_avg": 5918
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 617079,
+                "timestamp": 1769689500000,
+                "transmitted_bytes_rate_avg": 4139
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 597378,
+                "timestamp": 1769689800000,
+                "transmitted_bytes_rate_avg": 3777
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 446937,
+                "timestamp": 1769690100000,
+                "transmitted_bytes_rate_avg": 1523
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 543113,
+                "timestamp": 1769690400000,
+                "transmitted_bytes_rate_avg": 3011
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 990893,
+                "timestamp": 1769690700000,
+                "transmitted_bytes_rate_avg": 3183
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 970963,
+                "timestamp": 1769691000000,
+                "transmitted_bytes_rate_avg": 3322
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 724721,
+                "timestamp": 1769691300000,
+                "transmitted_bytes_rate_avg": 2047
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 790445,
+                "timestamp": 1769691600000,
+                "transmitted_bytes_rate_avg": 3419
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 713721,
+                "timestamp": 1769691900000,
+                "transmitted_bytes_rate_avg": 1792
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 902962,
+                "timestamp": 1769692200000,
+                "transmitted_bytes_rate_avg": 2993
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 740429,
+                "timestamp": 1769692500000,
+                "transmitted_bytes_rate_avg": 8104
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 930379,
+                "timestamp": 1769692800000,
+                "transmitted_bytes_rate_avg": 23182
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1099804,
+                "timestamp": 1769693100000,
+                "transmitted_bytes_rate_avg": 14181
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 621964,
+                "timestamp": 1769693400000,
+                "transmitted_bytes_rate_avg": 8669
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 653433,
+                "timestamp": 1769693700000,
+                "transmitted_bytes_rate_avg": 3141
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 647054,
+                "timestamp": 1769694000000,
+                "transmitted_bytes_rate_avg": 1775
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 691909,
+                "timestamp": 1769694300000,
+                "transmitted_bytes_rate_avg": 3620
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 772224,
+                "timestamp": 1769694600000,
+                "transmitted_bytes_rate_avg": 5605
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 260774,
+                "timestamp": 1769694900000,
+                "transmitted_bytes_rate_avg": 1210
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 433618,
+                "timestamp": 1769695200000,
+                "transmitted_bytes_rate_avg": 2727
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 726895,
+                "timestamp": 1769695500000,
+                "transmitted_bytes_rate_avg": 3721
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1117228,
+                "timestamp": 1769695800000,
+                "transmitted_bytes_rate_avg": 3186
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 192200,
+                "timestamp": 1769696100000,
+                "transmitted_bytes_rate_avg": 2448
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 883772,
+                "timestamp": 1769696400000,
+                "transmitted_bytes_rate_avg": 3165
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 817450,
+                "timestamp": 1769696700000,
+                "transmitted_bytes_rate_avg": 4005
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 305110,
+                "timestamp": 1769697000000,
+                "transmitted_bytes_rate_avg": 2343
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 464009,
+                "timestamp": 1769697300000,
+                "transmitted_bytes_rate_avg": 2143
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 794738,
+                "timestamp": 1769697600000,
+                "transmitted_bytes_rate_avg": 2577
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 590293,
+                "timestamp": 1769697900000,
+                "transmitted_bytes_rate_avg": 1900
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 804754,
+                "timestamp": 1769698200000,
+                "transmitted_bytes_rate_avg": 2878
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 695339,
+                "timestamp": 1769698500000,
+                "transmitted_bytes_rate_avg": 2364
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1043807,
+                "timestamp": 1769698800000,
+                "transmitted_bytes_rate_avg": 3827
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 348652,
+                "timestamp": 1769699100000,
+                "transmitted_bytes_rate_avg": 1958
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1134472,
+                "timestamp": 1769699400000,
+                "transmitted_bytes_rate_avg": 3596
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 989744,
+                "timestamp": 1769699700000,
+                "transmitted_bytes_rate_avg": 3271
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 417440,
+                "timestamp": 1769700000000,
+                "transmitted_bytes_rate_avg": 3750
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 523447,
+                "timestamp": 1769700300000,
+                "transmitted_bytes_rate_avg": 2057
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 588727,
+                "timestamp": 1769700600000,
+                "transmitted_bytes_rate_avg": 2662
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 343898,
+                "timestamp": 1769700900000,
+                "transmitted_bytes_rate_avg": 1891
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 374422,
+                "timestamp": 1769701200000,
+                "transmitted_bytes_rate_avg": 4028
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 637628,
+                "timestamp": 1769701500000,
+                "transmitted_bytes_rate_avg": 3735
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 605188,
+                "timestamp": 1769701800000,
+                "transmitted_bytes_rate_avg": 2511
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 712962,
+                "timestamp": 1769702100000,
+                "transmitted_bytes_rate_avg": 2075
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 600044,
+                "timestamp": 1769702400000,
+                "transmitted_bytes_rate_avg": 2877
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 810784,
+                "timestamp": 1769702700000,
+                "transmitted_bytes_rate_avg": 3389
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 762830,
+                "timestamp": 1769703000000,
+                "transmitted_bytes_rate_avg": 19764
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 354768,
+                "timestamp": 1769703300000,
+                "transmitted_bytes_rate_avg": 1458
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 420926,
+                "timestamp": 1769703600000,
+                "transmitted_bytes_rate_avg": 7550
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 652798,
+                "timestamp": 1769703900000,
+                "transmitted_bytes_rate_avg": 12330
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 943131,
+                "timestamp": 1769704200000,
+                "transmitted_bytes_rate_avg": 2859
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1371235,
+                "timestamp": 1769704500000,
+                "transmitted_bytes_rate_avg": 4058
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1426408,
+                "timestamp": 1769704800000,
+                "transmitted_bytes_rate_avg": 3662
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1020091,
+                "timestamp": 1769705100000,
+                "transmitted_bytes_rate_avg": 3924
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 894047,
+                "timestamp": 1769705400000,
+                "transmitted_bytes_rate_avg": 9519
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 483219,
+                "timestamp": 1769705700000,
+                "transmitted_bytes_rate_avg": 9134
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 769262,
+                "timestamp": 1769706000000,
+                "transmitted_bytes_rate_avg": 2164
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1120850,
+                "timestamp": 1769706300000,
+                "transmitted_bytes_rate_avg": 11414
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 953581,
+                "timestamp": 1769706600000,
+                "transmitted_bytes_rate_avg": 25014
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 762398,
+                "timestamp": 1769706900000,
+                "transmitted_bytes_rate_avg": 2861
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 406033,
+                "timestamp": 1769707200000,
+                "transmitted_bytes_rate_avg": 2773
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 662281,
+                "timestamp": 1769707500000,
+                "transmitted_bytes_rate_avg": 6306
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 813960,
+                "timestamp": 1769707800000,
+                "transmitted_bytes_rate_avg": 4456
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 508103,
+                "timestamp": 1769708100000,
+                "transmitted_bytes_rate_avg": 2114
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1906,
+                "timestamp": 1769708400000,
+                "transmitted_bytes_rate_avg": 423
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 446731,
+                "timestamp": 1769708700000,
+                "transmitted_bytes_rate_avg": 2499
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 277365,
+                "timestamp": 1769709000000,
+                "transmitted_bytes_rate_avg": 1839
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 755487,
+                "timestamp": 1769709300000,
+                "transmitted_bytes_rate_avg": 2978
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 365530,
+                "timestamp": 1769709600000,
+                "transmitted_bytes_rate_avg": 2998
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 793501,
+                "timestamp": 1769709900000,
+                "transmitted_bytes_rate_avg": 4665
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 12,
+                "received_bytes_rate_avg": 461668,
+                "timestamp": 1769710200000,
+                "transmitted_bytes_rate_avg": 2403
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 12,
+                "received_bytes_rate_avg": 355570,
+                "timestamp": 1769710500000,
+                "transmitted_bytes_rate_avg": 2544
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 237815,
+                "timestamp": 1769710800000,
+                "transmitted_bytes_rate_avg": 1423
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1114482,
+                "timestamp": 1769711100000,
+                "transmitted_bytes_rate_avg": 4222
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 248700,
+                "timestamp": 1769711400000,
+                "transmitted_bytes_rate_avg": 7334
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 471623,
+                "timestamp": 1769711700000,
+                "transmitted_bytes_rate_avg": 2652
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 520003,
+                "timestamp": 1769712000000,
+                "transmitted_bytes_rate_avg": 1954
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 623055,
+                "timestamp": 1769712300000,
+                "transmitted_bytes_rate_avg": 2710
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 722389,
+                "timestamp": 1769712600000,
+                "transmitted_bytes_rate_avg": 3039
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 980197,
+                "timestamp": 1769712900000,
+                "transmitted_bytes_rate_avg": 3527
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 816768,
+                "timestamp": 1769713200000,
+                "transmitted_bytes_rate_avg": 4397
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 237660,
+                "timestamp": 1769713500000,
+                "transmitted_bytes_rate_avg": 6592
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1770,
+                "timestamp": 1769713800000,
+                "transmitted_bytes_rate_avg": 1208
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 691337,
+                "timestamp": 1769714100000,
+                "transmitted_bytes_rate_avg": 3167
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 747467,
+                "timestamp": 1769714400000,
+                "transmitted_bytes_rate_avg": 2419
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 219033,
+                "timestamp": 1769714700000,
+                "transmitted_bytes_rate_avg": 2141
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 540394,
+                "timestamp": 1769715000000,
+                "transmitted_bytes_rate_avg": 3325
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 380101,
+                "timestamp": 1769715300000,
+                "transmitted_bytes_rate_avg": 2565
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 812355,
+                "timestamp": 1769715600000,
+                "transmitted_bytes_rate_avg": 3281
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 835554,
+                "timestamp": 1769715900000,
+                "transmitted_bytes_rate_avg": 3372
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 404035,
+                "timestamp": 1769716200000,
+                "transmitted_bytes_rate_avg": 2792
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 444424,
+                "timestamp": 1769716500000,
+                "transmitted_bytes_rate_avg": 2609
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 103158,
+                "timestamp": 1769716800000,
+                "transmitted_bytes_rate_avg": 1082
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1379752,
+                "timestamp": 1769717100000,
+                "transmitted_bytes_rate_avg": 9921
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 673775,
+                "timestamp": 1769717400000,
+                "transmitted_bytes_rate_avg": 2768
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 983946,
+                "timestamp": 1769717700000,
+                "transmitted_bytes_rate_avg": 3445
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 13,
+                "received_bytes_rate_avg": 476731,
+                "timestamp": 1769718000000,
+                "transmitted_bytes_rate_avg": 2174
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 402041,
+                "timestamp": 1769718300000,
+                "transmitted_bytes_rate_avg": 2748
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1323085,
+                "timestamp": 1769718600000,
+                "transmitted_bytes_rate_avg": 5080
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1454154,
+                "timestamp": 1769718900000,
+                "transmitted_bytes_rate_avg": 4260
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1143538,
+                "timestamp": 1769719200000,
+                "transmitted_bytes_rate_avg": 5308
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 587121,
+                "timestamp": 1769719500000,
+                "transmitted_bytes_rate_avg": 2331
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 984795,
+                "timestamp": 1769719800000,
+                "transmitted_bytes_rate_avg": 25896
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 842761,
+                "timestamp": 1769720100000,
+                "transmitted_bytes_rate_avg": 5112
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 415646,
+                "timestamp": 1769720400000,
+                "transmitted_bytes_rate_avg": 1482
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 198696,
+                "timestamp": 1769720700000,
+                "transmitted_bytes_rate_avg": 2455
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 894038,
+                "timestamp": 1769721000000,
+                "transmitted_bytes_rate_avg": 16253
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 554740,
+                "timestamp": 1769721300000,
+                "transmitted_bytes_rate_avg": 2102
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 916664,
+                "timestamp": 1769721600000,
+                "transmitted_bytes_rate_avg": 13163
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1490302,
+                "timestamp": 1769721900000,
+                "transmitted_bytes_rate_avg": 38919
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 731011,
+                "timestamp": 1769722200000,
+                "transmitted_bytes_rate_avg": 3749
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 346252,
+                "timestamp": 1769722500000,
+                "transmitted_bytes_rate_avg": 2747
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 298372,
+                "timestamp": 1769722800000,
+                "transmitted_bytes_rate_avg": 1027
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 458339,
+                "timestamp": 1769723100000,
+                "transmitted_bytes_rate_avg": 1448
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 587340,
+                "timestamp": 1769723400000,
+                "transmitted_bytes_rate_avg": 2249
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1179646,
+                "timestamp": 1769723700000,
+                "transmitted_bytes_rate_avg": 11727
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 776021,
+                "timestamp": 1769724000000,
+                "transmitted_bytes_rate_avg": 14959
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 684195,
+                "timestamp": 1769724300000,
+                "transmitted_bytes_rate_avg": 112012
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 725745,
+                "timestamp": 1769724600000,
+                "transmitted_bytes_rate_avg": 29439
+            }
+        ],
+        "transmitted_bytes": 3080363856
+    },
+    "wan_status": {
+        "latency_threshold": 30,
+        "received_bytes": 71461516940,
+        "statistics": [
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 569588,
+                "timestamp": 1769638500000,
+                "transmitted_bytes_rate_avg": 20416
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 913889,
+                "timestamp": 1769638800000,
+                "transmitted_bytes_rate_avg": 15449
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 430190,
+                "timestamp": 1769639100000,
+                "transmitted_bytes_rate_avg": 7115
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 7945165,
+                "timestamp": 1769639400000,
+                "transmitted_bytes_rate_avg": 16901
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 13885288,
+                "timestamp": 1769639700000,
+                "transmitted_bytes_rate_avg": 560729
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1461812,
+                "timestamp": 1769640000000,
+                "transmitted_bytes_rate_avg": 13624
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 427375,
+                "timestamp": 1769640300000,
+                "transmitted_bytes_rate_avg": 5613
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 779043,
+                "timestamp": 1769640600000,
+                "transmitted_bytes_rate_avg": 11453
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 727814,
+                "timestamp": 1769640900000,
+                "transmitted_bytes_rate_avg": 11383
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 771767,
+                "timestamp": 1769641200000,
+                "transmitted_bytes_rate_avg": 18337
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 8180177,
+                "timestamp": 1769641500000,
+                "transmitted_bytes_rate_avg": 22465
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 633767,
+                "timestamp": 1769641800000,
+                "transmitted_bytes_rate_avg": 130229
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 3987142,
+                "timestamp": 1769642100000,
+                "transmitted_bytes_rate_avg": 75680
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 5950750,
+                "timestamp": 1769642400000,
+                "transmitted_bytes_rate_avg": 24531
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 661213,
+                "timestamp": 1769642700000,
+                "transmitted_bytes_rate_avg": 19629
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 615038,
+                "timestamp": 1769643000000,
+                "transmitted_bytes_rate_avg": 25584
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 135489,
+                "timestamp": 1769643300000,
+                "transmitted_bytes_rate_avg": 8879
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 375456,
+                "timestamp": 1769643600000,
+                "transmitted_bytes_rate_avg": 8096
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 267970,
+                "timestamp": 1769643900000,
+                "transmitted_bytes_rate_avg": 10051
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 453299,
+                "timestamp": 1769644200000,
+                "transmitted_bytes_rate_avg": 16939
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1025716,
+                "timestamp": 1769644500000,
+                "transmitted_bytes_rate_avg": 31883
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 2771046,
+                "timestamp": 1769644800000,
+                "transmitted_bytes_rate_avg": 81289
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 904031,
+                "timestamp": 1769645100000,
+                "transmitted_bytes_rate_avg": 33481
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 8117018,
+                "timestamp": 1769645400000,
+                "transmitted_bytes_rate_avg": 159835
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 4263414,
+                "timestamp": 1769645700000,
+                "transmitted_bytes_rate_avg": 42741
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 795476,
+                "timestamp": 1769646000000,
+                "transmitted_bytes_rate_avg": 30701
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 633511,
+                "timestamp": 1769646300000,
+                "transmitted_bytes_rate_avg": 24684
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1400997,
+                "timestamp": 1769646600000,
+                "transmitted_bytes_rate_avg": 26689
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 913302,
+                "timestamp": 1769646900000,
+                "transmitted_bytes_rate_avg": 33329
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 959432,
+                "timestamp": 1769647200000,
+                "transmitted_bytes_rate_avg": 28004
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1258373,
+                "timestamp": 1769647500000,
+                "transmitted_bytes_rate_avg": 34153
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 731130,
+                "timestamp": 1769647800000,
+                "transmitted_bytes_rate_avg": 43790
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 387324,
+                "timestamp": 1769648100000,
+                "transmitted_bytes_rate_avg": 149455
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 2323004,
+                "timestamp": 1769648400000,
+                "transmitted_bytes_rate_avg": 448254
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 694206,
+                "timestamp": 1769648700000,
+                "transmitted_bytes_rate_avg": 12080
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 954775,
+                "timestamp": 1769649000000,
+                "transmitted_bytes_rate_avg": 53754
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1044718,
+                "timestamp": 1769649300000,
+                "transmitted_bytes_rate_avg": 34234
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1401030,
+                "timestamp": 1769649600000,
+                "transmitted_bytes_rate_avg": 22490
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 935394,
+                "timestamp": 1769649900000,
+                "transmitted_bytes_rate_avg": 29161
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 749764,
+                "timestamp": 1769650200000,
+                "transmitted_bytes_rate_avg": 18712
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1137117,
+                "timestamp": 1769650500000,
+                "transmitted_bytes_rate_avg": 81994
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 690379,
+                "timestamp": 1769650800000,
+                "transmitted_bytes_rate_avg": 116948
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1340550,
+                "timestamp": 1769651100000,
+                "transmitted_bytes_rate_avg": 84108
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1473090,
+                "timestamp": 1769651400000,
+                "transmitted_bytes_rate_avg": 94156
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 798619,
+                "timestamp": 1769651700000,
+                "transmitted_bytes_rate_avg": 35633
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 684449,
+                "timestamp": 1769652000000,
+                "transmitted_bytes_rate_avg": 31745
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 4955381,
+                "timestamp": 1769652300000,
+                "transmitted_bytes_rate_avg": 63564
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 762269,
+                "timestamp": 1769652600000,
+                "transmitted_bytes_rate_avg": 50517
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 794757,
+                "timestamp": 1769652900000,
+                "transmitted_bytes_rate_avg": 32534
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 869233,
+                "timestamp": 1769653200000,
+                "transmitted_bytes_rate_avg": 519153
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 763681,
+                "timestamp": 1769653500000,
+                "transmitted_bytes_rate_avg": 21112
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 668083,
+                "timestamp": 1769653800000,
+                "transmitted_bytes_rate_avg": 29771
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1160627,
+                "timestamp": 1769654100000,
+                "transmitted_bytes_rate_avg": 1674604
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 3506843,
+                "timestamp": 1769654400000,
+                "transmitted_bytes_rate_avg": 39339
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1105529,
+                "timestamp": 1769654700000,
+                "transmitted_bytes_rate_avg": 31129
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1017996,
+                "timestamp": 1769655000000,
+                "transmitted_bytes_rate_avg": 58337
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 713637,
+                "timestamp": 1769655300000,
+                "transmitted_bytes_rate_avg": 31554
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 652482,
+                "timestamp": 1769655600000,
+                "transmitted_bytes_rate_avg": 28181
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 754788,
+                "timestamp": 1769655900000,
+                "transmitted_bytes_rate_avg": 41587
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 793849,
+                "timestamp": 1769656200000,
+                "transmitted_bytes_rate_avg": 44484
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 778899,
+                "timestamp": 1769656500000,
+                "transmitted_bytes_rate_avg": 22547
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 181320,
+                "timestamp": 1769656800000,
+                "transmitted_bytes_rate_avg": 4774
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 624635,
+                "timestamp": 1769657100000,
+                "transmitted_bytes_rate_avg": 5024
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 527511,
+                "timestamp": 1769657400000,
+                "transmitted_bytes_rate_avg": 6202
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 503755,
+                "timestamp": 1769657700000,
+                "transmitted_bytes_rate_avg": 4896
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 922365,
+                "timestamp": 1769658000000,
+                "transmitted_bytes_rate_avg": 7860
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 919395,
+                "timestamp": 1769658600000,
+                "transmitted_bytes_rate_avg": 9440
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 213104,
+                "timestamp": 1769658900000,
+                "transmitted_bytes_rate_avg": 3488
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 210587,
+                "timestamp": 1769659200000,
+                "transmitted_bytes_rate_avg": 3811
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 315148,
+                "timestamp": 1769659500000,
+                "transmitted_bytes_rate_avg": 6914
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 710946,
+                "timestamp": 1769659800000,
+                "transmitted_bytes_rate_avg": 8486
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 256793,
+                "timestamp": 1769660100000,
+                "transmitted_bytes_rate_avg": 2743
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 744642,
+                "timestamp": 1769660400000,
+                "transmitted_bytes_rate_avg": 6313
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 125213,
+                "timestamp": 1769660700000,
+                "transmitted_bytes_rate_avg": 2392
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 319493,
+                "timestamp": 1769661000000,
+                "transmitted_bytes_rate_avg": 6112
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 495067,
+                "timestamp": 1769661300000,
+                "transmitted_bytes_rate_avg": 5740
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 304601,
+                "timestamp": 1769661600000,
+                "transmitted_bytes_rate_avg": 5520
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 361981,
+                "timestamp": 1769661900000,
+                "transmitted_bytes_rate_avg": 7413
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 427321,
+                "timestamp": 1769662200000,
+                "transmitted_bytes_rate_avg": 3635
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 503959,
+                "timestamp": 1769662500000,
+                "transmitted_bytes_rate_avg": 3939
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 932251,
+                "timestamp": 1769662800000,
+                "transmitted_bytes_rate_avg": 19570
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 385155,
+                "timestamp": 1769663100000,
+                "transmitted_bytes_rate_avg": 9783
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 221997,
+                "timestamp": 1769663400000,
+                "transmitted_bytes_rate_avg": 4538
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 113017,
+                "timestamp": 1769663700000,
+                "transmitted_bytes_rate_avg": 5500
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 322636,
+                "timestamp": 1769664000000,
+                "transmitted_bytes_rate_avg": 5859
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 329032,
+                "timestamp": 1769664300000,
+                "transmitted_bytes_rate_avg": 5079
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 359219,
+                "timestamp": 1769664600000,
+                "transmitted_bytes_rate_avg": 4531
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 795623,
+                "timestamp": 1769664900000,
+                "transmitted_bytes_rate_avg": 6482
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 602898,
+                "timestamp": 1769665200000,
+                "transmitted_bytes_rate_avg": 4615
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 363140,
+                "timestamp": 1769665500000,
+                "transmitted_bytes_rate_avg": 5853
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 724812,
+                "timestamp": 1769665800000,
+                "transmitted_bytes_rate_avg": 10431
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 10,
+                "received_bytes_rate_avg": 345530,
+                "timestamp": 1769666100000,
+                "transmitted_bytes_rate_avg": 2999
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 305847,
+                "timestamp": 1769666400000,
+                "transmitted_bytes_rate_avg": 3068
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 151766,
+                "timestamp": 1769666700000,
+                "transmitted_bytes_rate_avg": 6845
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 415501,
+                "timestamp": 1769667000000,
+                "transmitted_bytes_rate_avg": 2886
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1274163,
+                "timestamp": 1769667300000,
+                "transmitted_bytes_rate_avg": 6123
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 205045,
+                "timestamp": 1769667600000,
+                "transmitted_bytes_rate_avg": 2195
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 423526,
+                "timestamp": 1769667900000,
+                "transmitted_bytes_rate_avg": 4107
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 537980,
+                "timestamp": 1769668200000,
+                "transmitted_bytes_rate_avg": 4588
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 542072,
+                "timestamp": 1769668500000,
+                "transmitted_bytes_rate_avg": 5000
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 616151,
+                "timestamp": 1769668800000,
+                "transmitted_bytes_rate_avg": 5407
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 58678,
+                "timestamp": 1769669100000,
+                "transmitted_bytes_rate_avg": 5390
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 497260,
+                "timestamp": 1769669400000,
+                "transmitted_bytes_rate_avg": 3915
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 280694,
+                "timestamp": 1769669700000,
+                "transmitted_bytes_rate_avg": 2226
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 438960,
+                "timestamp": 1769670000000,
+                "transmitted_bytes_rate_avg": 5550
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 375977,
+                "timestamp": 1769670300000,
+                "transmitted_bytes_rate_avg": 5904
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 214264,
+                "timestamp": 1769670600000,
+                "transmitted_bytes_rate_avg": 2240
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 95051,
+                "timestamp": 1769670900000,
+                "transmitted_bytes_rate_avg": 1423
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 440506,
+                "timestamp": 1769671200000,
+                "transmitted_bytes_rate_avg": 3329
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 190571,
+                "timestamp": 1769671500000,
+                "transmitted_bytes_rate_avg": 2418
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 398296,
+                "timestamp": 1769671800000,
+                "transmitted_bytes_rate_avg": 5854
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 722656,
+                "timestamp": 1769672100000,
+                "transmitted_bytes_rate_avg": 5047
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 308295,
+                "timestamp": 1769672400000,
+                "transmitted_bytes_rate_avg": 3209
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 497481,
+                "timestamp": 1769672700000,
+                "transmitted_bytes_rate_avg": 3549
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 749576,
+                "timestamp": 1769673000000,
+                "transmitted_bytes_rate_avg": 5462
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 275261,
+                "timestamp": 1769673300000,
+                "transmitted_bytes_rate_avg": 2609
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 659712,
+                "timestamp": 1769673600000,
+                "transmitted_bytes_rate_avg": 4856
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 396320,
+                "timestamp": 1769673900000,
+                "transmitted_bytes_rate_avg": 3244
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 141851,
+                "timestamp": 1769674200000,
+                "transmitted_bytes_rate_avg": 5165
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 208086,
+                "timestamp": 1769674500000,
+                "transmitted_bytes_rate_avg": 2441
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 72173,
+                "timestamp": 1769674800000,
+                "transmitted_bytes_rate_avg": 1484
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 379618,
+                "timestamp": 1769675100000,
+                "transmitted_bytes_rate_avg": 3859
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 335205,
+                "timestamp": 1769675400000,
+                "transmitted_bytes_rate_avg": 15376
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 372266,
+                "timestamp": 1769675700000,
+                "transmitted_bytes_rate_avg": 3967
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 501014,
+                "timestamp": 1769676000000,
+                "transmitted_bytes_rate_avg": 4390
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 855849,
+                "timestamp": 1769676300000,
+                "transmitted_bytes_rate_avg": 6977
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 229826,
+                "timestamp": 1769676600000,
+                "transmitted_bytes_rate_avg": 2135
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 449783,
+                "timestamp": 1769676900000,
+                "transmitted_bytes_rate_avg": 3851
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 216175,
+                "timestamp": 1769677200000,
+                "transmitted_bytes_rate_avg": 1624
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 400134,
+                "timestamp": 1769677500000,
+                "transmitted_bytes_rate_avg": 3429
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 677561,
+                "timestamp": 1769677800000,
+                "transmitted_bytes_rate_avg": 5957
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 239778,
+                "timestamp": 1769678100000,
+                "transmitted_bytes_rate_avg": 2129
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 500701,
+                "timestamp": 1769678400000,
+                "transmitted_bytes_rate_avg": 4821
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 3836,
+                "timestamp": 1769678700000,
+                "transmitted_bytes_rate_avg": 3760
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 539,
+                "timestamp": 1769679000000,
+                "transmitted_bytes_rate_avg": 553
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1354,
+                "timestamp": 1769679300000,
+                "transmitted_bytes_rate_avg": 778
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1526,
+                "timestamp": 1769679600000,
+                "transmitted_bytes_rate_avg": 781
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 433,
+                "timestamp": 1769679900000,
+                "transmitted_bytes_rate_avg": 260
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 835,
+                "timestamp": 1769680200000,
+                "transmitted_bytes_rate_avg": 623
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 2443688,
+                "timestamp": 1769680500000,
+                "transmitted_bytes_rate_avg": 8195
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 3803,
+                "timestamp": 1769680800000,
+                "transmitted_bytes_rate_avg": 1616
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 7621,
+                "timestamp": 1769681100000,
+                "transmitted_bytes_rate_avg": 4552
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 33783,
+                "timestamp": 1769681400000,
+                "transmitted_bytes_rate_avg": 1244
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 185,
+                "timestamp": 1769681700000,
+                "transmitted_bytes_rate_avg": 140
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 2705,
+                "timestamp": 1769682000000,
+                "transmitted_bytes_rate_avg": 981
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 36198,
+                "timestamp": 1769682300000,
+                "transmitted_bytes_rate_avg": 3354
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 153601,
+                "timestamp": 1769682600000,
+                "transmitted_bytes_rate_avg": 4575
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 3788,
+                "timestamp": 1769682900000,
+                "transmitted_bytes_rate_avg": 2139
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 77407,
+                "timestamp": 1769683200000,
+                "transmitted_bytes_rate_avg": 4165
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 801,
+                "timestamp": 1769683500000,
+                "transmitted_bytes_rate_avg": 424
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 3315,
+                "timestamp": 1769683800000,
+                "transmitted_bytes_rate_avg": 3685
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 2780,
+                "timestamp": 1769684100000,
+                "transmitted_bytes_rate_avg": 1102
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 4064509,
+                "timestamp": 1769684400000,
+                "transmitted_bytes_rate_avg": 10567
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 101712,
+                "timestamp": 1769684700000,
+                "transmitted_bytes_rate_avg": 5847
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 11627,
+                "timestamp": 1769685000000,
+                "transmitted_bytes_rate_avg": 409
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 36223,
+                "timestamp": 1769685300000,
+                "transmitted_bytes_rate_avg": 7196
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 35263,
+                "timestamp": 1769685600000,
+                "transmitted_bytes_rate_avg": 15848
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 538519,
+                "timestamp": 1769685900000,
+                "transmitted_bytes_rate_avg": 8969
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 10,
+                "received_bytes_rate_avg": 362386,
+                "timestamp": 1769686200000,
+                "transmitted_bytes_rate_avg": 11004
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 951126,
+                "timestamp": 1769686500000,
+                "transmitted_bytes_rate_avg": 24178
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 792343,
+                "timestamp": 1769686800000,
+                "transmitted_bytes_rate_avg": 26221
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 432691,
+                "timestamp": 1769687100000,
+                "transmitted_bytes_rate_avg": 2349
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 635976,
+                "timestamp": 1769687400000,
+                "transmitted_bytes_rate_avg": 1865
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 608895,
+                "timestamp": 1769687700000,
+                "transmitted_bytes_rate_avg": 2765
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 850169,
+                "timestamp": 1769688000000,
+                "transmitted_bytes_rate_avg": 2471
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1333494,
+                "timestamp": 1769688300000,
+                "transmitted_bytes_rate_avg": 5100
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 120945,
+                "timestamp": 1769688600000,
+                "transmitted_bytes_rate_avg": 1659
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 652902,
+                "timestamp": 1769688900000,
+                "transmitted_bytes_rate_avg": 3373
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1362807,
+                "timestamp": 1769689200000,
+                "transmitted_bytes_rate_avg": 5918
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 617079,
+                "timestamp": 1769689500000,
+                "transmitted_bytes_rate_avg": 4139
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 597378,
+                "timestamp": 1769689800000,
+                "transmitted_bytes_rate_avg": 3777
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 446937,
+                "timestamp": 1769690100000,
+                "transmitted_bytes_rate_avg": 1523
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 543113,
+                "timestamp": 1769690400000,
+                "transmitted_bytes_rate_avg": 3011
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 990893,
+                "timestamp": 1769690700000,
+                "transmitted_bytes_rate_avg": 3183
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 970963,
+                "timestamp": 1769691000000,
+                "transmitted_bytes_rate_avg": 3322
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 724721,
+                "timestamp": 1769691300000,
+                "transmitted_bytes_rate_avg": 2047
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 790445,
+                "timestamp": 1769691600000,
+                "transmitted_bytes_rate_avg": 3419
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 713721,
+                "timestamp": 1769691900000,
+                "transmitted_bytes_rate_avg": 1792
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 902962,
+                "timestamp": 1769692200000,
+                "transmitted_bytes_rate_avg": 2993
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 740429,
+                "timestamp": 1769692500000,
+                "transmitted_bytes_rate_avg": 8104
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 930379,
+                "timestamp": 1769692800000,
+                "transmitted_bytes_rate_avg": 23182
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1099804,
+                "timestamp": 1769693100000,
+                "transmitted_bytes_rate_avg": 14181
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 621964,
+                "timestamp": 1769693400000,
+                "transmitted_bytes_rate_avg": 8669
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 653433,
+                "timestamp": 1769693700000,
+                "transmitted_bytes_rate_avg": 3141
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 647054,
+                "timestamp": 1769694000000,
+                "transmitted_bytes_rate_avg": 1775
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 691909,
+                "timestamp": 1769694300000,
+                "transmitted_bytes_rate_avg": 3620
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 772224,
+                "timestamp": 1769694600000,
+                "transmitted_bytes_rate_avg": 5605
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 260774,
+                "timestamp": 1769694900000,
+                "transmitted_bytes_rate_avg": 1210
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 433618,
+                "timestamp": 1769695200000,
+                "transmitted_bytes_rate_avg": 2727
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 726895,
+                "timestamp": 1769695500000,
+                "transmitted_bytes_rate_avg": 3721
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1117228,
+                "timestamp": 1769695800000,
+                "transmitted_bytes_rate_avg": 3186
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 192200,
+                "timestamp": 1769696100000,
+                "transmitted_bytes_rate_avg": 2448
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 883772,
+                "timestamp": 1769696400000,
+                "transmitted_bytes_rate_avg": 3165
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 817450,
+                "timestamp": 1769696700000,
+                "transmitted_bytes_rate_avg": 4005
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 305110,
+                "timestamp": 1769697000000,
+                "transmitted_bytes_rate_avg": 2343
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 464009,
+                "timestamp": 1769697300000,
+                "transmitted_bytes_rate_avg": 2143
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 794738,
+                "timestamp": 1769697600000,
+                "transmitted_bytes_rate_avg": 2577
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 590293,
+                "timestamp": 1769697900000,
+                "transmitted_bytes_rate_avg": 1900
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 804754,
+                "timestamp": 1769698200000,
+                "transmitted_bytes_rate_avg": 2878
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 695339,
+                "timestamp": 1769698500000,
+                "transmitted_bytes_rate_avg": 2364
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1043807,
+                "timestamp": 1769698800000,
+                "transmitted_bytes_rate_avg": 3827
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 348652,
+                "timestamp": 1769699100000,
+                "transmitted_bytes_rate_avg": 1958
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1134472,
+                "timestamp": 1769699400000,
+                "transmitted_bytes_rate_avg": 3596
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 989744,
+                "timestamp": 1769699700000,
+                "transmitted_bytes_rate_avg": 3271
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 417440,
+                "timestamp": 1769700000000,
+                "transmitted_bytes_rate_avg": 3750
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 523447,
+                "timestamp": 1769700300000,
+                "transmitted_bytes_rate_avg": 2057
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 588727,
+                "timestamp": 1769700600000,
+                "transmitted_bytes_rate_avg": 2662
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 343898,
+                "timestamp": 1769700900000,
+                "transmitted_bytes_rate_avg": 1891
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 374422,
+                "timestamp": 1769701200000,
+                "transmitted_bytes_rate_avg": 4028
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 637628,
+                "timestamp": 1769701500000,
+                "transmitted_bytes_rate_avg": 3735
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 605188,
+                "timestamp": 1769701800000,
+                "transmitted_bytes_rate_avg": 2511
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 712962,
+                "timestamp": 1769702100000,
+                "transmitted_bytes_rate_avg": 2075
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 600044,
+                "timestamp": 1769702400000,
+                "transmitted_bytes_rate_avg": 2877
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 810784,
+                "timestamp": 1769702700000,
+                "transmitted_bytes_rate_avg": 3389
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 762830,
+                "timestamp": 1769703000000,
+                "transmitted_bytes_rate_avg": 19764
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 354768,
+                "timestamp": 1769703300000,
+                "transmitted_bytes_rate_avg": 1458
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 420926,
+                "timestamp": 1769703600000,
+                "transmitted_bytes_rate_avg": 7550
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 652798,
+                "timestamp": 1769703900000,
+                "transmitted_bytes_rate_avg": 12330
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 943131,
+                "timestamp": 1769704200000,
+                "transmitted_bytes_rate_avg": 2859
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1371235,
+                "timestamp": 1769704500000,
+                "transmitted_bytes_rate_avg": 4058
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1426408,
+                "timestamp": 1769704800000,
+                "transmitted_bytes_rate_avg": 3662
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1020091,
+                "timestamp": 1769705100000,
+                "transmitted_bytes_rate_avg": 3924
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 894047,
+                "timestamp": 1769705400000,
+                "transmitted_bytes_rate_avg": 9519
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 483219,
+                "timestamp": 1769705700000,
+                "transmitted_bytes_rate_avg": 9134
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 769262,
+                "timestamp": 1769706000000,
+                "transmitted_bytes_rate_avg": 2164
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1120850,
+                "timestamp": 1769706300000,
+                "transmitted_bytes_rate_avg": 11414
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 953581,
+                "timestamp": 1769706600000,
+                "transmitted_bytes_rate_avg": 25014
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 762398,
+                "timestamp": 1769706900000,
+                "transmitted_bytes_rate_avg": 2861
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 406033,
+                "timestamp": 1769707200000,
+                "transmitted_bytes_rate_avg": 2773
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 662281,
+                "timestamp": 1769707500000,
+                "transmitted_bytes_rate_avg": 6306
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 813960,
+                "timestamp": 1769707800000,
+                "transmitted_bytes_rate_avg": 4456
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 508103,
+                "timestamp": 1769708100000,
+                "transmitted_bytes_rate_avg": 2114
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1906,
+                "timestamp": 1769708400000,
+                "transmitted_bytes_rate_avg": 423
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 446731,
+                "timestamp": 1769708700000,
+                "transmitted_bytes_rate_avg": 2499
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 277365,
+                "timestamp": 1769709000000,
+                "transmitted_bytes_rate_avg": 1839
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 755487,
+                "timestamp": 1769709300000,
+                "transmitted_bytes_rate_avg": 2978
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 365530,
+                "timestamp": 1769709600000,
+                "transmitted_bytes_rate_avg": 2998
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 793501,
+                "timestamp": 1769709900000,
+                "transmitted_bytes_rate_avg": 4665
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 461668,
+                "timestamp": 1769710200000,
+                "transmitted_bytes_rate_avg": 2403
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 355570,
+                "timestamp": 1769710500000,
+                "transmitted_bytes_rate_avg": 2544
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 237815,
+                "timestamp": 1769710800000,
+                "transmitted_bytes_rate_avg": 1423
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1114482,
+                "timestamp": 1769711100000,
+                "transmitted_bytes_rate_avg": 4222
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 248700,
+                "timestamp": 1769711400000,
+                "transmitted_bytes_rate_avg": 7334
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 471623,
+                "timestamp": 1769711700000,
+                "transmitted_bytes_rate_avg": 2652
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 520003,
+                "timestamp": 1769712000000,
+                "transmitted_bytes_rate_avg": 1954
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 623055,
+                "timestamp": 1769712300000,
+                "transmitted_bytes_rate_avg": 2710
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 722389,
+                "timestamp": 1769712600000,
+                "transmitted_bytes_rate_avg": 3039
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 980197,
+                "timestamp": 1769712900000,
+                "transmitted_bytes_rate_avg": 3527
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 816768,
+                "timestamp": 1769713200000,
+                "transmitted_bytes_rate_avg": 4397
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 237660,
+                "timestamp": 1769713500000,
+                "transmitted_bytes_rate_avg": 6592
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1770,
+                "timestamp": 1769713800000,
+                "transmitted_bytes_rate_avg": 1208
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 691337,
+                "timestamp": 1769714100000,
+                "transmitted_bytes_rate_avg": 3167
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 747467,
+                "timestamp": 1769714400000,
+                "transmitted_bytes_rate_avg": 2419
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 219033,
+                "timestamp": 1769714700000,
+                "transmitted_bytes_rate_avg": 2141
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 540394,
+                "timestamp": 1769715000000,
+                "transmitted_bytes_rate_avg": 3325
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 380101,
+                "timestamp": 1769715300000,
+                "transmitted_bytes_rate_avg": 2565
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 812355,
+                "timestamp": 1769715600000,
+                "transmitted_bytes_rate_avg": 3281
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 835554,
+                "timestamp": 1769715900000,
+                "transmitted_bytes_rate_avg": 3372
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 404035,
+                "timestamp": 1769716200000,
+                "transmitted_bytes_rate_avg": 2792
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 444424,
+                "timestamp": 1769716500000,
+                "transmitted_bytes_rate_avg": 2609
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 103158,
+                "timestamp": 1769716800000,
+                "transmitted_bytes_rate_avg": 1082
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1379752,
+                "timestamp": 1769717100000,
+                "transmitted_bytes_rate_avg": 9921
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 673775,
+                "timestamp": 1769717400000,
+                "transmitted_bytes_rate_avg": 2768
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 983946,
+                "timestamp": 1769717700000,
+                "transmitted_bytes_rate_avg": 3445
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 476731,
+                "timestamp": 1769718000000,
+                "transmitted_bytes_rate_avg": 2174
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 402041,
+                "timestamp": 1769718300000,
+                "transmitted_bytes_rate_avg": 2748
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1323085,
+                "timestamp": 1769718600000,
+                "transmitted_bytes_rate_avg": 5080
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1454154,
+                "timestamp": 1769718900000,
+                "transmitted_bytes_rate_avg": 4260
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1143538,
+                "timestamp": 1769719200000,
+                "transmitted_bytes_rate_avg": 5308
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 587121,
+                "timestamp": 1769719500000,
+                "transmitted_bytes_rate_avg": 2331
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 984795,
+                "timestamp": 1769719800000,
+                "transmitted_bytes_rate_avg": 25896
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 842761,
+                "timestamp": 1769720100000,
+                "transmitted_bytes_rate_avg": 5112
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 415646,
+                "timestamp": 1769720400000,
+                "transmitted_bytes_rate_avg": 1482
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 198696,
+                "timestamp": 1769720700000,
+                "transmitted_bytes_rate_avg": 2455
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 894038,
+                "timestamp": 1769721000000,
+                "transmitted_bytes_rate_avg": 16253
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 554740,
+                "timestamp": 1769721300000,
+                "transmitted_bytes_rate_avg": 2102
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 916664,
+                "timestamp": 1769721600000,
+                "transmitted_bytes_rate_avg": 13163
+            },
+            {
+                "downtime": false,
+                "latency": 8,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1490302,
+                "timestamp": 1769721900000,
+                "transmitted_bytes_rate_avg": 38919
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 731011,
+                "timestamp": 1769722200000,
+                "transmitted_bytes_rate_avg": 3749
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 346252,
+                "timestamp": 1769722500000,
+                "transmitted_bytes_rate_avg": 2747
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 298372,
+                "timestamp": 1769722800000,
+                "transmitted_bytes_rate_avg": 1027
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 458339,
+                "timestamp": 1769723100000,
+                "transmitted_bytes_rate_avg": 1448
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 587340,
+                "timestamp": 1769723400000,
+                "transmitted_bytes_rate_avg": 2249
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 1179646,
+                "timestamp": 1769723700000,
+                "transmitted_bytes_rate_avg": 11727
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 776021,
+                "timestamp": 1769724000000,
+                "transmitted_bytes_rate_avg": 14959
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 684195,
+                "timestamp": 1769724300000,
+                "transmitted_bytes_rate_avg": 112012
+            },
+            {
+                "downtime": false,
+                "latency": 9,
+                "latency_max": 9,
+                "received_bytes_rate_avg": 725745,
+                "timestamp": 1769724600000,
+                "transmitted_bytes_rate_avg": 29439
+            }
+        ],
+        "transmitted_bytes": 3080363856,
+        "uptime": 100.0
+    }
+}

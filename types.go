@@ -174,6 +174,16 @@ const (
 	APIDeviceTagsPath string = "/proxy/network/v2/api/site/%s/device-tags"
 	// APIActiveDHCPLeasesPath returns active DHCP leases for a site.
 	APIActiveDHCPLeasesPath string = "/proxy/network/v2/api/site/%s/active-leases"
+	// APIWANEnrichedConfigPath returns enriched WAN configuration with statistics.
+	APIWANEnrichedConfigPath string = "/proxy/network/v2/api/site/%s/wan/enriched-configuration"
+	// APIWANISPStatusPath returns WAN interface status (ACTIVE/BACKUP).
+	APIWANISPStatusPath string = "/proxy/network/v2/api/site/%s/wan/%s/isp-status"
+	// APIWANLoadBalancingStatusPath returns load balancing status for WAN interfaces.
+	APIWANLoadBalancingStatusPath string = "/proxy/network/v2/api/site/%s/wan/load-balancing/status"
+	// APIWANLoadBalancingConfigPath returns load balancing configuration for WAN interfaces.
+	APIWANLoadBalancingConfigPath string = "/proxy/network/v2/api/site/%s/wan/load-balancing/configuration"
+	// APIWANSLAsPath returns WAN SLA monitoring data (latency, packet loss, jitter).
+	APIWANSLAsPath string = "/proxy/network/v2/api/site/%s/wan-slas"
 )
 
 // path returns the correct api path based on the new variable.
@@ -281,6 +291,16 @@ type UnifiClient interface { //nolint: revive
 	GetActiveDHCPLeases(sites []*Site) ([]*DHCPLease, error)
 	// GetActiveDHCPLeasesWithAssociations returns active DHCP leases enriched with client and device associations.
 	GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease, error)
+	// AssociateDHCPLeases associates DHCP leases with clients, devices, and networks using pre-fetched data.
+	AssociateDHCPLeases(leases []*DHCPLease, clients []*Client, devices *Devices, networks []Network) error
+	// GetWANEnrichedConfiguration returns enriched WAN configuration for all WAN interfaces.
+	GetWANEnrichedConfiguration(sites []*Site) ([]*WANEnrichedConfiguration, error)
+	// GetWANLoadBalancingStatus returns the current load balancing status for WAN interfaces.
+	GetWANLoadBalancingStatus(sites []*Site) (*WANLoadBalancingStatus, error)
+	// GetWANISPStatus returns the ISP status for WAN interfaces.
+	GetWANISPStatus(sites []*Site, wanNetworkgroup string) (*WANISPStatusDetailed, error)
+	// GetWANSLAs returns WAN SLA monitoring data.
+	GetWANSLAs(sites []*Site) ([]*WANSLA, error)
 	// GetSites returns a list of configured sites on the UniFi controller.
 	GetSites() ([]*Site, error)
 	// GetSiteDPI garners dpi data for sites.
