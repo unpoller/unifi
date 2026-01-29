@@ -13,7 +13,7 @@ func (u *Unifi) GetActiveDHCPLeases(sites []*Site) ([]*DHCPLease, error) {
 
 	for _, site := range sites {
 		var response struct {
-			Data []json.RawMessage `json:"data"`
+			DHCPLeaseInfo []json.RawMessage `json:"dhcp_lease_info"`
 		}
 
 		leasePath := fmt.Sprintf(APIActiveDHCPLeasesPath, site.Name)
@@ -21,7 +21,7 @@ func (u *Unifi) GetActiveDHCPLeases(sites []*Site) ([]*DHCPLease, error) {
 			return nil, fmt.Errorf("failed to fetch DHCP leases for site %s: %w", site.SiteName, err)
 		}
 
-		for _, data := range response.Data {
+		for _, data := range response.DHCPLeaseInfo {
 			lease, err := u.parseDHCPLease(data, site)
 			if err != nil {
 				return leases, fmt.Errorf("failed to parse DHCP lease: %w", err)
@@ -149,8 +149,8 @@ func (u *Unifi) GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease
 			nt := device.NetworkTable[i]
 			if nt.ID != "" {
 				networkTableByID[nt.ID] = &NetworkTableEntry{
-					ID:                    nt.ID,
-					Name:                  nt.Name,
+					ID:                   nt.ID,
+					Name:                 nt.Name,
 					DhcpdEnabled:         nt.DhcpdEnabled,
 					DhcpdStart:           nt.DhcpdStart,
 					DhcpdStop:            nt.DhcpdStop,
@@ -167,8 +167,8 @@ func (u *Unifi) GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease
 			nt := device.NetworkTable[i]
 			if nt.ID != "" {
 				networkTableByID[nt.ID] = &NetworkTableEntry{
-					ID:                    nt.ID,
-					Name:                  nt.Name,
+					ID:                   nt.ID,
+					Name:                 nt.Name,
 					DhcpdEnabled:         nt.DhcpdEnabled,
 					DhcpdStart:           nt.DhcpdStart,
 					DhcpdStop:            nt.DhcpdStop,
@@ -185,8 +185,8 @@ func (u *Unifi) GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease
 			nt := device.NetworkTable[i]
 			if nt.ID != "" {
 				networkTableByID[nt.ID] = &NetworkTableEntry{
-					ID:                    nt.ID,
-					Name:                  nt.Name,
+					ID:                   nt.ID,
+					Name:                 nt.Name,
 					DhcpdEnabled:         nt.DhcpdEnabled,
 					DhcpdStart:           nt.DhcpdStart,
 					DhcpdStop:            nt.DhcpdStop,
@@ -256,6 +256,15 @@ func (u *Unifi) parseDHCPLease(data json.RawMessage, site *Site) (*DHCPLease, er
 		lease.Mac = normalizeMAC(lease.Mac)
 	}
 
+	// Set ClientName from display_name if hostname is empty
+	if lease.ClientName != "" && lease.Hostname == "" {
+		lease.Hostname = lease.ClientName
+	}
+
+	// Calculate lease_start if we have lease_end (expiration_time) and can estimate duration
+	// Note: We don't have lease duration from the API, so lease_start will remain 0
+	// The lease_time will also remain 0 unless we can get it from network config
+
 	return lease, nil
 }
 
@@ -280,40 +289,43 @@ type DHCPLease struct {
 	IP        string `json:"ip"`         // Assigned IP address
 	Mac       string `json:"mac"`        // MAC address of the client
 	Hostname  string `json:"hostname"`   // Hostname of the client
-	Network   string `json:"network"`    // Network name this lease belongs to
+	Network   string `json:"network"`    // Network name this lease belongs to (populated from association)
 	NetworkID string `json:"network_id"` // Network ID this lease belongs to
 
 	// Lease timing information
-	LeaseStart FlexInt `json:"lease_start"` // Lease start timestamp
-	LeaseEnd   FlexInt `json:"lease_end"`   // Lease expiration timestamp
-	LeaseTime  FlexInt `json:"lease_time"`  // Lease duration in seconds
+	LeaseStart FlexInt `json:"lease_start"`           // Lease start timestamp (calculated from expiration)
+	LeaseEnd   FlexInt `json:"lease_expiration_time"` // Lease expiration timestamp
+	LeaseTime  FlexInt `json:"lease_time"`            // Lease duration in seconds (calculated)
 
 	// Additional metadata
-	ClientName string   `json:"client_name"` // Client name if available
-	IsStatic   FlexBool `json:"is_static"`   // Whether this is a static/reserved lease
+	ClientName string   `json:"display_name"` // Display name from API
+	IsStatic   FlexBool `json:"use_fixedip"`  // Whether this is a static/reserved lease
+	Status     string   `json:"status"`       // online/offline status
+	ClientType string   `json:"client_type"`  // WIRELESS, etc.
+	DeviceType string   `json:"device_type"`  // usw, etc. (for UniFi devices)
 
 	// Site and source tracking
 	SiteName   string `json:"-"`
 	SourceName string `json:"-"`
 
 	// Associations (populated by GetActiveDHCPLeasesWithAssociations)
-	AssociatedClient     *Client            `json:"-"` // Associated client if found
-	AssociatedDevice     interface{}        `json:"-"` // Associated device if found (UAP, USW, USG, UDM, UXG, PDU, UBB, or UCI)
-	AssociatedNetwork    *Network           `json:"-"` // Associated network if found
-	NetworkTableEntry    *NetworkTableEntry `json:"-"` // Network table entry from device (contains DHCP pool range)
+	AssociatedClient  *Client            `json:"-"` // Associated client if found
+	AssociatedDevice  interface{}        `json:"-"` // Associated device if found (UAP, USW, USG, UDM, UXG, PDU, UBB, or UCI)
+	AssociatedNetwork *Network           `json:"-"` // Associated network if found
+	NetworkTableEntry *NetworkTableEntry `json:"-"` // Network table entry from device (contains DHCP pool range)
 }
 
 // NetworkTableEntry represents a network entry from a device's NetworkTable.
 // This contains DHCP pool information (DhcpdStart/DhcpdStop) not available in the Network struct.
 type NetworkTableEntry struct {
-	ID                     string   `json:"_id"`
-	Name                   string   `json:"name"`
-	DhcpdEnabled          FlexBool `json:"dhcpd_enabled"`
-	DhcpdStart            string   `json:"dhcpd_start"`
-	DhcpdStop             string   `json:"dhcpd_stop"`
-	ActiveDhcpLeaseCount  FlexInt  `json:"active_dhcp_lease_count"`
-	DhcpdLeasetime        FlexInt  `json:"dhcpd_leasetime"`
-	IPSubnet              string   `json:"ip_subnet"`
+	ID                   string   `json:"_id"`
+	Name                 string   `json:"name"`
+	DhcpdEnabled         FlexBool `json:"dhcpd_enabled"`
+	DhcpdStart           string   `json:"dhcpd_start"`
+	DhcpdStop            string   `json:"dhcpd_stop"`
+	ActiveDhcpLeaseCount FlexInt  `json:"active_dhcp_lease_count"`
+	DhcpdLeasetime       FlexInt  `json:"dhcpd_leasetime"`
+	IPSubnet             string   `json:"ip_subnet"`
 }
 
 // GetPoolSize calculates the DHCP pool size (number of available IPs) from DhcpdStart and DhcpdStop.
