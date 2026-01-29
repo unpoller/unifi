@@ -1,0 +1,15 @@
+---
+description: Go coding standards and linter conventions
+globs: "**/*.go"
+alwaysApply: false
+---
+
+# Go Standards
+
+- **Linter**: `.golangci.yaml` – `nlreturn`, `revive`, `tagalign`, `testpackage`, `wsl_v5`. Max issues 0; `fix: true`. Exclusions for `examples/`.
+- **wsl_v5**: `allow-first-in-block: true`, `allow-whole-block: false`, `branch-max-lines: 2`. Use blank lines between logical blocks; keep `if`/`for` bodies short.
+- **Tests**: Use `package unifi` with `// nolint: testpackage` where needed. Prefer `t.Parallel()`, `assert`/`require` from `github.com/stretchr/testify`. Mock via `UnifiClient` and `mocks.MockUnifi` or `mocks` HTTP server.
+- **Errors**: Wrap with `fmt.Errorf("context: %w", err)`. Use package sentinels (`ErrAuthenticationFailed`, etc.) where appropriate.
+- **Imports**: Group stdlib, then third-party. Run `goimports`/formatters.
+
+Run `golangci-lint run` and `go test ./...` before committing.
