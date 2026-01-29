@@ -157,7 +157,7 @@ const (
 	// APIPrefixNew is the prefix added to the new API paths; except login. duh.
 	APIPrefixNew string = "/proxy/network"
 	// APIAnomaliesPath returns site anomalies.
-	APIAnomaliesPath          string = "/api/s/%s/stat/anomalies"
+	APIAnomaliesPath string = "/api/s/%s/stat/anomalies"
 	// APISystemLogPath returns system log events (v2 API).
 	APISystemLogPath          string = "/v2/api/site/%s/system-log/all"
 	APICommandPath            string = "/api/s/%s/cmd"
@@ -167,9 +167,11 @@ const (
 	APICountryTrafficPath     string = "/v2/api/site/%s/country-traffic?start=%d&end=%d"
 	APIAggregatedDashboard    string = "/v2/api/site/%s/aggregated-dashboard?historySeconds=%d"
 	// APIProtectLogPath returns Protect system log events.
-	APIProtectLogPath         string = "/proxy/protect/api/events/system-logs"
+	APIProtectLogPath string = "/proxy/protect/api/events/system-logs"
 	// APIProtectEventsPath is the base path for Protect events (for thumbnails, etc.).
-	APIProtectEventsPath      string = "/proxy/protect/api/events"
+	APIProtectEventsPath string = "/proxy/protect/api/events"
+	// APIDeviceTagsPath returns device tags for a site.
+	APIDeviceTagsPath string = "/proxy/network/v2/api/site/%s/device-tags"
 )
 
 // path returns the correct api path based on the new variable.
@@ -343,6 +345,14 @@ type FlexString struct {
 	Val         string
 	Arr         []string
 	hintIsArray bool
+}
+
+// DeviceTag represents a device tag from the UniFi API.
+// Device tags allow grouping devices for organization and filtering.
+type DeviceTag struct {
+	ID               string   `json:"_id"`
+	Name             string   `json:"name"`
+	MemberDeviceMacs []string `json:"member_device_macs"`
 }
 
 func NewFlexString(v string) *FlexString {

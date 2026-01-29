@@ -7,6 +7,7 @@ import (
 )
 
 // GetDevices returns a response full of devices' data from the UniFi Controller.
+// Devices are automatically enriched with tags from the device-tags API.
 func (u *Unifi) GetDevices(sites []*Site) (*Devices, error) {
 	devices := new(Devices)
 
@@ -21,6 +22,14 @@ func (u *Unifi) GetDevices(sites []*Site) (*Devices, error) {
 		}
 
 		loopDevices := u.parseDevices(response.Data, site)
+
+		// Enrich devices with tags BEFORE appending to accumulated devices
+		// Tags are site-specific, so we must enrich only the current site's devices
+		if err := u.enrichDevicesWithTags(loopDevices, site); err != nil {
+			u.ErrorLog("Failed to enrich devices with tags for site %s: %v", site.SiteName, err)
+			// Don't fail the whole request if tags fail - devices are still valid
+		}
+
 		devices.UAPs = append(devices.UAPs, loopDevices.UAPs...)
 		devices.USGs = append(devices.USGs, loopDevices.USGs...)
 		devices.USWs = append(devices.USWs, loopDevices.USWs...)
@@ -322,6 +331,83 @@ func (u *Unifi) isPDUOrUPS(rawJSON json.RawMessage, model, shortname, name strin
 	}
 
 	return false
+}
+
+// GetDeviceTags returns all device tags for a site.
+// Device tags allow grouping devices for organization and filtering.
+func (u *Unifi) GetDeviceTags(site *Site) ([]*DeviceTag, error) {
+	if site == nil || site.Name == "" {
+		return nil, ErrNoSiteProvided
+	}
+
+	u.DebugLog("Polling Controller for Device Tags, site %s", site.SiteName)
+
+	path := fmt.Sprintf(APIDeviceTagsPath, site.Name)
+
+	var tags []*DeviceTag
+	if err := u.GetData(path, &tags); err != nil {
+		return nil, fmt.Errorf("fetching device tags: %w", err)
+	}
+
+	return tags, nil
+}
+
+// enrichDevicesWithTags adds tag information to devices based on their MAC addresses.
+// This creates a map of MAC address to tag names and assigns tags to each device.
+// If a device has multiple tags, all tags are added to the device's Tags slice.
+func (u *Unifi) enrichDevicesWithTags(devices *Devices, site *Site) error {
+	tags, err := u.GetDeviceTags(site)
+	if err != nil {
+		return err
+	}
+
+	// Create a map of MAC -> tag names
+	// Multiple tags per device are supported - each tag creates a separate entry
+	macToTags := make(map[string][]string)
+	for _, tag := range tags {
+		for _, mac := range tag.MemberDeviceMacs {
+			// Normalize MAC address to lowercase for matching
+			normalizedMac := strings.ToLower(strings.TrimSpace(mac))
+			macToTags[normalizedMac] = append(macToTags[normalizedMac], tag.Name)
+		}
+	}
+
+	// Helper function to enrich a device by MAC address
+	enrichDevice := func(mac string) []string {
+		if mac == "" {
+			return nil
+		}
+		normalizedMac := strings.ToLower(strings.TrimSpace(mac))
+		return macToTags[normalizedMac]
+	}
+
+	// Enrich all device types with their tags
+	for _, device := range devices.UAPs {
+		device.Tags = enrichDevice(device.Mac)
+	}
+	for _, device := range devices.USWs {
+		device.Tags = enrichDevice(device.Mac)
+	}
+	for _, device := range devices.UDMs {
+		device.Tags = enrichDevice(device.Mac)
+	}
+	for _, device := range devices.USGs {
+		device.Tags = enrichDevice(device.Mac)
+	}
+	for _, device := range devices.UXGs {
+		device.Tags = enrichDevice(device.Mac)
+	}
+	for _, device := range devices.PDUs {
+		device.Tags = enrichDevice(device.Mac)
+	}
+	for _, device := range devices.UBBs {
+		device.Tags = enrichDevice(device.Mac)
+	}
+	for _, device := range devices.UCIs {
+		device.Tags = enrichDevice(device.Mac)
+	}
+
+	return nil
 }
 
 // pick returns the first non empty string in a list.

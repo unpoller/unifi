@@ -61,6 +61,7 @@ type UXG struct {
 	LicenseState               string               `json:"license_state"`
 	Locating                   FlexBool             `fake:"{constFlexBool:false}"         json:"locating"`
 	Mac                        string               `fake:"{macaddress}"                  json:"mac"`
+	Tags                       []string             `json:"tags"` // Device tags assigned to this device
 	ManufacturerID             FlexInt              `json:"manufacturer_id"`
 	MinInformIntervalSeconds   FlexInt              `json:"min_inform_interval_seconds"`
 	Model                      string               `json:"model"`

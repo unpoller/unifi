@@ -32,6 +32,7 @@ type USG struct {
 	LicenseState          string               `json:"license_state"`
 	Locating              FlexBool             `fake:"{constFlexBool:false}"   json:"locating"`
 	Mac                   string               `fake:"{macaddress}"            json:"mac"`
+	Tags                  []string             `json:"tags"` // Device tags assigned to this device
 	Model                 string               `json:"model"`
 	Name                  string               `fake:"{animal}"                json:"name"`
 	NetworkTable          NetworkTable         `json:"network_table"`
@@ -260,17 +261,17 @@ type SpeedTestData struct {
 
 // SpeedTestResult contains a single speed test result for a WAN interface.
 type SpeedTestResult struct {
-	DownloadMbps             FlexInt                   `json:"download_mbps"`
-	ID                       string                    `json:"id"`
-	InterfaceName            string                    `json:"interface_name"`
-	LatencyMs                FlexInt                   `json:"latency_ms"`
-	NetworkConfID            string                    `json:"network_conf_id"`
-	Time                     FlexInt                   `json:"time"`
-	UploadMbps               FlexInt                   `json:"upload_mbps"`
-	WANNetworkGroup          string                    `json:"wan_networkgroup"`
-	WANProviderCapabilities  *WANProviderCapabilities  `json:"wan_provider_capabilities,omitempty"`
-	SiteName                 string                    `json:"-"`
-	SourceName               string                    `json:"-"`
+	DownloadMbps            FlexInt                  `json:"download_mbps"`
+	ID                      string                   `json:"id"`
+	InterfaceName           string                   `json:"interface_name"`
+	LatencyMs               FlexInt                  `json:"latency_ms"`
+	NetworkConfID           string                   `json:"network_conf_id"`
+	Time                    FlexInt                  `json:"time"`
+	UploadMbps              FlexInt                  `json:"upload_mbps"`
+	WANNetworkGroup         string                   `json:"wan_networkgroup"`
+	WANProviderCapabilities *WANProviderCapabilities `json:"wan_provider_capabilities,omitempty"`
+	SiteName                string                   `json:"-"`
+	SourceName              string                   `json:"-"`
 }
 
 // WANProviderCapabilities contains the WAN provider's advertised capabilities.
