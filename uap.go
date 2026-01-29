@@ -102,6 +102,7 @@ type UAP struct {
 	LteSubscriptionStatus         FlexBool        `json:"lte_subscription_status"`
 	LteTxChannel                  FlexInt         `json:"lte_tx_chan"`
 	Mac                           string          `fake:"{macaddress}"                     json:"mac"`
+	Tags                          []string        `json:"tags"` // Device tags assigned to this device
 	ManufacturerID                FlexInt         `json:"manufacturer_id"`
 	MeshStaVapEnabled             FlexBool        `json:"mesh_sta_vap_enabled"`
 	Meshv3PeerMac                 string          `json:"meshv3_peer_mac"`

@@ -71,6 +71,7 @@ type UCI struct {
 	LicenseState             string          `json:"license_state"`
 	Locating                 FlexBool        `json:"locating"`
 	Mac                      string          `json:"mac"`
+	Tags                     []string        `json:"tags"` // Device tags assigned to this device
 	ManufacturerID           FlexInt         `json:"manufacturer_id"`
 	MinInformIntervalSeconds FlexInt         `json:"min_inform_interval_seconds"`
 	Model                    string          `json:"model"`
