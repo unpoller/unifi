@@ -3,6 +3,7 @@ package unifi
 import (
 	"encoding/json"
 	"fmt"
+	"net"
 	"strings"
 )
 
@@ -33,15 +34,15 @@ func (u *Unifi) GetActiveDHCPLeases(sites []*Site) ([]*DHCPLease, error) {
 	return leases, nil
 }
 
-// GetActiveDHCPLeasesWithAssociations returns active DHCP leases enriched with client and device associations.
-// This method fetches leases, clients, and devices, then matches them by MAC address and IP address.
+// GetActiveDHCPLeasesWithAssociations returns active DHCP leases enriched with client, device, and network associations.
+// This method fetches leases, clients, devices, and networks, then matches them appropriately.
 func (u *Unifi) GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease, error) {
 	leases, err := u.GetActiveDHCPLeases(sites)
 	if err != nil {
 		return nil, err
 	}
 
-	// Fetch clients and devices for association
+	// Fetch clients, devices, and networks for association
 	clients, err := u.GetClients(sites)
 	if err != nil {
 		// Log error but continue without client associations
@@ -52,6 +53,12 @@ func (u *Unifi) GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease
 	if err != nil {
 		// Log error but continue without device associations
 		u.ErrorLog("failed to fetch devices for DHCP lease association: %v", err)
+	}
+
+	networks, err := u.GetNetworks(sites)
+	if err != nil {
+		// Log error but continue without network associations
+		u.ErrorLog("failed to fetch networks for DHCP lease association: %v", err)
 	}
 
 	// Create lookup maps for efficient matching
@@ -119,6 +126,78 @@ func (u *Unifi) GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease
 		}
 	}
 
+	// Create network lookup map by ID and name
+	networkByID := make(map[string]*Network)
+	networkByName := make(map[string]*Network)
+
+	for i := range networks {
+		network := &networks[i]
+		if network.ID != "" {
+			networkByID[network.ID] = network
+		}
+
+		if network.Name != "" {
+			networkByName[network.Name] = network
+		}
+	}
+
+	// Also get network info from device NetworkTable (has DhcpdStart/DhcpdStop)
+	networkTableByID := make(map[string]*NetworkTableEntry)
+
+	for _, device := range devices.UDMs {
+		for i := range device.NetworkTable {
+			nt := device.NetworkTable[i]
+			if nt.ID != "" {
+				networkTableByID[nt.ID] = &NetworkTableEntry{
+					ID:                    nt.ID,
+					Name:                  nt.Name,
+					DhcpdEnabled:         nt.DhcpdEnabled,
+					DhcpdStart:           nt.DhcpdStart,
+					DhcpdStop:            nt.DhcpdStop,
+					ActiveDhcpLeaseCount: nt.ActiveDhcpLeaseCount,
+					DhcpdLeasetime:       nt.DhcpdLeasetime,
+					IPSubnet:             nt.IPSubnet,
+				}
+			}
+		}
+	}
+
+	for _, device := range devices.UXGs {
+		for i := range device.NetworkTable {
+			nt := device.NetworkTable[i]
+			if nt.ID != "" {
+				networkTableByID[nt.ID] = &NetworkTableEntry{
+					ID:                    nt.ID,
+					Name:                  nt.Name,
+					DhcpdEnabled:         nt.DhcpdEnabled,
+					DhcpdStart:           nt.DhcpdStart,
+					DhcpdStop:            nt.DhcpdStop,
+					ActiveDhcpLeaseCount: nt.ActiveDhcpLeaseCount,
+					DhcpdLeasetime:       nt.DhcpdLeasetime,
+					IPSubnet:             nt.IPSubnet,
+				}
+			}
+		}
+	}
+
+	for _, device := range devices.USGs {
+		for i := range device.NetworkTable {
+			nt := device.NetworkTable[i]
+			if nt.ID != "" {
+				networkTableByID[nt.ID] = &NetworkTableEntry{
+					ID:                    nt.ID,
+					Name:                  nt.Name,
+					DhcpdEnabled:         nt.DhcpdEnabled,
+					DhcpdStart:           nt.DhcpdStart,
+					DhcpdStop:            nt.DhcpdStop,
+					ActiveDhcpLeaseCount: nt.ActiveDhcpLeaseCount,
+					DhcpdLeasetime:       nt.DhcpdLeasetime,
+					IPSubnet:             nt.IPSubnet,
+				}
+			}
+		}
+	}
+
 	// Enrich leases with associations
 	for _, lease := range leases {
 		// Match by MAC address (most reliable)
@@ -138,6 +217,22 @@ func (u *Unifi) GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease
 		if lease.AssociatedClient == nil && lease.IP != "" {
 			if client, found := clientByIP[lease.IP]; found {
 				lease.AssociatedClient = client
+			}
+		}
+
+		// Match network by NetworkID first, then by Network name
+		if lease.NetworkID != "" {
+			if network, found := networkByID[lease.NetworkID]; found {
+				lease.AssociatedNetwork = network
+			}
+
+			// Also check NetworkTable for DHCP pool info
+			if ntEntry, found := networkTableByID[lease.NetworkID]; found {
+				lease.NetworkTableEntry = ntEntry
+			}
+		} else if lease.Network != "" {
+			if network, found := networkByName[lease.Network]; found {
+				lease.AssociatedNetwork = network
 			}
 		}
 	}
@@ -202,6 +297,111 @@ type DHCPLease struct {
 	SourceName string `json:"-"`
 
 	// Associations (populated by GetActiveDHCPLeasesWithAssociations)
-	AssociatedClient *Client     `json:"-"` // Associated client if found
-	AssociatedDevice interface{} `json:"-"` // Associated device if found (UAP, USW, USG, UDM, UXG, PDU, UBB, or UCI)
+	AssociatedClient     *Client            `json:"-"` // Associated client if found
+	AssociatedDevice     interface{}        `json:"-"` // Associated device if found (UAP, USW, USG, UDM, UXG, PDU, UBB, or UCI)
+	AssociatedNetwork    *Network           `json:"-"` // Associated network if found
+	NetworkTableEntry    *NetworkTableEntry `json:"-"` // Network table entry from device (contains DHCP pool range)
+}
+
+// NetworkTableEntry represents a network entry from a device's NetworkTable.
+// This contains DHCP pool information (DhcpdStart/DhcpdStop) not available in the Network struct.
+type NetworkTableEntry struct {
+	ID                     string   `json:"_id"`
+	Name                   string   `json:"name"`
+	DhcpdEnabled          FlexBool `json:"dhcpd_enabled"`
+	DhcpdStart            string   `json:"dhcpd_start"`
+	DhcpdStop             string   `json:"dhcpd_stop"`
+	ActiveDhcpLeaseCount  FlexInt  `json:"active_dhcp_lease_count"`
+	DhcpdLeasetime        FlexInt  `json:"dhcpd_leasetime"`
+	IPSubnet              string   `json:"ip_subnet"`
+}
+
+// GetPoolSize calculates the DHCP pool size (number of available IPs) from DhcpdStart and DhcpdStop.
+// Returns 0 if the range cannot be calculated or if DHCP is not enabled.
+func (l *DHCPLease) GetPoolSize() int {
+	if l.NetworkTableEntry == nil {
+		return 0
+	}
+
+	if !l.NetworkTableEntry.DhcpdEnabled.Val {
+		return 0
+	}
+
+	if l.NetworkTableEntry.DhcpdStart == "" || l.NetworkTableEntry.DhcpdStop == "" {
+		return 0
+	}
+
+	return calculateIPRangeSize(l.NetworkTableEntry.DhcpdStart, l.NetworkTableEntry.DhcpdStop)
+}
+
+// GetActiveLeaseCount returns the number of active DHCP leases for this network.
+// Returns 0 if network table entry is not available.
+func (l *DHCPLease) GetActiveLeaseCount() int {
+	if l.NetworkTableEntry == nil {
+		return 0
+	}
+
+	return int(l.NetworkTableEntry.ActiveDhcpLeaseCount.Val)
+}
+
+// GetUtilizationPercentage calculates the DHCP pool utilization percentage.
+// Returns 0 if pool size cannot be determined.
+func (l *DHCPLease) GetUtilizationPercentage() float64 {
+	poolSize := l.GetPoolSize()
+	if poolSize == 0 {
+		return 0
+	}
+
+	activeCount := l.GetActiveLeaseCount()
+	if activeCount == 0 {
+		return 0
+	}
+
+	return (float64(activeCount) / float64(poolSize)) * 100.0
+}
+
+// GetAvailableIPs returns the number of available IPs in the DHCP pool.
+func (l *DHCPLease) GetAvailableIPs() int {
+	poolSize := l.GetPoolSize()
+	if poolSize == 0 {
+		return 0
+	}
+
+	activeCount := l.GetActiveLeaseCount()
+	available := poolSize - activeCount
+
+	if available < 0 {
+		return 0
+	}
+
+	return available
+}
+
+// calculateIPRangeSize calculates the number of IPs in a range from start to stop (inclusive).
+func calculateIPRangeSize(startIP, stopIP string) int {
+	start := net.ParseIP(startIP)
+	stop := net.ParseIP(stopIP)
+
+	if start == nil || stop == nil {
+		return 0
+	}
+
+	// Convert to IPv4 addresses
+	start4 := start.To4()
+	stop4 := stop.To4()
+
+	if start4 == nil || stop4 == nil {
+		return 0
+	}
+
+	// Convert to uint32 for calculation
+	startInt := uint32(start4[0])<<24 | uint32(start4[1])<<16 | uint32(start4[2])<<8 | uint32(start4[3])
+	stopInt := uint32(stop4[0])<<24 | uint32(stop4[1])<<16 | uint32(stop4[2])<<8 | uint32(stop4[3])
+
+	if stopInt < startInt {
+		return 0
+	}
+
+	// Add 1 because the range is inclusive
+	return int(stopInt-startInt) + 1
 }
