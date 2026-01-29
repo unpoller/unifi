@@ -253,6 +253,198 @@ func (u *Unifi) GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease
 	return leases, nil
 }
 
+// AssociateDHCPLeases associates DHCP leases with clients, devices, and networks using pre-fetched data.
+// This method is used to avoid redundant API calls when the data is already available.
+func (u *Unifi) AssociateDHCPLeases(leases []*DHCPLease, clients []*Client, devices *Devices, networks []Network) error {
+	// Create lookup maps for efficient matching
+	clientByMAC := make(map[string]*Client)
+	clientByIP := make(map[string]*Client)
+
+	for _, client := range clients {
+		if client.Mac != "" {
+			clientByMAC[normalizeMAC(client.Mac)] = client
+		}
+
+		if client.IP != "" {
+			clientByIP[client.IP] = client
+		}
+	}
+
+	deviceByMAC := make(map[string]interface{})
+
+	// Add all device types to the map
+	if devices != nil {
+		for _, device := range devices.UAPs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
+		}
+
+		for _, device := range devices.USWs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
+		}
+
+		for _, device := range devices.USGs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
+		}
+
+		for _, device := range devices.UDMs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
+		}
+
+		for _, device := range devices.UXGs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
+		}
+
+		for _, device := range devices.PDUs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
+		}
+
+		for _, device := range devices.UBBs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
+		}
+
+		for _, device := range devices.UCIs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
+		}
+	}
+
+	// Create network lookup map by ID and name
+	networkByID := make(map[string]*Network)
+	networkByName := make(map[string]*Network)
+
+	for i := range networks {
+		network := &networks[i]
+		if network.ID != "" {
+			networkByID[network.ID] = network
+		}
+
+		if network.Name != "" {
+			networkByName[network.Name] = network
+		}
+	}
+
+	// Also get network info from device NetworkTable (has DhcpdStart/DhcpdStop)
+	networkTableByID := make(map[string]*NetworkTableEntry)
+
+	if devices != nil {
+		for _, device := range devices.UDMs {
+			for i := range device.NetworkTable {
+				nt := device.NetworkTable[i]
+				if nt.ID != "" {
+					networkTableByID[nt.ID] = &NetworkTableEntry{
+						ID:                   nt.ID,
+						Name:                 nt.Name,
+						DhcpdEnabled:         nt.DhcpdEnabled,
+						DhcpdStart:           nt.DhcpdStart,
+						DhcpdStop:            nt.DhcpdStop,
+						ActiveDhcpLeaseCount: nt.ActiveDhcpLeaseCount,
+						DhcpdLeasetime:       nt.DhcpdLeasetime,
+						IPSubnet:             nt.IPSubnet,
+					}
+				}
+			}
+		}
+
+		for _, device := range devices.USGs {
+			for i := range device.NetworkTable {
+				nt := device.NetworkTable[i]
+				if nt.ID != "" {
+					networkTableByID[nt.ID] = &NetworkTableEntry{
+						ID:                   nt.ID,
+						Name:                 nt.Name,
+						DhcpdEnabled:         nt.DhcpdEnabled,
+						DhcpdStart:           nt.DhcpdStart,
+						DhcpdStop:            nt.DhcpdStop,
+						ActiveDhcpLeaseCount: nt.ActiveDhcpLeaseCount,
+						DhcpdLeasetime:       nt.DhcpdLeasetime,
+						IPSubnet:             nt.IPSubnet,
+					}
+				}
+			}
+		}
+
+		for _, device := range devices.UXGs {
+			for i := range device.NetworkTable {
+				nt := device.NetworkTable[i]
+				if nt.ID != "" {
+					networkTableByID[nt.ID] = &NetworkTableEntry{
+						ID:                   nt.ID,
+						Name:                 nt.Name,
+						DhcpdEnabled:         nt.DhcpdEnabled,
+						DhcpdStart:           nt.DhcpdStart,
+						DhcpdStop:            nt.DhcpdStop,
+						ActiveDhcpLeaseCount: nt.ActiveDhcpLeaseCount,
+						DhcpdLeasetime:       nt.DhcpdLeasetime,
+						IPSubnet:             nt.IPSubnet,
+					}
+				}
+			}
+		}
+	}
+
+	// Enrich leases with associations
+	for _, lease := range leases {
+		// Match by MAC address (most reliable)
+		if lease.Mac != "" {
+			normalizedMAC := normalizeMAC(lease.Mac)
+
+			if client, found := clientByMAC[normalizedMAC]; found {
+				lease.AssociatedClient = client
+			}
+
+			if device, found := deviceByMAC[normalizedMAC]; found {
+				lease.AssociatedDevice = device
+			}
+		}
+
+		// Also try matching by IP address as fallback
+		if lease.AssociatedClient == nil && lease.IP != "" {
+			if client, found := clientByIP[lease.IP]; found {
+				lease.AssociatedClient = client
+			}
+		}
+
+		// Match network by NetworkID first, then by Network name
+		if lease.NetworkID != "" {
+			if network, found := networkByID[lease.NetworkID]; found {
+				lease.AssociatedNetwork = network
+				if lease.Network == "" && network.Name != "" {
+					lease.Network = network.Name
+				}
+			}
+
+			// Also check NetworkTable for DHCP pool info
+			if ntEntry, found := networkTableByID[lease.NetworkID]; found {
+				lease.NetworkTableEntry = ntEntry
+				if lease.Network == "" && ntEntry.Name != "" {
+					lease.Network = ntEntry.Name
+				}
+			}
+		} else if lease.Network != "" {
+			if network, found := networkByName[lease.Network]; found {
+				lease.AssociatedNetwork = network
+			}
+		}
+	}
+
+	return nil
+}
+
 // parseDHCPLease parses the raw JSON from the UniFi Controller into a DHCP lease structure.
 func (u *Unifi) parseDHCPLease(data json.RawMessage, site *Site) (*DHCPLease, error) {
 	lease := new(DHCPLease)

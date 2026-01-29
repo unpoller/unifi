@@ -1,0 +1,19 @@
+{
+    "mode": "FAILOVER_ONLY",
+    "wan_interfaces": [
+        {
+            "mode": "DISTRIBUTED",
+            "name": "Westelcom",
+            "priority": 1,
+            "wan_networkgroup": "WAN",
+            "weight": 99
+        },
+        {
+            "mode": "FAILOVER_ONLY",
+            "name": "Internet 2",
+            "priority": 2,
+            "wan_networkgroup": "WAN2",
+            "weight": 1
+        }
+    ]
+}
