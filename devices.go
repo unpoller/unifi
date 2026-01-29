@@ -22,6 +22,14 @@ func (u *Unifi) GetDevices(sites []*Site) (*Devices, error) {
 		}
 
 		loopDevices := u.parseDevices(response.Data, site)
+
+		// Enrich devices with tags BEFORE appending to accumulated devices
+		// Tags are site-specific, so we must enrich only the current site's devices
+		if err := u.enrichDevicesWithTags(loopDevices, site); err != nil {
+			u.ErrorLog("Failed to enrich devices with tags for site %s: %v", site.SiteName, err)
+			// Don't fail the whole request if tags fail - devices are still valid
+		}
+
 		devices.UAPs = append(devices.UAPs, loopDevices.UAPs...)
 		devices.USGs = append(devices.USGs, loopDevices.USGs...)
 		devices.USWs = append(devices.USWs, loopDevices.USWs...)
@@ -30,12 +38,6 @@ func (u *Unifi) GetDevices(sites []*Site) (*Devices, error) {
 		devices.PDUs = append(devices.PDUs, loopDevices.PDUs...)
 		devices.UBBs = append(devices.UBBs, loopDevices.UBBs...)
 		devices.UCIs = append(devices.UCIs, loopDevices.UCIs...)
-
-		// Enrich devices with tags
-		if err := u.enrichDevicesWithTags(devices, site); err != nil {
-			u.ErrorLog("Failed to enrich devices with tags for site %s: %v", site.SiteName, err)
-			// Don't fail the whole request if tags fail - devices are still valid
-		}
 	}
 
 	return devices, nil
