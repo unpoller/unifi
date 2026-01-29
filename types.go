@@ -172,6 +172,8 @@ const (
 	APIProtectEventsPath string = "/proxy/protect/api/events"
 	// APIDeviceTagsPath returns device tags for a site.
 	APIDeviceTagsPath string = "/proxy/network/v2/api/site/%s/device-tags"
+	// APIActiveDHCPLeasesPath returns active DHCP leases for a site.
+	APIActiveDHCPLeasesPath string = "/proxy/network/v2/api/site/%s/active-leases"
 )
 
 // path returns the correct api path based on the new variable.
@@ -275,6 +277,10 @@ type UnifiClient interface { //nolint: revive
 	GetIDSSite(site *Site, timeRange ...time.Time) ([]*IDS, error)
 	// GetNetworks returns a response full of network data from the UniFi Controller.
 	GetNetworks(sites []*Site) ([]Network, error)
+	// GetActiveDHCPLeases returns active DHCP leases for the given sites.
+	GetActiveDHCPLeases(sites []*Site) ([]*DHCPLease, error)
+	// GetActiveDHCPLeasesWithAssociations returns active DHCP leases enriched with client and device associations.
+	GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease, error)
 	// GetSites returns a list of configured sites on the UniFi controller.
 	GetSites() ([]*Site, error)
 	// GetSiteDPI garners dpi data for sites.
