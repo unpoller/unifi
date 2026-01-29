@@ -333,6 +333,9 @@ I logged an entire session from login, clicked around each page, and settings me
   - Other Services: 3 endpoints
 
 ## Notes
+- **Discovery Method**: These endpoints were discovered by monitoring browser network requests during a session on a local UniFi controller
+- **Testing**: Output has been tested on most endpoints to verify functionality
+- **Data Availability**: Response data has been collected but is not published as it contains sensitive information and represents a large volume of data
 - Many endpoints use organization IDs and host IDs in the path
 - Some endpoints support query parameters like `pageSize`, `limit`, `expand[]`, `include`, etc.
 - The local controller appears to be accessed via `briangates.ui.com` (cloud access URL) OR directly via IP
