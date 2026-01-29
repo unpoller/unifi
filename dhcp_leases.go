@@ -221,14 +221,27 @@ func (u *Unifi) GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease
 		}
 
 		// Match network by NetworkID first, then by Network name
+		// The API response may not include the readable network name, so we populate it
+		// from the associated network data for better metric labeling.
 		if lease.NetworkID != "" {
 			if network, found := networkByID[lease.NetworkID]; found {
 				lease.AssociatedNetwork = network
+				// Populate Network name from association (e.g., "LAN", "Guest") for readable metrics
+				// This ensures the network label in Prometheus metrics shows a human-readable name
+				// instead of an empty string, even when the API doesn't provide it directly.
+				if lease.Network == "" && network.Name != "" {
+					lease.Network = network.Name
+				}
 			}
 
-			// Also check NetworkTable for DHCP pool info
+			// Also check NetworkTable for DHCP pool info (DhcpdStart/DhcpdStop range)
 			if ntEntry, found := networkTableByID[lease.NetworkID]; found {
 				lease.NetworkTableEntry = ntEntry
+				// Populate Network name from NetworkTable if not already set from AssociatedNetwork
+				// NetworkTable entries also contain the network name and are available from device data
+				if lease.Network == "" && ntEntry.Name != "" {
+					lease.Network = ntEntry.Name
+				}
 			}
 		} else if lease.Network != "" {
 			if network, found := networkByName[lease.Network]; found {
