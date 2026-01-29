@@ -397,6 +397,42 @@ func (m *MockUnifi) GetNetworks(_ []*unifi.Site) ([]unifi.Network, error) {
 	return results, nil
 }
 
+// GetActiveDHCPLeases returns active DHCP leases for the given sites.
+func (m *MockUnifi) GetActiveDHCPLeases(_ []*unifi.Site) ([]*unifi.DHCPLease, error) {
+	results := make([]*unifi.DHCPLease, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var l unifi.DHCPLease
+
+		err := gofakeit.Struct(&l)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &l
+	}
+
+	return results, nil
+}
+
+// GetActiveDHCPLeasesWithAssociations returns active DHCP leases enriched with client and device associations.
+func (m *MockUnifi) GetActiveDHCPLeasesWithAssociations(_ []*unifi.Site) ([]*unifi.DHCPLease, error) {
+	results := make([]*unifi.DHCPLease, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var l unifi.DHCPLease
+
+		err := gofakeit.Struct(&l)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &l
+	}
+
+	return results, nil
+}
+
 // GetSites returns a list of configured sites on the UniFi controller.
 func (m *MockUnifi) GetSites() ([]*unifi.Site, error) {
 	results := make([]*unifi.Site, numItemsMocked)
