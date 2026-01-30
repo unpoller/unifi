@@ -1,6 +1,10 @@
 package unifi
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+	"strings"
+)
 
 // WANEnrichedConfiguration represents the complete WAN configuration with statistics.
 type WANEnrichedConfiguration struct {
@@ -170,23 +174,28 @@ type WANSLA struct {
 }
 
 // GetWANEnrichedConfiguration returns enriched WAN configuration for all WAN interfaces.
+// The API returns a top-level array [{...}, {...}], not {"data": [...]}.
+// The path must be formatted with site.Name; a literal %s in the path causes "invalid URL escape" when building the request.
 func (u *Unifi) GetWANEnrichedConfiguration(sites []*Site) ([]*WANEnrichedConfiguration, error) {
 	data := []*WANEnrichedConfiguration{}
 
 	for _, site := range sites {
-		var response struct {
-			Data []*WANEnrichedConfiguration `json:"data"`
+		path := fmt.Sprintf(APIWANEnrichedConfigPath, site.Name)
+		if strings.Contains(path, "%s") {
+			return nil, fmt.Errorf("WAN enriched-config path still contains %%s (site name may be empty): %q", path)
 		}
-
 		u.DebugLog("Fetching WAN enriched configuration for site %s", site.Name)
 
-		err := u.GetData(APIWANEnrichedConfigPath, &response, site.Name)
+		body, err := u.GetJSON(path)
 		if err != nil {
 			return nil, err
 		}
 
-		// Add site name to each WAN config
-		for _, wan := range response.Data {
+		var raw []*WANEnrichedConfiguration
+		if err := json.Unmarshal(body, &raw); err != nil {
+			return nil, err
+		}
+		for _, wan := range raw {
 			if wan != nil {
 				data = append(data, wan)
 			}
@@ -202,18 +211,23 @@ func (u *Unifi) GetWANLoadBalancingStatus(sites []*Site) (*WANLoadBalancingStatu
 		return &WANLoadBalancingStatus{}, nil
 	}
 
-	// Use first site (typically only one gateway per site)
 	site := sites[0]
-
-	var response WANLoadBalancingStatus
+	path := fmt.Sprintf(APIWANLoadBalancingStatusPath, site.Name)
+	if strings.Contains(path, "%s") {
+		return &WANLoadBalancingStatus{}, fmt.Errorf("WAN load-balancing path still contains %%s (site name empty): %q", path)
+	}
 
 	u.DebugLog("Fetching WAN load balancing status for site %s", site.Name)
 
-	err := u.GetData(APIWANLoadBalancingStatusPath, &response, site.Name)
+	body, err := u.GetJSON(path)
 	if err != nil {
 		return nil, err
 	}
 
+	var response WANLoadBalancingStatus
+	if err := json.Unmarshal(body, &response); err != nil {
+		return nil, err
+	}
 	return &response, nil
 }
 
@@ -223,19 +237,23 @@ func (u *Unifi) GetWANISPStatus(sites []*Site, wanNetworkgroup string) (*WANISPS
 		return &WANISPStatusDetailed{}, nil
 	}
 
-	// Use first site (typically only one gateway per site)
 	site := sites[0]
-
-	var response WANISPStatusDetailed
+	path := fmt.Sprintf(APIWANISPStatusPath, site.Name, wanNetworkgroup)
+	if strings.Contains(path, "%s") {
+		return &WANISPStatusDetailed{}, fmt.Errorf("WAN ISP status path still contains %%s: %q", path)
+	}
 
 	u.DebugLog("Fetching WAN ISP status for site %s, WAN group %s", site.Name, wanNetworkgroup)
 
-	// Use the WAN networkgroup name in the path (e.g., "WAN", "WAN2")
-	err := u.GetData(APIWANISPStatusPath, &response, site.Name, wanNetworkgroup)
+	body, err := u.GetJSON(path)
 	if err != nil {
 		return nil, err
 	}
 
+	var response WANISPStatusDetailed
+	if err := json.Unmarshal(body, &response); err != nil {
+		return nil, err
+	}
 	return &response, nil
 }
 
@@ -244,31 +262,33 @@ func (u *Unifi) GetWANSLAs(sites []*Site) ([]*WANSLA, error) {
 	data := []*WANSLA{}
 
 	for _, site := range sites {
-		var response []json.RawMessage
+		path := fmt.Sprintf(APIWANSLAsPath, site.Name)
+		if strings.Contains(path, "%s") {
+			return data, fmt.Errorf("WAN SLAs path still contains %%s (site name empty): %q", path)
+		}
 
 		u.DebugLog("Fetching WAN SLAs for site %s", site.Name)
 
-		err := u.GetData(APIWANSLAsPath, &response, site.Name)
+		body, err := u.GetJSON(path)
 		if err != nil {
 			return nil, err
 		}
 
-		// If the response is empty, skip
+		var response []json.RawMessage
+		if err := json.Unmarshal(body, &response); err != nil {
+			return nil, err
+		}
 		if len(response) == 0 {
 			u.DebugLog("No WAN SLAs found for site %s", site.Name)
-
 			continue
 		}
 
-		// Parse each SLA
 		for _, raw := range response {
 			var sla WANSLA
 			if err := json.Unmarshal(raw, &sla); err != nil {
 				u.DebugLog("Error parsing WAN SLA: %v", err)
-
 				continue
 			}
-
 			data = append(data, &sla)
 		}
 	}
