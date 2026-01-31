@@ -9,6 +9,46 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestLoadConfig(t *testing.T) {
+	t.Parallel()
+
+	t.Run("missing file", func(t *testing.T) {
+		_, err := loadConfig("/nonexistent")
+		require.Error(t, err)
+		assert.Contains(t, err.Error(), "reading config")
+	})
+
+	t.Run("invalid JSON", func(t *testing.T) {
+		f, err := os.CreateTemp("", "unifi-config-*.json")
+		require.NoError(t, err)
+
+		defer os.Remove(f.Name())
+
+		_, _ = f.WriteString("not json")
+		require.NoError(t, f.Close())
+
+		_, err = loadConfig(f.Name())
+		require.Error(t, err)
+		assert.Contains(t, err.Error(), "parsing config")
+	})
+
+	t.Run("valid config", func(t *testing.T) {
+		f, err := os.CreateTemp("", "unifi-config-*.json")
+		require.NoError(t, err)
+
+		defer os.Remove(f.Name())
+
+		_, _ = f.WriteString(`{"url":"https://controller:8443","user":"admin","pass":"secret"}`)
+		require.NoError(t, f.Close())
+
+		cfg, err := loadConfig(f.Name())
+		require.NoError(t, err)
+		assert.Equal(t, "https://controller:8443", cfg.URL)
+		assert.Equal(t, "admin", cfg.User)
+		assert.Equal(t, "secret", cfg.Pass)
+	})
+}
+
 func TestGetEnvString(t *testing.T) {
 	envName := "ABCXYZ_STRING"
 	fallback := "Fallback"
