@@ -371,6 +371,36 @@ func (u *Unifi) PostJSON(apiPath string, params ...string) ([]byte, error) {
 	return u.do(req)
 }
 
+// Probe performs a GET request to the given API path and returns the HTTP status code.
+// It does not return an error for non-2xx responses; use this for endpoint discovery.
+func (u *Unifi) Probe(apiPath string, params ...string) (int, error) {
+	req, err := u.UniReq(apiPath, strings.Join(params, " "))
+	if err != nil {
+		return 0, fmt.Errorf("creating request: %w", err)
+	}
+
+	var (
+		cancel func()
+		ctx    = context.Background()
+	)
+
+	if u.Config.Timeout != 0 {
+		ctx, cancel = context.WithTimeout(ctx, u.Config.Timeout)
+		defer cancel()
+	}
+
+	resp, err := u.Do(req.WithContext(ctx))
+	if err != nil {
+		return 0, fmt.Errorf("making request: %w", err)
+	}
+
+	defer resp.Body.Close()
+
+	_, _ = io.Copy(io.Discard, resp.Body)
+
+	return resp.StatusCode, nil
+}
+
 func (u *Unifi) do(req *http.Request) ([]byte, error) {
 	var (
 		cancel func()

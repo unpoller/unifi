@@ -62,3 +62,24 @@ func main() {
 	}
 }
 ```
+
+## Endpoint discovery (`--discover`)
+
+The `main` CLI (in `main/`) supports a **discover** mode that probes known API endpoints on your controller and writes a shareable report. Use the same credentials you use with unpoller (from your config file or env).
+
+**With a config file** (JSON with `url`, `user`, `pass`; optional `api_key`):
+
+```bash
+go run ./main --discover --config /path/to/unifi-config.json --output api_endpoints_discovery.md
+```
+
+**With environment variables** (same as unpoller: `GOLIFT_UNIFI_URL`, `GOLIFT_UNIFI_USER`, `GOLIFT_UNIFI_PASS`):
+
+```bash
+export GOLIFT_UNIFI_URL=https://192.168.1.1:8443
+export GOLIFT_UNIFI_USER=admin
+export GOLIFT_UNIFI_PASS=yourpassword
+go run ./main --discover --output api_endpoints_discovery.md
+```
+
+The report lists each endpoint and its HTTP status (200, 404, etc.). Share the generated file with maintainers when reporting API or 404 issues (e.g. [unpoller#935](https://github.com/unpoller/unpoller/issues/935)).
