@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/brianvoe/gofakeit/v6"
@@ -339,9 +340,10 @@ type Unifi struct {
 	*http.Client
 	*Config
 	*ServerStatus
-	csrf         string
-	fingerprints fingerprints
-	new          bool
+	csrf                        string
+	fingerprints                fingerprints
+	new                         bool
+	deviceTagsUnavailableOnce   sync.Once
 }
 
 // ensure Unifi implements UnifiClient fully, will fail to compile otherwise
