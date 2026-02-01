@@ -185,6 +185,8 @@ const (
 	APIWANLoadBalancingConfigPath string = "/proxy/network/v2/api/site/%s/wan/load-balancing/configuration"
 	// APIWANSLAsPath returns WAN SLA monitoring data (latency, packet loss, jitter).
 	APIWANSLAsPath string = "/proxy/network/v2/api/site/%s/wan-slas"
+	// APISysinfoPath returns controller system info and health (UniFi OS).
+	APISysinfoPath string = "/api/s/%s/stat/sysinfo"
 )
 
 // path returns the correct api path based on the new variable.
@@ -330,6 +332,8 @@ type UnifiClient interface { //nolint: revive
 	GetCountryTraffic(sites []*Site, epochMillisTimePeriod *EpochMillisTimePeriod) ([]*UsageByCountry, error)
 	// GetProtectLogs returns Protect system log events.
 	GetProtectLogs(req *ProtectLogRequest) ([]*ProtectLogEntry, error)
+	// GetSysinfo returns controller system info and health (UniFi OS).
+	GetSysinfo(sites []*Site) ([]*Sysinfo, error)
 }
 
 // Unifi is what you get in return for providing a password! Unifi represents
