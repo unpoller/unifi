@@ -49,6 +49,7 @@ func (u *Unifi) DiscoverEndpoints(site, outputPath string) error {
 		{"GET", fmt.Sprintf(APIClientTrafficPath, site, start, end, false)},
 		{"GET", fmt.Sprintf(APICountryTrafficPath, site, start, end)},
 		{"GET", fmt.Sprintf(APIAggregatedDashboard, site, 86400)},
+		{"GET", fmt.Sprintf(APISysinfoPath, site)},
 		{"GET", fmt.Sprintf(APIRogueAP, site)},
 		{"GET", fmt.Sprintf(APIAllUserPath, site)},
 		{"GET", fmt.Sprintf(APIEventPathIDS, site)},

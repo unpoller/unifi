@@ -676,3 +676,21 @@ func (m *MockUnifi) GetProtectLogs(_ *unifi.ProtectLogRequest) ([]*unifi.Protect
 
 	return results, nil
 }
+
+// GetSysinfo returns controller system info and health (UniFi OS).
+func (m *MockUnifi) GetSysinfo(_ []*unifi.Site) ([]*unifi.Sysinfo, error) {
+	results := make([]*unifi.Sysinfo, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var s unifi.Sysinfo
+
+		err := gofakeit.Struct(&s)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &s
+	}
+
+	return results, nil
+}
