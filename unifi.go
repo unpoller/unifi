@@ -18,6 +18,7 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 
@@ -30,7 +31,22 @@ var (
 	ErrNoParams             = fmt.Errorf("requested PUT with no parameters")
 	ErrInvalidSignature     = fmt.Errorf("certificate signature does not match")
 	ErrNilUnifi             = fmt.Errorf("unifi client is nil")
+	ErrTooManyRequests      = fmt.Errorf("429 too many requests")
 )
+
+// RateLimitError is returned when the controller responds with 429 Too Many Requests.
+// Callers can use errors.Is(err, ErrTooManyRequests) and type-assert to get RetryAfter for backoff.
+type RateLimitError struct {
+	RetryAfter time.Duration
+}
+
+func (e *RateLimitError) Error() string {
+	return fmt.Sprintf("429 too many requests (retry after %v)", e.RetryAfter)
+}
+
+func (e *RateLimitError) Unwrap() error {
+	return ErrTooManyRequests
+}
 
 // NewUnifi creates a http.Client with authenticated cookies.
 // Used to make additional, authenticated requests to the APIs.
@@ -154,12 +170,47 @@ func (u *Unifi) Login() error {
 	u.DebugLog("Requested %s: elapsed %v, returned %d bytes",
 		req.URL, time.Since(start).Round(time.Millisecond), resp.ContentLength)
 
+	if resp.StatusCode == http.StatusTooManyRequests {
+		after := parseRetryAfter(resp.Header.Get("Retry-After"))
+		return &RateLimitError{RetryAfter: after}
+	}
+
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("(user: %s): %s (status: %s): %w",
 			u.User, req.URL, resp.Status, ErrAuthenticationFailed)
 	}
 
 	return nil
+}
+
+// parseRetryAfter parses the Retry-After header (seconds or HTTP-date). Returns a duration
+// capped between 1s and 5m; default 60s if missing or unparseable.
+func parseRetryAfter(s string) time.Duration {
+	s = strings.TrimSpace(s)
+	if s == "" {
+		return 60 * time.Second
+	}
+	if sec, err := strconv.Atoi(s); err == nil && sec > 0 {
+		d := time.Duration(sec) * time.Second
+		if d > 5*time.Minute {
+			return 5 * time.Minute
+		}
+		if d < time.Second {
+			return time.Second
+		}
+		return d
+	}
+	if t, err := http.ParseTime(s); err == nil {
+		d := time.Until(t)
+		if d < time.Second {
+			return time.Second
+		}
+		if d > 5*time.Minute {
+			return 5 * time.Minute
+		}
+		return d
+	}
+	return 60 * time.Second
 }
 
 // Logout closes the current session.
@@ -436,6 +487,11 @@ func (u *Unifi) do(req *http.Request) ([]byte, error) {
 	// Save the returned CSRF header.
 	if csrf := resp.Header.Get("x-csrf-token"); csrf != "" {
 		u.csrf = resp.Header.Get("x-csrf-token")
+	}
+
+	if resp.StatusCode == http.StatusTooManyRequests {
+		after := parseRetryAfter(resp.Header.Get("Retry-After"))
+		return body, &RateLimitError{RetryAfter: after}
 	}
 
 	if resp.StatusCode != http.StatusOK {
