@@ -29,6 +29,7 @@ var (
 	ErrInvalidStatusCode    = fmt.Errorf("invalid status code from server")
 	ErrNoParams             = fmt.Errorf("requested PUT with no parameters")
 	ErrInvalidSignature     = fmt.Errorf("certificate signature does not match")
+	ErrNilUnifi             = fmt.Errorf("unifi client is nil")
 )
 
 // NewUnifi creates a http.Client with authenticated cookies.
@@ -253,6 +254,10 @@ func (u *Unifi) GetServerData() (*ServerStatus, error) {
 
 // GetData makes a unifi request and unmarshals the response into a provided pointer.
 func (u *Unifi) GetData(apiPath string, v interface{}, params ...string) error {
+	if u == nil {
+		return ErrNilUnifi
+	}
+
 	start := time.Now()
 
 	body, err := u.GetJSON(apiPath, params...)
@@ -341,6 +346,10 @@ func (u *Unifi) UniReqPost(apiPath string, params string) (*http.Request, error)
 
 // GetJSON returns the raw JSON from a path. This is useful for debugging.
 func (u *Unifi) GetJSON(apiPath string, params ...string) ([]byte, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	req, err := u.UniReq(apiPath, strings.Join(params, " "))
 	if err != nil {
 		return []byte{}, err

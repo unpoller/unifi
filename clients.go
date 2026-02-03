@@ -9,6 +9,10 @@ import (
 
 // GetClients returns a response full of clients' data from the UniFi Controller.
 func (u *Unifi) GetClients(sites []*Site) ([]*Client, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	data := make([]*Client, 0)
 
 	for _, site := range sites {

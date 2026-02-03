@@ -177,6 +177,10 @@ type WANSLA struct {
 // The API returns a top-level array [{...}, {...}], not {"data": [...]}.
 // The path must be formatted with site.Name; a literal %s in the path causes "invalid URL escape" when building the request.
 func (u *Unifi) GetWANEnrichedConfiguration(sites []*Site) ([]*WANEnrichedConfiguration, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	data := []*WANEnrichedConfiguration{}
 
 	for _, site := range sites {

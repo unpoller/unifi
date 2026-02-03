@@ -9,6 +9,10 @@ var ErrDPIDataBug = fmt.Errorf("dpi data table contains more than 1 item; please
 
 // GetSites returns a list of configured sites on the UniFi controller.
 func (u *Unifi) GetSites() ([]*Site, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	var response struct {
 		Data []*Site `json:"data"`
 	}
