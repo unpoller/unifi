@@ -637,8 +637,10 @@ func NewFlexTemp(v float64) *FlexTemp {
 	}
 }
 
-// UnmarshalJSON converts a string or number to an integer.
+// UnmarshalJSON converts a string or number to Celsius (stored as float64).
 // Generally, do not call this directly, it's used in the json interface.
+// Accepts float64, int, int64, string (e.g. "72 C"), or nil so that all API
+// variants are stored as float64 and avoid InfluxDB field type conflicts.
 func (f *FlexTemp) UnmarshalJSON(b []byte) error {
 	var unk interface{}
 
@@ -650,9 +652,15 @@ func (f *FlexTemp) UnmarshalJSON(b []byte) error {
 	case float64:
 		f.Val = i
 		f.Txt = strconv.FormatFloat(i, 'f', -1, 64)
+	case int:
+		f.Val = float64(i)
+		f.Txt = strconv.FormatInt(int64(i), 10)
+	case int64:
+		f.Val = float64(i)
+		f.Txt = strconv.FormatInt(i, 10)
 	case string:
 		f.Txt = i
-		parts := strings.SplitN(string(b), " ", 2)
+		parts := strings.SplitN(i, " ", 2)
 
 		if len(parts) == 2 {
 			// format is: $val(int or float) $unit(C or F)
@@ -675,7 +683,19 @@ func (f FlexTemp) MarshalJSON() ([]byte, error) {
 	return json.Marshal(f.Val)
 }
 
+// Celsius returns the temperature in Celsius as float64.
+// Use this (or CelsiusSafe) for InfluxDB/metrics to avoid field type conflicts; prefer over CelsiusInt/CelsiusInt64.
 func (f *FlexTemp) Celsius() float64 {
+	return f.Val
+}
+
+// CelsiusSafe returns the temperature in Celsius as float64, or 0 if f is nil.
+// Use for InfluxDB and metrics so the field is always float64 (avoids "field type conflict" errors).
+func (f *FlexTemp) CelsiusSafe() float64 {
+	if f == nil {
+		return 0
+	}
+
 	return f.Val
 }
 

@@ -83,3 +83,21 @@ func TestFlexString(t *testing.T) {
 	a.Equal("baz, foo", r.MultiArrayString.Val)
 	a.EqualValues([]string{"baz", "foo"}, r.MultiArrayString.Arr)
 }
+
+func TestFlexTemp(t *testing.T) {
+	t.Parallel()
+	a := assert.New(t)
+
+	var temp unifi.FlexTemp
+	a.Nil(json.Unmarshal([]byte(`72`), &temp))
+	a.Equal(72.0, temp.Celsius())
+	a.Equal(72.0, temp.CelsiusSafe())
+
+	var temp2 unifi.FlexTemp
+	a.Nil(json.Unmarshal([]byte(`"51 C"`), &temp2))
+	a.Equal(51.0, temp2.Celsius())
+
+	// CelsiusSafe on nil *FlexTemp returns 0 (avoids InfluxDB field type conflict when writing temps)
+	var nilTemp *unifi.FlexTemp
+	a.Equal(0.0, nilTemp.CelsiusSafe())
+}

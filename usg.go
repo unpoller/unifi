@@ -181,6 +181,9 @@ type SpeedtestServer struct {
 	ProviderURL string  `fake:"{url}"     json:"provider_url"`
 }
 
+// TempStatusByName maps sensor names (e.g. "CPU", "Board (PHY)") to temperature.
+// When writing to InfluxDB or metrics, use (*FlexTemp).CelsiusSafe() so the field is always float64
+// and avoid "field type conflict" errors (see e.g. unpoller/unpoller#944).
 type TempStatusByName map[string]*FlexTemp
 
 // SystemStats is system info for a UDM, USG, USW.

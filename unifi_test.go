@@ -2,12 +2,14 @@ package unifi // nolint: testpackage
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -169,6 +171,25 @@ func TestUnifiIntegrationUserPassInjected(t *testing.T) {
 	authReq := &Unifi{Client: &http.Client{}, Config: &Config{User: "fakeuser", Pass: "fakepass", URL: srv.URL, DebugLog: discardLogs}}
 	err := authReq.Login()
 	a.Nil(err, "user/pass login must not produce an error")
+}
+
+func TestParseRetryAfter(t *testing.T) {
+	t.Parallel()
+	a := assert.New(t)
+	a.Equal(60*time.Second, parseRetryAfter(""))
+	a.Equal(120*time.Second, parseRetryAfter("120"))
+	a.Equal(60*time.Second, parseRetryAfter("0")) // 0 not > 0, so default
+	a.Equal(5*time.Minute, parseRetryAfter("9999"))
+	a.Equal(60*time.Second, parseRetryAfter("invalid"))
+}
+
+func TestRateLimitError(t *testing.T) {
+	t.Parallel()
+	a := assert.New(t)
+	e := &RateLimitError{RetryAfter: 90 * time.Second}
+	a.True(errors.Is(e, ErrTooManyRequests))
+	a.Contains(e.Error(), "429")
+	a.Contains(e.Error(), "retry after")
 }
 
 /* NOT DONE: OPEN web server, check parameters posted, more. These tests are incomplete.
