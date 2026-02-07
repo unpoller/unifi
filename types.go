@@ -226,6 +226,7 @@ type Devices struct {
 	PDUs []*PDU `fakesize:"5"`
 	UBBs []*UBB `fakesize:"5"`
 	UCIs []*UCI `fakesize:"5"`
+	UDBs []*UDB `fakesize:"5"`
 }
 
 // Config is the data passed into our library. This configures things and allows
@@ -276,6 +277,8 @@ type UnifiClient interface { //nolint: revive
 	GetUCIs(site *Site) ([]*UCI, error)
 	// GetPDUs returns all PDU devices, an error, or nil if there are no PDUs.
 	GetPDUs(site *Site) ([]*PDU, error)
+	// GetUDBs returns all UDB devices, an error, or nil if there are no UDBs.
+	GetUDBs(site *Site) ([]*UDB, error)
 	// GetEvents returns a response full of UniFi Events for the last 1 hour from multiple sites.
 	GetEvents(sites []*Site, hours time.Duration) ([]*Event, error)
 	// GetSiteEvents retrieves the last 1 hour's worth of events from a single site.

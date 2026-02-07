@@ -43,6 +43,7 @@ func (u *Unifi) GetDevices(sites []*Site) (*Devices, error) {
 		devices.PDUs = append(devices.PDUs, loopDevices.PDUs...)
 		devices.UBBs = append(devices.UBBs, loopDevices.UBBs...)
 		devices.UCIs = append(devices.UCIs, loopDevices.UCIs...)
+		devices.UDBs = append(devices.UDBs, loopDevices.UDBs...)
 	}
 
 	return devices, nil
@@ -160,6 +161,20 @@ func (u *Unifi) GetPDUs(site *Site) ([]*PDU, error) {
 	return u.parseDevices(response.Data, site).PDUs, nil
 }
 
+// GetUDBs returns all UDB devices, an error, or nil if there are no UDBs.
+func (u *Unifi) GetUDBs(site *Site) ([]*UDB, error) {
+	var response struct {
+		Data []json.RawMessage `json:"data"`
+	}
+
+	err := u.GetData(fmt.Sprintf(APIDevicePath, site.Name), &response)
+	if err != nil {
+		return nil, err
+	}
+
+	return u.parseDevices(response.Data, site).UDBs, nil
+}
+
 type minimalUnmarshalInfo struct {
 	Type      string `json:"type"`
 	Model     string `json:"model"`
@@ -210,6 +225,8 @@ func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 			u.unmarshallUBB(site, r, devices)
 		case "uci":
 			u.unmarshallUCI(site, r, devices)
+		case "udb":
+			u.unmarshallUDB(site, r, devices)
 		default:
 			u.DebugLog("unknown asset type - %v - skipping: data=%+v", assetType, string(r))
 		}
@@ -281,6 +298,15 @@ func (u *Unifi) unmarshallUCI(site *Site, payload json.RawMessage, devices *Devi
 		dev.Name = strings.TrimSpace(pick(dev.Name, dev.Mac))
 		dev.site = site
 		devices.UCIs = append(devices.UCIs, dev)
+	}
+}
+
+func (u *Unifi) unmarshallUDB(site *Site, payload json.RawMessage, devices *Devices) {
+	dev := &UDB{SiteName: site.SiteName, SourceName: u.URL}
+	if u.unmarshalDevice("udb", payload, dev) == nil {
+		dev.Name = strings.TrimSpace(pick(dev.Name, dev.Mac))
+		dev.site = site
+		devices.UDBs = append(devices.UDBs, dev)
 	}
 }
 
@@ -426,6 +452,10 @@ func (u *Unifi) enrichDevicesWithTags(devices *Devices, site *Site) error {
 	}
 
 	for _, device := range devices.UCIs {
+		device.Tags = enrichDevice(device.Mac)
+	}
+
+	for _, device := range devices.UDBs {
 		device.Tags = enrichDevice(device.Mac)
 	}
 

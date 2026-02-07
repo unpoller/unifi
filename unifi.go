@@ -172,6 +172,7 @@ func (u *Unifi) Login() error {
 
 	if resp.StatusCode == http.StatusTooManyRequests {
 		after := parseRetryAfter(resp.Header.Get("Retry-After"))
+
 		return &RateLimitError{RetryAfter: after}
 	}
 
@@ -190,26 +191,33 @@ func parseRetryAfter(s string) time.Duration {
 	if s == "" {
 		return 60 * time.Second
 	}
+
 	if sec, err := strconv.Atoi(s); err == nil && sec > 0 {
 		d := time.Duration(sec) * time.Second
 		if d > 5*time.Minute {
 			return 5 * time.Minute
 		}
+
 		if d < time.Second {
 			return time.Second
 		}
+
 		return d
 	}
+
 	if t, err := http.ParseTime(s); err == nil {
 		d := time.Until(t)
 		if d < time.Second {
 			return time.Second
 		}
+
 		if d > 5*time.Minute {
 			return 5 * time.Minute
 		}
+
 		return d
 	}
+
 	return 60 * time.Second
 }
 
@@ -491,6 +499,7 @@ func (u *Unifi) do(req *http.Request) ([]byte, error) {
 
 	if resp.StatusCode == http.StatusTooManyRequests {
 		after := parseRetryAfter(resp.Header.Get("Retry-After"))
+
 		return body, &RateLimitError{RetryAfter: after}
 	}
 

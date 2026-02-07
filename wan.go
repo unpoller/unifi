@@ -188,6 +188,7 @@ func (u *Unifi) GetWANEnrichedConfiguration(sites []*Site) ([]*WANEnrichedConfig
 		if strings.Contains(path, "%s") {
 			return nil, fmt.Errorf("WAN enriched-config path still contains %%s (site name may be empty): %q", path)
 		}
+
 		u.DebugLog("Fetching WAN enriched configuration for site %s", site.Name)
 
 		body, err := u.GetJSON(path)
@@ -199,6 +200,7 @@ func (u *Unifi) GetWANEnrichedConfiguration(sites []*Site) ([]*WANEnrichedConfig
 		if err := json.Unmarshal(body, &raw); err != nil {
 			return nil, err
 		}
+
 		for _, wan := range raw {
 			if wan != nil {
 				data = append(data, wan)
@@ -216,6 +218,7 @@ func (u *Unifi) GetWANLoadBalancingStatus(sites []*Site) (*WANLoadBalancingStatu
 	}
 
 	site := sites[0]
+
 	path := fmt.Sprintf(APIWANLoadBalancingStatusPath, site.Name)
 	if strings.Contains(path, "%s") {
 		return &WANLoadBalancingStatus{}, fmt.Errorf("WAN load-balancing path still contains %%s (site name empty): %q", path)
@@ -232,6 +235,7 @@ func (u *Unifi) GetWANLoadBalancingStatus(sites []*Site) (*WANLoadBalancingStatu
 	if err := json.Unmarshal(body, &response); err != nil {
 		return nil, err
 	}
+
 	return &response, nil
 }
 
@@ -242,6 +246,7 @@ func (u *Unifi) GetWANISPStatus(sites []*Site, wanNetworkgroup string) (*WANISPS
 	}
 
 	site := sites[0]
+
 	path := fmt.Sprintf(APIWANISPStatusPath, site.Name, wanNetworkgroup)
 	if strings.Contains(path, "%s") {
 		return &WANISPStatusDetailed{}, fmt.Errorf("WAN ISP status path still contains %%s: %q", path)
@@ -258,6 +263,7 @@ func (u *Unifi) GetWANISPStatus(sites []*Site, wanNetworkgroup string) (*WANISPS
 	if err := json.Unmarshal(body, &response); err != nil {
 		return nil, err
 	}
+
 	return &response, nil
 }
 
@@ -282,8 +288,10 @@ func (u *Unifi) GetWANSLAs(sites []*Site) ([]*WANSLA, error) {
 		if err := json.Unmarshal(body, &response); err != nil {
 			return nil, err
 		}
+
 		if len(response) == 0 {
 			u.DebugLog("No WAN SLAs found for site %s", site.Name)
+
 			continue
 		}
 
@@ -291,8 +299,10 @@ func (u *Unifi) GetWANSLAs(sites []*Site) ([]*WANSLA, error) {
 			var sla WANSLA
 			if err := json.Unmarshal(raw, &sla); err != nil {
 				u.DebugLog("Error parsing WAN SLA: %v", err)
+
 				continue
 			}
+
 			data = append(data, &sla)
 		}
 	}
