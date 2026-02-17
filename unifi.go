@@ -189,6 +189,18 @@ func (u *Unifi) Login() error {
 			u.User, req.URL, resp.Status, ErrAuthenticationFailed)
 	}
 
+	// UDM/UniFi OS sends x-csrf-token (and sometimes x-updated-csrf-token) on the login
+	// response. We must capture it here so subsequent /proxy/network/... requests succeed.
+	// Without this, u.csrf stays empty and the controller returns 401 for read-only and
+	// other accounts that rely on cookie + CSRF auth.
+	if csrf := resp.Header.Get("x-csrf-token"); csrf != "" {
+		u.csrf = csrf
+	}
+
+	if csrf := resp.Header.Get("x-updated-csrf-token"); csrf != "" {
+		u.csrf = csrf
+	}
+
 	return nil
 }
 

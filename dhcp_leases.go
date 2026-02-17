@@ -77,52 +77,54 @@ func (u *Unifi) GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease
 
 	deviceByMAC := make(map[string]interface{})
 
-	// Add all device types to the map
-	for _, device := range devices.UAPs {
-		if device.Mac != "" {
-			deviceByMAC[normalizeMAC(device.Mac)] = device
+	// Add all device types to the map (skip if GetDevices failed, e.g. 401)
+	if devices != nil {
+		for _, device := range devices.UAPs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
 		}
-	}
 
-	for _, device := range devices.USWs {
-		if device.Mac != "" {
-			deviceByMAC[normalizeMAC(device.Mac)] = device
+		for _, device := range devices.USWs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
 		}
-	}
 
-	for _, device := range devices.USGs {
-		if device.Mac != "" {
-			deviceByMAC[normalizeMAC(device.Mac)] = device
+		for _, device := range devices.USGs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
 		}
-	}
 
-	for _, device := range devices.UDMs {
-		if device.Mac != "" {
-			deviceByMAC[normalizeMAC(device.Mac)] = device
+		for _, device := range devices.UDMs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
 		}
-	}
 
-	for _, device := range devices.UXGs {
-		if device.Mac != "" {
-			deviceByMAC[normalizeMAC(device.Mac)] = device
+		for _, device := range devices.UXGs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
 		}
-	}
 
-	for _, device := range devices.PDUs {
-		if device.Mac != "" {
-			deviceByMAC[normalizeMAC(device.Mac)] = device
+		for _, device := range devices.PDUs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
 		}
-	}
 
-	for _, device := range devices.UBBs {
-		if device.Mac != "" {
-			deviceByMAC[normalizeMAC(device.Mac)] = device
+		for _, device := range devices.UBBs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
 		}
-	}
 
-	for _, device := range devices.UCIs {
-		if device.Mac != "" {
-			deviceByMAC[normalizeMAC(device.Mac)] = device
+		for _, device := range devices.UCIs {
+			if device.Mac != "" {
+				deviceByMAC[normalizeMAC(device.Mac)] = device
+			}
 		}
 	}
 
@@ -144,55 +146,57 @@ func (u *Unifi) GetActiveDHCPLeasesWithAssociations(sites []*Site) ([]*DHCPLease
 	// Also get network info from device NetworkTable (has DhcpdStart/DhcpdStop)
 	networkTableByID := make(map[string]*NetworkTableEntry)
 
-	for _, device := range devices.UDMs {
-		for i := range device.NetworkTable {
-			nt := device.NetworkTable[i]
-			if nt.ID != "" {
-				networkTableByID[nt.ID] = &NetworkTableEntry{
-					ID:                   nt.ID,
-					Name:                 nt.Name,
-					DhcpdEnabled:         nt.DhcpdEnabled,
-					DhcpdStart:           nt.DhcpdStart,
-					DhcpdStop:            nt.DhcpdStop,
-					ActiveDhcpLeaseCount: nt.ActiveDhcpLeaseCount,
-					DhcpdLeasetime:       nt.DhcpdLeasetime,
-					IPSubnet:             nt.IPSubnet,
+	if devices != nil {
+		for _, device := range devices.UDMs {
+			for i := range device.NetworkTable {
+				nt := device.NetworkTable[i]
+				if nt.ID != "" {
+					networkTableByID[nt.ID] = &NetworkTableEntry{
+						ID:                   nt.ID,
+						Name:                 nt.Name,
+						DhcpdEnabled:         nt.DhcpdEnabled,
+						DhcpdStart:           nt.DhcpdStart,
+						DhcpdStop:            nt.DhcpdStop,
+						ActiveDhcpLeaseCount: nt.ActiveDhcpLeaseCount,
+						DhcpdLeasetime:       nt.DhcpdLeasetime,
+						IPSubnet:             nt.IPSubnet,
+					}
 				}
 			}
 		}
-	}
 
-	for _, device := range devices.UXGs {
-		for i := range device.NetworkTable {
-			nt := device.NetworkTable[i]
-			if nt.ID != "" {
-				networkTableByID[nt.ID] = &NetworkTableEntry{
-					ID:                   nt.ID,
-					Name:                 nt.Name,
-					DhcpdEnabled:         nt.DhcpdEnabled,
-					DhcpdStart:           nt.DhcpdStart,
-					DhcpdStop:            nt.DhcpdStop,
-					ActiveDhcpLeaseCount: nt.ActiveDhcpLeaseCount,
-					DhcpdLeasetime:       nt.DhcpdLeasetime,
-					IPSubnet:             nt.IPSubnet,
+		for _, device := range devices.UXGs {
+			for i := range device.NetworkTable {
+				nt := device.NetworkTable[i]
+				if nt.ID != "" {
+					networkTableByID[nt.ID] = &NetworkTableEntry{
+						ID:                   nt.ID,
+						Name:                 nt.Name,
+						DhcpdEnabled:         nt.DhcpdEnabled,
+						DhcpdStart:           nt.DhcpdStart,
+						DhcpdStop:            nt.DhcpdStop,
+						ActiveDhcpLeaseCount: nt.ActiveDhcpLeaseCount,
+						DhcpdLeasetime:       nt.DhcpdLeasetime,
+						IPSubnet:             nt.IPSubnet,
+					}
 				}
 			}
 		}
-	}
 
-	for _, device := range devices.USGs {
-		for i := range device.NetworkTable {
-			nt := device.NetworkTable[i]
-			if nt.ID != "" {
-				networkTableByID[nt.ID] = &NetworkTableEntry{
-					ID:                   nt.ID,
-					Name:                 nt.Name,
-					DhcpdEnabled:         nt.DhcpdEnabled,
-					DhcpdStart:           nt.DhcpdStart,
-					DhcpdStop:            nt.DhcpdStop,
-					ActiveDhcpLeaseCount: nt.ActiveDhcpLeaseCount,
-					DhcpdLeasetime:       nt.DhcpdLeasetime,
-					IPSubnet:             nt.IPSubnet,
+		for _, device := range devices.USGs {
+			for i := range device.NetworkTable {
+				nt := device.NetworkTable[i]
+				if nt.ID != "" {
+					networkTableByID[nt.ID] = &NetworkTableEntry{
+						ID:                   nt.ID,
+						Name:                 nt.Name,
+						DhcpdEnabled:         nt.DhcpdEnabled,
+						DhcpdStart:           nt.DhcpdStart,
+						DhcpdStop:            nt.DhcpdStop,
+						ActiveDhcpLeaseCount: nt.ActiveDhcpLeaseCount,
+						DhcpdLeasetime:       nt.DhcpdLeasetime,
+						IPSubnet:             nt.IPSubnet,
+					}
 				}
 			}
 		}
