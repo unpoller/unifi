@@ -52,6 +52,10 @@ func (e *RateLimitError) Unwrap() error {
 // Used to make additional, authenticated requests to the APIs.
 // Start here.
 func NewUnifi(config *Config) (*Unifi, error) {
+	if config == nil {
+		return nil, fmt.Errorf("config is nil")
+	}
+
 	var jar http.CookieJar
 
 	var err error
@@ -66,6 +70,10 @@ func NewUnifi(config *Config) (*Unifi, error) {
 
 	for i, cert := range config.SSLCert {
 		p, _ := pem.Decode(cert)
+		if p == nil {
+			continue
+		}
+
 		u.fingerprints[i] = fmt.Sprintf("%x", sha256.Sum256(p.Bytes))
 	}
 

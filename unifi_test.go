@@ -14,6 +14,15 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestNewUnifiNilConfig(t *testing.T) {
+	t.Parallel()
+	a := assert.New(t)
+	uni, err := NewUnifi(nil)
+	a.Nil(uni)
+	a.Error(err)
+	a.Contains(err.Error(), "config is nil")
+}
+
 func TestNewUnifi(t *testing.T) {
 	t.Parallel()
 	a := assert.New(t)

@@ -21,9 +21,14 @@ func (u *Unifi) GetSites() ([]*Site, error) {
 		return nil, err
 	}
 
-	sites := []string{} // used for debug log only
+	sites := []string{}   // used for debug log only
+	result := []*Site{}   // only non-nil sites
 
 	for i, d := range response.Data {
+		if d == nil {
+			continue
+		}
+
 		// Add the unifi struct to the site.
 		response.Data[i].controller = u
 		// Add special SourceName value.
@@ -32,12 +37,13 @@ func (u *Unifi) GetSites() ([]*Site, error) {
 		response.Data[i].Desc = strings.TrimSpace(pick(d.Desc, d.Name))
 		// Add the custom site name to each site. used as a Grafana filter somewhere.
 		response.Data[i].SiteName = d.Desc + " (" + d.Name + ")"
+		result = append(result, response.Data[i])
 		sites = append(sites, d.Name) // used for debug log only
 	}
 
 	u.DebugLog("Found %d site(s): %s", len(sites), strings.Join(sites, ","))
 
-	return response.Data, nil
+	return result, nil
 }
 
 // GetSiteDPI garners dpi data for sites.
