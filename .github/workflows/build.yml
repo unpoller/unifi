@@ -14,7 +14,7 @@ jobs:
   test:
     strategy:
       matrix:
-        go: ["stable"]
+        go: ["1.26"]
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -33,7 +33,7 @@ jobs:
   lint:
     strategy:
       matrix:
-        go: ["stable"]
+        go: ["1.26"]
         os: [ubuntu-latest]
     name: lint
     runs-on: ${{ matrix.os }}
