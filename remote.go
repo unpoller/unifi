@@ -3,6 +3,7 @@ package unifi
 import (
 	"crypto/tls"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -109,8 +110,28 @@ func NewRemoteAPIClient(apiKey string, errorLog, debugLog, log Logger) *RemoteAP
 	}
 }
 
-// makeRequest makes an HTTP request to the remote API.
+// maxRetries429 is the number of retries after the first 429 (so up to 3 attempts total).
+// We use the full Retry-After from the API (no cap) so rate-limited requests can succeed.
+const maxRetries429 = 2
+
+// makeRequest makes an HTTP request to the remote API. On 429 (rate limit) it retries
+// up to maxRetries429 times after sleeping for the full Retry-After duration returned by the API.
 func (c *RemoteAPIClient) makeRequest(method, path string, queryParams map[string]string) ([]byte, error) {
+	body, err := c.makeRequestOnce(method, path, queryParams)
+	for attempt := 0; attempt < maxRetries429 && err != nil; attempt++ {
+		var rateErr *RateLimitError
+		if !errors.As(err, &rateErr) || rateErr.RetryAfter <= 0 {
+			break
+		}
+		c.DebugLog("Rate limited (429), retry %d/%d after %v", attempt+1, maxRetries429, rateErr.RetryAfter)
+		time.Sleep(rateErr.RetryAfter)
+		body, err = c.makeRequestOnce(method, path, queryParams)
+	}
+	return body, err
+}
+
+// makeRequestOnce performs a single HTTP request to the remote API (no retry).
+func (c *RemoteAPIClient) makeRequestOnce(method, path string, queryParams map[string]string) ([]byte, error) {
 	fullURL := c.baseURL + path
 
 	if len(queryParams) > 0 {
@@ -144,9 +165,22 @@ func (c *RemoteAPIClient) makeRequest(method, path string, queryParams map[strin
 	}
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
+	// Limit read size for error responses to avoid OOM from huge HTML/error bodies
+	const maxErrorBody = 64 * 1024
+	var body []byte
+	if resp.StatusCode >= 400 {
+		body, err = io.ReadAll(io.LimitReader(resp.Body, maxErrorBody))
+	} else {
+		body, err = io.ReadAll(resp.Body)
+	}
 	if err != nil {
 		return nil, fmt.Errorf("reading response: %w", err)
+	}
+
+	if resp.StatusCode == http.StatusTooManyRequests {
+		after := parseRetryAfter(resp.Header.Get("Retry-After"))
+
+		return nil, &RateLimitError{RetryAfter: after}
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
@@ -167,8 +201,12 @@ func (c *RemoteAPIClient) makeRequest(method, path string, queryParams map[strin
 			return nil, fmt.Errorf("%s", errMsg)
 		}
 
-		// Fallback to generic error if we can't parse the response
-		return nil, fmt.Errorf("API request failed with status %d: %s", resp.StatusCode, string(body))
+		// Fallback: truncate body in error message to avoid huge allocations
+		bodyStr := string(body)
+		if len(bodyStr) > 512 {
+			bodyStr = bodyStr[:512] + "... (truncated)"
+		}
+		return nil, fmt.Errorf("API request failed with status %d: %s", resp.StatusCode, bodyStr)
 	}
 
 	return body, nil
@@ -272,6 +310,49 @@ func (c *RemoteAPIClient) DiscoverConsoles() ([]Console, error) {
 	return allConsoles, nil
 }
 
+// substrings that indicate a console does not support the Network API (sites/stat endpoints).
+var nonNetworkConsoleSubstrings = []string{"nvr", "protect", "cloudkey+ for displays"}
+
+// FilterNetworkConsoles returns only consoles that are likely to support the UniFi Network API,
+// by excluding those whose name (case-insensitive) contains common NVR/Protect/display identifiers.
+// Use this to avoid 403s and rate limits when discovering sites for multi-console accounts.
+func FilterNetworkConsoles(consoles []Console) []Console {
+	filtered := make([]Console, 0, len(consoles))
+	name := ""
+	for _, c := range consoles {
+		name = c.ConsoleName
+		if name == "" {
+			name = c.ReportedState.Name
+		}
+		if name == "" {
+			name = c.ReportedState.Hostname
+		}
+		lower := strings.ToLower(name)
+		skip := false
+		for _, sub := range nonNetworkConsoleSubstrings {
+			if strings.Contains(lower, sub) {
+				skip = true
+				break
+			}
+		}
+		if !skip {
+			filtered = append(filtered, c)
+		}
+	}
+	return filtered
+}
+
+// DiscoverNetworkConsoles discovers consoles via the remote API and returns only those likely
+// to support the Network API (excludes NVR/Protect/display-only by name). Use this when you
+// only need Network-capable controllers to avoid 403s and unnecessary rate-limit pressure.
+func (c *RemoteAPIClient) DiscoverNetworkConsoles() ([]Console, error) {
+	all, err := c.DiscoverConsoles()
+	if err != nil {
+		return nil, err
+	}
+	return FilterNetworkConsoles(all), nil
+}
+
 // DiscoverSites discovers all sites for a given console ID.
 func (c *RemoteAPIClient) DiscoverSites(consoleID string) ([]RemoteSite, error) {
 	path := fmt.Sprintf("/v1/connector/consoles/%s/proxy/network/integration/v1/sites", consoleID)
@@ -292,4 +373,36 @@ func (c *RemoteAPIClient) DiscoverSites(consoleID string) ([]RemoteSite, error) 
 	}
 
 	return response.Data, nil
+}
+
+// DiscoverSitesForConsolesResult holds the result of discovering sites for one console.
+type DiscoverSitesForConsolesResult struct {
+	ConsoleID string
+	Console   Console
+	Sites     []RemoteSite
+	Err       error
+}
+
+// DiscoverSitesForConsoles discovers sites for multiple consoles with a delay between
+// each request to avoid 429 rate limits from the remote API. Use a delay of at least
+// 1–2 seconds when many consoles are present. Failed consoles (e.g. 403 for NVR) are
+// reported in the result slice; only successful discoveries have Err == nil.
+func (c *RemoteAPIClient) DiscoverSitesForConsoles(consoles []Console, delayBetween time.Duration) []DiscoverSitesForConsolesResult {
+	results := make([]DiscoverSitesForConsolesResult, 0, len(consoles))
+
+	for i, console := range consoles {
+		if i > 0 && delayBetween > 0 {
+			time.Sleep(delayBetween)
+		}
+
+		sites, err := c.DiscoverSites(console.ID)
+		results = append(results, DiscoverSitesForConsolesResult{
+			ConsoleID: console.ID,
+			Console:   console,
+			Sites:     sites,
+			Err:       err,
+		})
+	}
+
+	return results
 }
