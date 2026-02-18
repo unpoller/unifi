@@ -52,6 +52,10 @@ func (e *RateLimitError) Unwrap() error {
 // Used to make additional, authenticated requests to the APIs.
 // Start here.
 func NewUnifi(config *Config) (*Unifi, error) {
+	if config == nil {
+		return nil, fmt.Errorf("config is nil")
+	}
+
 	var jar http.CookieJar
 
 	var err error
@@ -66,6 +70,10 @@ func NewUnifi(config *Config) (*Unifi, error) {
 
 	for i, cert := range config.SSLCert {
 		p, _ := pem.Decode(cert)
+		if p == nil {
+			continue
+		}
+
 		u.fingerprints[i] = fmt.Sprintf("%x", sha256.Sum256(p.Bytes))
 	}
 
@@ -179,6 +187,18 @@ func (u *Unifi) Login() error {
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("(user: %s): %s (status: %s): %w",
 			u.User, req.URL, resp.Status, ErrAuthenticationFailed)
+	}
+
+	// UDM/UniFi OS sends x-csrf-token (and sometimes x-updated-csrf-token) on the login
+	// response. We must capture it here so subsequent /proxy/network/... requests succeed.
+	// Without this, u.csrf stays empty and the controller returns 401 for read-only and
+	// other accounts that rely on cookie + CSRF auth.
+	if csrf := resp.Header.Get("x-csrf-token"); csrf != "" {
+		u.csrf = csrf
+	}
+
+	if csrf := resp.Header.Get("x-updated-csrf-token"); csrf != "" {
+		u.csrf = csrf
 	}
 
 	return nil

@@ -80,11 +80,14 @@ func DefaultSystemLogRequest(hours time.Duration) *SystemLogRequest {
 
 	now := time.Now()
 
+	// Categories must match Unifi OS Server enum: SECURITY, UNIFI_DEVICES, SOFTWARE_UPDATES,
+	// VPN, POWER, UNIFI_ETHERNET_PORTS, CLIENT_DEVICES, UNKNOWN, AUDIT, INTERNET_AND_WAN.
+	// Old values (MONITORING, INTERNET, SYSTEM) are rejected with 400 on Unifi OS Server (issue #198).
 	return &SystemLogRequest{
 		Severities:    []string{"LOW", "MEDIUM", "HIGH", "VERY_HIGH"},
 		TimestampFrom: now.Add(-hours).UnixMilli(),
 		TimestampTo:   now.UnixMilli(),
-		Categories:    []string{"MONITORING", "INTERNET", "POWER", "SECURITY", "SYSTEM"},
+		Categories:    []string{"SECURITY", "UNIFI_DEVICES", "SOFTWARE_UPDATES", "VPN", "POWER", "UNIFI_ETHERNET_PORTS", "CLIENT_DEVICES", "UNKNOWN", "AUDIT", "INTERNET_AND_WAN"},
 		PageNumber:    0,
 		PageSize:      1000,
 	}
