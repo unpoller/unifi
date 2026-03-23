@@ -56,6 +56,7 @@ var (
 	apiClientTraffic      = regexp.MustCompile(convertPathToRegexPattern(unifi.APIClientTrafficPath))
 	apiClientTrafficByMac = regexp.MustCompile(convertPathToRegexPattern(unifi.APIClientTrafficByMacPath))
 	apiCountryTraffic     = regexp.MustCompile(convertPathToRegexPattern(unifi.APICountryTrafficPath))
+	apiPortAnomaliesPath  = regexp.MustCompile(convertPathToRegexPattern(unifi.APIPortAnomaliesPath))
 )
 
 type errorResponse struct {
@@ -279,6 +280,11 @@ func (m *MockHTTPTestServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case apiCountryTraffic.MatchString(p):
 		data, err := m.mocked.GetCountryTraffic(nil, nil)
 		respondResultOrErr(w, data, err, true)
+
+		return
+	case apiPortAnomaliesPath.MatchString(p):
+		data, err := m.mocked.GetPortAnomalies(nil)
+		respondResultOrErr(w, data, err, false)
 
 		return
 	default:
