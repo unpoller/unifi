@@ -183,6 +183,8 @@ const (
 	APIWANLoadBalancingStatusPath string = "/proxy/network/v2/api/site/%s/wan/load-balancing/status"
 	// APIWANLoadBalancingConfigPath returns load balancing configuration for WAN interfaces.
 	APIWANLoadBalancingConfigPath string = "/proxy/network/v2/api/site/%s/wan/load-balancing/configuration"
+	// APIFirewallPoliciesPath returns firewall policies for a site.
+	APIFirewallPoliciesPath string = "/proxy/network/v2/api/site/%s/firewall-policies"
 	// APIWANSLAsPath returns WAN SLA monitoring data (latency, packet loss, jitter).
 	APIWANSLAsPath string = "/proxy/network/v2/api/site/%s/wan-slas"
 	// APISysinfoPath returns controller system info and health (UniFi OS).
