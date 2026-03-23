@@ -165,6 +165,8 @@ type Client struct {
 	Rssi             FlexInt  `json:"rssi"`
 	RxBytes          FlexInt  `json:"rx_bytes"`
 	RxBytesR         FlexInt  `json:"rx_bytes-r"`
+	RxMcs            FlexInt  `json:"rx_mcs"`
+	RxNSS            FlexInt  `json:"rx_nss"`
 	RxPackets        FlexInt  `json:"rx_packets"`
 	RxRate           FlexInt  `json:"rx_rate"`
 	Satisfaction     FlexInt  `json:"satisfaction,omitempty"`
@@ -178,6 +180,8 @@ type Client struct {
 	SwPort           FlexInt  `json:"sw_port"`
 	TxBytes          FlexInt  `json:"tx_bytes"`
 	TxBytesR         FlexInt  `json:"tx_bytes-r"`
+	TxMcs            FlexInt  `json:"tx_mcs"`
+	TxNSS            FlexInt  `json:"tx_nss"`
 	TxPackets        FlexInt  `json:"tx_packets"`
 	TxPower          FlexInt  `json:"tx_power"`
 	TxRate           FlexInt  `json:"tx_rate"`
