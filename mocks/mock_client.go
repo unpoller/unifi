@@ -712,3 +712,39 @@ func (m *MockUnifi) GetSysinfo(_ []*unifi.Site) ([]*unifi.Sysinfo, error) {
 
 	return results, nil
 }
+
+// GetPortAnomalies returns port anomalies for a list of Sites.
+func (m *MockUnifi) GetPortAnomalies(_ []*unifi.Site) ([]*unifi.PortAnomaly, error) {
+	results := make([]*unifi.PortAnomaly, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.PortAnomaly
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetPortAnomaliesSite returns port anomalies for a single Site.
+func (m *MockUnifi) GetPortAnomaliesSite(_ *unifi.Site) ([]*unifi.PortAnomaly, error) {
+	results := make([]*unifi.PortAnomaly, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.PortAnomaly
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}

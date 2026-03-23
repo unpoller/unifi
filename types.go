@@ -189,6 +189,8 @@ const (
 	APIWANSLAsPath string = "/proxy/network/v2/api/site/%s/wan-slas"
 	// APITopologyPath returns network topology data (vertices and edges) for a site.
 	APITopologyPath string = "/proxy/network/v2/api/site/%s/topology"
+	// APIPortAnomaliesPath returns port anomaly data for a site.
+	APIPortAnomaliesPath string = "/proxy/network/v2/api/site/%s/ports/port-anomalies"
 	// APISysinfoPath returns controller system info and health (UniFi OS).
 	APISysinfoPath string = "/api/s/%s/stat/sysinfo"
 )
@@ -341,6 +343,12 @@ type UnifiClient interface { //nolint: revive
 	GetProtectLogs(req *ProtectLogRequest) ([]*ProtectLogEntry, error)
 	// GetSysinfo returns controller system info and health (UniFi OS).
 	GetSysinfo(sites []*Site) ([]*Sysinfo, error)
+	// GetPortAnomalies returns port anomalies for a list of Sites.
+	// An empty slice is returned when no anomalies are detected (healthy network).
+	GetPortAnomalies(sites []*Site) ([]*PortAnomaly, error)
+	// GetPortAnomaliesSite returns port anomalies for a single Site.
+	// An empty slice is returned when no anomalies are detected (healthy network).
+	GetPortAnomaliesSite(site *Site) ([]*PortAnomaly, error)
 }
 
 // Unifi is what you get in return for providing a password! Unifi represents
