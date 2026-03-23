@@ -187,6 +187,8 @@ const (
 	APIFirewallPoliciesPath string = "/proxy/network/v2/api/site/%s/firewall-policies"
 	// APIWANSLAsPath returns WAN SLA monitoring data (latency, packet loss, jitter).
 	APIWANSLAsPath string = "/proxy/network/v2/api/site/%s/wan-slas"
+	// APITopologyPath returns network topology data (vertices and edges) for a site.
+	APITopologyPath string = "/proxy/network/v2/api/site/%s/topology"
 	// APISysinfoPath returns controller system info and health (UniFi OS).
 	APISysinfoPath string = "/api/s/%s/stat/sysinfo"
 )
