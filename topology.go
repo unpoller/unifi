@@ -33,21 +33,21 @@ func (u *Unifi) GetTopology(sites []*Site) ([]*Topology, error) {
 
 // TopologyVertex represents a node in the network topology (device or client).
 type TopologyVertex struct {
-	AllowedInVisualProgramming bool             `json:"allowedInVisualProgramming"`
-	Default                    bool             `json:"default"`
-	Mac                        string           `json:"mac"`
-	Model                      string           `json:"model"`
-	Name                       string           `json:"name"`
-	State                      FlexInt          `json:"state"`
-	Type                       string           `json:"type"` // DEVICE or CLIENT
-	UnifiDevice                bool             `json:"unifiDevice"`
-	WifiRadios                 []TopologyRadio  `json:"wifiRadios"`
+	AllowedInVisualProgramming bool            `json:"allowedInVisualProgramming"`
+	Default                    bool            `json:"default"`
+	Mac                        string          `json:"mac"`
+	Model                      string          `json:"model"`
+	Name                       string          `json:"name"`
+	State                      FlexInt         `json:"state"`
+	Type                       string          `json:"type"` // DEVICE or CLIENT
+	UnifiDevice                bool            `json:"unifiDevice"`
+	WifiRadios                 []TopologyRadio `json:"wifiRadios"`
 }
 
 // TopologyRadio represents a WiFi radio on a device vertex.
 type TopologyRadio struct {
 	Channel   FlexInt `json:"channel"`
-	Protocol  string  `json:"protocol"` // ax, ac, n, g
+	Protocol  string  `json:"protocol"`  // ax, ac, n, g
 	RadioBand string  `json:"radioBand"` // ng (2.4GHz), na (5GHz), 6e (6GHz)
 }
 
@@ -56,7 +56,7 @@ type TopologyEdge struct {
 	Channel            FlexInt `json:"channel"`
 	DownlinkMac        string  `json:"downlinkMac"`
 	DownlinkPortNumber FlexInt `json:"downlinkPortNumber"`
-	Duplex             string  `json:"duplex"`    // FULL_DUPLEX, HALF_DUPLEX
+	Duplex             string  `json:"duplex"` // FULL_DUPLEX, HALF_DUPLEX
 	Essid              string  `json:"essid"`
 	ExperienceScore    FlexInt `json:"experienceScore"`
 	NetworkID          string  `json:"networkId"`

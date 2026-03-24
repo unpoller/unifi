@@ -53,7 +53,7 @@ type FirewallPolicySchedule struct {
 // FirewallPolicy represents a firewall policy rule from the UniFi controller.
 type FirewallPolicy struct {
 	ID                  string                 `json:"_id"`
-	Action              string                 `json:"action"`               // ALLOW, BLOCK, REJECT
+	Action              string                 `json:"action"`                // ALLOW, BLOCK, REJECT
 	ConnectionStateType string                 `json:"connection_state_type"` // ALL, CUSTOM
 	ConnectionStates    []string               `json:"connection_states"`
 	CreateAllowRespond  FlexBool               `json:"create_allow_respond"`
