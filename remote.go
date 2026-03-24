@@ -123,10 +123,13 @@ func (c *RemoteAPIClient) makeRequest(method, path string, queryParams map[strin
 		if !errors.As(err, &rateErr) || rateErr.RetryAfter <= 0 {
 			break
 		}
+
 		c.DebugLog("Rate limited (429), retry %d/%d after %v", attempt+1, maxRetries429, rateErr.RetryAfter)
 		time.Sleep(rateErr.RetryAfter)
+
 		body, err = c.makeRequestOnce(method, path, queryParams)
 	}
+
 	return body, err
 }
 
@@ -167,12 +170,14 @@ func (c *RemoteAPIClient) makeRequestOnce(method, path string, queryParams map[s
 
 	// Limit read size for error responses to avoid OOM from huge HTML/error bodies
 	const maxErrorBody = 64 * 1024
+
 	var body []byte
 	if resp.StatusCode >= 400 {
 		body, err = io.ReadAll(io.LimitReader(resp.Body, maxErrorBody))
 	} else {
 		body, err = io.ReadAll(resp.Body)
 	}
+
 	if err != nil {
 		return nil, fmt.Errorf("reading response: %w", err)
 	}
@@ -206,6 +211,7 @@ func (c *RemoteAPIClient) makeRequestOnce(method, path string, queryParams map[s
 		if len(bodyStr) > 512 {
 			bodyStr = bodyStr[:512] + "... (truncated)"
 		}
+
 		return nil, fmt.Errorf("API request failed with status %d: %s", resp.StatusCode, bodyStr)
 	}
 
@@ -318,27 +324,34 @@ var nonNetworkConsoleSubstrings = []string{"nvr", "protect", "cloudkey+ for disp
 // Use this to avoid 403s and rate limits when discovering sites for multi-console accounts.
 func FilterNetworkConsoles(consoles []Console) []Console {
 	filtered := make([]Console, 0, len(consoles))
+
 	name := ""
 	for _, c := range consoles {
 		name = c.ConsoleName
 		if name == "" {
 			name = c.ReportedState.Name
 		}
+
 		if name == "" {
 			name = c.ReportedState.Hostname
 		}
+
 		lower := strings.ToLower(name)
 		skip := false
+
 		for _, sub := range nonNetworkConsoleSubstrings {
 			if strings.Contains(lower, sub) {
 				skip = true
+
 				break
 			}
 		}
+
 		if !skip {
 			filtered = append(filtered, c)
 		}
 	}
+
 	return filtered
 }
 
@@ -350,6 +363,7 @@ func (c *RemoteAPIClient) DiscoverNetworkConsoles() ([]Console, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return FilterNetworkConsoles(all), nil
 }
 

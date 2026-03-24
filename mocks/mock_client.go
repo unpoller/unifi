@@ -748,3 +748,39 @@ func (m *MockUnifi) GetPortAnomaliesSite(_ *unifi.Site) ([]*unifi.PortAnomaly, e
 
 	return results, nil
 }
+
+// GetMagicSiteToSiteVPN returns Site Magic VPN mesh configurations for a list of Sites.
+func (m *MockUnifi) GetMagicSiteToSiteVPN(_ []*unifi.Site) ([]*unifi.MagicSiteToSiteVPN, error) {
+	results := make([]*unifi.MagicSiteToSiteVPN, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var v unifi.MagicSiteToSiteVPN
+
+		err := gofakeit.Struct(&v)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &v
+	}
+
+	return results, nil
+}
+
+// GetMagicSiteToSiteVPNSite returns Site Magic VPN mesh configurations for a single Site.
+func (m *MockUnifi) GetMagicSiteToSiteVPNSite(_ *unifi.Site) ([]*unifi.MagicSiteToSiteVPN, error) {
+	results := make([]*unifi.MagicSiteToSiteVPN, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var v unifi.MagicSiteToSiteVPN
+
+		err := gofakeit.Struct(&v)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &v
+	}
+
+	return results, nil
+}

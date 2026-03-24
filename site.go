@@ -21,8 +21,8 @@ func (u *Unifi) GetSites() ([]*Site, error) {
 		return nil, err
 	}
 
-	sites := []string{}   // used for debug log only
-	result := []*Site{}   // only non-nil sites
+	sites := []string{} // used for debug log only
+	result := []*Site{} // only non-nil sites
 
 	for i, d := range response.Data {
 		if d == nil {
@@ -134,10 +134,10 @@ type Site struct {
 			Mem    FlexInt `json:"mem"`
 			Uptime FlexInt `json:"uptime"`
 		} `json:"gw_system-stats,omitempty"`
-		GwVersion             string   `fake:"{appversion}"                       json:"gw_version,omitempty"`
+		GwVersion             string   `fake:"{appversion}"                        json:"gw_version,omitempty"`
 		LanIP                 string   `json:"lan_ip,omitempty"`
 		Latency               FlexInt  `json:"latency,omitempty"`
-		Nameservers           []string `fakesize:"5"                              json:"nameservers,omitempty"`
+		Nameservers           []string `fakesize:"5"                               json:"nameservers,omitempty"`
 		Netmask               string   `json:"netmask,omitempty"`
 		NumAdopted            FlexInt  `json:"num_adopted,omitempty"`
 		NumAp                 FlexInt  `json:"num_ap,omitempty"`
@@ -159,6 +159,12 @@ type Site struct {
 		RemoteUserTxPackets   FlexInt  `json:"remote_user_tx_packets,omitempty"`
 		RxBytesR              FlexInt  `json:"rx_bytes-r,omitempty"`
 		SiteToSiteEnabled     FlexBool `json:"site_to_site_enabled,omitempty"`
+		SiteToSiteNumActive   FlexInt  `json:"site_to_site_num_active,omitempty"`
+		SiteToSiteNumInactive FlexInt  `json:"site_to_site_num_inactive,omitempty"`
+		SiteToSiteRxBytes     FlexInt  `json:"site_to_site_rx_bytes,omitempty"`
+		SiteToSiteRxPackets   FlexInt  `json:"site_to_site_rx_packets,omitempty"`
+		SiteToSiteTxBytes     FlexInt  `json:"site_to_site_tx_bytes,omitempty"`
+		SiteToSiteTxPackets   FlexInt  `json:"site_to_site_tx_packets,omitempty"`
 		SpeedtestLastrun      FlexInt  `json:"speedtest_lastrun,omitempty"`
 		SpeedtestPing         FlexInt  `json:"speedtest_ping,omitempty"`
 		SpeedtestStatus       string   `json:"speedtest_status,omitempty"`
@@ -166,7 +172,7 @@ type Site struct {
 		Subsystem             string   `json:"subsystem"`
 		TxBytesR              FlexInt  `json:"tx_bytes-r,omitempty"`
 		Uptime                FlexInt  `json:"uptime,omitempty"`
-		WanIP                 string   `fake:"{ipv4address}"                      json:"wan_ip,omitempty"`
+		WanIP                 string   `fake:"{ipv4address}"                       json:"wan_ip,omitempty"`
 		XputDown              FlexInt  `json:"xput_down,omitempty"`
 		XputUp                FlexInt  `json:"xput_up,omitempty"`
 	} `fakesize:"5"                          json:"health"`
