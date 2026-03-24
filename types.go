@@ -191,6 +191,8 @@ const (
 	APITopologyPath string = "/proxy/network/v2/api/site/%s/topology"
 	// APIPortAnomaliesPath returns port anomaly data for a site.
 	APIPortAnomaliesPath string = "/proxy/network/v2/api/site/%s/ports/port-anomalies"
+	// APIMagicSiteToSiteVPNPath returns Site Magic site-to-site VPN mesh configurations for a site.
+	APIMagicSiteToSiteVPNPath string = "/proxy/network/v2/api/site/%s/magicsitetositevpn/configs"
 	// APISysinfoPath returns controller system info and health (UniFi OS).
 	APISysinfoPath string = "/api/s/%s/stat/sysinfo"
 )
@@ -349,6 +351,10 @@ type UnifiClient interface { //nolint: revive
 	// GetPortAnomaliesSite returns port anomalies for a single Site.
 	// An empty slice is returned when no anomalies are detected (healthy network).
 	GetPortAnomaliesSite(site *Site) ([]*PortAnomaly, error)
+	// GetMagicSiteToSiteVPN returns Site Magic site-to-site VPN mesh configurations for a list of Sites.
+	GetMagicSiteToSiteVPN(sites []*Site) ([]*MagicSiteToSiteVPN, error)
+	// GetMagicSiteToSiteVPNSite returns Site Magic site-to-site VPN mesh configurations for a single Site.
+	GetMagicSiteToSiteVPNSite(site *Site) ([]*MagicSiteToSiteVPN, error)
 }
 
 // Unifi is what you get in return for providing a password! Unifi represents
@@ -359,10 +365,10 @@ type Unifi struct {
 	*http.Client
 	*Config
 	*ServerStatus
-	csrf                        string
-	fingerprints                fingerprints
-	new                         bool
-	deviceTagsUnavailableOnce   sync.Once
+	csrf                      string
+	fingerprints              fingerprints
+	new                       bool
+	deviceTagsUnavailableOnce sync.Once
 }
 
 // ensure Unifi implements UnifiClient fully, will fail to compile otherwise

@@ -91,9 +91,9 @@ func writeDiscoverReport(controllerURL, site string, results []DiscoverResult, o
 
 	var b strings.Builder
 	b.WriteString("# API Endpoints (discovery report)\n\n")
-	b.WriteString(fmt.Sprintf("- **Controller**: %s\n", controllerURL))
-	b.WriteString(fmt.Sprintf("- **Site**: %s\n", site))
-	b.WriteString(fmt.Sprintf("- **Total endpoints probed**: %d\n", len(results)))
+	fmt.Fprintf(&b, "- **Controller**: %s\n", controllerURL)
+	fmt.Fprintf(&b, "- **Site**: %s\n", site)
+	fmt.Fprintf(&b, "- **Total endpoints probed**: %d\n", len(results))
 	b.WriteString("\n---\n\n")
 	b.WriteString("| Method | Path | Status |\n")
 	b.WriteString("|--------|------|--------|\n")
@@ -105,7 +105,7 @@ func writeDiscoverReport(controllerURL, site string, results []DiscoverResult, o
 		}
 
 		pathEscaped := strings.ReplaceAll(r.Path, "|", "\\|")
-		b.WriteString(fmt.Sprintf("| %s | `%s` | %s |\n", r.Method, pathEscaped, statusStr))
+		fmt.Fprintf(&b, "| %s | `%s` | %s |\n", r.Method, pathEscaped, statusStr)
 	}
 
 	b.WriteString("\n---\n\n")
