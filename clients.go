@@ -224,6 +224,7 @@ type ClientHistory struct {
 	LastSeen                      FlexInt      `json:"last_seen"`
 	LastUplinkMac                 string       `fake:"macaddress"                            json:"last_uplink_mac"`
 	LastUplinkName                string       `json:"last_uplink_name"`
+	LastUplinkPort                FlexInt      `json:"last_uplink_remote_port"`
 	LocalDNSRecord                string       `json:"local_dns_record,omitempty"`
 	LocalDNSRecordEnabled         FlexBool     `json:"local_dns_record_enabled"`
 	Mac                           string       `fake:"macaddress"                            json:"mac"`
