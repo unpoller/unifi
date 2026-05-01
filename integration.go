@@ -17,7 +17,7 @@ type integrationPage[T any] struct {
 // getIntegrationList fetches all pages from an Integration/v1 list endpoint.
 // path must not include offset/limit query parameters.
 func getIntegrationList[T any](u *Unifi, path string) ([]T, error) {
-	if u.Config.APIKey == "" {
+	if u.APIKey == "" {
 		return nil, ErrAPIKeyRequired
 	}
 
