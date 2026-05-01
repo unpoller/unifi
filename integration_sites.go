@@ -26,7 +26,7 @@ func (u *Unifi) GetIntegrationSites() ([]*IntegrationSite, error) {
 // GetIntegrationInfo returns application version info from the Integration/v1 API.
 // Requires Config.APIKey; returns ErrAPIKeyRequired when no key is configured.
 func (u *Unifi) GetIntegrationInfo() (*IntegrationInfo, error) {
-	if u.Config.APIKey == "" {
+	if u.APIKey == "" {
 		return nil, ErrAPIKeyRequired
 	}
 
