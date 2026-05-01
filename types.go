@@ -298,29 +298,29 @@ type IntegrationInfo struct {
 
 // IntegrationDeviceRadioStats holds per-radio stats within IntegrationDeviceStats.
 type IntegrationDeviceRadioStats struct {
-	FrequencyGHz float64 `json:"frequencyGHz"`
-	TxRetriesPct float64 `json:"txRetriesPct"`
+	FrequencyGHz FlexInt `json:"frequencyGHz"` // fractional GHz (e.g. 2.4, 5.0); use .Val, not .Int()
+	TxRetriesPct FlexInt `json:"txRetriesPct"`
 }
 
 // IntegrationDeviceUplinkStats holds per-uplink stats within IntegrationDeviceStats.
 type IntegrationDeviceUplinkStats struct {
-	RxRateBps int64 `json:"rxRateBps"`
-	TxRateBps int64 `json:"txRateBps"`
+	RxRateBps FlexInt `json:"rxRateBps"`
+	TxRateBps FlexInt `json:"txRateBps"`
 }
 
 // IntegrationDeviceStats holds device statistics from the Integration/v1 API.
 type IntegrationDeviceStats struct {
-	CPUUtilizationPct    float64                        `json:"cpuUtilizationPct"`
+	CPUUtilizationPct    FlexInt                        `json:"cpuUtilizationPct"`
 	DeviceID             string                         `json:"deviceId"`
 	LastHeartbeatAt      string                         `json:"lastHeartbeatAt"`
-	LoadAverage15Min     float64                        `json:"loadAverage15Min"`
-	LoadAverage1Min      float64                        `json:"loadAverage1Min"`
-	LoadAverage5Min      float64                        `json:"loadAverage5Min"`
-	MemoryUtilizationPct float64                        `json:"memoryUtilizationPct"`
+	LoadAverage15Min     FlexInt                        `json:"loadAverage15Min"` // fractional Unix load average; use .Val, not .Int()
+	LoadAverage1Min      FlexInt                        `json:"loadAverage1Min"`  // fractional Unix load average; use .Val, not .Int()
+	LoadAverage5Min      FlexInt                        `json:"loadAverage5Min"`  // fractional Unix load average; use .Val, not .Int()
+	MemoryUtilizationPct FlexInt                        `json:"memoryUtilizationPct"`
 	NextHeartbeatAt      string                         `json:"nextHeartbeatAt"`
 	Radios               []IntegrationDeviceRadioStats  `json:"radios"`
 	Uplinks              []IntegrationDeviceUplinkStats `json:"uplinks"`
-	UptimeSec            int64                          `json:"uptimeSec"`
+	UptimeSec            FlexInt                        `json:"uptimeSec"`
 }
 
 // WifiBroadcastSecurityConfiguration holds security settings for a WiFi broadcast.
@@ -365,7 +365,7 @@ type ACLRule struct {
 	Enabled               bool     `json:"enabled"`
 	EnforcingDeviceFilter []string `json:"enforcingDeviceFilter"`
 	ID                    string   `json:"id"`
-	Index                 int      `json:"index"`
+	Index                 FlexInt  `json:"index"`
 	Name                  string   `json:"name"`
 	SourceFilter          string   `json:"sourceFilter"`
 
@@ -375,12 +375,12 @@ type ACLRule struct {
 // IntegrationNetwork represents a network from the Integration/v1 API.
 // Complements the legacy GetNetworks() which remains for backward compatibility.
 type IntegrationNetwork struct {
-	DHCPGuarding bool   `json:"dhcpGuarding"`
-	Enabled      bool   `json:"enabled"`
-	ID           string `json:"id"`
-	Management   string `json:"management"` // gateway, switch-managed, unmanaged
-	Name         string `json:"name"`
-	VlanID       int    `json:"vlanId"`
+	DHCPGuarding bool    `json:"dhcpGuarding"`
+	Enabled      bool    `json:"enabled"`
+	ID           string  `json:"id"`
+	Management   string  `json:"management"` // gateway, switch-managed, unmanaged
+	Name         string  `json:"name"`
+	VlanID       FlexInt `json:"vlanId"`
 
 	SiteName string `json:"-"`
 }
@@ -521,28 +521,30 @@ type TrafficMatchingList struct {
 // HotspotVoucher represents a guest portal voucher from the Integration/v1 API.
 type HotspotVoucher struct {
 	ActivatedAt          string  `json:"activatedAt"`
-	AuthorizedGuestCount int     `json:"authorizedGuestCount"`
-	AuthorizedGuestLimit int     `json:"authorizedGuestLimit"`
+	AuthorizedGuestCount FlexInt `json:"authorizedGuestCount"`
+	AuthorizedGuestLimit FlexInt `json:"authorizedGuestLimit"`
 	Code                 string  `json:"code"`
-	DataUsageLimitMBytes float64 `json:"dataUsageLimitMBytes"`
+	DataUsageLimitMBytes FlexInt `json:"dataUsageLimitMBytes"` // 0 means no data cap
 	ExpiresAt            string  `json:"expiresAt"`
 	ID                   string  `json:"id"`
 	Name                 string  `json:"name"`
-	TimeLimitMinutes     int     `json:"timeLimitMinutes"`
+	TimeLimitMinutes     FlexInt `json:"timeLimitMinutes"` // 0 means no time limit
 
 	SiteName string `json:"-"`
 }
 
 // DPIApplication represents an entry in the DPI application catalogue.
+// Use ID.Int() as the app key when calling DPIMap.GetApp.
 type DPIApplication struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	ID   FlexInt `json:"id"`
+	Name string  `json:"name"`
 }
 
 // DPICategory represents an entry in the DPI category catalogue.
+// Use ID.Int() as the cat key when calling DPIMap.Get or DPIMap.GetApp.
 type DPICategory struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	ID   FlexInt `json:"id"`
+	Name string  `json:"name"`
 }
 
 // PendingDevice represents a device in the adoption queue.
@@ -562,7 +564,6 @@ type Country struct {
 	Code string `json:"code"`
 	Name string `json:"name"`
 }
-
 
 type UnifiClient interface { //nolint: revive
 	// GetAlarms returns Alarms for a list of Sites.
