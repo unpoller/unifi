@@ -195,6 +195,14 @@ const (
 	APIMagicSiteToSiteVPNPath string = "/proxy/network/v2/api/site/%s/magicsitetositevpn/configs"
 	// APISysinfoPath returns controller system info and health (UniFi OS).
 	APISysinfoPath string = "/api/s/%s/stat/sysinfo"
+	// APIWANStatusPath returns WAN interface status from the legacy controller API.
+	APIWANStatusPath string = "/api/s/%s/stat/status"
+	// APIUPSDevicesPath returns UPS device selector list from the legacy controller API.
+	APIUPSDevicesPath string = "/api/s/%s/stat/ups-devices"
+	// APIPortForwardPath returns port forwarding rules from the legacy controller API.
+	APIPortForwardPath string = "/api/s/%s/rest/portforward"
+	// APISSLCertPath returns active SSL certificate info from the legacy controller API.
+	APISSLCertPath string = "/api/s/%s/stat/active"
 )
 
 // path returns the correct api path based on the new variable.
@@ -355,6 +363,14 @@ type UnifiClient interface { //nolint: revive
 	GetMagicSiteToSiteVPN(sites []*Site) ([]*MagicSiteToSiteVPN, error)
 	// GetMagicSiteToSiteVPNSite returns Site Magic site-to-site VPN mesh configurations for a single Site.
 	GetMagicSiteToSiteVPNSite(site *Site) ([]*MagicSiteToSiteVPN, error)
+	// GetWANStatus returns the WAN interface status for a single site.
+	GetWANStatus(site *Site) (*WANStatus, error)
+	// GetUPSDeviceList returns the list of UPS device selectors for a single site.
+	GetUPSDeviceList(site *Site) ([]*UPSDeviceSelector, error)
+	// GetPortForwards returns port forwarding rules for a single site.
+	GetPortForwards(site *Site) ([]*PortForward, error)
+	// GetSSLCertificate returns the active SSL certificate info for a single site.
+	GetSSLCertificate(site *Site) (*SSLCertificate, error)
 }
 
 // Unifi is what you get in return for providing a password! Unifi represents

@@ -784,3 +784,63 @@ func (m *MockUnifi) GetMagicSiteToSiteVPNSite(_ *unifi.Site) ([]*unifi.MagicSite
 
 	return results, nil
 }
+
+// GetWANStatus returns the WAN interface status for a single site.
+func (m *MockUnifi) GetWANStatus(_ *unifi.Site) (*unifi.WANStatus, error) {
+	var w unifi.WANStatus
+
+	err := gofakeit.Struct(&w)
+	if err != nil {
+		return &w, err
+	}
+
+	return &w, nil
+}
+
+// GetUPSDeviceList returns the list of UPS device selectors for a single site.
+func (m *MockUnifi) GetUPSDeviceList(_ *unifi.Site) ([]*unifi.UPSDeviceSelector, error) {
+	results := make([]*unifi.UPSDeviceSelector, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var d unifi.UPSDeviceSelector
+
+		err := gofakeit.Struct(&d)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &d
+	}
+
+	return results, nil
+}
+
+// GetPortForwards returns port forwarding rules for a single site.
+func (m *MockUnifi) GetPortForwards(_ *unifi.Site) ([]*unifi.PortForward, error) {
+	results := make([]*unifi.PortForward, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var p unifi.PortForward
+
+		err := gofakeit.Struct(&p)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &p
+	}
+
+	return results, nil
+}
+
+// GetSSLCertificate returns the active SSL certificate info for a single site.
+func (m *MockUnifi) GetSSLCertificate(_ *unifi.Site) (*unifi.SSLCertificate, error) {
+	var c unifi.SSLCertificate
+
+	err := gofakeit.Struct(&c)
+	if err != nil {
+		return &c, err
+	}
+
+	return &c, nil
+}
