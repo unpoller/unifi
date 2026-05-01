@@ -784,3 +784,447 @@ func (m *MockUnifi) GetMagicSiteToSiteVPNSite(_ *unifi.Site) ([]*unifi.MagicSite
 
 	return results, nil
 }
+
+// GetIntegrationSites returns all sites from the Integration/v1 API.
+func (m *MockUnifi) GetIntegrationSites() ([]*unifi.IntegrationSite, error) {
+	results := make([]*unifi.IntegrationSite, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.IntegrationSite
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetIntegrationInfo returns application version info from the Integration/v1 API.
+func (m *MockUnifi) GetIntegrationInfo() (*unifi.IntegrationInfo, error) {
+	var a unifi.IntegrationInfo
+
+	err := gofakeit.Struct(&a)
+	if err != nil {
+		return nil, err
+	}
+
+	return &a, nil
+}
+
+// GetIntegrationDeviceStats returns statistics for a single device.
+func (m *MockUnifi) GetIntegrationDeviceStats(_ *unifi.IntegrationSite, _ string) (*unifi.IntegrationDeviceStats, error) {
+	var s unifi.IntegrationDeviceStats
+
+	err := gofakeit.Struct(&s)
+	if err != nil {
+		return nil, err
+	}
+
+	return &s, nil
+}
+
+// GetAllIntegrationDeviceStats returns statistics for all devices in a site.
+func (m *MockUnifi) GetAllIntegrationDeviceStats(_ *unifi.IntegrationSite) ([]*unifi.IntegrationDeviceStats, error) {
+	results := make([]*unifi.IntegrationDeviceStats, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.IntegrationDeviceStats
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetWifiBroadcasts returns WiFi broadcast configurations for a site.
+func (m *MockUnifi) GetWifiBroadcasts(_ *unifi.IntegrationSite) ([]*unifi.WifiBroadcast, error) {
+	results := make([]*unifi.WifiBroadcast, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.WifiBroadcast
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetFirewallZones returns firewall zones for a site.
+func (m *MockUnifi) GetFirewallZones(_ *unifi.IntegrationSite) ([]*unifi.FirewallZone, error) {
+	results := make([]*unifi.FirewallZone, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.FirewallZone
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetACLRules returns access control rules for a site.
+func (m *MockUnifi) GetACLRules(_ *unifi.IntegrationSite) ([]*unifi.ACLRule, error) {
+	results := make([]*unifi.ACLRule, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.ACLRule
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetIntegrationNetworks returns networks for a site from the Integration/v1 API.
+func (m *MockUnifi) GetIntegrationNetworks(_ *unifi.IntegrationSite) ([]*unifi.IntegrationNetwork, error) {
+	results := make([]*unifi.IntegrationNetwork, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.IntegrationNetwork
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetIntegrationWANs returns WAN interface identifiers for a site.
+func (m *MockUnifi) GetIntegrationWANs(_ *unifi.IntegrationSite) ([]*unifi.IntegrationWAN, error) {
+	results := make([]*unifi.IntegrationWAN, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.IntegrationWAN
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetVPNServers returns VPN server configurations for a site.
+func (m *MockUnifi) GetVPNServers(_ *unifi.IntegrationSite) ([]*unifi.VPNServer, error) {
+	results := make([]*unifi.VPNServer, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.VPNServer
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetSiteToSiteTunnels returns site-to-site VPN tunnel configurations for a site.
+func (m *MockUnifi) GetSiteToSiteTunnels(_ *unifi.IntegrationSite) ([]*unifi.SiteToSiteTunnel, error) {
+	results := make([]*unifi.SiteToSiteTunnel, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.SiteToSiteTunnel
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetLAGs returns link aggregation group configurations for a site.
+func (m *MockUnifi) GetLAGs(_ *unifi.IntegrationSite) ([]*unifi.LAG, error) {
+	results := make([]*unifi.LAG, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.LAG
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetMCLAGDomains returns multi-chassis LAG domain configurations for a site.
+func (m *MockUnifi) GetMCLAGDomains(_ *unifi.IntegrationSite) ([]*unifi.MCLAGDomain, error) {
+	results := make([]*unifi.MCLAGDomain, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.MCLAGDomain
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetSwitchStacks returns switch stack configurations for a site.
+func (m *MockUnifi) GetSwitchStacks(_ *unifi.IntegrationSite) ([]*unifi.SwitchStack, error) {
+	results := make([]*unifi.SwitchStack, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.SwitchStack
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetDNSPolicies returns DNS policies for a site.
+func (m *MockUnifi) GetDNSPolicies(_ *unifi.IntegrationSite) ([]*unifi.DNSPolicy, error) {
+	results := make([]*unifi.DNSPolicy, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.DNSPolicy
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetRADIUSProfiles returns RADIUS authentication profiles for a site.
+func (m *MockUnifi) GetRADIUSProfiles(_ *unifi.IntegrationSite) ([]*unifi.RADIUSProfile, error) {
+	results := make([]*unifi.RADIUSProfile, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.RADIUSProfile
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetTrafficMatchingLists returns traffic matching lists for a site.
+func (m *MockUnifi) GetTrafficMatchingLists(_ *unifi.IntegrationSite) ([]*unifi.TrafficMatchingList, error) {
+	results := make([]*unifi.TrafficMatchingList, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.TrafficMatchingList
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetHotspotVouchers returns guest portal vouchers for a site.
+func (m *MockUnifi) GetHotspotVouchers(_ *unifi.IntegrationSite) ([]*unifi.HotspotVoucher, error) {
+	results := make([]*unifi.HotspotVoucher, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.HotspotVoucher
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetDPIApplications returns the DPI application reference catalogue (global, no site).
+func (m *MockUnifi) GetDPIApplications() ([]*unifi.DPIApplication, error) {
+	results := make([]*unifi.DPIApplication, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.DPIApplication
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetDPICategories returns the DPI category reference catalogue (global, no site).
+func (m *MockUnifi) GetDPICategories() ([]*unifi.DPICategory, error) {
+	results := make([]*unifi.DPICategory, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.DPICategory
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetPendingDevices returns devices waiting to be adopted (global, no site).
+func (m *MockUnifi) GetPendingDevices() ([]*unifi.PendingDevice, error) {
+	results := make([]*unifi.PendingDevice, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.PendingDevice
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetCountries returns the list of countries for geo-based firewall filters (global, no site).
+func (m *MockUnifi) GetCountries() ([]*unifi.Country, error) {
+	results := make([]*unifi.Country, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.Country
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetWANStatus returns WAN interface status for a site.
+func (m *MockUnifi) GetWANStatus(_ *unifi.Site) (*unifi.WANStatus, error) {
+	var w unifi.WANStatus
+
+	err := gofakeit.Struct(&w)
+	if err != nil {
+		return nil, err
+	}
+
+	return &w, nil
+}
+
+// GetUPSDeviceList returns UPS/PDU device selectors for a site.
+func (m *MockUnifi) GetUPSDeviceList(_ *unifi.Site) ([]*unifi.UPSDeviceSelector, error) {
+	results := make([]*unifi.UPSDeviceSelector, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.UPSDeviceSelector
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetPortForwards returns port forwarding rules for a site.
+func (m *MockUnifi) GetPortForwards(_ *unifi.Site) ([]*unifi.PortForward, error) {
+	results := make([]*unifi.PortForward, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.PortForward
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
+// GetSSLCertificate returns SSL certificate information for a site.
+func (m *MockUnifi) GetSSLCertificate(_ *unifi.Site) (*unifi.SSLCertificate, error) {
+	var a unifi.SSLCertificate
+
+	err := gofakeit.Struct(&a)
+	if err != nil {
+		return nil, err
+	}
+
+	return &a, nil
+}

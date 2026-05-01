@@ -13,6 +13,7 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"encoding/pem"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -32,6 +33,7 @@ var (
 	ErrInvalidSignature     = fmt.Errorf("certificate signature does not match")
 	ErrNilUnifi             = fmt.Errorf("unifi client is nil")
 	ErrTooManyRequests      = fmt.Errorf("429 too many requests")
+	ErrAPIKeyRequired       = errors.New("integration/v1 API requires Config.APIKey to be set")
 )
 
 // RateLimitError is returned when the controller responds with 429 Too Many Requests.
