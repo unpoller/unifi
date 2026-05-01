@@ -34,6 +34,10 @@ var (
 	ErrInvalidSignature     = errors.New("certificate signature does not match")
 	ErrNilUnifi             = errors.New("unifi client is nil")
 	ErrTooManyRequests      = errors.New("429 too many requests")
+
+	// Integration/v1 API sentinels.
+	ErrAPIKeyRequired    = errors.New("integration/v1 API requires Config.APIKey to be set")
+	ErrIncompleteResults = errors.New("integration/v1 API item count did not match server-reported totalCount")
 )
 
 // RateLimitError is returned when the controller responds with 429 Too Many Requests.

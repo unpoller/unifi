@@ -1,163 +1,387 @@
 # Potential Features to Add to unpoller/unifi
 
-Based on analysis of API response examples, here are features that could be added:
+Based on analysis of API response examples, here are features that could be added.
 
-## 1. System Information (`/api/s/{site}/stat/sysinfo`)
-
-**Status**: Not implemented
-
-**Data Available**:
-- Controller version, build, previous version
-- Timezone, hostname, IP addresses
-- Ports (inform, https, portal_http)
-- Uptime
-- Data retention settings
-- Update availability
-- Device type (UDRULT, etc.)
-- Debug settings
-- SSO app ID
-- Anonymous controller ID
-- WebRTC support
-- Unsupported device count/list
-
-**Use Case**: Monitoring controller health, version tracking, uptime monitoring
-
-**Implementation**: Add `GetSysInfo(site *Site) (*SysInfo, error)` method
+Status key: **Done** = shipped, **Partial** = some coverage, **Open** = not started.
 
 ---
 
-## 2. WAN Status (`/api/s/{site}/stat/status`)
+## Part A — Legacy / v2 API gaps
 
-**Status**: Not implemented
+### A1. System Information (`/api/s/{site}/stat/sysinfo`)
 
-**Data Available**:
-- WAN interface names
-- WAN states (ACTIVE, BACKUP)
-- WAN network groups (WAN, WAN2, etc.)
-
-**Use Case**: Monitor WAN failover status, active/backup WAN interfaces
-
-**Implementation**: Add `GetWANStatus(site *Site) (*WANStatus, error)` method
+**Status**: Done (`sysinfo.go`)
 
 ---
 
-## 3. Firewall Policies (`/api/s/{site}/rest/firewall-policies`)
+### A2. WAN Status (`/api/s/{site}/stat/status`)
 
-**Status**: Not implemented
+**Status**: Open
 
-**Data Available**:
-- Firewall rules with zone-based configuration
-- Actions (ALLOW, BLOCK)
-- Source/destination zones
-- Protocols (all, udp, icmpv6, etc.)
-- Port matching
-- IP version (BOTH, IPV4, IPV6)
-- Connection states
-- ICMP types
-- Logging settings
-- Schedule (ALWAYS mode shown)
-- Predefined vs custom rules
-- Index/priority
+**Data**: WAN interface names, states (ACTIVE/BACKUP), network groups (WAN, WAN2).
 
-**Use Case**: Firewall rule auditing, security monitoring, rule analysis
+**Use case**: WAN failover monitoring.
 
-**Implementation**: Add `GetFirewallPolicies(site *Site) ([]*FirewallPolicy, error)` method
-
-**Note**: This is a significant feature with complex zone-based firewall data
+**Implementation**: `GetWANStatus(site *Site) (*WANStatus, error)`
 
 ---
 
-## 4. UPS Devices List (`/api/s/{site}/stat/ups-devices`)
+### A3. Firewall Policies (`/proxy/network/v2/api/site/{site}/firewall-policies`)
 
-**Status**: Partially implemented (PDU/UPS devices come from `/stat/device`, but this endpoint provides a different format)
-
-**Data Available**:
-- Device selector format with image, label, metadata
-- Device MAC addresses
-- Site IDs
-- Device identification for UI selection
-
-**Use Case**: Quick UPS device lookup, device selection lists
-
-**Implementation**: Add `GetUPSDeviceList(site *Site) ([]*UPSDeviceSelector, error)` method
-
-**Note**: Different from full device data - this is a lightweight selector format
+**Status**: Done (`firewall_policies.go`)
 
 ---
 
-## 5. Enhanced Network Configuration
+### A4. UPS Device List (`/api/s/{site}/stat/ups-devices`)
 
-**Status**: Partially implemented (basic Network struct exists, but missing many fields)
+**Status**: Partial (PDU/UPS come from `/stat/device`; this endpoint is a lightweight selector format)
 
-**Missing Fields from `/api/s/{site}/rest/networkconf`**:
-- WAN-specific: `wan_type`, `wan_dhcp_options`, `wan_load_balance_type`, `wan_failover_priority`, `wan_provider_capabilities`, `wan_ip_aliases`, `wan_smartq_enabled`, `wan_dns_preference`, `wan_vlan_enabled`, `wan_ipv6_dns_preference`, `wan_ipv6_dns1/2`, `ipv6_wan_delegation_type`, `wan_dhcpv6_pd_size_auto`
-- IPv6: `ipv6_enabled`, `ipv6_setting_preference`, `ipv6_interface_type`, `ipv6_pd_start/stop`, `ipv6_pd_auto_prefixid_enabled`, `ipv6_ra_enabled`, `ipv6_ra_preferred_lifetime`, `ipv6_ra_priority`, `ipv6_client_address_assignment`, `dhcpdv6_*` fields
-- VPN: `vpn_type`, `sdwan_remote_site_id`, `remote_vpn_subnets`, `ifname` (for site-vpn)
-- Advanced: `firewall_zone_id`, `routing_table_id`, `external_id`, `igmp_proxy_*`, `mac_override_enabled`, `setting_preference`, `report_wan_event`, `attr_no_delete`, `attr_hidden_id`, `attr_no_edit`
-- DHCP: `dhcpdv6_*` fields, `dhcpd_wpad_url`, `dhcpd_tftp_server`, `dhcpd_boot_enabled`, `dhcpd_ntp_enabled`, `dhcpd_wins_enabled`
-- Other: `lte_lan_enabled`, `upnp_lan_enabled`, `mdns_enabled`, `auto_scale_enabled`, `dhcpguard_enabled`, `dhcpd_conflict_checking`, `dhcpd_time_offset_enabled`, `dhcpd_gateway_enabled`, `dhcp_relay_enabled`, `nat_outbound_ip_addresses`, `single_network_lan`, `gateway_type`, `domain_name`
+**Data**: Device MAC, image URL, label, site ID — for UI selection lists, not full stats.
 
-**Use Case**: Full network configuration monitoring, WAN failover configuration, IPv6 support, VPN monitoring
-
-**Implementation**: Extend `Network` struct with additional fields, or create `NetworkExtended` struct
+**Implementation**: `GetUPSDeviceList(site *Site) ([]*UPSDeviceSelector, error)`
 
 ---
 
-## 6. Port Forwarding (`/api/s/{site}/rest/portforward`)
+### A5. Enhanced Network Configuration (`/api/s/{site}/rest/networkconf`)
 
-**Status**: Not implemented (endpoint exists but returns empty array in example)
+**Status**: Partial (basic `Network` struct exists; many fields missing)
 
-**Data Available**: (when configured)
-- Port forward rules
-- Source/destination ports
-- Protocols
-- Enabled status
+**Missing fields**: WAN failover (`wan_load_balance_type`, `wan_failover_priority`), IPv6 (`ipv6_enabled`, `dhcpdv6_*`), VPN (`vpn_type`, `sdwan_remote_site_id`), DHCP advanced (`dhcpd_ntp_enabled`, `dhcpd_wins_enabled`), misc (`firewall_zone_id`, `mdns_enabled`) — `domain_name` is already present as `DomainName`.
 
-**Use Case**: Port forward rule auditing
-
-**Implementation**: Add `GetPortForwards(site *Site) ([]*PortForward, error)` method
+**Implementation**: Extend `Network` struct in-place (additive fields, no breakage).
 
 ---
 
-## 7. SSL Certificate Info (`/api/s/{site}/stat/active`)
+### A6. Port Forwarding (`/api/s/{site}/rest/portforward`)
 
-**Status**: Not implemented
+**Status**: Open
 
-**Data Available**:
-- Certificate details (root, intermediate)
-- Certificate status (active, valid)
-- Certificate type (generated)
-- Valid from/to dates
-- Issuer/subject information
-- Fingerprint, serial number
+**Data**: Port forward rules — source/destination ports, protocols, enabled flag.
 
-**Use Case**: SSL certificate monitoring, expiration tracking
-
-**Implementation**: Add `GetSSLCertificate(site *Site) (*SSLCertificate, error)` method
+**Implementation**: `GetPortForwards(site *Site) ([]*PortForward, error)`
 
 ---
 
-## Priority Recommendations
+### A7. SSL Certificate Info (`/api/s/{site}/stat/active`)
 
-### High Priority
-1. **SysInfo** - Useful for monitoring and health checks
-2. **WAN Status** - Important for failover monitoring
-3. **Enhanced Network Config** - Many missing fields that users might need
+**Status**: Open
 
-### Medium Priority
-4. **Firewall Policies** - Complex but valuable for security auditing
-5. **SSL Certificate** - Useful for certificate management
+**Data**: Certificate chain, status, valid-from/to dates, issuer, fingerprint.
 
-### Low Priority
-6. **UPS Device List** - Different format, may not be needed if device endpoint covers it
-7. **Port Forwarding** - Less commonly used, endpoint was empty in example
+**Use case**: Certificate expiration monitoring.
+
+**Implementation**: `GetSSLCertificate(site *Site) (*SSLCertificate, error)`
 
 ---
 
-## Implementation Notes
+## Part B — Integration/v1 API coverage
 
-- All endpoints follow the standard `/api/s/{site}/...` pattern
-- Most return `{"meta": {"rc": "ok"}, "data": [...]}` format
-- Some endpoints (like `status`) return different formats
-- Need to handle UDM Pro `/proxy/network` prefix
-- Consider backward compatibility when extending existing structs
+The controller exposes a formally supported REST API at `/proxy/network/integration/v1/` (available since Network 9.3.43, spec at `/proxy/network/api-docs/integration.json`). It requires `X-API-Key` auth and uses **UUID site IDs** (not the legacy short name `"default"`). The library currently reads from **none** of these endpoints.
+
+This API has 44 paths (source: `/proxy/network/api-docs/integration.json` on 10.3.58). Of those, 36 are GET operations; the remainder are write-only (POST/PUT/DELETE/PATCH). The 36 GETs collapse into 17 features (B0–B16) because list and single-item endpoints for the same resource are grouped together. Write operations are excluded — the library is read-only by design.
+
+### B0. Infrastructure: site ID resolution (prerequisite for all B-phase work)
+
+**Status**: Open
+
+**Problem**: Integration/v1 per-site endpoints use a UUID `siteId` from `GET /v1/sites`, not the legacy `Site.Name` short name. These are different identifiers.
+
+**Solution**: New type and getter:
+
+```go
+// IntegrationSite holds identity fields from GET /v1/sites.
+// InternalReference matches legacy Site.Name for cross-lookup.
+type IntegrationSite struct {
+    ID                string `json:"id"`                // UUID — pass to all integration/v1 calls
+    InternalReference string `json:"internalReference"` // equals legacy Site.Name ("default")
+    Name              string `json:"name"`
+}
+
+func (u *Unifi) GetIntegrationSites() ([]*IntegrationSite, error)
+```
+
+Callers who already have `[]*Site` from `GetSites()` join on `site.Name == integrationSite.InternalReference` to get the UUID. All per-site integration/v1 getters take `*IntegrationSite`.
+
+**Files**: new `integration_sites.go`; path constant `APIIntegrationSitesPath` in `types.go`; add to `UnifiClient` interface; add to `mocks/`.
+
+---
+
+### B1. Device statistics (`GET /v1/sites/{siteId}/devices/{deviceId}/statistics/latest`)
+
+**Status**: Open
+
+**Data**: `uptimeSec`, `cpuUtilizationPct`, `memoryUtilizationPct`, `loadAverage{1,5,15}Min`, `lastHeartbeatAt`, `nextHeartbeatAt`, per-radio `txRetriesPct`/`frequencyGHz`, per-uplink `txRateBps`/`rxRateBps`.
+
+**Use case**: Per-device CPU/memory/uptime metrics — currently only available embedded in the large legacy device payload. This is a clean dedicated stats endpoint.
+
+**Implementation**:
+```go
+GetIntegrationDeviceStats(site *IntegrationSite, deviceID string) (*IntegrationDeviceStats, error)
+// Convenience bulk getter: enumerates device IDs via GET /v1/sites/{siteId}/devices first.
+GetAllIntegrationDeviceStats(site *IntegrationSite) ([]*IntegrationDeviceStats, error)
+```
+
+**Files**: `integration_devices.go`
+
+---
+
+### B2. WiFi broadcasts (`GET /v1/sites/{siteId}/wifi/broadcasts`)
+
+**Status**: Open
+
+**Data**: `id`, `name`, `enabled`, `network` (VLAN reference), `securityConfiguration` (type: WPA2/WPA3/open, PSK, RADIUS profile ref), `broadcastingDeviceFilter`. Single-broadcast getter at `/{wifiBroadcastId}`.
+
+**Use case**: SSID inventory — the library has no WiFi broadcast / SSID data today.
+
+**Implementation**: `GetWifiBroadcasts(site *IntegrationSite) ([]*WifiBroadcast, error)`
+
+**Files**: `wifi_broadcasts.go`
+
+---
+
+### B3. Firewall zones (`GET /v1/sites/{siteId}/firewall/zones`)
+
+**Status**: Open
+
+**Data**: `id`, `name`, `networkIds` (list of network UUIDs in the zone), `metadata` (origin: system/user).
+
+**Use case**: The existing `GetFirewallPolicies()` returns policies that reference zone IDs — without zone data, those IDs are opaque. This completes the firewall picture.
+
+**Implementation**: `GetFirewallZones(site *IntegrationSite) ([]*FirewallZone, error)`
+
+**Files**: `firewall_zones.go`
+
+---
+
+### B4. ACL rules (`GET /v1/sites/{siteId}/acl-rules`)
+
+**Status**: Open
+
+**Data**: `id`, `enabled`, `name`, `description`, `action` (ALLOW/BLOCK), `enforcingDeviceFilter`, `index`, `sourceFilter`. Single-rule getter at `/{aclRuleId}`. Ordering at `/ordering`.
+
+**Use case**: Network access-control visibility; currently no ACL data in the library.
+
+**Implementation**: `GetACLRules(site *IntegrationSite) ([]*ACLRule, error)`
+
+**Files**: `acl_rules.go`
+
+---
+
+### B5. Networks (`GET /v1/sites/{siteId}/networks`)
+
+**Status**: Open
+
+**Data**: `id`, `name`, `enabled`, `vlanId`, `management` (gateway/switch-managed/unmanaged), `dhcpGuarding`. More structured than the legacy `/rest/networkconf` response. Single-network getter at `/{networkId}`; references at `/{networkId}/references`.
+
+**Use case**: Clean network inventory; complements the legacy `GetNetworks()` which remains for backward compat.
+
+**Implementation**: `GetIntegrationNetworks(site *IntegrationSite) ([]*IntegrationNetwork, error)`
+
+**Files**: `integration_networks.go`
+
+---
+
+### B6. WAN interfaces (`GET /v1/sites/{siteId}/wans`)
+
+**Status**: Open
+
+**Data**: `id`, `name`. Lightweight list of WAN interface identifiers.
+
+**Use case**: Enumerate WAN interfaces to drive the existing v2 WAN enriched/SLA calls by interface ID.
+
+**Implementation**: `GetIntegrationWANs(site *IntegrationSite) ([]*IntegrationWAN, error)`
+
+**Files**: extend `wan.go` or new `integration_wans.go`
+
+---
+
+### B7. VPN servers + site-to-site tunnels
+
+**Status**: Open
+
+**Data**:
+- `GET /v1/sites/{siteId}/vpn/servers` → `id`, `name`, `enabled`, `type` (L2TP/OpenVPN/WireGuard/UID)
+- `GET /v1/sites/{siteId}/vpn/site-to-site-tunnels` → `id`, `name`, `type` (IPSec/OpenVPN/WireGuard), `metadata`
+
+**Use case**: VPN infrastructure visibility; complements the existing `GetMagicSiteToSiteVPN()` (v2 API).
+
+**Implementation**:
+```go
+GetVPNServers(site *IntegrationSite) ([]*VPNServer, error)
+GetSiteToSiteTunnels(site *IntegrationSite) ([]*SiteToSiteTunnel, error)
+```
+
+**Files**: `vpn_servers.go` (or extend `vpn.go`)
+
+---
+
+### B8. Switching topology (LAGs, MC-LAG domains, switch stacks)
+
+**Status**: Open
+
+**Data**:
+- `GET /v1/sites/{siteId}/switching/lags` → `id`, `type` (local/global), `members` (device ID + port indexes), `metadata`
+- `GET /v1/sites/{siteId}/switching/mc-lag-domains` → `id`, `name`, `peers` (role + device ID + link ports), `lags`, `metadata`
+- `GET /v1/sites/{siteId}/switching/switch-stacks` → `id`, `name`, `members` (device IDs), `lags`, `metadata`
+
+**Use case**: Switching topology not available via any current endpoint. Required for understanding LAG/MLAG/stack relationships between switches.
+
+**Implementation**:
+```go
+GetLAGs(site *IntegrationSite) ([]*LAG, error)
+GetMCLAGDomains(site *IntegrationSite) ([]*MCLAGDomain, error)
+GetSwitchStacks(site *IntegrationSite) ([]*SwitchStack, error)
+```
+
+**Files**: `switching.go`
+
+---
+
+### B9. DNS policies (`GET /v1/sites/{siteId}/dns/policies`)
+
+**Status**: Open
+
+**Data**: `id`, `enabled`, `type` (forward-domain/block/allow/etc.), `domain`. Single-policy getter at `/{dnsPolicyId}`.
+
+**Use case**: DNS filtering / split-horizon visibility.
+
+**Implementation**: `GetDNSPolicies(site *IntegrationSite) ([]*DNSPolicy, error)`
+
+**Files**: `dns_policies.go`
+
+---
+
+### B10. RADIUS profiles (`GET /v1/sites/{siteId}/radius/profiles`)
+
+**Status**: Open
+
+**Data**: `id`, `name`, `metadata`. Reference data used by WiFi enterprise security configs.
+
+**Implementation**: `GetRADIUSProfiles(site *IntegrationSite) ([]*RADIUSProfile, error)`
+
+**Files**: `radius_profiles.go`
+
+---
+
+### B11. Traffic matching lists (`GET /v1/sites/{siteId}/traffic-matching-lists`)
+
+**Status**: Open
+
+**Data**: `id`, `name`, `type` (IPv4/IPv6/port). Used as references in firewall policy traffic filters.
+
+**Implementation**: `GetTrafficMatchingLists(site *IntegrationSite) ([]*TrafficMatchingList, error)`
+
+**Files**: `traffic_matching_lists.go`
+
+---
+
+### B12. Hotspot vouchers (`GET /v1/sites/{siteId}/hotspot/vouchers`)
+
+**Status**: Open
+
+**Data**: `id`, `code`, `name`, `authorizedGuestLimit`, `authorizedGuestCount`, `activatedAt`, `expiresAt`, `timeLimitMinutes`, `dataUsageLimitMBytes`, rate limits.
+
+**Use case**: Guest portal monitoring — voucher usage, expiry, capacity.
+
+**Implementation**: `GetHotspotVouchers(site *IntegrationSite) ([]*HotspotVoucher, error)`
+
+**Files**: `hotspot_vouchers.go`
+
+---
+
+### B13. DPI application catalogue (`GET /v1/dpi/applications`, `GET /v1/dpi/categories`)
+
+**Status**: Open
+
+**Data**: `id`, `name` for each application and category. Reference tables that decode the integer IDs in existing DPI stat responses.
+
+**Implementation**:
+```go
+GetDPIApplications() ([]*DPIApplication, error)
+GetDPICategories() ([]*DPICategory, error)
+```
+
+**Files**: extend `dpi.go`
+
+---
+
+### B14. Pending devices (`GET /v1/pending-devices`)
+
+**Status**: Open
+
+**Data**: `macAddress`, `ipAddress`, `model`, `state`, `supported`, `firmwareVersion`, `firmwareUpdatable`, `features`.
+
+**Use case**: Adoption queue monitoring — see what devices are waiting to be adopted.
+
+**Implementation**: `GetPendingDevices() ([]*PendingDevice, error)`
+
+**Files**: extend `devices.go` or new `pending_devices.go`
+
+---
+
+### B15. Application info (`GET /v1/info`)
+
+**Status**: Open
+
+**Data**: `applicationVersion` string.
+
+**Use case**: Lightweight version check; complements `GetServerData()` which populates `ServerStatus`, after which `u.ServerStatus.MajorVersion()` returns the numeric major version (promoted to `u.MajorVersion()` via embedding, but requires `GetServerData()` to have been called first).
+
+**Implementation**: `GetIntegrationInfo() (*IntegrationInfo, error)`
+
+**Files**: `integration_sites.go` (same file as B0, trivially small)
+
+---
+
+### B16. Countries (`GET /v1/countries`)
+
+**Status**: Open
+
+**Data**: `code`, `name` per country.
+
+**Use case**: Reference data for geo-based firewall policy filters (region filter). Low priority.
+
+**Implementation**: `GetCountries() ([]*Country, error)`
+
+**Files**: `countries.go`
+
+---
+
+## Part B — Implementation order
+
+### Phase 0 (prerequisite)
+- **B0** — `GetIntegrationSites()` + `IntegrationSite` type
+
+### Phase 1 (high monitoring value, low complexity)
+- **B1** — Device statistics (CPU/mem/uptime)
+- **B2** — WiFi broadcasts (SSID inventory)
+- **B3** — Firewall zones (completes firewall policy context)
+- **B4** — ACL rules
+
+### Phase 2 (network topology)
+- **B5** — Networks (integration/v1)
+- **B6** — WAN interfaces
+- **B7** — VPN servers + site-to-site tunnels
+- **B8** — Switching topology (LAGs, MC-LAGs, stacks)
+- **B9** — DNS policies
+
+### Phase 3 (reference and config data)
+- **B10** — RADIUS profiles
+- **B11** — Traffic matching lists
+- **B12** — Hotspot vouchers
+- **B13** — DPI app/category catalogue
+- **B14** — Pending devices
+- **B15** — Application info
+- **B16** — Countries
+
+---
+
+## Part B — Implementation notes
+
+- **Auth**: Integration/v1 requires `X-API-Key` — cookie auth returns 401. Every B-phase getter must guard with an early return when `u.APIKey == ""` (a new sentinel `ErrAPIKeyRequired` should be added). The `setHeaders` helper already sends the key when present; no transport changes needed.
+- **Pagination**: Integration/v1 list responses use `{offset, limit, count, totalCount, data}` — a different envelope from the legacy `{meta, data}` that `GetData` is shaped for. Paginated getters must use `GetJSON` + a shared integration-pagination helper that loops until `offset+count >= totalCount`, rather than `GetData`.
+- **Global vs. per-site**: Endpoints without a `{siteId}` segment (B13–B16) take no site parameter. Don't add `*IntegrationSite` to these getters.
+- **Path constants**: All integration/v1 path constants go in `types.go` under a new `// Integration/v1 API paths` comment block, following the same naming convention (`APIIntegration*Path`).
+- **Interface**: Every new getter must be added to `UnifiClient` in `types.go` and implemented in `mocks/`.
+- **Write operations excluded**: POST/PUT/DELETE/PATCH are out of scope — the library is read-only by design.
+- **Availability gate**: Integration/v1 requires Network 9.3.43+. Callers should check `u.ServerStatus.MajorVersion() >= 9` (after `GetServerData()`) before calling integration/v1 getters, or handle `ErrEndpointNotFound` gracefully if the endpoint is absent on older controllers.

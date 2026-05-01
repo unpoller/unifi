@@ -195,6 +195,37 @@ const (
 	APIMagicSiteToSiteVPNPath string = "/proxy/network/v2/api/site/%s/magicsitetositevpn/configs"
 	// APISysinfoPath returns controller system info and health (UniFi OS).
 	APISysinfoPath string = "/api/s/%s/stat/sysinfo"
+
+	// Integration/v1 API paths — require X-API-Key auth (APIKey in Config).
+	// Paths already include /proxy/network prefix and are not modified by path().
+	APIIntegrationSitesPath       string = "/proxy/network/integration/v1/sites"
+	APIIntegrationDevicesPath     string = "/proxy/network/integration/v1/sites/%s/devices"
+	APIIntegrationDeviceStatsPath string = "/proxy/network/integration/v1/sites/%s/devices/%s/statistics/latest"
+	APIWifiBroadcastsPath         string = "/proxy/network/integration/v1/sites/%s/wifi/broadcasts"
+	APIFirewallZonesPath          string = "/proxy/network/integration/v1/sites/%s/firewall/zones"
+	APIACLRulesPath               string = "/proxy/network/integration/v1/sites/%s/acl-rules"
+	APIIntegrationNetworksPath    string = "/proxy/network/integration/v1/sites/%s/networks"
+	APIIntegrationWANsPath        string = "/proxy/network/integration/v1/sites/%s/wans"
+	APIVPNServersPath             string = "/proxy/network/integration/v1/sites/%s/vpn/servers"
+	APISiteToSiteTunnelsPath      string = "/proxy/network/integration/v1/sites/%s/vpn/site-to-site-tunnels"
+	APILAGsPath                   string = "/proxy/network/integration/v1/sites/%s/switching/lags"
+	APIMCLAGDomainsPath           string = "/proxy/network/integration/v1/sites/%s/switching/mc-lag-domains"
+	APISwitchStacksPath           string = "/proxy/network/integration/v1/sites/%s/switching/switch-stacks"
+	APIDNSPoliciesPath            string = "/proxy/network/integration/v1/sites/%s/dns/policies"
+	APIRADIUSProfilesPath         string = "/proxy/network/integration/v1/sites/%s/radius/profiles"
+	APITrafficMatchingListsPath   string = "/proxy/network/integration/v1/sites/%s/traffic-matching-lists"
+	APIHotspotVouchersPath        string = "/proxy/network/integration/v1/sites/%s/hotspot/vouchers"
+	APIDPIApplicationsPath        string = "/proxy/network/integration/v1/dpi/applications"
+	APIDPICategoriesPath          string = "/proxy/network/integration/v1/dpi/categories"
+	APIPendingDevicesPath         string = "/proxy/network/integration/v1/pending-devices"
+	APIIntegrationInfoPath        string = "/proxy/network/integration/v1/info"
+	APICountriesPath              string = "/proxy/network/integration/v1/countries"
+
+	// Legacy gap API paths (Part A).
+	APIWANStatusPath   string = "/api/s/%s/stat/status"
+	APIUPSDevicesPath  string = "/api/s/%s/stat/ups-devices"
+	APIPortForwardPath string = "/api/s/%s/rest/portforward"
+	APISSLCertPath     string = "/api/s/%s/stat/active"
 )
 
 // path returns the correct api path based on the new variable.
@@ -250,6 +281,288 @@ type Config struct {
 	DebugLog  Logger
 	Timeout   time.Duration // how long to wait for replies, default: forever.
 	VerifySSL bool
+}
+
+// IntegrationSite holds site identity from GET /proxy/network/integration/v1/sites.
+// InternalReference matches the legacy Site.Name ("default") for cross-lookup.
+type IntegrationSite struct {
+	ID                string `json:"id"`
+	InternalReference string `json:"internalReference"`
+	Name              string `json:"name"`
+}
+
+// IntegrationInfo holds application version from GET /proxy/network/integration/v1/info.
+type IntegrationInfo struct {
+	ApplicationVersion string `json:"applicationVersion"`
+}
+
+// IntegrationDeviceRadioStats holds per-radio stats within IntegrationDeviceStats.
+type IntegrationDeviceRadioStats struct {
+	FrequencyGHz FlexInt `json:"frequencyGHz"` // fractional GHz (e.g. 2.4, 5.0); use .Val, not .Int()
+	TxRetriesPct FlexInt `json:"txRetriesPct"`
+}
+
+// IntegrationDeviceUplinkStats holds per-uplink stats within IntegrationDeviceStats.
+type IntegrationDeviceUplinkStats struct {
+	RxRateBps FlexInt `json:"rxRateBps"`
+	TxRateBps FlexInt `json:"txRateBps"`
+}
+
+// IntegrationDeviceStats holds device statistics from the Integration/v1 API.
+type IntegrationDeviceStats struct {
+	CPUUtilizationPct    FlexInt                        `json:"cpuUtilizationPct"`
+	DeviceID             string                         `json:"deviceId"`
+	LastHeartbeatAt      string                         `json:"lastHeartbeatAt"`
+	LoadAverage15Min     FlexInt                        `json:"loadAverage15Min"` // fractional Unix load average; use .Val, not .Int()
+	LoadAverage1Min      FlexInt                        `json:"loadAverage1Min"`  // fractional Unix load average; use .Val, not .Int()
+	LoadAverage5Min      FlexInt                        `json:"loadAverage5Min"`  // fractional Unix load average; use .Val, not .Int()
+	MemoryUtilizationPct FlexInt                        `json:"memoryUtilizationPct"`
+	NextHeartbeatAt      string                         `json:"nextHeartbeatAt"`
+	Radios               []IntegrationDeviceRadioStats  `json:"radios"`
+	Uplinks              []IntegrationDeviceUplinkStats `json:"uplinks"`
+	UptimeSec            FlexInt                        `json:"uptimeSec"`
+}
+
+// WifiBroadcastSecurityConfiguration holds security settings for a WiFi broadcast.
+type WifiBroadcastSecurityConfiguration struct {
+	PSK           string `json:"psk"`
+	RADIUSProfile string `json:"radiusProfile"`
+	Type          string `json:"type"` // WPA2, WPA3, open
+}
+
+// WifiBroadcast represents a WiFi SSID broadcast from the Integration/v1 API.
+type WifiBroadcast struct {
+	BroadcastingDeviceFilter []string                           `json:"broadcastingDeviceFilter"`
+	Enabled                  bool                               `json:"enabled"`
+	ID                       string                             `json:"id"`
+	Name                     string                             `json:"name"`
+	Network                  string                             `json:"network"`
+	SecurityConfiguration    WifiBroadcastSecurityConfiguration `json:"securityConfiguration"`
+
+	SiteName string `json:"-"`
+}
+
+// FirewallZoneMetadata holds metadata for a firewall zone.
+type FirewallZoneMetadata struct {
+	Origin string `json:"origin"` // system, user
+}
+
+// FirewallZone represents a firewall zone from the Integration/v1 API.
+// Zone IDs appear in FirewallPolicy source/destination fields.
+type FirewallZone struct {
+	ID         string               `json:"id"`
+	Metadata   FirewallZoneMetadata `json:"metadata"`
+	Name       string               `json:"name"`
+	NetworkIDs []string             `json:"networkIds"`
+
+	SiteName string `json:"-"`
+}
+
+// ACLRule represents a network access control rule from the Integration/v1 API.
+type ACLRule struct {
+	Action                string   `json:"action"` // ALLOW, BLOCK
+	Description           string   `json:"description"`
+	Enabled               bool     `json:"enabled"`
+	EnforcingDeviceFilter []string `json:"enforcingDeviceFilter"`
+	ID                    string   `json:"id"`
+	Index                 FlexInt  `json:"index"`
+	Name                  string   `json:"name"`
+	SourceFilter          string   `json:"sourceFilter"`
+
+	SiteName string `json:"-"`
+}
+
+// IntegrationNetwork represents a network from the Integration/v1 API.
+// Complements the legacy GetNetworks() which remains for backward compatibility.
+type IntegrationNetwork struct {
+	DHCPGuarding bool    `json:"dhcpGuarding"`
+	Enabled      bool    `json:"enabled"`
+	ID           string  `json:"id"`
+	Management   string  `json:"management"` // gateway, switch-managed, unmanaged
+	Name         string  `json:"name"`
+	VlanID       FlexInt `json:"vlanId"`
+
+	SiteName string `json:"-"`
+}
+
+// IntegrationWAN represents a WAN interface identifier from the Integration/v1 API.
+type IntegrationWAN struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+
+	SiteName string `json:"-"`
+}
+
+// VPNServerMetadata holds metadata for a VPN server.
+type VPNServerMetadata struct {
+	Origin string `json:"origin"`
+}
+
+// VPNServer represents a VPN server from the Integration/v1 API.
+type VPNServer struct {
+	Enabled  bool              `json:"enabled"`
+	ID       string            `json:"id"`
+	Metadata VPNServerMetadata `json:"metadata"`
+	Name     string            `json:"name"`
+	Type     string            `json:"type"` // L2TP, OpenVPN, WireGuard, UID
+
+	SiteName string `json:"-"`
+}
+
+// SiteToSiteTunnelMetadata holds metadata for a site-to-site tunnel.
+type SiteToSiteTunnelMetadata struct {
+	Origin string `json:"origin"`
+}
+
+// SiteToSiteTunnel represents a site-to-site VPN tunnel from the Integration/v1 API.
+type SiteToSiteTunnel struct {
+	ID       string                   `json:"id"`
+	Metadata SiteToSiteTunnelMetadata `json:"metadata"`
+	Name     string                   `json:"name"`
+	Type     string                   `json:"type"` // IPSec, OpenVPN, WireGuard
+
+	SiteName string `json:"-"`
+}
+
+// LAGMember represents a device port membership within a LAG.
+type LAGMember struct {
+	DeviceID    string `json:"deviceId"`
+	PortIndexes []int  `json:"portIndexes"`
+}
+
+// LAGMetadata holds metadata for a LAG.
+type LAGMetadata struct {
+	Origin string `json:"origin"`
+}
+
+// LAG represents a link aggregation group from the Integration/v1 API.
+type LAG struct {
+	ID       string      `json:"id"`
+	Members  []LAGMember `json:"members"`
+	Metadata LAGMetadata `json:"metadata"`
+	Type     string      `json:"type"` // local, global
+
+	SiteName string `json:"-"`
+}
+
+// MCLAGPeer represents a peer device in an MC-LAG domain.
+type MCLAGPeer struct {
+	DeviceID  string `json:"deviceId"`
+	LinkPorts []int  `json:"linkPorts"`
+	Role      string `json:"role"`
+}
+
+// MCLAGMetadata holds metadata for an MC-LAG domain.
+type MCLAGMetadata struct {
+	Origin string `json:"origin"`
+}
+
+// MCLAGDomain represents a multi-chassis LAG domain from the Integration/v1 API.
+type MCLAGDomain struct {
+	ID       string        `json:"id"`
+	LAGs     []string      `json:"lags"`
+	Metadata MCLAGMetadata `json:"metadata"`
+	Name     string        `json:"name"`
+	Peers    []MCLAGPeer   `json:"peers"`
+
+	SiteName string `json:"-"`
+}
+
+// SwitchStackMetadata holds metadata for a switch stack.
+type SwitchStackMetadata struct {
+	Origin string `json:"origin"`
+}
+
+// SwitchStack represents a switch stack from the Integration/v1 API.
+type SwitchStack struct {
+	ID       string              `json:"id"`
+	LAGs     []string            `json:"lags"`
+	Members  []string            `json:"members"` // device IDs
+	Metadata SwitchStackMetadata `json:"metadata"`
+	Name     string              `json:"name"`
+
+	SiteName string `json:"-"`
+}
+
+// DNSPolicy represents a DNS policy from the Integration/v1 API.
+type DNSPolicy struct {
+	Domain  string `json:"domain"`
+	Enabled bool   `json:"enabled"`
+	ID      string `json:"id"`
+	Type    string `json:"type"` // forward-domain, block, allow
+
+	SiteName string `json:"-"`
+}
+
+// RADIUSProfileMetadata holds metadata for a RADIUS profile.
+type RADIUSProfileMetadata struct {
+	Origin string `json:"origin"`
+}
+
+// RADIUSProfile represents a RADIUS authentication profile from the Integration/v1 API.
+type RADIUSProfile struct {
+	ID       string                `json:"id"`
+	Metadata RADIUSProfileMetadata `json:"metadata"`
+	Name     string                `json:"name"`
+
+	SiteName string `json:"-"`
+}
+
+// TrafficMatchingList represents a traffic matching list from the Integration/v1 API.
+// Used as references in firewall policy traffic filters.
+type TrafficMatchingList struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+	Type string `json:"type"` // IPv4, IPv6, port
+
+	SiteName string `json:"-"`
+}
+
+// HotspotVoucher represents a guest portal voucher from the Integration/v1 API.
+type HotspotVoucher struct {
+	ActivatedAt          string  `json:"activatedAt"`
+	AuthorizedGuestCount FlexInt `json:"authorizedGuestCount"`
+	AuthorizedGuestLimit FlexInt `json:"authorizedGuestLimit"`
+	Code                 string  `json:"code"`
+	DataUsageLimitMBytes FlexInt `json:"dataUsageLimitMBytes"` // 0 means no data cap
+	ExpiresAt            string  `json:"expiresAt"`
+	ID                   string  `json:"id"`
+	Name                 string  `json:"name"`
+	TimeLimitMinutes     FlexInt `json:"timeLimitMinutes"` // 0 means no time limit
+
+	SiteName string `json:"-"`
+}
+
+// DPIApplication represents an entry in the DPI application catalogue.
+// Use ID.Int() as the app key when calling DPIMap.GetApp.
+type DPIApplication struct {
+	ID   FlexInt `json:"id"`
+	Name string  `json:"name"`
+}
+
+// DPICategory represents an entry in the DPI category catalogue.
+// Use ID.Int() as the cat key when calling DPIMap.Get or DPIMap.GetApp.
+type DPICategory struct {
+	ID   FlexInt `json:"id"`
+	Name string  `json:"name"`
+}
+
+// PendingDevice represents a device in the adoption queue.
+type PendingDevice struct {
+	FirmwareUpdatable bool     `json:"firmwareUpdatable"`
+	FirmwareVersion   string   `json:"firmwareVersion"`
+	Features          []string `json:"features"`
+	IPAddress         string   `json:"ipAddress"`
+	MACAddress        string   `json:"macAddress"`
+	Model             string   `json:"model"`
+	State             string   `json:"state"`
+	Supported         bool     `json:"supported"`
+}
+
+// Country represents a country entry for geo-based firewall policy filters.
+type Country struct {
+	Code string `json:"code"`
+	Name string `json:"name"`
 }
 
 type UnifiClient interface { //nolint: revive
@@ -355,6 +668,59 @@ type UnifiClient interface { //nolint: revive
 	GetMagicSiteToSiteVPN(sites []*Site) ([]*MagicSiteToSiteVPN, error)
 	// GetMagicSiteToSiteVPNSite returns Site Magic site-to-site VPN mesh configurations for a single Site.
 	GetMagicSiteToSiteVPNSite(site *Site) ([]*MagicSiteToSiteVPN, error)
+	// GetIntegrationSites returns all sites from the Integration/v1 API.
+	// Requires Config.APIKey; join on InternalReference == Site.Name to get UUID.
+	GetIntegrationSites() ([]*IntegrationSite, error)
+	// GetIntegrationInfo returns application version info from the Integration/v1 API.
+	GetIntegrationInfo() (*IntegrationInfo, error)
+	// GetIntegrationDeviceStats returns statistics for a single device from Integration/v1 API.
+	GetIntegrationDeviceStats(site *IntegrationSite, deviceID string) (*IntegrationDeviceStats, error)
+	// GetAllIntegrationDeviceStats returns statistics for all devices in a site.
+	GetAllIntegrationDeviceStats(site *IntegrationSite) ([]*IntegrationDeviceStats, error)
+	// GetWifiBroadcasts returns WiFi broadcast (SSID) configurations for a site.
+	GetWifiBroadcasts(site *IntegrationSite) ([]*WifiBroadcast, error)
+	// GetFirewallZones returns firewall zones for a site. Zone IDs appear in firewall policies.
+	GetFirewallZones(site *IntegrationSite) ([]*FirewallZone, error)
+	// GetACLRules returns access control rules for a site.
+	GetACLRules(site *IntegrationSite) ([]*ACLRule, error)
+	// GetIntegrationNetworks returns networks for a site from the Integration/v1 API.
+	GetIntegrationNetworks(site *IntegrationSite) ([]*IntegrationNetwork, error)
+	// GetIntegrationWANs returns WAN interface identifiers for a site.
+	GetIntegrationWANs(site *IntegrationSite) ([]*IntegrationWAN, error)
+	// GetVPNServers returns VPN server configurations for a site.
+	GetVPNServers(site *IntegrationSite) ([]*VPNServer, error)
+	// GetSiteToSiteTunnels returns site-to-site VPN tunnel configurations for a site.
+	GetSiteToSiteTunnels(site *IntegrationSite) ([]*SiteToSiteTunnel, error)
+	// GetLAGs returns link aggregation group configurations for a site.
+	GetLAGs(site *IntegrationSite) ([]*LAG, error)
+	// GetMCLAGDomains returns multi-chassis LAG domain configurations for a site.
+	GetMCLAGDomains(site *IntegrationSite) ([]*MCLAGDomain, error)
+	// GetSwitchStacks returns switch stack configurations for a site.
+	GetSwitchStacks(site *IntegrationSite) ([]*SwitchStack, error)
+	// GetDNSPolicies returns DNS policies for a site.
+	GetDNSPolicies(site *IntegrationSite) ([]*DNSPolicy, error)
+	// GetRADIUSProfiles returns RADIUS authentication profiles for a site.
+	GetRADIUSProfiles(site *IntegrationSite) ([]*RADIUSProfile, error)
+	// GetTrafficMatchingLists returns traffic matching lists for a site.
+	GetTrafficMatchingLists(site *IntegrationSite) ([]*TrafficMatchingList, error)
+	// GetHotspotVouchers returns guest portal vouchers for a site.
+	GetHotspotVouchers(site *IntegrationSite) ([]*HotspotVoucher, error)
+	// GetDPIApplications returns the DPI application reference catalogue (global, no site).
+	GetDPIApplications() ([]*DPIApplication, error)
+	// GetDPICategories returns the DPI category reference catalogue (global, no site).
+	GetDPICategories() ([]*DPICategory, error)
+	// GetPendingDevices returns devices waiting to be adopted (global, no site).
+	GetPendingDevices() ([]*PendingDevice, error)
+	// GetCountries returns the list of countries for geo-based firewall filters (global, no site).
+	GetCountries() ([]*Country, error)
+	// GetWANStatus returns WAN interface status (ACTIVE/BACKUP) for a site.
+	GetWANStatus(site *Site) (*WANStatus, error)
+	// GetUPSDeviceList returns UPS/PDU device selectors for a site.
+	GetUPSDeviceList(site *Site) ([]*UPSDeviceSelector, error)
+	// GetPortForwards returns port forwarding rules for a site.
+	GetPortForwards(site *Site) ([]*PortForward, error)
+	// GetSSLCertificate returns SSL certificate information for a site.
+	GetSSLCertificate(site *Site) (*SSLCertificate, error)
 }
 
 // Unifi is what you get in return for providing a password! Unifi represents
