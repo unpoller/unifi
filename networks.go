@@ -60,4 +60,23 @@ type Network struct {
 	SiteID                 string   `fake:"{uuid}"                    json:"site_id"`
 	Vlan                   FlexInt  `json:"vlan"`
 	VlanEnabled            FlexBool `json:"vlan_enabled"`
+
+	// WAN failover
+	WANFailoverPriority FlexInt `json:"wan_failover_priority"`
+	WANLoadBalanceType  string  `json:"wan_load_balance_type"`
+
+	// IPv6
+	IPv6Enabled FlexBool `json:"ipv6_enabled"`
+
+	// VPN
+	SDWANRemoteSiteID string `json:"sdwan_remote_site_id"`
+	VPNType           string `json:"vpn_type"`
+
+	// Advanced DHCP
+	DhcpdNTPEnabled  FlexBool `json:"dhcpd_ntp_enabled"`
+	DhcpdWINSEnabled FlexBool `json:"dhcpd_wins_enabled"`
+
+	// Misc
+	FirewallZoneID string   `json:"firewall_zone_id"`
+	MDNSEnabled    FlexBool `json:"mdns_enabled"`
 }

@@ -563,60 +563,6 @@ type Country struct {
 	Name string `json:"name"`
 }
 
-// WANStatusInterface represents a single WAN interface status entry.
-type WANStatusInterface struct {
-	Name         string `json:"name"`
-	NetworkGroup string `json:"network_group"` // WAN, WAN2
-	State        string `json:"state"`         // ACTIVE, BACKUP
-}
-
-// WANStatus represents WAN interface status from /api/s/{site}/stat/status.
-type WANStatus struct {
-	WANInterfaces []WANStatusInterface `json:"wan_interfaces"`
-
-	SiteName string `json:"-"`
-}
-
-// UPSDeviceSelector is a lightweight UPS/PDU device identity entry.
-type UPSDeviceSelector struct {
-	ImageURL string `json:"image_url"`
-	Label    string `json:"label"`
-	MAC      string `json:"mac"`
-	SiteID   string `json:"site_id"`
-}
-
-// PortForward represents a port forwarding rule from the UniFi controller.
-type PortForward struct {
-	DstPort  string   `json:"dst_port"`
-	Enabled  FlexBool `json:"enabled"`
-	Fwd      string   `json:"fwd"`
-	FwdPort  string   `json:"fwd_port"`
-	ID       string   `json:"_id"`
-	Name     string   `json:"name"`
-	Proto    string   `json:"proto"` // tcp, udp, tcp_udp
-	Src      string   `json:"src"`
-	SrcPort  FlexInt  `json:"src_port"`
-
-	SiteName   string `json:"-"`
-	SourceName string `json:"-"`
-}
-
-// SSLCertificateChain represents one certificate in an SSL chain.
-type SSLCertificateChain struct {
-	Fingerprint string `json:"fingerprint"`
-	Issuer      string `json:"issuer"`
-	Subject     string `json:"subject"`
-	ValidFrom   string `json:"valid_from"`
-	ValidTo     string `json:"valid_to"`
-}
-
-// SSLCertificate represents SSL certificate information from the UniFi controller.
-type SSLCertificate struct {
-	Chain  []SSLCertificateChain `json:"chain"`
-	Status string                `json:"status"`
-
-	SiteName string `json:"-"`
-}
 
 type UnifiClient interface { //nolint: revive
 	// GetAlarms returns Alarms for a list of Sites.
