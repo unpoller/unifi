@@ -297,4 +297,92 @@ This document lists API endpoints observed while browsing a UniFi controller (UD
 
 ---
 
+---
+
+## Network 10.x API changes (tested on 10.3.58, UDM-Pro)
+
+### Removed endpoints (404 on Network 10.x)
+
+| Endpoint | Previously used for | Status |
+|----------|---------------------|--------|
+| `/proxy/network/api/s/default/stat/event` | UniFi Events (GetEvents) | **Removed** — no replacement in integration/v1 |
+| `/proxy/network/api/s/default/stat/ips/event` | IDS/IPS Events (GetIDS) | **Removed** — no replacement in integration/v1 |
+
+**Workaround**: Use `save_syslog` (v2 system-log POST API) instead of `save_events`. IDS events have no current replacement.
+
+### Status endpoint regression
+
+`/proxy/network/status` no longer returns `server_version` in Network 10.x (field is absent). Use `/proxy/network/api/s/default/stat/sysinfo` → `data[0].version` for controller version detection instead.
+
+### Valid system-log categories (Network 10.x)
+
+The `/proxy/network/v2/api/site/default/system-log/all` endpoint (POST) only accepts these `categories` values on Network 10.x (see [unpoller/unifi#198](https://github.com/unpoller/unifi/issues/198)):
+
+`SECURITY`, `UNIFI_DEVICES`, `SOFTWARE_UPDATES`, `VPN`, `POWER`, `UNIFI_ETHERNET_PORTS`, `CLIENT_DEVICES`, `UNKNOWN`, `AUDIT`, `INTERNET_AND_WAN`
+
+Values `MONITORING` and `SYSTEM` cause a `400 Bad Request`.
+
+---
+
+## Official integration/v1 API (Network 9.3.43+)
+
+A formally supported REST API with OpenAPI spec. Requires `X-API-Key` header auth (not cookie auth). Uses UUID-format site IDs (not site names like `"default"`). Spec available at `/proxy/network/api-docs/integration.json`. Full versioned specs at <https://github.com/beezly/unifi-apis>.
+
+Base path: `/proxy/network/integration/v1/`
+
+### Endpoints (as of 10.3.58, from `/proxy/network/api-docs/integration.json`)
+
+This API supports both reads and writes. `siteId` is the UUID from `GET /v1/sites` (not the short name `"default"`).
+
+| Methods | Path | Summary |
+|---------|------|---------|
+| GET | `/v1/info` | Get Application Info |
+| GET | `/v1/countries` | List Countries |
+| GET | `/v1/dpi/categories` | List DPI Application Categories |
+| GET | `/v1/dpi/applications` | List DPI Applications |
+| GET | `/v1/pending-devices` | List Devices Pending Adoption |
+| GET | `/v1/sites` | List Local Sites |
+| GET, POST | `/v1/sites/{siteId}/acl-rules` | List / Create ACL Rules |
+| GET, PUT | `/v1/sites/{siteId}/acl-rules/ordering` | Get / Reorder ACL Rule Ordering |
+| GET, PUT, DELETE | `/v1/sites/{siteId}/acl-rules/{aclRuleId}` | Get / Update / Delete ACL Rule |
+| GET | `/v1/sites/{siteId}/clients` | List Connected Clients |
+| GET | `/v1/sites/{siteId}/clients/{clientId}` | Get Connected Client Details |
+| POST | `/v1/sites/{siteId}/clients/{clientId}/actions` | Execute Client Action |
+| GET | `/v1/sites/{siteId}/device-tags` | List Device Tags |
+| GET, POST | `/v1/sites/{siteId}/devices` | List / Adopt Devices |
+| GET, DELETE | `/v1/sites/{siteId}/devices/{deviceId}` | Get / Unadopt Device |
+| POST | `/v1/sites/{siteId}/devices/{deviceId}/actions` | Execute Device Action |
+| POST | `/v1/sites/{siteId}/devices/{deviceId}/interfaces/ports/{portIdx}/actions` | Execute Port Action |
+| GET | `/v1/sites/{siteId}/devices/{deviceId}/statistics/latest` | Get Latest Device Statistics |
+| GET, POST | `/v1/sites/{siteId}/dns/policies` | List / Create DNS Policies |
+| GET, PUT, DELETE | `/v1/sites/{siteId}/dns/policies/{dnsPolicyId}` | Get / Update / Delete DNS Policy |
+| GET, POST | `/v1/sites/{siteId}/firewall/policies` | List / Create Firewall Policies |
+| GET, PUT | `/v1/sites/{siteId}/firewall/policies/ordering` | Get / Reorder Firewall Policies |
+| GET, PUT, DELETE, PATCH | `/v1/sites/{siteId}/firewall/policies/{firewallPolicyId}` | Get / Update / Delete / Patch Firewall Policy |
+| GET, POST | `/v1/sites/{siteId}/firewall/zones` | List / Create Firewall Zones |
+| GET, PUT, DELETE | `/v1/sites/{siteId}/firewall/zones/{firewallZoneId}` | Get / Update / Delete Firewall Zone |
+| GET, POST, DELETE | `/v1/sites/{siteId}/hotspot/vouchers` | List / Generate / Delete Vouchers |
+| GET, DELETE | `/v1/sites/{siteId}/hotspot/vouchers/{voucherId}` | Get / Delete Voucher |
+| GET, POST | `/v1/sites/{siteId}/networks` | List / Create Networks |
+| GET, PUT, DELETE | `/v1/sites/{siteId}/networks/{networkId}` | Get / Update / Delete Network |
+| GET | `/v1/sites/{siteId}/networks/{networkId}/references` | Get Network References |
+| GET | `/v1/sites/{siteId}/radius/profiles` | List RADIUS Profiles |
+| GET | `/v1/sites/{siteId}/switching/lags` | List LAGs |
+| GET | `/v1/sites/{siteId}/switching/lags/{lagId}` | Get LAG Details |
+| GET | `/v1/sites/{siteId}/switching/mc-lag-domains` | List MC-LAG Domains |
+| GET | `/v1/sites/{siteId}/switching/mc-lag-domains/{mcLagDomainId}` | Get MC-LAG Domain |
+| GET | `/v1/sites/{siteId}/switching/switch-stacks` | List Switch Stacks |
+| GET | `/v1/sites/{siteId}/switching/switch-stacks/{switchStackId}` | Get Switch Stack |
+| GET, POST | `/v1/sites/{siteId}/traffic-matching-lists` | List / Create Traffic Matching Lists |
+| GET, PUT, DELETE | `/v1/sites/{siteId}/traffic-matching-lists/{id}` | Get / Update / Delete Traffic Matching List |
+| GET | `/v1/sites/{siteId}/vpn/servers` | List VPN Servers |
+| GET | `/v1/sites/{siteId}/vpn/site-to-site-tunnels` | List Site-To-Site VPN Tunnels |
+| GET | `/v1/sites/{siteId}/wans` | List WAN Interfaces |
+| GET, POST | `/v1/sites/{siteId}/wifi/broadcasts` | List / Create WiFi Broadcasts |
+| GET, PUT, DELETE | `/v1/sites/{siteId}/wifi/broadcasts/{wifiBroadcastId}` | Get / Update / Delete WiFi Broadcast |
+
+**Not available in integration/v1**: events, IDS/IPS, alarms, anomalies, DPI stats, rogue APs, system log.
+
+---
+
 *Generated from a capture session; endpoints may vary by controller version and role. Use the capture script to record your own session and extend this list.*

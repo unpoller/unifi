@@ -27,7 +27,7 @@ func (u *Unifi) GetDevices(sites []*Site) (*Devices, error) {
 		// Enrich devices with tags BEFORE appending to accumulated devices
 		// Tags are site-specific, so we must enrich only the current site's devices
 		if err := u.enrichDevicesWithTags(loopDevices, site); err != nil {
-			if errors.Is(err, ErrInvalidStatusCode) {
+			if errors.Is(err, ErrInvalidStatusCode) || errors.Is(err, ErrEndpointNotFound) {
 				u.logDeviceTagsUnavailableOnce()
 			} else {
 				u.ErrorLog("Failed to enrich devices with tags for site %s: %v", site.SiteName, err)
@@ -320,7 +320,7 @@ func (u *Unifi) unmarshallUDM(site *Site, payload json.RawMessage, devices *Devi
 }
 
 // unmarshalDevice handles logging for the unmarshal operations in parseDevices().
-func (u *Unifi) unmarshalDevice(dev string, data json.RawMessage, v interface{}) (err error) {
+func (u *Unifi) unmarshalDevice(dev string, data json.RawMessage, v any) (err error) {
 	if err = json.Unmarshal(data, v); err != nil {
 		u.ErrorLog("json.Unmarshal(%v): %v", dev, err)
 		u.ErrorLog("Enable Debug Logging to output the failed payload.")
@@ -386,7 +386,7 @@ func (u *Unifi) GetDeviceTags(site *Site) ([]*DeviceTag, error) {
 // logDeviceTagsUnavailableOnce logs once per process when the device-tags endpoint is unavailable (e.g. 404).
 func (u *Unifi) logDeviceTagsUnavailableOnce() {
 	u.deviceTagsUnavailableOnce.Do(func() {
-		u.ErrorLog("Device tags endpoint not available (e.g. 404). To see which endpoints your controller supports, run endpoint discovery (e.g. unpoller --discover).")
+		u.DebugLog("Device tags endpoint not available on this controller — tags will not be enriched on devices.")
 	})
 }
 
