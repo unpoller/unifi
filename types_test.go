@@ -84,6 +84,34 @@ func TestFlexString(t *testing.T) {
 	a.EqualValues([]string{"baz", "foo"}, r.MultiArrayString.Arr)
 }
 
+func TestServerStatusMajorVersion(t *testing.T) {
+	t.Parallel()
+	a := assert.New(t)
+
+	// nil receiver
+	var nilStatus *unifi.ServerStatus
+	a.Equal(0, nilStatus.MajorVersion())
+
+	for _, tc := range []struct {
+		version string
+		want    int
+	}{
+		{"", 0},
+		{"10.3.58", 10},
+		{"v10.3.58", 10},
+		{"V10.3.58", 10},
+		{"8.6.9", 8},
+		{"10", 10},   // no minor/patch
+		{"v10", 10},  // no minor/patch with prefix
+		{"v", 0},     // bare prefix only
+		{"abc.3", 0}, // non-numeric major
+	} {
+		s := &unifi.ServerStatus{}
+		s.ServerVersion = tc.version
+		a.Equalf(tc.want, s.MajorVersion(), "version %q", tc.version)
+	}
+}
+
 func TestFlexTemp(t *testing.T) {
 	t.Parallel()
 	a := assert.New(t)
