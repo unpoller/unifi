@@ -29,6 +29,7 @@ import (
 var (
 	ErrAuthenticationFailed = errors.New("authentication failed")
 	ErrInvalidStatusCode    = errors.New("invalid status code from server")
+	ErrEndpointNotFound     = errors.New("endpoint not found (404): removed in this controller version")
 	ErrNoParams             = errors.New("requested PUT with no parameters")
 	ErrInvalidSignature     = errors.New("certificate signature does not match")
 	ErrNilUnifi             = errors.New("unifi client is nil")
@@ -333,11 +334,52 @@ func (u *Unifi) GetServerData() (*ServerStatus, error) {
 
 	u.ServerStatus = &response.Data
 
+	// Network 10.x removed server_version from the /status endpoint.
+	// Fall back to sysinfo to populate the version.
+	if u.ServerVersion == "" {
+		u.populateVersionFromSysinfo()
+	}
+
 	return u.ServerStatus, nil
 }
 
+// populateVersionFromSysinfo fetches the Network version from the sysinfo endpoint
+// and stores it in ServerStatus. Used as a fallback when /status omits server_version.
+func (u *Unifi) populateVersionFromSysinfo() {
+	path := fmt.Sprintf(APISysinfoPath, "default")
+
+	var response struct {
+		Data []struct {
+			Version string `json:"version"`
+		} `json:"data"`
+	}
+
+	u.DebugLog("server_version absent from /status; falling back to sysinfo for version")
+
+	if err := u.GetData(path, &response); err != nil {
+		if errors.Is(err, ErrEndpointNotFound) {
+			// Older controllers that don't expose sysinfo return 404. This is expected;
+			// ServerVersion stays empty and MajorVersion() returns 0.
+			u.DebugLog("populateVersionFromSysinfo: sysinfo not available on this controller (404) — ServerVersion will be empty")
+		} else {
+			u.ErrorLog("populateVersionFromSysinfo: %v — ServerVersion will be empty, version-gated behavior may be incorrect", err)
+		}
+
+		return
+	}
+
+	if len(response.Data) == 0 {
+		u.DebugLog("populateVersionFromSysinfo: sysinfo returned no entries — ServerVersion will be empty")
+
+		return
+	}
+
+	u.ServerVersion = response.Data[0].Version
+	u.DebugLog("populateVersionFromSysinfo: resolved ServerVersion to %q", u.ServerVersion)
+}
+
 // GetData makes a unifi request and unmarshals the response into a provided pointer.
-func (u *Unifi) GetData(apiPath string, v interface{}, params ...string) error {
+func (u *Unifi) GetData(apiPath string, v any, params ...string) error {
 	if u == nil {
 		return ErrNilUnifi
 	}
@@ -356,7 +398,7 @@ func (u *Unifi) GetData(apiPath string, v interface{}, params ...string) error {
 }
 
 // PutData makes a unifi request and unmarshals the response into a provided pointer.
-func (u *Unifi) PutData(apiPath string, v interface{}, params ...string) error {
+func (u *Unifi) PutData(apiPath string, v any, params ...string) error {
 	start := time.Now()
 
 	body, err := u.PutJSON(apiPath, params...)
@@ -528,7 +570,9 @@ func (u *Unifi) do(req *http.Request) ([]byte, error) {
 		return body, &RateLimitError{RetryAfter: after}
 	}
 
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode == http.StatusNotFound {
+		err = fmt.Errorf("%s: %w", req.URL, ErrEndpointNotFound)
+	} else if resp.StatusCode != http.StatusOK {
 		err = fmt.Errorf("%s: %s: %w", req.URL, resp.Status, ErrInvalidStatusCode)
 	}
 

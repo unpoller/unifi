@@ -759,6 +759,22 @@ type ServerStatus struct {
 	UUID          string   `fake:"{uuid}"       json:"uuid"`
 }
 
+// MajorVersion parses the major version number from ServerVersion
+// (e.g. "10.3.58" → 10, "v10.3.58" → 10, "V10.3.58" → 10).
+// Returns 0 if the receiver is nil, the version is empty, or the major
+// segment is not a valid integer. Treat 0 as "unknown".
+func (s *ServerStatus) MajorVersion() int {
+	if s == nil || s.ServerVersion == "" {
+		return 0
+	}
+
+	v := strings.TrimLeft(s.ServerVersion, "vV")
+	major, _, _ := strings.Cut(v, ".")
+	n, _ := strconv.Atoi(major)
+
+	return n
+}
+
 type FlexString struct {
 	Val         string
 	Arr         []string
