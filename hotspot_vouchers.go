@@ -4,8 +4,16 @@ import "fmt"
 
 // GetHotspotVouchers returns guest portal vouchers for a site.
 func (u *Unifi) GetHotspotVouchers(site *IntegrationSite) ([]*HotspotVoucher, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	if site == nil {
 		return nil, ErrNoSiteProvided
+	}
+
+	if site.ID == "" {
+		return nil, fmt.Errorf("site %q has an empty ID; cannot construct Integration/v1 API path", site.Name)
 	}
 
 	u.DebugLog("Polling Integration/v1 for hotspot vouchers, site %s", site.Name)

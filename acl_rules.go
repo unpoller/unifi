@@ -4,8 +4,16 @@ import "fmt"
 
 // GetACLRules returns access control rules for a site.
 func (u *Unifi) GetACLRules(site *IntegrationSite) ([]*ACLRule, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	if site == nil {
 		return nil, ErrNoSiteProvided
+	}
+
+	if site.ID == "" {
+		return nil, fmt.Errorf("site %q has an empty ID; cannot construct Integration/v1 API path", site.Name)
 	}
 
 	u.DebugLog("Polling Integration/v1 for ACL rules, site %s", site.Name)

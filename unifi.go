@@ -27,13 +27,16 @@ import (
 )
 
 var (
-	ErrAuthenticationFailed = fmt.Errorf("authentication failed")
-	ErrInvalidStatusCode    = fmt.Errorf("invalid status code from server")
-	ErrNoParams             = fmt.Errorf("requested PUT with no parameters")
-	ErrInvalidSignature     = fmt.Errorf("certificate signature does not match")
-	ErrNilUnifi             = fmt.Errorf("unifi client is nil")
-	ErrTooManyRequests      = fmt.Errorf("429 too many requests")
-	ErrAPIKeyRequired       = errors.New("integration/v1 API requires Config.APIKey to be set")
+	ErrAuthenticationFailed = errors.New("authentication failed")
+	ErrInvalidStatusCode    = errors.New("invalid status code from server")
+	ErrNoParams             = errors.New("requested PUT with no parameters")
+	ErrInvalidSignature     = errors.New("certificate signature does not match")
+	ErrNilUnifi             = errors.New("unifi client is nil")
+	ErrTooManyRequests      = errors.New("429 too many requests")
+
+	// Integration/v1 API sentinels.
+	ErrAPIKeyRequired    = errors.New("integration/v1 API requires Config.APIKey to be set")
+	ErrIncompleteResults = errors.New("integration/v1 API item count did not match server-reported totalCount")
 )
 
 // RateLimitError is returned when the controller responds with 429 Too Many Requests.

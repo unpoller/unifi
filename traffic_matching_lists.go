@@ -4,8 +4,16 @@ import "fmt"
 
 // GetTrafficMatchingLists returns traffic matching lists for a site.
 func (u *Unifi) GetTrafficMatchingLists(site *IntegrationSite) ([]*TrafficMatchingList, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	if site == nil {
 		return nil, ErrNoSiteProvided
+	}
+
+	if site.ID == "" {
+		return nil, fmt.Errorf("site %q has an empty ID; cannot construct Integration/v1 API path", site.Name)
 	}
 
 	u.DebugLog("Polling Integration/v1 for traffic matching lists, site %s", site.Name)

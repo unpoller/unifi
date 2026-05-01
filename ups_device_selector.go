@@ -10,16 +10,23 @@ type UPSDeviceSelector struct {
 	Label  string `fake:"{productname}" json:"label"`
 	MAC    string `fake:"{macaddress}"  json:"mac"`
 	SiteID string `fake:"{uuid}"        json:"site_id"`
+
+	SiteName   string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // GetUPSDeviceList returns the list of UPS device selectors for a single site.
 // Uses the legacy API endpoint: GET /api/s/{site}/stat/ups-devices.
 func (u *Unifi) GetUPSDeviceList(site *Site) ([]*UPSDeviceSelector, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	if site == nil || site.Name == "" {
 		return nil, ErrNoSiteProvided
 	}
 
-	u.DebugLog("Polling Controller for UPS device list, site %s", site.SiteName)
+	u.DebugLog("Polling Controller for UPS device list, site %s", site.Name)
 
 	path := fmt.Sprintf(APIUPSDevicesPath, site.Name)
 
@@ -28,12 +35,14 @@ func (u *Unifi) GetUPSDeviceList(site *Site) ([]*UPSDeviceSelector, error) {
 	}
 
 	if err := u.GetData(path, &response); err != nil {
-		return nil, fmt.Errorf("fetching UPS device list for site %s: %w", site.SiteName, err)
+		return nil, fmt.Errorf("fetching UPS device list for site %s: %w", site.Name, err)
 	}
 
 	result := make([]*UPSDeviceSelector, len(response.Data))
 
 	for i := range response.Data {
+		response.Data[i].SiteName = site.SiteName
+		response.Data[i].SourceName = u.URL
 		result[i] = &response.Data[i]
 	}
 

@@ -5,8 +5,16 @@ import "fmt"
 // GetLAGs returns link aggregation group configurations for a site.
 // Requires Config.APIKey; returns ErrAPIKeyRequired when no key is configured.
 func (u *Unifi) GetLAGs(site *IntegrationSite) ([]*LAG, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	if site == nil {
 		return nil, ErrNoSiteProvided
+	}
+
+	if site.ID == "" {
+		return nil, fmt.Errorf("site %q has an empty ID; cannot construct Integration/v1 API path", site.Name)
 	}
 
 	u.DebugLog("Polling Integration API for LAG data, site %s", site.Name)
@@ -31,8 +39,16 @@ func (u *Unifi) GetLAGs(site *IntegrationSite) ([]*LAG, error) {
 // GetMCLAGDomains returns multi-chassis LAG domain configurations for a site.
 // Requires Config.APIKey; returns ErrAPIKeyRequired when no key is configured.
 func (u *Unifi) GetMCLAGDomains(site *IntegrationSite) ([]*MCLAGDomain, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	if site == nil {
 		return nil, ErrNoSiteProvided
+	}
+
+	if site.ID == "" {
+		return nil, fmt.Errorf("site %q has an empty ID; cannot construct Integration/v1 API path", site.Name)
 	}
 
 	u.DebugLog("Polling Integration API for MCLAG domain data, site %s", site.Name)
@@ -57,8 +73,16 @@ func (u *Unifi) GetMCLAGDomains(site *IntegrationSite) ([]*MCLAGDomain, error) {
 // GetSwitchStacks returns switch stack configurations for a site.
 // Requires Config.APIKey; returns ErrAPIKeyRequired when no key is configured.
 func (u *Unifi) GetSwitchStacks(site *IntegrationSite) ([]*SwitchStack, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	if site == nil {
 		return nil, ErrNoSiteProvided
+	}
+
+	if site.ID == "" {
+		return nil, fmt.Errorf("site %q has an empty ID; cannot construct Integration/v1 API path", site.Name)
 	}
 
 	u.DebugLog("Polling Integration API for switch stack data, site %s", site.Name)

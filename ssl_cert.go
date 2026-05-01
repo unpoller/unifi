@@ -33,12 +33,18 @@ type SSLCertificateChain struct {
 
 // GetSSLCertificate returns the active SSL certificate info for a single site.
 // Uses the legacy API endpoint: GET /api/s/{site}/stat/active.
+// When the controller returns no certificate data, a zero-value SSLCertificate is returned
+// with only SiteName set. Callers can detect this case by checking cert.ID == "".
 func (u *Unifi) GetSSLCertificate(site *Site) (*SSLCertificate, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	if site == nil || site.Name == "" {
 		return nil, ErrNoSiteProvided
 	}
 
-	u.DebugLog("Polling Controller for SSL certificate, site %s", site.SiteName)
+	u.DebugLog("Polling Controller for SSL certificate, site %s", site.Name)
 
 	path := fmt.Sprintf(APISSLCertPath, site.Name)
 
@@ -47,11 +53,17 @@ func (u *Unifi) GetSSLCertificate(site *Site) (*SSLCertificate, error) {
 	}
 
 	if err := u.GetData(path, &response); err != nil {
-		return nil, fmt.Errorf("fetching SSL certificate for site %s: %w", site.SiteName, err)
+		return nil, fmt.Errorf("fetching SSL certificate for site %s: %w", site.Name, err)
 	}
 
 	if len(response.Data) == 0 {
+		u.DebugLog("No SSL certificate found for site %s", site.Name)
+
 		return &SSLCertificate{SiteName: site.SiteName}, nil
+	}
+
+	if len(response.Data) > 1 {
+		u.DebugLog("SSL certificate response for site %s contained %d entries; using first", site.Name, len(response.Data))
 	}
 
 	response.Data[0].SiteName = site.SiteName

@@ -5,8 +5,16 @@ import "fmt"
 // GetVPNServers returns VPN server configurations for a site from the Integration/v1 API.
 // Requires Config.APIKey; returns ErrAPIKeyRequired when no key is configured.
 func (u *Unifi) GetVPNServers(site *IntegrationSite) ([]*VPNServer, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	if site == nil {
 		return nil, ErrNoSiteProvided
+	}
+
+	if site.ID == "" {
+		return nil, fmt.Errorf("site %q has an empty ID; cannot construct Integration/v1 API path", site.Name)
 	}
 
 	u.DebugLog("Polling Integration/v1 for VPN servers, site %s", site.Name)
@@ -31,8 +39,16 @@ func (u *Unifi) GetVPNServers(site *IntegrationSite) ([]*VPNServer, error) {
 // GetSiteToSiteTunnels returns site-to-site VPN tunnel configurations for a site from the Integration/v1 API.
 // Requires Config.APIKey; returns ErrAPIKeyRequired when no key is configured.
 func (u *Unifi) GetSiteToSiteTunnels(site *IntegrationSite) ([]*SiteToSiteTunnel, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	if site == nil {
 		return nil, ErrNoSiteProvided
+	}
+
+	if site.ID == "" {
+		return nil, fmt.Errorf("site %q has an empty ID; cannot construct Integration/v1 API path", site.Name)
 	}
 
 	u.DebugLog("Polling Integration/v1 for site-to-site tunnels, site %s", site.Name)

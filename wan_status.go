@@ -18,12 +18,18 @@ type WANStatusInterface struct {
 
 // GetWANStatus returns the WAN interface status for a single site.
 // Uses the legacy API endpoint: GET /api/s/{site}/stat/status.
+// When no WAN data is returned (e.g. site has no gateway), a zero-value WANStatus with an
+// empty WANInterfaces slice is returned. Callers can detect this by checking len(status.WANInterfaces) == 0.
 func (u *Unifi) GetWANStatus(site *Site) (*WANStatus, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	if site == nil || site.Name == "" {
 		return nil, ErrNoSiteProvided
 	}
 
-	u.DebugLog("Polling Controller for WAN status, site %s", site.SiteName)
+	u.DebugLog("Polling Controller for WAN status, site %s", site.Name)
 
 	path := fmt.Sprintf(APIWANStatusPath, site.Name)
 
@@ -32,11 +38,17 @@ func (u *Unifi) GetWANStatus(site *Site) (*WANStatus, error) {
 	}
 
 	if err := u.GetData(path, &response); err != nil {
-		return nil, fmt.Errorf("fetching WAN status for site %s: %w", site.SiteName, err)
+		return nil, fmt.Errorf("fetching WAN status for site %s: %w", site.Name, err)
 	}
 
 	if len(response.Data) == 0 {
+		u.DebugLog("No WAN status found for site %s", site.Name)
+
 		return &WANStatus{SiteName: site.SiteName}, nil
+	}
+
+	if len(response.Data) > 1 {
+		u.DebugLog("WAN status response for site %s contained %d entries; using first", site.Name, len(response.Data))
 	}
 
 	response.Data[0].SiteName = site.SiteName

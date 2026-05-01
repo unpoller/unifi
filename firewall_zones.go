@@ -4,8 +4,16 @@ import "fmt"
 
 // GetFirewallZones returns firewall zones for a site. Zone IDs appear in firewall policies.
 func (u *Unifi) GetFirewallZones(site *IntegrationSite) ([]*FirewallZone, error) {
+	if u == nil {
+		return nil, ErrNilUnifi
+	}
+
 	if site == nil {
 		return nil, ErrNoSiteProvided
+	}
+
+	if site.ID == "" {
+		return nil, fmt.Errorf("site %q has an empty ID; cannot construct Integration/v1 API path", site.Name)
 	}
 
 	u.DebugLog("Polling Integration/v1 for firewall zones, site %s", site.Name)
