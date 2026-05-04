@@ -102,7 +102,7 @@ type UCI struct {
 	SysErrorCaps             FlexInt         `json:"sys_error_caps"`
 	SysStats                 *SysStats       `json:"sys_stats"`
 	SyslogKey                string          `json:"syslog_key"`
-	SystemStats              *SystemStats    `json:"system_stats"`
+	SystemStats              *SystemStats    `json:"system-stats"`
 	TwoPhaseAdopt            FlexBool        `json:"two_phase_adopt"`
 	TxBytes                  FlexInt         `json:"tx_bytes"`
 	Type                     string          `fake:"{lexify:uci}"                json:"type"`
