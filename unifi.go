@@ -115,6 +115,7 @@ func newUnifi(config *Config, jar http.CookieJar) *Unifi {
 			TLSClientConfig: &tls.Config{
 				InsecureSkipVerify: !config.VerifySSL, // nolint: gosec
 			},
+			Proxy: http.ProxyFromEnvironment,
 		},
 	}
 
@@ -298,6 +299,7 @@ func (u *Unifi) checkNewStyleAPI() error {
 		},
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: !u.VerifySSL}, // nolint: gosec
+			Proxy: http.ProxyFromEnvironment,
 		},
 	}
 
