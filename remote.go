@@ -1,6 +1,8 @@
 package unifi
 
 import (
+	"bytes"
+	"compress/gzip"
 	"crypto/tls"
 	"encoding/json"
 	"errors"
@@ -182,6 +184,20 @@ func (c *RemoteAPIClient) makeRequestOnce(method, path string, queryParams map[s
 		return nil, fmt.Errorf("reading response: %w", err)
 	}
 
+	// Decompression failures on error responses must not mask the HTTP status:
+	// the 64 KiB LimitReader above truncates large gzipped error bodies, and a
+	// rate-limited (429) response with a malformed gzip body must still surface
+	// as *RateLimitError so makeRequest can retry. On 2xx, decompression is the
+	// only way to get usable JSON, so failures are fatal.
+	decompressed, decErr := maybeDecompressGzip(body)
+	if decErr != nil && resp.StatusCode < 400 {
+		return nil, fmt.Errorf("decoding response from %s (status %d): %w", path, resp.StatusCode, decErr)
+	}
+
+	if decErr == nil {
+		body = decompressed
+	}
+
 	if resp.StatusCode == http.StatusTooManyRequests {
 		after := parseRetryAfter(resp.Header.Get("Retry-After"))
 
@@ -216,6 +232,41 @@ func (c *RemoteAPIClient) makeRequestOnce(method, path string, queryParams map[s
 	}
 
 	return body, nil
+}
+
+// maybeDecompressGzip returns body decompressed when it begins with the gzip
+// magic bytes (0x1f 0x8b). Otherwise it returns body unchanged.
+//
+// Go's http.Transport transparently decompresses gzip responses only when the
+// upstream sets Content-Encoding: gzip. Some upstream proxies (notably the
+// UniFi Site Manager when fronting Cloud Hosted consoles) return a gzipped
+// payload but strip Content-Encoding, leaving the client with raw compressed
+// bytes. Detecting the magic prefix lets us recover transparently.
+// See unpoller/unpoller#997.
+func maybeDecompressGzip(body []byte) ([]byte, error) {
+	if len(body) < 2 || body[0] != 0x1f || body[1] != 0x8b {
+		return body, nil
+	}
+
+	r, err := gzip.NewReader(bytes.NewReader(body))
+	if err != nil {
+		return nil, fmt.Errorf("creating gzip reader: %w", err)
+	}
+
+	decompressed, err := io.ReadAll(r)
+	if err != nil {
+		_ = r.Close()
+
+		return nil, fmt.Errorf("reading gzip body: %w", err)
+	}
+
+	// Close surfaces CRC32/ISIZE mismatches; without this a corrupted-but-
+	// readable gzip stream silently produces truncated JSON downstream.
+	if err := r.Close(); err != nil {
+		return nil, fmt.Errorf("verifying gzip body: %w", err)
+	}
+
+	return decompressed, nil
 }
 
 // getErrorSuggestions provides helpful suggestions for common API errors.
