@@ -1228,3 +1228,8 @@ func (m *MockUnifi) GetSSLCertificate(_ *unifi.Site) (*unifi.SSLCertificate, err
 
 	return &a, nil
 }
+
+// AuthorizeGuest authorizes a guest client by MAC on a site.
+func (m *MockUnifi) AuthorizeGuest(_ *unifi.Site, _ string, _ int) error {
+	return nil
+}
