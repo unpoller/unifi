@@ -163,6 +163,7 @@ const (
 	APISystemLogPath          string = "/v2/api/site/%s/system-log/all"
 	APICommandPath            string = "/api/s/%s/cmd"
 	APIDevMgrPath             string = APICommandPath + "/devmgr"
+	APIStaMgrPath             string = APICommandPath + "/stamgr"
 	APIClientTrafficPath      string = "/v2/api/site/%s/traffic?start=%d&end=%d&includeUnidentified=%t"
 	APIClientTrafficByMacPath string = "/v2/api/site/%s/traffic/%s?start=%d&end=%d&includeUnidentified=%t&mac=%s"
 	APICountryTrafficPath     string = "/v2/api/site/%s/country-traffic?start=%d&end=%d"
@@ -721,6 +722,9 @@ type UnifiClient interface { //nolint: revive
 	GetPortForwards(site *Site) ([]*PortForward, error)
 	// GetSSLCertificate returns SSL certificate information for a site.
 	GetSSLCertificate(site *Site) (*SSLCertificate, error)
+	// AuthorizeGuest authorizes a guest client by MAC on a site for the given
+	// number of minutes. Pass minutes=0 to use the controller default.
+	AuthorizeGuest(site *Site, mac string, minutes int) error
 }
 
 // Unifi is what you get in return for providing a password! Unifi represents
