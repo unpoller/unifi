@@ -561,6 +561,29 @@ func (u *Unifi) do(req *http.Request) ([]byte, error) {
 		return body, fmt.Errorf("reading response: %w", err)
 	}
 
+	// Decompression failures on error responses must not mask the HTTP status:
+	// a 4xx/5xx with a malformed gzip body must still surface as the right
+	// status-aware error so callers (and any retry logic) can react. On 2xx,
+	// decompression is the only way to get usable JSON, so failures are fatal.
+	//
+	// Some upstreams (notably the UniFi Site Manager when fronting Cloud
+	// Hosted consoles) gzip the body but strip Content-Encoding, leaving the
+	// Go transport unable to decompress it. See unpoller/unpoller#997.
+	decompressed, decErr := maybeDecompressGzip(body)
+	if decErr != nil && resp.StatusCode < 400 {
+		return body, fmt.Errorf("decoding response from %s: %w", req.URL, decErr)
+	}
+
+	if decErr != nil {
+		// Status-aware error wins below, but record the decode failure so a
+		// misbehaving upstream emitting corrupt gzip on error responses is not
+		// invisible during diagnosis. body is left as the original raw bytes.
+		u.DebugLog("gzip decode failed for %s (status %d), returning raw body: %v",
+			req.URL, resp.StatusCode, decErr)
+	} else {
+		body = decompressed
+	}
+
 	// Save the returned CSRF header.
 	if csrf := resp.Header.Get("x-csrf-token"); csrf != "" {
 		u.csrf = resp.Header.Get("x-csrf-token")
