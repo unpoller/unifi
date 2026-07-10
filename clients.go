@@ -132,6 +132,7 @@ type Client struct {
 	GwName           string   `json:"-"`
 	Hostname         string   `json:"hostname"`
 	ID               string   `fake:"{uuid}"                                      json:"_id"`
+	Identity1x       string   `fake:"{username}"                                  json:"1x_identity"`
 	IP               string   `fake:"{ipv4address}"                               json:"ip"`
 	IdleTime         FlexInt  `json:"idle_time"`
 	Is11R            FlexBool `json:"is_11r"`
