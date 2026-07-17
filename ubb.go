@@ -167,7 +167,7 @@ type UBB struct {
 	DisconnectedAt            FlexInt         `json:"disconnected_at"`
 	DisconnectionReason       string          `json:"disconnection_reason"`
 	DisplayableVersion        string          `json:"displayable_version"`
-	DownlinkLLDPMacs          []LLDPTable     `fakesize:"1"                        json:"downlink_lldp_macs"`
+	DownlinkLLDPMacs          []string        `fakesize:"1"                        json:"downlink_lldp_macs"`
 	DownlinkTable             []DownlinkTable `fakesize:"1"                        json:"downlink_table"`
 	EthernetTable             []EthernetTable `fakesize:"1"                        json:"ethernet_table"`
 	FixedApAvailable          FlexBool        `json:"fixed_ap_available"`
