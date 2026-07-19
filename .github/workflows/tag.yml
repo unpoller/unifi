@@ -33,10 +33,14 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Install git-semver
+        env:
+          GIT_SEMVER_SHA: 7725e8f1901dd425390ae4833ddd4f9ec5949504
+          GIT_SEMVER_SHA256: d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed
         run: |
-          curl -sSL -o /usr/local/bin/git-semver \
-            https://raw.githubusercontent.com/markchalloner/git-semver/master/git-semver
-          chmod +x /usr/local/bin/git-semver
+          curl -sSL -o /tmp/git-semver \
+            "https://raw.githubusercontent.com/markchalloner/git-semver/${GIT_SEMVER_SHA}/git-semver"
+          echo "${GIT_SEMVER_SHA256}  /tmp/git-semver" | sha256sum -c -
+          install -m 0755 /tmp/git-semver /usr/local/bin/git-semver
 
       - name: Bump version and tag
         id: semver
