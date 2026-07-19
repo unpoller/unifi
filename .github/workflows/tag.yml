@@ -1,13 +1,13 @@
-name: Tag
+name: Create Tag
 
 on:
   workflow_dispatch:
     inputs:
       bump:
-        description: 'Version part to bump'
-        type: choice
+        description: 'Version component to bump'
         required: true
-        default: minor
+        default: 'minor'
+        type: choice
         options:
           - patch
           - minor
@@ -15,7 +15,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   tag:
@@ -24,46 +23,25 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
       - run: git fetch --force --tags
-
-      - name: Configure git
+      - uses: actions/setup-go@v6
+        with:
+          go-version: 'stable'
+          cache: true
+      - name: Install git-semver
+        run: go install github.com/mdomke/git-semver/v6@latest
+      - name: Compute next version
+        id: semver
+        env:
+          BUMP: ${{ inputs.bump }}
+        run: |
+          NEXT_VERSION=$(git-semver -target "$BUMP" -prefix v)
+          echo "version=${NEXT_VERSION}" >> "$GITHUB_OUTPUT"
+      - name: Create and push tag
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Install git-semver
-        env:
-          GIT_SEMVER_SHA: 7725e8f1901dd425390ae4833ddd4f9ec5949504
-          GIT_SEMVER_SHA256: d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed
-        run: |
-          curl -sSL -o /tmp/git-semver \
-            "https://raw.githubusercontent.com/markchalloner/git-semver/${GIT_SEMVER_SHA}/git-semver"
-          echo "${GIT_SEMVER_SHA256}  /tmp/git-semver" | sha256sum -c -
-          install -m 0755 /tmp/git-semver /usr/local/bin/git-semver
-
-      - name: Bump version and tag
-        id: semver
-        run: |
-          NEW_TAG=$(git semver ${{ inputs.bump }} -f "v%M.%m.%p")
-          echo "tag=$NEW_TAG" >> "$GITHUB_OUTPUT"
-
-      - name: Push tag
-        run: git push origin "${{ steps.semver.outputs.tag }}"
-
-      - name: Create audit branch and PR
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          TAG="${{ steps.semver.outputs.tag }}"
-          BRANCH="release/$TAG"
-
-          git checkout -b "$BRANCH"
-          git commit --allow-empty -m "chore(release): cut $TAG"
-          git push origin "$BRANCH"
-
-          gh pr create \
-            --title "chore(release): cut $TAG" \
-            --body "Tag \`$TAG\` was created via the Tag workflow (bump: \`${{ inputs.bump }}\`). This PR is an audit record; it introduces no file changes." \
-            --base "${{ github.event.repository.default_branch }}" \
-            --head "$BRANCH"
+          git tag -a "${{ steps.semver.outputs.version }}" -m "Release ${{ steps.semver.outputs.version }}"
+          git push origin "${{ steps.semver.outputs.version }}"
+      - name: Summary
+        run: echo "Created tag ${{ steps.semver.outputs.version }}" >> "$GITHUB_STEP_SUMMARY"
