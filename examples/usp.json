@@ -1,0 +1,105 @@
+{
+  "_id": "synthetic-device-id",
+  "device_id": "synthetic-device-id",
+  "site_id": "synthetic-site-id",
+  "name": "Synthetic UPS-2U-Pro",
+  "mac": "02:00:00:00:00:01",
+  "serial": "SYNTHETIC000001",
+  "ip": "192.0.2.10",
+  "type": "usp",
+  "model": "USPDA2B",
+  "shortname": "UPSPROUS",
+  "adopted": true,
+  "state": 1,
+  "outlet_enabled": true,
+  "outlet_table": [
+    {
+      "index": 1,
+      "name": "Outlet 1",
+      "cycle_enabled": true,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": 120.4,
+      "outlet_current": 0.125,
+      "outlet_power": 15.05,
+      "outlet_power_factor": 0.99
+    },
+    {
+      "index": 2,
+      "name": "Outlet 2",
+      "cycle_enabled": true,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": 120.3,
+      "outlet_current": 0.25,
+      "outlet_power": 29.8,
+      "outlet_power_factor": 0.98
+    },
+    {
+      "index": 3,
+      "name": "Outlet 3",
+      "cycle_enabled": true,
+      "relay_state": false,
+      "outlet_caps": 3,
+      "outlet_voltage": 120.5,
+      "outlet_current": 0,
+      "outlet_power": 0,
+      "outlet_power_factor": 0
+    },
+    {
+      "index": 4,
+      "name": "Outlet 4",
+      "cycle_enabled": true,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": 120.2,
+      "outlet_current": 0.875,
+      "outlet_power": 103.75,
+      "outlet_power_factor": 0.97
+    },
+    {
+      "index": 5,
+      "name": "Outlet 5",
+      "cycle_enabled": true,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": 120.1,
+      "outlet_current": 1.125,
+      "outlet_power": 132.4,
+      "outlet_power_factor": 0.98
+    },
+    {
+      "index": 6,
+      "name": "Outlet 6",
+      "cycle_enabled": true,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": 120,
+      "outlet_current": 0.055,
+      "outlet_power": 5.9,
+      "outlet_power_factor": 0.89
+    },
+    {
+      "index": 7,
+      "name": "Outlet 7",
+      "cycle_enabled": true,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": 119.9,
+      "outlet_current": 0.41,
+      "outlet_power": 47.2,
+      "outlet_power_factor": 0.96
+    },
+    {
+      "index": 8,
+      "name": "Outlet 8",
+      "cycle_enabled": true,
+      "relay_state": true,
+      "outlet_caps": 3,
+      "outlet_voltage": 120.6,
+      "outlet_current": 2.015,
+      "outlet_power": 238.7,
+      "outlet_power_factor": 0.99
+    }
+  ]
+}
