@@ -215,7 +215,7 @@ func (u *Unifi) parseDevices(data []json.RawMessage, site *Site) *Devices {
 			} else {
 				u.unmarshallUSW(site, r, devices)
 			}
-		case "pdu":
+		case "pdu", "usp":
 			u.unmarshallPDU(site, r, devices)
 		case "udm":
 			u.unmarshallUDM(site, r, devices)
@@ -264,11 +264,10 @@ func (u *Unifi) unmarshallUSW(site *Site, payload json.RawMessage, devices *Devi
 
 func (u *Unifi) unmarshallPDU(site *Site, payload json.RawMessage, devices *Devices) {
 	dev := &PDU{SiteName: site.SiteName, SourceName: u.URL}
-	// Note: UniFi API returns type="usw" for PDU devices, so we unmarshal as "usw"
-	// but then set the Type field to "pdu" to correctly identify it
+	// UniFi reports PDU devices as "usw" or "usp", so normalize both as "pdu".
 	if u.unmarshalDevice("usw", payload, dev) == nil {
 		dev.Name = strings.TrimSpace(pick(dev.Name, dev.Mac))
-		dev.Type = "pdu" // Correct the type field since API incorrectly returns "usw"
+		dev.Type = "pdu"
 		dev.site = site
 		devices.PDUs = append(devices.PDUs, dev)
 	}
