@@ -385,4 +385,33 @@ This API supports both reads and writes. `siteId` is the UUID from `GET /v1/site
 
 ---
 
+## UNAS Pro (UniFi Drive API)
+
+Served by a UNAS Pro console, not by the Network application, so there is no `/proxy/network`
+prefix and no site in the path. Responses are bare JSON objects — no `{"meta":…,"data":…}`
+envelope. Implemented in `unas.go` via `NewUNASClient`; see unpoller/unpoller#785.
+
+| Method | Path | Data exposed |
+|--------|------|----------------|
+| GET | `/proxy/drive/api/v2/systems/device-info` | Name, model, version, firmware, startup time, CPU load/temperature, memory free/total/available, network interfaces. |
+| GET | `/proxy/drive/api/v2/storage` | Storage pools (capacity, usage, status, RAID groups) and physical disks (health score, temperature, power-on hours, RPM, size, bad/uncorrectable sectors, read/write KBPS). |
+| GET | `/proxy/users/drive/api/v2/drives` | Shares: id, name, type, status, pool, quota, usage, member count, protections. |
+| GET | `/proxy/drive/api/v2/systems/network-io` | Instantaneous receive/transmit KBPS. |
+
+Known but not implemented:
+
+| Method | Path | Why not |
+|--------|------|---------|
+| GET | `/proxy/drive/api/v2/systems/disk-stats` | Requires `?start=&end=&interval=`; returns time-series arrays that do not map to gauges. Its per-disk read/write KBPS are already in `/storage`. |
+| GET | `/proxy/drive/api/v1/systems/performance/file-operations` | Not yet needed. |
+| GET | `/proxy/users/drive/api/v1/systems/identity`, `/proxy/users/drive/api/v1/systems/info` | Not yet needed. |
+| GET | `/proxy/users/drive/api/v2/groups`, `/proxy/users/drive/api/v2/storage` | Not yet needed. |
+
+The `unas-*.json` files in this directory are **synthetic**, hand-built from the field set
+above to exercise unmarshalling. They are not captures from a real console. Fields with no
+known populated shape — `usbs`, `cacheSlots`, `expansions`, `riskReasons`,
+`incompatibleReasons` — are kept as `json.RawMessage` until real data turns up.
+
+---
+
 *Generated from a capture session; endpoints may vary by controller version and role. Use the capture script to record your own session and extend this list.*

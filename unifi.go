@@ -34,6 +34,8 @@ var (
 	ErrInvalidSignature     = errors.New("certificate signature does not match")
 	ErrNilUnifi             = errors.New("unifi client is nil")
 	ErrTooManyRequests      = errors.New("429 too many requests")
+	ErrNilConfig            = errors.New("config must not be nil")
+	ErrAPIKeyUnsupported    = errors.New("api key authentication is not supported for this device")
 
 	// Integration/v1 API sentinels.
 	ErrAPIKeyRequired    = errors.New("integration/v1 API requires Config.APIKey to be set")
@@ -59,7 +61,7 @@ func (e *RateLimitError) Unwrap() error {
 // Start here.
 func NewUnifi(config *Config) (*Unifi, error) {
 	if config == nil {
-		return nil, fmt.Errorf("config is nil")
+		return nil, ErrNilConfig
 	}
 
 	var jar http.CookieJar
@@ -299,7 +301,7 @@ func (u *Unifi) checkNewStyleAPI() error {
 		},
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: !u.VerifySSL}, // nolint: gosec
-			Proxy: http.ProxyFromEnvironment,
+			Proxy:           http.ProxyFromEnvironment,
 		},
 	}
 

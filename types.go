@@ -222,6 +222,13 @@ const (
 	APIIntegrationInfoPath        string = "/proxy/network/integration/v1/info"
 	APICountriesPath              string = "/proxy/network/integration/v1/countries"
 
+	// UNAS Pro (UniFi Drive) API paths. These already start with /proxy/ so path() leaves
+	// them untouched. They are served by a UNAS console, not by the Network application.
+	APIUNASDeviceInfoPath string = "/proxy/drive/api/v2/systems/device-info"
+	APIUNASStoragePath    string = "/proxy/drive/api/v2/storage"
+	APIUNASNetworkIOPath  string = "/proxy/drive/api/v2/systems/network-io"
+	APIUNASDrivesPath     string = "/proxy/users/drive/api/v2/drives"
+
 	// Legacy gap API paths (Part A).
 	APIWANStatusPath   string = "/api/s/%s/stat/status"
 	APIUPSDevicesPath  string = "/api/s/%s/stat/ups-devices"

@@ -1,0 +1,92 @@
+{
+  "pools": [
+    {
+      "number": 1,
+      "id": "pool-1",
+      "preferLevel": "RAID5",
+      "type": "hdd",
+      "status": "healthy",
+      "capacity": 60000000000000,
+      "usage": 12500000000000,
+      "activeRaidGroupId": "rg-1",
+      "raidGroups": [
+        {
+          "number": 1,
+          "id": "rg-1",
+          "remnantReason": "",
+          "isSSDCache": false,
+          "currentLevel": "RAID5",
+          "configLevel": "RAID5",
+          "currentProtection": 1,
+          "expectedProtection": 1,
+          "recommendedDiskSize": 20000000000000,
+          "progress": 100,
+          "estimate": 0
+        }
+      ],
+      "initializingStatus": "done"
+    }
+  ],
+  "disks": [
+    {
+      "slotId": "1",
+      "location": "internal",
+      "poolId": "pool-1",
+      "raidGroupId": "rg-1",
+      "metadataGroupId": "",
+      "isGlobalHotSpare": false,
+      "isLocalHotSpare": false,
+      "type": "hdd",
+      "state": "healthy",
+      "rpm": 7200,
+      "model": "WDC WD201KFGX-68BKKN0",
+      "size": 20000588955648,
+      "sata": "3.3",
+      "ata": "8",
+      "nvmeVersion": "",
+      "firmware": "83.00A83",
+      "sectorFormat": "512e",
+      "serial": "SERIAL0001",
+      "temperature": 38,
+      "powerOnHours": 8760,
+      "badSectorCount": 0,
+      "uncorrectableSectorCount": 0,
+      "readErrorRate": 0,
+      "smartReadErrorCount": 0,
+      "riskReasons": [],
+      "incompatibleReasons": [],
+      "readKBPS": 128.5,
+      "writeKBPS": 64.25,
+      "smartTestSupported": true,
+      "healthScore": 100
+    },
+    {
+      "slotId": "2",
+      "location": "internal",
+      "poolId": "pool-1",
+      "raidGroupId": "rg-1",
+      "isGlobalHotSpare": false,
+      "isLocalHotSpare": false,
+      "type": "hdd",
+      "state": "healthy",
+      "rpm": 7200,
+      "model": "WDC WD201KFGX-68BKKN0",
+      "size": 20000588955648,
+      "serial": "SERIAL0002",
+      "temperature": 39,
+      "powerOnHours": 8761,
+      "badSectorCount": 2,
+      "uncorrectableSectorCount": 0,
+      "readErrorRate": 0,
+      "smartReadErrorCount": 1,
+      "riskReasons": [],
+      "incompatibleReasons": [],
+      "readKBPS": 130,
+      "writeKBPS": 60,
+      "smartTestSupported": true,
+      "healthScore": 98
+    }
+  ],
+  "cacheSlots": [],
+  "expansions": null
+}

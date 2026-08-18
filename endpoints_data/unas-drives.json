@@ -1,0 +1,25 @@
+{
+  "drives": [
+    {
+      "id": "drive-1",
+      "type": "shared",
+      "name": "media",
+      "status": "healthy",
+      "storagePoolId": "pool-1",
+      "dataSync": "standard",
+      "recordSize": "128K",
+      "compressionLevel": "lz4",
+      "deduplication": "off",
+      "deduplicationEverEnabled": false,
+      "quota": 10000000000000,
+      "usage": 4200000000000,
+      "role": "general",
+      "protections": {
+        "encryptionStatus": "disabled",
+        "remoteBackupEnabled": false,
+        "snapshotEnabled": true
+      },
+      "memberCount": 3
+    }
+  ]
+}
