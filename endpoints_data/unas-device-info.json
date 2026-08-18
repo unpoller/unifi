@@ -1,0 +1,37 @@
+{
+  "networkInterfaces": [
+    {
+      "interface": "eth0",
+      "interfaceName": "Port 1",
+      "connected": true,
+      "maxSpeed": "2500",
+      "linkSpeed": "1000",
+      "address": "192.168.1.50",
+      "mac": "aa:bb:cc:dd:ee:ff"
+    },
+    {
+      "interface": "sfp0",
+      "interfaceName": "SFP+ 1",
+      "connected": false,
+      "maxSpeed": "10000",
+      "linkSpeed": "0"
+    }
+  ],
+  "usbs": null,
+  "version": "4.3.5",
+  "name": "UNAS Pro",
+  "model": "UNASPro",
+  "startupTime": "2026-07-01T09:15:02Z",
+  "memory": {
+    "free": 3221225472,
+    "total": 8589934592,
+    "available": 5368709120
+  },
+  "cpu": {
+    "currentLoad": 4.75,
+    "temperature": 46
+  },
+  "firmwareVersion": "4.3.5.1234",
+  "status": "healthy",
+  "sfpAggregation": false
+}

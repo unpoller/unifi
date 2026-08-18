@@ -20,8 +20,7 @@ func TestNewUnifiNilConfig(t *testing.T) {
 	a := assert.New(t)
 	uni, err := NewUnifi(nil)
 	a.Nil(uni)
-	a.Error(err)
-	a.Contains(err.Error(), "config is nil")
+	a.ErrorIs(err, ErrNilConfig)
 }
 
 func TestNewUnifi(t *testing.T) {
