@@ -55,17 +55,18 @@ type ProtectDeviceIdentity struct {
 }
 
 // ProtectBatteryStatus holds a device's battery percentage and low-battery flag.
-// Percentage is nullable in the spec: a device with no battery reports Percentage == nil,
-// which must be skipped by callers, never treated as 0.
+// Percentage is nullable in the spec (a device with no battery reports a JSON null); this
+// uses FlexFloat, consistent with the rest of the library, which reads that null as 0 --
+// a deliberate choice of uniform typing over preserving the null/zero distinction.
 type ProtectBatteryStatus struct {
-	Percentage *float64 `json:"percentage"`
-	IsLow      bool     `json:"isLow"`
+	Percentage FlexFloat `json:"percentage"`
+	IsLow      FlexBool  `json:"isLow"`
 }
 
 // ProtectSignalState holds a wireless device's signal quality and strength.
 type ProtectSignalState struct {
-	SignalQuality  *float64 `json:"signalQuality"`
-	SignalStrength *float64 `json:"signalStrength"`
+	SignalQuality  FlexFloat `json:"signalQuality"`
+	SignalStrength FlexFloat `json:"signalStrength"`
 }
 
 // ProtectWirelessConnectionState holds a wireless sensor's link to its bridge.
@@ -78,7 +79,7 @@ type ProtectWirelessConnectionState struct {
 // ProtectSensorChannelFlag reports whether a sensor supports a given measurement and, if so,
 // on how many channels.
 type ProtectSensorChannelFlag struct {
-	ChannelCount int `json:"channelCount"`
+	ChannelCount FlexInt `json:"channelCount"`
 }
 
 // ProtectSensorFeatureFlags reports which measurements a sensor supports.
@@ -93,11 +94,13 @@ type ProtectSensorFeatureFlags struct {
 	Smoke       *ProtectSensorChannelFlag `json:"smoke"`
 }
 
-// ProtectSensorStatValue holds one sensor reading. Value is nullable: a sensor without this
-// feature, or one that hasn't reported yet, sends null and must be skipped, not zeroed.
+// ProtectSensorStatValue holds one sensor reading. Value is nullable in the spec (a sensor
+// without this feature, or one that hasn't reported yet, sends null); this uses FlexFloat,
+// consistent with the rest of the library, which reads that null as 0 -- a deliberate choice
+// of uniform typing over preserving the null/zero distinction.
 type ProtectSensorStatValue struct {
-	Value  *float64 `json:"value"`
-	Status string   `json:"status"` // neutral, low, safe, high, unknown
+	Value  FlexFloat `json:"value"`
+	Status string    `json:"status"` // neutral, low, safe, high, unknown
 }
 
 // ProtectSensorStats holds a sensor's current readings.
@@ -109,17 +112,17 @@ type ProtectSensorStats struct {
 
 // ProtectSensorThresholdSettings holds the alerting configuration for one sensor measurement.
 type ProtectSensorThresholdSettings struct {
-	IsEnabled     bool     `json:"isEnabled"`
-	Margin        *float64 `json:"margin"`
-	LowThreshold  *float64 `json:"lowThreshold"`
-	HighThreshold *float64 `json:"highThreshold"`
+	IsEnabled     FlexBool  `json:"isEnabled"`
+	Margin        FlexFloat `json:"margin"`
+	LowThreshold  FlexFloat `json:"lowThreshold"`
+	HighThreshold FlexFloat `json:"highThreshold"`
 }
 
 // ProtectSensorMotionSettings holds a sensor's motion-detection configuration.
 type ProtectSensorMotionSettings struct {
-	IsEnabled            bool `json:"isEnabled"`
-	Sensitivity          int  `json:"sensitivity"`
-	SensitivityWhenArmed int  `json:"sensitivityWhenArmed"`
+	IsEnabled            FlexBool `json:"isEnabled"`
+	Sensitivity          FlexInt  `json:"sensitivity"`
+	SensitivityWhenArmed FlexInt  `json:"sensitivityWhenArmed"`
 }
 
 // ProtectSensor represents a Protect sensor, including SuperLink sensors (unpoller/unpoller#1015).
@@ -137,20 +140,20 @@ type ProtectSensor struct {
 	HumiditySettings    *ProtectSensorThresholdSettings `json:"humiditySettings"`
 	TemperatureSettings *ProtectSensorThresholdSettings `json:"temperatureSettings"`
 
-	IsOpened            bool   `json:"isOpened"`
-	OpenStatusChangedAt *int64 `json:"openStatusChangedAt"`
+	IsOpened            FlexBool `json:"isOpened"`
+	OpenStatusChangedAt FlexInt  `json:"openStatusChangedAt"`
 
-	IsMotionDetected bool                         `json:"isMotionDetected"`
-	MotionDetectedAt *int64                       `json:"motionDetectedAt"`
+	IsMotionDetected FlexBool                     `json:"isMotionDetected"`
+	MotionDetectedAt FlexInt                      `json:"motionDetectedAt"`
 	MotionSettings   *ProtectSensorMotionSettings `json:"motionSettings"`
 
 	ScheduleMode  string   `json:"scheduleMode"` // always, when_armed
 	ArmProfileIDs []string `json:"armProfileIds"`
 
-	AlarmTriggeredAt       *int64 `json:"alarmTriggeredAt"`
-	LeakDetectedAt         *int64 `json:"leakDetectedAt"`
-	ExternalLeakDetectedAt *int64 `json:"externalLeakDetectedAt"`
-	TamperingDetectedAt    *int64 `json:"tamperingDetectedAt"`
+	AlarmTriggeredAt       FlexInt `json:"alarmTriggeredAt"`
+	LeakDetectedAt         FlexInt `json:"leakDetectedAt"`
+	ExternalLeakDetectedAt FlexInt `json:"externalLeakDetectedAt"`
+	TamperingDetectedAt    FlexInt `json:"tamperingDetectedAt"`
 
 	WirelessConnectionState *ProtectWirelessConnectionState `json:"wirelessConnectionState"`
 
@@ -165,12 +168,12 @@ type ProtectSensor struct {
 type ProtectCamera struct {
 	ProtectDeviceIdentity
 
-	IsMicEnabled     bool   `json:"isMicEnabled"`
-	MicVolume        int    `json:"micVolume"`
-	ActivePatrolSlot *int   `json:"activePatrolSlot"`
-	VideoMode        string `json:"videoMode"`
-	HdrType          string `json:"hdrType"`
-	HasPackageCamera bool   `json:"hasPackageCamera"`
+	IsMicEnabled     FlexBool `json:"isMicEnabled"`
+	MicVolume        FlexInt  `json:"micVolume"`
+	ActivePatrolSlot FlexInt  `json:"activePatrolSlot"`
+	VideoMode        string   `json:"videoMode"`
+	HdrType          string   `json:"hdrType"`
+	HasPackageCamera FlexBool `json:"hasPackageCamera"`
 
 	// The following are documented as objects but their detailed shape is not; kept raw for
 	// diagnosis rather than invented, per the UNAS convention (unas.go).
@@ -183,10 +186,10 @@ type ProtectCamera struct {
 
 // ProtectLightDeviceSettings holds a light's physical configuration.
 type ProtectLightDeviceSettings struct {
-	IsIndicatorEnabled bool `json:"isIndicatorEnabled"`
-	PIRDuration        int  `json:"pirDuration"`
-	PIRSensitivity     int  `json:"pirSensitivity"`
-	LEDLevel           int  `json:"ledLevel"`
+	IsIndicatorEnabled FlexBool `json:"isIndicatorEnabled"`
+	PIRDuration        FlexInt  `json:"pirDuration"`
+	PIRSensitivity     FlexInt  `json:"pirSensitivity"`
+	LEDLevel           FlexInt  `json:"ledLevel"`
 }
 
 // ProtectLight represents a Protect floodlight.
@@ -194,12 +197,12 @@ type ProtectLightDeviceSettings struct {
 type ProtectLight struct {
 	ProtectDeviceIdentity
 
-	IsDark              bool   `json:"isDark"`
-	IsLightOn           bool   `json:"isLightOn"`
-	IsLightForceEnabled bool   `json:"isLightForceEnabled"`
-	IsPirMotionDetected bool   `json:"isPirMotionDetected"`
-	LastMotion          *int64 `json:"lastMotion"`
-	Camera              string `json:"camera"` // ID of the paired camera, if any
+	IsDark              FlexBool `json:"isDark"`
+	IsLightOn           FlexBool `json:"isLightOn"`
+	IsLightForceEnabled FlexBool `json:"isLightForceEnabled"`
+	IsPirMotionDetected FlexBool `json:"isPirMotionDetected"`
+	LastMotion          FlexInt  `json:"lastMotion"`
+	Camera              string   `json:"camera"` // ID of the paired camera, if any
 
 	LightDeviceSettings *ProtectLightDeviceSettings `json:"lightDeviceSettings"`
 
@@ -215,34 +218,34 @@ type ProtectBridge struct {
 
 	Platform   string   `json:"platform"`
 	Clients    []string `json:"clients"`
-	MaxClients int      `json:"maxClients"`
+	MaxClients FlexInt  `json:"maxClients"`
 }
 
 // ProtectLinkStationCover holds a link station's tamper-cover state.
 type ProtectLinkStationCover struct {
-	Distance *float64 `json:"distance"`
-	Status   string   `json:"status"`
+	Distance FlexFloat `json:"distance"`
+	Status   string    `json:"status"`
 }
 
 // ProtectLinkStationBattery holds a link station's (alarm hub's) battery state.
 type ProtectLinkStationBattery struct {
-	Charging      bool     `json:"charging"`
-	Connection    string   `json:"connection"`
-	Voltage       *float64 `json:"voltage"`
-	BatteryStatus string   `json:"batteryStatus"` // ok, low, critical
+	Charging      FlexBool  `json:"charging"`
+	Connection    string    `json:"connection"`
+	Voltage       FlexFloat `json:"voltage"`
+	BatteryStatus string    `json:"batteryStatus"` // ok, low, critical
 }
 
 // ProtectInputPower holds a link station's input power readings, by input type.
 type ProtectInputPower struct {
-	BT   *float64 `json:"bt"`
-	Typ1 *float64 `json:"typ1"`
-	Typ2 *float64 `json:"typ2"`
+	BT   FlexFloat `json:"bt"`
+	Typ1 FlexFloat `json:"typ1"`
+	Typ2 FlexFloat `json:"typ2"`
 }
 
 // ProtectAlarmHub holds the metrics exposed by a link station acting as an alarm hub
 // (isAlarmHub == true), such as a SuperLink Gateway.
 type ProtectAlarmHub struct {
-	Armed      bool                       `json:"armed"`
+	Armed      FlexBool                   `json:"armed"`
 	Battery    *ProtectLinkStationBattery `json:"battery"`
 	Cover      *ProtectLinkStationCover   `json:"cover"`
 	InputPower *ProtectInputPower         `json:"inputPower"`
@@ -270,8 +273,8 @@ type ProtectAlarmHub struct {
 type ProtectLinkStation struct {
 	ProtectDeviceIdentity
 
-	IsAlarmHub bool             `json:"isAlarmHub"`
-	LastEvent  *int64           `json:"lastEvent"`
+	IsAlarmHub FlexBool         `json:"isAlarmHub"`
+	LastEvent  FlexInt          `json:"lastEvent"`
 	AlarmHub   *ProtectAlarmHub `json:"alarmHub"`
 
 	// LedSettings is documented as an object but its detailed shape is not; kept raw for
@@ -281,14 +284,14 @@ type ProtectLinkStation struct {
 
 // ProtectArmMode holds an NVR's alarm-arming state.
 type ProtectArmMode struct {
-	Status               string `json:"status"` // arming, armed, breach, disabled
-	ArmProfileID         string `json:"armProfileId"`
-	ArmedAt              *int64 `json:"armedAt"`
-	WillBeArmedAt        *int64 `json:"willBeArmedAt"`
-	BreachDetectedAt     *int64 `json:"breachDetectedAt"`
-	BreachEventCount     int    `json:"breachEventCount"`
-	BreachTriggerEventID string `json:"breachTriggerEventId"`
-	BreachEventID        string `json:"breachEventId"`
+	Status               string  `json:"status"` // arming, armed, breach, disabled
+	ArmProfileID         string  `json:"armProfileId"`
+	ArmedAt              FlexInt `json:"armedAt"`
+	WillBeArmedAt        FlexInt `json:"willBeArmedAt"`
+	BreachDetectedAt     FlexInt `json:"breachDetectedAt"`
+	BreachEventCount     FlexInt `json:"breachEventCount"`
+	BreachTriggerEventID string  `json:"breachTriggerEventId"`
+	BreachEventID        string  `json:"breachEventId"`
 }
 
 // ProtectNVR represents the NVR console itself. Only ArmMode is metric-shaped in v1; the

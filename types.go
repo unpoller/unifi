@@ -991,6 +991,78 @@ func (f FlexInt) Fake(faker *gofakeit.Faker) interface{} {
 	}
 }
 
+// FlexFloat provides a container and unmarshalling for fields that may be
+// numbers or strings in the Unifi API, without FlexInt's implication of an integer value.
+type FlexFloat struct {
+	Val float64
+	Txt string
+}
+
+func NewFlexFloat(v float64) *FlexFloat {
+	return &FlexFloat{
+		Val: v,
+		Txt: strconv.FormatFloat(v, 'f', -1, 64),
+	}
+}
+
+// UnmarshalJSON converts a string, number, or null to a float64.
+// Generally, do not call this directly, it's used in the json interface.
+func (f *FlexFloat) UnmarshalJSON(b []byte) error {
+	var unk interface{}
+
+	if err := json.Unmarshal(b, &unk); err != nil {
+		return fmt.Errorf("json unmarshal: %w", err)
+	}
+
+	switch i := unk.(type) {
+	case float64:
+		f.Val = i
+		f.Txt = strconv.FormatFloat(i, 'f', -1, 64)
+	case string:
+		f.Txt = i
+		f.Val, _ = strconv.ParseFloat(i, 64)
+	case nil:
+		f.Txt = "0"
+		f.Val = 0
+	default:
+		return fmt.Errorf("%v: %w", b, ErrCannotUnmarshalFlexInt)
+	}
+
+	return nil
+}
+
+func (f FlexFloat) MarshalJSON() ([]byte, error) {
+	return json.Marshal(f.Val)
+}
+
+func (f *FlexFloat) Float64() float64 {
+	return f.Val
+}
+
+func (f *FlexFloat) String() string {
+	return f.Txt
+}
+
+func (f *FlexFloat) Add(o *FlexFloat) {
+	f.Val += o.Val
+	f.Txt = strconv.FormatFloat(f.Val, 'f', -1, 64)
+}
+
+func (f *FlexFloat) AddFloat64(v float64) {
+	f.Val += v
+	f.Txt = strconv.FormatFloat(f.Val, 'f', -1, 64)
+}
+
+// Fake implements gofakeit Fake interface
+func (f FlexFloat) Fake(faker *gofakeit.Faker) interface{} {
+	randValue := math.Min(math.Max(0.1, math.Abs(faker.Rand.Float64())), 500)
+
+	return FlexFloat{
+		Val: randValue,
+		Txt: strconv.FormatFloat(randValue, 'f', 8, 64),
+	}
+}
+
 // FlexBool provides a container and unmarshalling for fields that may be
 // boolean or strings in the Unifi API.
 type FlexBool struct {

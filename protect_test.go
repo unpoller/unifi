@@ -180,20 +180,18 @@ func TestProtectGetSensors(t *testing.T) {
 	a.Equal("sensor", s1.ModelKey)
 	a.Equal("CONNECTED", s1.State)
 	a.Equal("door", s1.MountType)
-	require.NotNil(t, s1.BatteryStatus.Percentage)
-	a.InDelta(87, *s1.BatteryStatus.Percentage, 0.001)
-	require.NotNil(t, s1.Stats.Temperature.Value)
-	a.InDelta(21.5, *s1.Stats.Temperature.Value, 0.001)
+	a.InDelta(87, s1.BatteryStatus.Percentage.Float64(), 0.001)
+	require.NotNil(t, s1.Stats.Temperature)
+	a.InDelta(21.5, s1.Stats.Temperature.Value.Float64(), 0.001)
 	a.Equal("bridge-1", s1.WirelessConnectionState.Bridge)
 
-	// A sensor with no battery reports a nil pointer, never a zeroed 0 -- that distinction
-	// is the whole reason Protect fields use pointers instead of FlexInt.
+	// A sensor with no battery reports a JSON null, which FlexFloat collapses to 0 -- this
+	// is the accepted tradeoff of using Flex* types uniformly instead of nullable pointers.
 	s2 := sensors[1]
 	a.Equal("sensor-2", s2.ID)
-	a.Nil(s2.BatteryStatus.Percentage)
+	a.InDelta(0, s2.BatteryStatus.Percentage.Float64(), 0.001)
 	a.Nil(s2.Stats.Temperature)
-	require.NotNil(t, s2.LeakDetectedAt)
-	a.Equal(int64(1734000500000), *s2.LeakDetectedAt)
+	a.Equal(int64(1734000500000), s2.LeakDetectedAt.Int64())
 }
 
 func TestProtectGetCameras(t *testing.T) {
@@ -208,7 +206,7 @@ func TestProtectGetCameras(t *testing.T) {
 	a := assert.New(t)
 	a.Equal("camera-1", cameras[0].ID)
 	a.Equal("CONNECTED", cameras[0].State)
-	a.True(cameras[0].HasPackageCamera)
+	a.True(cameras[0].HasPackageCamera.Val)
 	a.Equal("DISCONNECTED", cameras[1].State)
 }
 
@@ -223,9 +221,9 @@ func TestProtectGetLights(t *testing.T) {
 
 	a := assert.New(t)
 	a.Equal("light-1", lights[0].ID)
-	a.True(lights[0].IsLightOn)
+	a.True(lights[0].IsLightOn.Val)
 	require.NotNil(t, lights[0].LightDeviceSettings)
-	a.Equal(3, lights[0].LightDeviceSettings.LEDLevel)
+	a.Equal(3, lights[0].LightDeviceSettings.LEDLevel.Int())
 }
 
 func TestProtectGetBridges(t *testing.T) {
@@ -240,7 +238,7 @@ func TestProtectGetBridges(t *testing.T) {
 	a := assert.New(t)
 	a.Equal("bridge-1", bridges[0].ID)
 	a.Len(bridges[0].Clients, 2)
-	a.Equal(32, bridges[0].MaxClients)
+	a.Equal(32, bridges[0].MaxClients.Int())
 }
 
 func TestProtectGetLinkStations(t *testing.T) {
@@ -256,17 +254,18 @@ func TestProtectGetLinkStations(t *testing.T) {
 
 	hub := stations[0]
 	a.Equal("linkstation-1", hub.ID)
-	a.True(hub.IsAlarmHub)
+	a.True(hub.IsAlarmHub.Val)
 	require.NotNil(t, hub.AlarmHub)
-	a.True(hub.AlarmHub.Armed)
-	require.NotNil(t, hub.AlarmHub.Battery.Voltage)
-	a.InDelta(13.2, *hub.AlarmHub.Battery.Voltage, 0.001)
-	require.NotNil(t, hub.AlarmHub.InputPower.BT)
-	a.InDelta(12.1, *hub.AlarmHub.InputPower.BT, 0.001)
-	a.Nil(hub.AlarmHub.InputPower.Typ1)
+	a.True(hub.AlarmHub.Armed.Val)
+	require.NotNil(t, hub.AlarmHub.Battery)
+	a.InDelta(13.2, hub.AlarmHub.Battery.Voltage.Float64(), 0.001)
+	require.NotNil(t, hub.AlarmHub.InputPower)
+	a.InDelta(12.1, hub.AlarmHub.InputPower.BT.Float64(), 0.001)
+	// Typ1 is null in the fixture; FlexFloat collapses that to 0, same as a real 0 reading.
+	a.InDelta(0, hub.AlarmHub.InputPower.Typ1.Float64(), 0.001)
 
 	notHub := stations[1]
-	a.False(notHub.IsAlarmHub)
+	a.False(notHub.IsAlarmHub.Val)
 	a.Nil(notHub.AlarmHub)
 }
 
@@ -283,7 +282,7 @@ func TestProtectGetNVR(t *testing.T) {
 	a.Equal("nvr-1", nvr.ID)
 	require.NotNil(t, nvr.ArmMode)
 	a.Equal("armed", nvr.ArmMode.Status)
-	a.Equal(0, nvr.ArmMode.BreachEventCount)
+	a.Equal(0, nvr.ArmMode.BreachEventCount.Int())
 }
 
 func TestProtectGetDevices(t *testing.T) {

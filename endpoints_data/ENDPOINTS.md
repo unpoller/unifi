@@ -445,10 +445,20 @@ Known but not implemented:
 
 The `protect-*.json` files in this directory are **synthetic**, hand-built from the OpenAPI
 spec to exercise unmarshalling, including nullable-numeric fields (`"percentage": null`, etc.).
-They are not captures from real hardware. Fields the spec declares as bare `object` with no
-documented shape — `glassBreakSettings`, `osdSettings`, `ledSettings`, `lcdMessage`,
-`featureFlags` (camera), `smartDetectSettings`, `lightModeSettings`, and the alarm-hub power/
-terminal-status fields — are kept as `json.RawMessage` until real data turns up.
+They are not captures from real hardware. Numeric and boolean fields deliberately use
+`FlexInt`/`FlexBool`/`FlexFloat` uniformly, consistent with the rest of the library, rather than
+nullable pointers: a nullable field reporting JSON `null` (e.g. a sensor with no battery) reads
+as a real zero through these types, and that null/zero distinction is accepted as lost in
+exchange for uniform typing. Fields the spec declares as bare `object` with no documented shape —
+`glassBreakSettings`, `osdSettings`, `ledSettings`, `lcdMessage`, `featureFlags` (camera),
+`smartDetectSettings`, `lightModeSettings`, and the alarm-hub power/terminal-status fields —
+are kept as `json.RawMessage` until real data turns up.
+
+Since these fixtures are hand-authored rather than captured, be aware that `FlexInt`/`FlexBool`/
+`FlexFloat` unmarshal permissively and never error on an unexpected shape (e.g. an object where
+a bool is expected) — a wire-format mismatch against real hardware would fail silently rather
+than surfacing as a test failure here. Field shapes should be reconfirmed against a real console
+per the plan's verification section.
 
 ---
 
