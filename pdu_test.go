@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/unpoller/unifi/v5"
+	"github.com/unpoller/unifi/v6"
 )
 
 //go:embed examples/pdu.json
