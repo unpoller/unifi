@@ -1,0 +1,100 @@
+[
+  {
+    "id": "sensor-1",
+    "modelKey": "sensor",
+    "state": "CONNECTED",
+    "name": "Garage Door",
+    "type": "AI Sensor",
+    "guid": "guid-sensor-1",
+    "mac": "AABBCC112233",
+    "mountType": "door",
+    "batteryStatus": {
+      "percentage": 87,
+      "isLow": false
+    },
+    "featureFlags": {
+      "temperature": {"channelCount": 1},
+      "humidity": {"channelCount": 1},
+      "light": {"channelCount": 1},
+      "motion": {"channelCount": 1},
+      "waterLeak": null,
+      "open": {"channelCount": 1},
+      "tamper": {"channelCount": 1},
+      "smoke": null
+    },
+    "stats": {
+      "light": {"value": 123.4, "status": "neutral"},
+      "humidity": {"value": 41.2, "status": "safe"},
+      "temperature": {"value": 21.5, "status": "safe"}
+    },
+    "lightSettings": {"isEnabled": true, "margin": 2, "lowThreshold": null, "highThreshold": 500},
+    "humiditySettings": {"isEnabled": true, "margin": 2, "lowThreshold": 20, "highThreshold": 70},
+    "temperatureSettings": {"isEnabled": true, "margin": 1, "lowThreshold": 10, "highThreshold": 30},
+    "isOpened": false,
+    "openStatusChangedAt": 1734000000000,
+    "isMotionDetected": false,
+    "motionDetectedAt": null,
+    "motionSettings": {"isEnabled": true, "sensitivity": 50, "sensitivityWhenArmed": 75},
+    "scheduleMode": "always",
+    "armProfileIds": ["profile-1"],
+    "alarmTriggeredAt": null,
+    "leakDetectedAt": null,
+    "externalLeakDetectedAt": null,
+    "tamperingDetectedAt": null,
+    "wirelessConnectionState": {
+      "signalState": {"signalQuality": 5, "signalStrength": -55},
+      "batteryStatus": {"percentage": 87, "isLow": false},
+      "bridge": "bridge-1"
+    },
+    "glassBreakSettings": {"isEnabled": false}
+  },
+  {
+    "id": "sensor-2",
+    "modelKey": "sensor",
+    "state": "DISCONNECTED",
+    "name": "Shed Leak",
+    "type": "AI Sensor",
+    "guid": "guid-sensor-2",
+    "mac": "AABBCC112244",
+    "mountType": "leak",
+    "batteryStatus": {
+      "percentage": null,
+      "isLow": false
+    },
+    "featureFlags": {
+      "temperature": null,
+      "humidity": null,
+      "light": null,
+      "motion": null,
+      "waterLeak": {"channelCount": 1},
+      "open": null,
+      "tamper": {"channelCount": 1},
+      "smoke": null
+    },
+    "stats": {
+      "light": null,
+      "humidity": null,
+      "temperature": null
+    },
+    "lightSettings": null,
+    "humiditySettings": null,
+    "temperatureSettings": null,
+    "isOpened": false,
+    "openStatusChangedAt": null,
+    "isMotionDetected": false,
+    "motionDetectedAt": null,
+    "motionSettings": null,
+    "scheduleMode": "when_armed",
+    "armProfileIds": [],
+    "alarmTriggeredAt": null,
+    "leakDetectedAt": 1734000500000,
+    "externalLeakDetectedAt": null,
+    "tamperingDetectedAt": null,
+    "wirelessConnectionState": {
+      "signalState": {"signalQuality": null, "signalStrength": null},
+      "batteryStatus": {"percentage": null, "isLow": false},
+      "bridge": "bridge-1"
+    },
+    "glassBreakSettings": null
+  }
+]

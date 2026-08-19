@@ -607,9 +607,19 @@ func (u *Unifi) do(req *http.Request) ([]byte, error) {
 }
 
 func (u *Unifi) setHeaders(req *http.Request, params string) {
-	if u.APIKey != "" {
+	// Protect's Integration API authenticates with its own key, independent of the
+	// Network session. Everything else keeps the existing cookie/CSRF or APIKey behavior.
+	protectKey := u.ProtectAPIKey
+	if protectKey == "" {
+		protectKey = u.APIKey
+	}
+
+	switch {
+	case strings.HasPrefix(req.URL.Path, APIProtectIntegrationPrefix) && protectKey != "":
+		req.Header.Set("X-API-Key", protectKey)
+	case u.APIKey != "":
 		req.Header.Set("X-API-Key", u.APIKey)
-	} else {
+	default:
 		// Add the saved CSRF header.
 		req.Header.Set("X-CSRF-Token", u.csrf)
 	}

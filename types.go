@@ -229,6 +229,18 @@ const (
 	APIUNASNetworkIOPath  string = "/proxy/drive/api/v2/systems/network-io"
 	APIUNASDrivesPath     string = "/proxy/users/drive/api/v2/drives"
 
+	// Protect Integration API paths. Require X-API-Key auth (ProtectAPIKey in Config,
+	// falling back to APIKey). Already start with /proxy/ so path() leaves them untouched.
+	// See unpoller/unpoller#1015.
+	APIProtectIntegrationPrefix string = "/proxy/protect/integration"
+	APIProtectMetaInfoPath      string = "/proxy/protect/integration/v1/meta/info"
+	APIProtectSensorsPath       string = "/proxy/protect/integration/v1/sensors"
+	APIProtectCamerasPath       string = "/proxy/protect/integration/v1/cameras"
+	APIProtectLightsPath        string = "/proxy/protect/integration/v1/lights"
+	APIProtectBridgesPath       string = "/proxy/protect/integration/v1/bridges"
+	APIProtectLinkStationsPath  string = "/proxy/protect/integration/v1/link-stations"
+	APIProtectNVRPath           string = "/proxy/protect/integration/v1/nvrs"
+
 	// Legacy gap API paths (Part A).
 	APIWANStatusPath   string = "/api/s/%s/stat/status"
 	APIUPSDevicesPath  string = "/api/s/%s/stat/ups-devices"
@@ -289,6 +301,11 @@ type Config struct {
 	DebugLog  Logger
 	Timeout   time.Duration // how long to wait for replies, default: forever.
 	VerifySSL bool
+	// ProtectAPIKey authenticates requests to the Protect Integration API
+	// (APIProtectIntegrationPrefix). It is independent of APIKey, which
+	// authenticates the Network Integration API and, when set, changes how
+	// Login() behaves for Network. Falls back to APIKey if empty.
+	ProtectAPIKey string
 }
 
 // IntegrationSite holds site identity from GET /proxy/network/integration/v1/sites.

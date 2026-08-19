@@ -414,4 +414,42 @@ known populated shape — `usbs`, `cacheSlots`, `expansions`, `riskReasons`,
 
 ---
 
+## UniFi Protect (Integration API)
+
+Served by a Protect NVR's official, documented Integration API
+(<https://developer.ui.com/protect/>), not the private bootstrap API. Base path
+`/proxy/protect/integration/v1/...`; auth via `X-API-KEY` (`ProtectAPIKey` in `Config`, falling
+back to `APIKey`), independent of Network's cookie/CSRF or `APIKey` auth. Implemented in
+`protect.go` via `GetProtectDevices`; see unpoller/unpoller#1015.
+
+| Method | Path | Data exposed |
+|--------|------|----------------|
+| GET | `/proxy/protect/integration/v1/meta/info` | Protect application version. Cheapest endpoint; used as the "is Protect installed and is this key valid" probe. |
+| GET | `/proxy/protect/integration/v1/sensors` | Sensors, including SuperLink sensors: battery, wireless signal, temperature/humidity/light readings, open/motion/leak/tamper state and timestamps. |
+| GET | `/proxy/protect/integration/v1/cameras` | Cameras: connection state and a handful of settings. No bandwidth, storage, wifi, or FPS stats — those live only in the private bootstrap API. |
+| GET | `/proxy/protect/integration/v1/lights` | Floodlights: on/off, PIR motion, dark detection, last-motion timestamp. |
+| GET | `/proxy/protect/integration/v1/bridges` | Wireless bridges (e.g. SuperLink Gateways): connection state, paired clients, max clients. |
+| GET | `/proxy/protect/integration/v1/link-stations` | Link stations, including alarm hubs: battery voltage/status, input power, tamper cover, armed state. |
+| GET | `/proxy/protect/integration/v1/nvrs` | The NVR console itself: arm mode/status and breach event count. Returns a single object, not an array. |
+
+Known but not implemented:
+
+| Method | Path | Why not |
+|--------|------|---------|
+| GET | `/proxy/protect/integration/v1/subscribe/{devices,events}` | Websockets; UnPoller is poll-based. |
+| Any write endpoint (PTZ, siren play/stop, talkback, RTSPS stream create/delete, arm-profile mutation, relay/alarm-hub output triggers, file upload, POS ingestion) | UnPoller only reads. |
+| GET | `/proxy/protect/integration/v1/alarm-hubs` | Same schema as `/v1/link-stations` filtered to `isAlarmHub: true`; polling both would double-count every alarm hub. |
+| GET | `/proxy/protect/integration/v1/{viewers,chimes,sirens,fobs,relays,speakers,users,ulp-users,liveviews,arm-profiles,files}` | No metric value in v1; each is a candidate for a future addition once the scaffolding exists. |
+| Cloud connector (`https://api.ui.com/v1/connector/consoles/{consoleId}/proxy/protect/integration`) | Local console only, for now. |
+| Private bootstrap API (`/proxy/protect/api/bootstrap`) | Undocumented and unversioned. Carries richer camera/NVR system stats (wifi quality/strength, video/storage rates, NVR CPU/memory/disk) as a natural phase 2, deliberately deferred. |
+
+The `protect-*.json` files in this directory are **synthetic**, hand-built from the OpenAPI
+spec to exercise unmarshalling, including nullable-numeric fields (`"percentage": null`, etc.).
+They are not captures from real hardware. Fields the spec declares as bare `object` with no
+documented shape — `glassBreakSettings`, `osdSettings`, `ledSettings`, `lcdMessage`,
+`featureFlags` (camera), `smartDetectSettings`, `lightModeSettings`, and the alarm-hub power/
+terminal-status fields — are kept as `json.RawMessage` until real data turns up.
+
+---
+
 *Generated from a capture session; endpoints may vary by controller version and role. Use the capture script to record your own session and extend this list.*
