@@ -1,0 +1,14 @@
+[
+  {
+    "id": "bridge-1",
+    "modelKey": "bridge",
+    "state": "CONNECTED",
+    "name": "SuperLink Gateway",
+    "type": "SuperLink",
+    "guid": "guid-bridge-1",
+    "mac": "AABBCC445566",
+    "platform": "superlink",
+    "clients": ["sensor-1", "sensor-2"],
+    "maxClients": 32
+  }
+]

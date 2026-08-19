@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/unpoller/unifi/v5/mocks"
+	"github.com/unpoller/unifi/v6/mocks"
 )
 
 func TestMockUnifiClient(t *testing.T) {

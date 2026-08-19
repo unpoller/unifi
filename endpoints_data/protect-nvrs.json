@@ -1,0 +1,20 @@
+{
+  "id": "nvr-1",
+  "modelKey": "nvr",
+  "state": "CONNECTED",
+  "name": "Home NVR",
+  "type": "UNVR",
+  "guid": "guid-nvr-1",
+  "mac": "AABBCC556677",
+  "armMode": {
+    "status": "armed",
+    "armProfileId": "profile-1",
+    "armedAt": 1734000800000,
+    "willBeArmedAt": null,
+    "breachDetectedAt": null,
+    "breachEventCount": 0,
+    "breachTriggerEventId": "",
+    "breachEventId": ""
+  },
+  "doorbellSettings": {"defaultMessage": "Be right there!"}
+}

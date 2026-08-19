@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Unifi Go Library – Project Overview
 
-This repo is **github.com/unpoller/unifi/v5**: a Go library that connects to a Ubiquiti UniFi controller and **pulls** data (clients, devices, sites, alarms, events, etc.). It does **not** update or change controller settings by design.
+This repo is **github.com/unpoller/unifi/v6**: a Go library that connects to a Ubiquiti UniFi controller and **pulls** data (clients, devices, sites, alarms, events, etc.). It does **not** update or change controller settings by design.
 
 - **Entry point**: `unifi.NewUnifi(config *Config)` → authenticated `*Unifi` client.
 - **Config**: `Config` has `URL`, `User`, `Pass`, optional `APIKey`, `ErrorLog`/`DebugLog`, `SSLCert`, `VerifySSL`.
@@ -18,6 +18,6 @@ This repo is **github.com/unpoller/unifi/v5**: a Go library that connects to a U
 Typical flow: `Config` → `NewUnifi(config)` → `GetSites()` → `GetClients(sites)` / `GetDevices(sites)`. Optionally `GetAlarms`, `GetEvents`, `GetAnomalies`, etc. See `README.md` for a full example.
 
 - **Returns**: `[]*Site`, `[]*Client`, `*Devices` (with `UAPs`, `USWs`, `USGs`, `UDMs`, `UXGs`, `PDUs`, `UBBs`, `UCIs`), plus alarms, events, DPI, traffic. Data is unmarshaled into large structs for consumption; some types have InfluxDB datapoint helpers.
-- **Import**: `github.com/unpoller/unifi/v5`. Logger interface: `ErrorLog` / `DebugLog` accept `(format, args...)`; use `log.Printf` or custom.
+- **Import**: `github.com/unpoller/unifi/v6`. Logger interface: `ErrorLog` / `DebugLog` accept `(format, args...)`; use `log.Printf` or custom.
 
 When adding features: follow existing patterns (e.g. `GetDevices` / `GetClients`), use `GetData` for HTTP, and add tests. Run `golangci-lint` and tests before committing.

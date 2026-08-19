@@ -1,0 +1,57 @@
+[
+  {
+    "id": "linkstation-1",
+    "modelKey": "linkStation",
+    "state": "CONNECTED",
+    "name": "SuperLink Gateway",
+    "type": "SuperLink",
+    "guid": "guid-linkstation-1",
+    "mac": "AABBCC445566",
+    "isAlarmHub": true,
+    "lastEvent": 1734000700000,
+    "alarmHub": {
+      "armed": true,
+      "battery": {
+        "charging": true,
+        "connection": "wired",
+        "voltage": 13.2,
+        "batteryStatus": "ok"
+      },
+      "cover": {
+        "distance": 3.5,
+        "status": "closed"
+      },
+      "inputPower": {
+        "bt": 12.1,
+        "typ1": null,
+        "typ2": null
+      },
+      "buckboost": {"status": "ok"},
+      "connector": {"type": "usb-c"},
+      "currentMeterChannelStatus": {},
+      "currentMeterStatus": {},
+      "poeout": {"enabled": true},
+      "powerMeter": {},
+      "output": {},
+      "input": {},
+      "inputTerminalStatus": {},
+      "outputTerminalStatus": {},
+      "emergencyTerminalStatus": {},
+      "auxiliaryPowerTerminalStatus": {}
+    },
+    "ledSettings": {"isEnabled": true}
+  },
+  {
+    "id": "linkstation-2",
+    "modelKey": "linkStation",
+    "state": "CONNECTING",
+    "name": "Shed LinkStation",
+    "type": "LinkStation",
+    "guid": "guid-linkstation-2",
+    "mac": "AABBCC445577",
+    "isAlarmHub": false,
+    "lastEvent": null,
+    "alarmHub": null,
+    "ledSettings": null
+  }
+]

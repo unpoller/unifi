@@ -3,7 +3,7 @@ package unifi_test
 import (
 	"encoding/json"
 	"github.com/stretchr/testify/require"
-	"github.com/unpoller/unifi/v5"
+	"github.com/unpoller/unifi/v6"
 	"testing"
 )
 

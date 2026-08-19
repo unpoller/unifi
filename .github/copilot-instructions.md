@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is **github.com/unpoller/unifi/v5**: a Go library that connects to a Ubiquiti UniFi controller and **pulls** data (clients, devices, sites, alarms, events, etc.). It does **not** update or change controller settings by design.
+This is **github.com/unpoller/unifi/v6**: a Go library that connects to a Ubiquiti UniFi controller and **pulls** data (clients, devices, sites, alarms, events, etc.). It does **not** update or change controller settings by design.
 
 **Entry point**: `unifi.NewUnifi(config *Config)` → authenticated `*Unifi` client.
 

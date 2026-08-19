@@ -1,0 +1,42 @@
+[
+  {
+    "id": "camera-1",
+    "modelKey": "camera",
+    "state": "CONNECTED",
+    "name": "Front Door",
+    "type": "G4 Doorbell Pro",
+    "guid": "guid-camera-1",
+    "mac": "AABBCC223344",
+    "isMicEnabled": true,
+    "micVolume": 80,
+    "activePatrolSlot": null,
+    "videoMode": "default",
+    "hdrType": "normal",
+    "hasPackageCamera": true,
+    "osdSettings": {"isNameEnabled": true},
+    "ledSettings": {"isEnabled": true},
+    "lcdMessage": null,
+    "featureFlags": {"hasHdr": true},
+    "smartDetectSettings": {"objectTypes": ["person", "vehicle"]}
+  },
+  {
+    "id": "camera-2",
+    "modelKey": "camera",
+    "state": "DISCONNECTED",
+    "name": "Backyard",
+    "type": "G4 Pro",
+    "guid": "guid-camera-2",
+    "mac": "AABBCC223355",
+    "isMicEnabled": false,
+    "micVolume": 0,
+    "activePatrolSlot": null,
+    "videoMode": "highFps",
+    "hdrType": "auto",
+    "hasPackageCamera": false,
+    "osdSettings": {"isNameEnabled": false},
+    "ledSettings": {"isEnabled": false},
+    "lcdMessage": null,
+    "featureFlags": {"hasHdr": false},
+    "smartDetectSettings": {"objectTypes": []}
+  }
+]

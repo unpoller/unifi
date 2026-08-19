@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/unpoller/unifi/v5"
+	"github.com/unpoller/unifi/v6"
 )
 
 func GetEnvString(key, fallback string) string {

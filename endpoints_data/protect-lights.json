@@ -1,0 +1,24 @@
+[
+  {
+    "id": "light-1",
+    "modelKey": "light",
+    "state": "CONNECTED",
+    "name": "Driveway Light",
+    "type": "Floodlight",
+    "guid": "guid-light-1",
+    "mac": "AABBCC334455",
+    "isDark": true,
+    "isLightOn": true,
+    "isLightForceEnabled": false,
+    "isPirMotionDetected": true,
+    "lastMotion": 1734000600000,
+    "camera": "camera-1",
+    "lightDeviceSettings": {
+      "isIndicatorEnabled": true,
+      "pirDuration": 15000,
+      "pirSensitivity": 50,
+      "ledLevel": 3
+    },
+    "lightModeSettings": {"mode": "motion"}
+  }
+]

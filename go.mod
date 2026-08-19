@@ -1,4 +1,4 @@
-module github.com/unpoller/unifi/v5
+module github.com/unpoller/unifi/v6
 
 go 1.25.5
 
