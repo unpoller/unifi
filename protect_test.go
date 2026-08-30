@@ -542,6 +542,42 @@ func TestNewProtectClientSkipsLoginWithoutUser(t *testing.T) {
 	assert.Equal(t, []string{APIProtectMetaInfoPath}, *requested)
 }
 
+// TestNewProtectClientSurvivesFailedLogin covers the config an operator actually writes for a
+// UNVR: a Protect API key and no local account. unpoller fills the unset username with a
+// placeholder, so a login is attempted with credentials nobody chose and the console answers
+// 403. Failing there would reject a console whose Protect API answers perfectly.
+func TestNewProtectClientSurvivesFailedLogin(t *testing.T) {
+	t.Parallel()
+
+	var logged string
+
+	mux := http.NewServeMux()
+	mux.HandleFunc(APILoginPathNew, func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusForbidden)
+	})
+	mux.HandleFunc(APIProtectMetaInfoPath, func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"applicationVersion":"7.2.105"}`))
+	})
+
+	srv := httptest.NewServer(mux)
+	t.Cleanup(srv.Close)
+
+	c, err := NewProtectClient(&Config{
+		URL: srv.URL, User: "unifipoller", Pass: "unifipoller", ProtectAPIKey: "protect-key-abc",
+		DebugLog: discardLogs,
+		ErrorLog: func(msg string, v ...interface{}) { logged = fmt.Sprintf(msg, v...) },
+	})
+	require.NoError(t, err)
+	require.NotNil(t, c)
+
+	a := assert.New(t)
+	a.Equal("7.2.105", c.ServerVersion)
+	// The failure is not silent: it must say what was lost.
+	a.Contains(logged, "login as \"unifipoller\" failed")
+	a.Contains(logged, "will not work")
+}
+
 func TestNewProtectClientRejectsBadConfig(t *testing.T) {
 	t.Parallel()
 

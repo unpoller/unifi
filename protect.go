@@ -389,9 +389,17 @@ func NewProtectClient(config *Config) (*Unifi, error) {
 	// GetProtectEventThumbnail authenticate with a session cookie -- so log in when local
 	// credentials are supplied. Never when APIKey is set: Login() uses /status as its login
 	// path in that case, which is the one endpoint this console does not serve.
+	//
+	// A failed login is logged rather than returned. The API key is this constructor's real
+	// credential, and callers routinely pass a username they never chose -- unpoller fills an
+	// unset user with a placeholder -- so failing here would reject a console whose Protect
+	// API answers perfectly. Only the legacy endpoints are lost, and they report their own
+	// errors when called.
 	if config.APIKey == "" && config.User != "" {
 		if err := u.Login(); err != nil {
-			return u, err
+			u.ErrorLog("Protect %s: login as %q failed (%v); continuing with API-key auth. "+
+				"Protect system logs and event thumbnails need a session and will not work.",
+				u.URL, config.User, err)
 		}
 	}
 
