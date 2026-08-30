@@ -1,9 +1,15 @@
 package unifi
 
 import (
+	"crypto/sha256"
 	"encoding/json"
+	"encoding/pem"
 	"errors"
 	"fmt"
+	"net/http"
+	"net/http/cookiejar"
+
+	"golang.org/x/net/publicsuffix"
 )
 
 // Protect device support is built on Ubiquiti's official, documented Protect Integration
@@ -323,6 +329,83 @@ type ProtectDevices struct {
 	Lights       []*ProtectLight       `fakesize:"5"`
 	Bridges      []*ProtectBridge      `fakesize:"5"`
 	LinkStations []*ProtectLinkStation `fakesize:"5"`
+}
+
+// NewProtectClient creates a client for a Protect-only UniFi OS console -- a UNVR, UNVR
+// Pro, or any console running UniFi Protect with no Network application installed. Start
+// here for those; keep using NewUnifi for a console that runs Network.
+//
+// This is deliberately not NewUnifi: that constructor finishes with GetServerData(), which
+// GETs /status -- rewritten by path() to /proxy/network/status. A Protect-only console runs
+// no Network application to answer it and serves the UniFi OS SPA HTML instead, so NewUnifi
+// fails with "invalid character '<' looking for beginning of value" and the console can
+// never be polled at all. See unpoller/unpoller#1066. This mirrors NewUNASClient in unas.go,
+// which exists for the same reason.
+//
+// Unlike NewUNASClient this returns a plain *Unifi rather than a wrapper type, because the
+// Protect getters are already *Unifi methods.
+//
+// The returned client's ServerStatus.ServerVersion holds the UniFi *Protect* application
+// version, not a Network one: a Protect-only console has no Network version to report.
+func NewProtectClient(config *Config) (*Unifi, error) {
+	if config == nil {
+		return nil, ErrNilConfig
+	}
+
+	// Integration/v1 authenticates with the X-API-Key header and has no cookie fallback, so
+	// without a key there is nothing this client could successfully request.
+	if config.ProtectAPIKey == "" && config.APIKey == "" {
+		return nil, ErrAPIKeyRequired
+	}
+
+	var jar http.CookieJar
+
+	if config.APIKey == "" {
+		var err error
+
+		jar, err = cookiejar.New(&cookiejar.Options{PublicSuffixList: publicsuffix.List})
+		if err != nil {
+			return nil, fmt.Errorf("creating cookiejar: %w", err)
+		}
+	}
+
+	u := newUnifi(config, jar)
+
+	for i, cert := range config.SSLCert {
+		p, _ := pem.Decode(cert)
+		if p == nil {
+			continue
+		}
+
+		u.fingerprints[i] = fmt.Sprintf("%x", sha256.Sum256(p.Bytes))
+	}
+
+	// A Protect console is always a UniFi OS console, so the new-style API is a given.
+	// Setting this directly rather than calling checkNewStyleAPI() means Login() resolves to
+	// /api/auth/login without depending on how the console answers a GET of /.
+	u.new = true
+
+	// Integration/v1 needs no session. The legacy Protect endpoints do -- GetProtectLogs and
+	// GetProtectEventThumbnail authenticate with a session cookie -- so log in when local
+	// credentials are supplied. Never when APIKey is set: Login() uses /status as its login
+	// path in that case, which is the one endpoint this console does not serve.
+	if config.APIKey == "" && config.User != "" {
+		if err := u.Login(); err != nil {
+			return u, err
+		}
+	}
+
+	// Prove the console answers Protect before handing back a client, the way NewUnifi proves
+	// Network with GetServerData. Populating ServerStatus is not cosmetic: Unifi embeds
+	// *ServerStatus, so leaving it nil makes u.ServerVersion a nil dereference for callers.
+	info, err := u.GetProtectMetaInfo()
+	if err != nil {
+		return u, fmt.Errorf("unable to reach the Protect Integration API: %w", err)
+	}
+
+	u.ServerStatus = &ServerStatus{Up: *NewFlexBool(true), ServerVersion: info.ApplicationVersion}
+
+	return u, nil
 }
 
 // GetProtectMetaInfo returns the Protect application version. This is the cheapest
