@@ -1,6 +1,7 @@
 package unifi // nolint: testpackage
 
 import (
+	"encoding/pem"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -426,4 +427,174 @@ func TestProtectStructs(t *testing.T) {
 
 	require.NoError(t, gofakeit.Struct(&devices))
 	require.Len(t, devices.Sensors, 5)
+}
+
+// newProtectOnlyConsole returns a server that behaves like a UNVR: the Protect Integration
+// paths answer from fixtures, /api/auth/login succeeds, and every Network path -- including
+// the /proxy/network/status that NewUnifi ends on -- serves the UniFi OS SPA HTML that
+// caused unpoller/unpoller#1066. The returned slice records requested paths, in order.
+func newProtectOnlyConsole(t *testing.T) (*httptest.Server, *[]string) {
+	t.Helper()
+
+	requested := &[]string{}
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		*requested = append(*requested, r.URL.Path)
+
+		if r.URL.Path == APILoginPathNew {
+			w.Header().Set("x-csrf-token", "csrf-abc")
+			w.WriteHeader(http.StatusOK)
+
+			return
+		}
+
+		file, ok := protectFixtures[r.URL.Path]
+		if !ok {
+			// No Network application to route to, so UniFi OS serves its own SPA.
+			w.Header().Set("Content-Type", "text/html")
+			_, _ = w.Write([]byte(`<!doctype html><html lang="en"><body></body></html>`))
+
+			return
+		}
+
+		body, err := os.ReadFile(file)
+		require.NoError(t, err)
+
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write(body)
+	}))
+
+	t.Cleanup(srv.Close)
+
+	return srv, requested
+}
+
+// TestNewUnifiFailsOnProtectOnlyConsole is the bug NewProtectClient exists to fix, pinned as
+// a test: NewUnifi cannot construct a client for a console with no Network application. If
+// this ever starts passing, NewProtectClient's reason for existing has changed.
+func TestNewUnifiFailsOnProtectOnlyConsole(t *testing.T) {
+	t.Parallel()
+
+	srv, _ := newProtectOnlyConsole(t)
+
+	_, err := NewUnifi(&Config{
+		URL: srv.URL, User: "ro-user", Pass: "secret",
+		ProtectAPIKey: "protect-key-abc", DebugLog: discardLogs, ErrorLog: discardLogs,
+	})
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "unable to get server version")
+}
+
+func TestNewProtectClient(t *testing.T) {
+	t.Parallel()
+
+	srv, requested := newProtectOnlyConsole(t)
+
+	c, err := NewProtectClient(&Config{
+		URL: srv.URL, User: "ro-user", Pass: "secret",
+		ProtectAPIKey: "protect-key-abc", DebugLog: discardLogs, ErrorLog: discardLogs,
+	})
+	require.NoError(t, err)
+	require.NotNil(t, c)
+
+	a := assert.New(t)
+	// New-style paths are assumed rather than probed, so nothing but the login and the
+	// reachability probe reaches the console -- and /status is never requested.
+	a.True(c.new)
+	a.Equal([]string{APILoginPathNew, APIProtectMetaInfoPath}, *requested)
+	a.Equal("csrf-abc", c.csrf)
+
+	// ServerStatus must be populated: Unifi embeds *ServerStatus, so a nil one turns every
+	// caller's c.ServerVersion into a panic. The version is Protect's, not Network's.
+	require.NotNil(t, c.ServerStatus)
+	a.Equal("5.1.113", c.ServerVersion)
+	a.True(c.Up.Val)
+}
+
+// TestNewProtectClientSkipsLoginWithAPIKey covers the one case where logging in is actively
+// harmful: Login() routes through /status when Config.APIKey is set, and /status is exactly
+// what a Protect-only console cannot answer.
+func TestNewProtectClientSkipsLoginWithAPIKey(t *testing.T) {
+	t.Parallel()
+
+	srv, requested := newProtectOnlyConsole(t)
+
+	c, err := NewProtectClient(&Config{
+		URL: srv.URL, APIKey: "network-key-abc", DebugLog: discardLogs, ErrorLog: discardLogs,
+	})
+	require.NoError(t, err)
+	require.NotNil(t, c)
+
+	assert.Equal(t, []string{APIProtectMetaInfoPath}, *requested)
+}
+
+// TestNewProtectClientSkipsLoginWithoutUser covers a key-only config: an operator with a
+// Protect Integration key but no local account still gets a usable client.
+func TestNewProtectClientSkipsLoginWithoutUser(t *testing.T) {
+	t.Parallel()
+
+	srv, requested := newProtectOnlyConsole(t)
+
+	_, err := NewProtectClient(&Config{
+		URL: srv.URL, ProtectAPIKey: "protect-key-abc", DebugLog: discardLogs, ErrorLog: discardLogs,
+	})
+	require.NoError(t, err)
+	assert.Equal(t, []string{APIProtectMetaInfoPath}, *requested)
+}
+
+func TestNewProtectClientRejectsBadConfig(t *testing.T) {
+	t.Parallel()
+
+	_, err := NewProtectClient(nil)
+	require.ErrorIs(t, err, ErrNilConfig)
+
+	// Integration/v1 is X-API-Key only; user/pass alone can never authenticate it.
+	_, err = NewProtectClient(&Config{URL: "https://127.0.0.1", User: "ro-user", Pass: "secret"})
+	require.ErrorIs(t, err, ErrAPIKeyRequired)
+}
+
+// TestNewProtectClientProtectNotInstalled covers a console that answers neither application.
+// The client is still returned so callers can inspect it, matching NewUnifi's contract.
+func TestNewProtectClientProtectNotInstalled(t *testing.T) {
+	t.Parallel()
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusNotFound)
+	}))
+	t.Cleanup(srv.Close)
+
+	c, err := NewProtectClient(&Config{
+		URL: srv.URL, ProtectAPIKey: "protect-key-abc", DebugLog: discardLogs, ErrorLog: discardLogs,
+	})
+	require.ErrorIs(t, err, ErrEndpointNotFound)
+	require.NotNil(t, c)
+	assert.Nil(t, c.ServerStatus)
+}
+
+// TestNewProtectClientPinsSSLCert covers the fingerprint loop NewProtectClient duplicates
+// from NewUnifi. It writes into a slice newUnifi only allocates when SSLCert is non-empty,
+// so an empty-cert regression there is an index panic rather than a failure elsewhere.
+func TestNewProtectClientPinsSSLCert(t *testing.T) {
+	t.Parallel()
+
+	srv := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"applicationVersion":"7.2.105"}`))
+	}))
+	t.Cleanup(srv.Close)
+
+	cert := pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE", Bytes: srv.Certificate().Raw})
+	require.NotNil(t, cert)
+
+	c, err := NewProtectClient(&Config{
+		URL: srv.URL, ProtectAPIKey: "protect-key-abc", SSLCert: [][]byte{cert},
+		DebugLog: discardLogs, ErrorLog: discardLogs,
+	})
+	require.NoError(t, err)
+	require.NotNil(t, c)
+
+	a := assert.New(t)
+	a.Len(c.fingerprints, 1)
+	a.NotNil(c.Transport)
+	a.Equal("7.2.105", c.ServerVersion)
 }
