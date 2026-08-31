@@ -30,6 +30,7 @@ func (u *Unifi) GetVPNServers(site *IntegrationSite) ([]*VPNServer, error) {
 
 	for i := range items {
 		items[i].SiteName = site.Name
+		items[i].SourceName = u.URL
 		result[i] = &items[i]
 	}
 
@@ -64,6 +65,7 @@ func (u *Unifi) GetSiteToSiteTunnels(site *IntegrationSite) ([]*SiteToSiteTunnel
 
 	for i := range items {
 		items[i].SiteName = site.Name
+		items[i].SourceName = u.URL
 		result[i] = &items[i]
 	}
 

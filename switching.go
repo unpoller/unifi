@@ -30,6 +30,7 @@ func (u *Unifi) GetLAGs(site *IntegrationSite) ([]*LAG, error) {
 
 	for i := range items {
 		items[i].SiteName = site.Name
+		items[i].SourceName = u.URL
 		result[i] = &items[i]
 	}
 
@@ -64,6 +65,7 @@ func (u *Unifi) GetMCLAGDomains(site *IntegrationSite) ([]*MCLAGDomain, error) {
 
 	for i := range items {
 		items[i].SiteName = site.Name
+		items[i].SourceName = u.URL
 		result[i] = &items[i]
 	}
 
@@ -98,6 +100,7 @@ func (u *Unifi) GetSwitchStacks(site *IntegrationSite) ([]*SwitchStack, error) {
 
 	for i := range items {
 		items[i].SiteName = site.Name
+		items[i].SourceName = u.URL
 		result[i] = &items[i]
 	}
 
