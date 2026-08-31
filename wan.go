@@ -11,6 +11,12 @@ type WANEnrichedConfiguration struct {
 	Configuration WANConfiguration `json:"configuration"`
 	Details       WANDetails       `json:"details"`
 	Statistics    WANStatistics    `json:"statistics"`
+
+	// SiteName and SourceName identify where this WAN came from. The API
+	// response carries neither, so GetWANEnrichedConfiguration stamps them
+	// from the site it fetched, the same way GetSiteDPI does.
+	SiteName   string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // WANConfiguration represents the WAN network configuration.
@@ -203,6 +209,8 @@ func (u *Unifi) GetWANEnrichedConfiguration(sites []*Site) ([]*WANEnrichedConfig
 
 		for _, wan := range raw {
 			if wan != nil {
+				wan.SiteName = site.SiteName
+				wan.SourceName = site.SourceName
 				data = append(data, wan)
 			}
 		}
