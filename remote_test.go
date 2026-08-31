@@ -109,7 +109,7 @@ func TestDiscoverSites_GzipBodyWithoutContentEncoding(t *testing.T) {
 
 	resp := SitesResponse{
 		Data: []RemoteSite{
-			{ID: "site-1", Name: "default", Description: "Default"},
+			{ID: "site-1", InternalReference: "default", Name: "Default"},
 		},
 		HTTPStatusCode: 200,
 		TraceID:        "trace-xyz",
@@ -132,7 +132,9 @@ func TestDiscoverSites_GzipBodyWithoutContentEncoding(t *testing.T) {
 	sites, err := client.DiscoverSites("console-1")
 	require.NoError(t, err)
 	require.Len(t, sites, 1)
-	assert.Equal(t, "default", sites[0].Name)
+	assert.Equal(t, "site-1", sites[0].ID)
+	assert.Equal(t, "default", sites[0].InternalReference)
+	assert.Equal(t, "Default", sites[0].Name)
 }
 
 // TestMakeRequestOnce_GzippedRateLimit_PreservesStatus locks in that
@@ -188,7 +190,7 @@ func TestDiscoverSites_PlainJSONBody(t *testing.T) {
 	t.Parallel()
 
 	resp := SitesResponse{
-		Data: []RemoteSite{{ID: "s1", Name: "default"}},
+		Data: []RemoteSite{{ID: "s1", InternalReference: "default", Name: "Default"}},
 	}
 
 	payload, err := json.Marshal(resp)
@@ -206,5 +208,55 @@ func TestDiscoverSites_PlainJSONBody(t *testing.T) {
 	sites, err := client.DiscoverSites("console-1")
 	require.NoError(t, err)
 	require.Len(t, sites, 1)
-	assert.Equal(t, "default", sites[0].Name)
+	assert.Equal(t, "s1", sites[0].ID)
+	assert.Equal(t, "default", sites[0].InternalReference)
+	assert.Equal(t, "Default", sites[0].Name)
+}
+
+// TestDiscoverSites_OpenAPISiteOverviewPage locks in the Network Integration
+// "Site overview page" shape (v10.4.57): id is the UUID, internalReference is
+// the legacy site name, name is the display name. Pagination fields on the
+// envelope are ignored. See unpoller/unpoller#986.
+func TestDiscoverSites_OpenAPISiteOverviewPage(t *testing.T) {
+	t.Parallel()
+
+	payload := []byte(`{
+		"count": 2,
+		"data": [
+			{
+				"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+				"internalReference": "default",
+				"name": "Default"
+			},
+			{
+				"id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+				"internalReference": "abc1def2",
+				"name": "Office"
+			}
+		],
+		"limit": 25,
+		"offset": 0,
+		"totalCount": 2
+	}`)
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write(payload)
+	}))
+	defer srv.Close()
+
+	client := NewRemoteAPIClient("test-key", nil, nil, nil)
+	client.baseURL = srv.URL
+
+	sites, err := client.DiscoverSites("console-1")
+	require.NoError(t, err)
+	require.Len(t, sites, 2)
+
+	assert.Equal(t, "3fa85f64-5717-4562-b3fc-2c963f66afa6", sites[0].ID)
+	assert.Equal(t, "default", sites[0].InternalReference)
+	assert.Equal(t, "Default", sites[0].Name)
+
+	assert.Equal(t, "7c9e6679-7425-40de-944b-e07fc1f90ae7", sites[1].ID)
+	assert.Equal(t, "abc1def2", sites[1].InternalReference)
+	assert.Equal(t, "Office", sites[1].Name)
 }
