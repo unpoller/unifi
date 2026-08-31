@@ -365,6 +365,7 @@ type WifiBroadcast struct {
 	SecurityConfiguration    WifiBroadcastSecurityConfiguration `json:"securityConfiguration"`
 
 	SiteName string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // FirewallZoneMetadata holds metadata for a firewall zone.
@@ -381,6 +382,7 @@ type FirewallZone struct {
 	NetworkIDs []string             `json:"networkIds"`
 
 	SiteName string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // ACLRule represents a network access control rule from the Integration/v1 API.
@@ -395,6 +397,7 @@ type ACLRule struct {
 	SourceFilter          string   `json:"sourceFilter"`
 
 	SiteName string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // IntegrationNetwork represents a network from the Integration/v1 API.
@@ -432,6 +435,7 @@ type VPNServer struct {
 	Type     string            `json:"type"` // L2TP, OpenVPN, WireGuard, UID
 
 	SiteName string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // SiteToSiteTunnelMetadata holds metadata for a site-to-site tunnel.
@@ -447,6 +451,7 @@ type SiteToSiteTunnel struct {
 	Type     string                   `json:"type"` // IPSec, OpenVPN, WireGuard
 
 	SiteName string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // LAGMember represents a device port membership within a LAG.
@@ -468,6 +473,7 @@ type LAG struct {
 	Type     string      `json:"type"` // local, global
 
 	SiteName string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // MCLAGPeer represents a peer device in an MC-LAG domain.
@@ -491,6 +497,7 @@ type MCLAGDomain struct {
 	Peers    []MCLAGPeer   `json:"peers"`
 
 	SiteName string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // SwitchStackMetadata holds metadata for a switch stack.
@@ -507,6 +514,7 @@ type SwitchStack struct {
 	Name     string              `json:"name"`
 
 	SiteName string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // DNSPolicy represents a DNS policy from the Integration/v1 API.
