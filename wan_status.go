@@ -6,7 +6,12 @@ import "fmt"
 type WANStatus struct {
 	WANInterfaces []WANStatusInterface `json:"wan_interfaces"`
 
-	SiteName string `json:"-"`
+	// SiteName and SourceName identify where this status came from. The API
+	// response carries neither, and a poller watching several controllers has
+	// no other way to tell two of them apart: every UniFi OS console names its
+	// only site "default".
+	SiteName   string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // WANStatusInterface represents a single WAN interface in the status response.
@@ -54,7 +59,7 @@ func (u *Unifi) GetWANStatus(site *Site) (*WANStatus, error) {
 	if len(response.Data) == 0 {
 		u.DebugLog("No WAN status found for site %s", site.Name)
 
-		return &WANStatus{SiteName: site.SiteName}, nil
+		return &WANStatus{SiteName: site.SiteName, SourceName: u.URL}, nil
 	}
 
 	if len(response.Data) > 1 {
@@ -62,6 +67,7 @@ func (u *Unifi) GetWANStatus(site *Site) (*WANStatus, error) {
 	}
 
 	response.Data[0].SiteName = site.SiteName
+	response.Data[0].SourceName = u.URL
 
 	return &response.Data[0], nil
 }
@@ -82,6 +88,7 @@ func (u *Unifi) wanStatusV2(site *Site) (*WANStatus, error) {
 	}
 
 	status.SiteName = site.SiteName
+	status.SourceName = u.URL
 
 	return status, nil
 }
