@@ -46,11 +46,13 @@ type HostsResponse struct {
 	NextToken      string    `json:"nextToken,omitempty"`
 }
 
-// RemoteSite represents a site from the remote API.
+// RemoteSite is a site from GET .../integration/v1/sites (OpenAPI "Site overview").
+// ID is the UUID required by other Integration/v1 paths. InternalReference is the
+// legacy site name used by older APIs (e.g. "default"). Name is the display name.
 type RemoteSite struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	ID                string `json:"id"`
+	InternalReference string `json:"internalReference"`
+	Name              string `json:"name"`
 }
 
 // SitesResponse represents the response from the sites endpoint.
