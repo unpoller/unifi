@@ -77,4 +77,32 @@ func TestIntegrationEntitiesCarrySource(t *testing.T) {
 		require.NotEmpty(t, got)
 		assert.Equal(t, c.URL, got[0].SourceName)
 	})
+
+	t.Run("DNSPolicy", func(t *testing.T) {
+		got, err := c.GetDNSPolicies(site)
+		require.NoError(t, err)
+		require.NotEmpty(t, got)
+		assert.Equal(t, c.URL, got[0].SourceName)
+	})
+
+	t.Run("RADIUSProfile", func(t *testing.T) {
+		got, err := c.GetRADIUSProfiles(site)
+		require.NoError(t, err)
+		require.NotEmpty(t, got)
+		assert.Equal(t, c.URL, got[0].SourceName)
+	})
+
+	t.Run("TrafficMatchingList", func(t *testing.T) {
+		got, err := c.GetTrafficMatchingLists(site)
+		require.NoError(t, err)
+		require.NotEmpty(t, got)
+		assert.Equal(t, c.URL, got[0].SourceName)
+	})
+
+	t.Run("HotspotVoucher", func(t *testing.T) {
+		got, err := c.GetHotspotVouchers(site)
+		require.NoError(t, err)
+		require.NotEmpty(t, got)
+		assert.Equal(t, c.URL, got[0].SourceName)
+	})
 }

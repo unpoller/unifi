@@ -29,6 +29,7 @@ func (u *Unifi) GetRADIUSProfiles(site *IntegrationSite) ([]*RADIUSProfile, erro
 
 	for i := range items {
 		items[i].SiteName = site.Name
+		items[i].SourceName = u.URL
 		result[i] = &items[i]
 	}
 
