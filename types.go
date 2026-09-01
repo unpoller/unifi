@@ -364,7 +364,7 @@ type WifiBroadcast struct {
 	Network                  string                             `json:"network"`
 	SecurityConfiguration    WifiBroadcastSecurityConfiguration `json:"securityConfiguration"`
 
-	SiteName string `json:"-"`
+	SiteName   string `json:"-"`
 	SourceName string `json:"-"`
 }
 
@@ -381,7 +381,7 @@ type FirewallZone struct {
 	Name       string               `json:"name"`
 	NetworkIDs []string             `json:"networkIds"`
 
-	SiteName string `json:"-"`
+	SiteName   string `json:"-"`
 	SourceName string `json:"-"`
 }
 
@@ -396,7 +396,7 @@ type ACLRule struct {
 	Name                  string   `json:"name"`
 	SourceFilter          string   `json:"sourceFilter"`
 
-	SiteName string `json:"-"`
+	SiteName   string `json:"-"`
 	SourceName string `json:"-"`
 }
 
@@ -434,7 +434,7 @@ type VPNServer struct {
 	Name     string            `json:"name"`
 	Type     string            `json:"type"` // L2TP, OpenVPN, WireGuard, UID
 
-	SiteName string `json:"-"`
+	SiteName   string `json:"-"`
 	SourceName string `json:"-"`
 }
 
@@ -450,7 +450,7 @@ type SiteToSiteTunnel struct {
 	Name     string                   `json:"name"`
 	Type     string                   `json:"type"` // IPSec, OpenVPN, WireGuard
 
-	SiteName string `json:"-"`
+	SiteName   string `json:"-"`
 	SourceName string `json:"-"`
 }
 
@@ -472,7 +472,7 @@ type LAG struct {
 	Metadata LAGMetadata `json:"metadata"`
 	Type     string      `json:"type"` // local, global
 
-	SiteName string `json:"-"`
+	SiteName   string `json:"-"`
 	SourceName string `json:"-"`
 }
 
@@ -496,7 +496,7 @@ type MCLAGDomain struct {
 	Name     string        `json:"name"`
 	Peers    []MCLAGPeer   `json:"peers"`
 
-	SiteName string `json:"-"`
+	SiteName   string `json:"-"`
 	SourceName string `json:"-"`
 }
 
@@ -513,7 +513,7 @@ type SwitchStack struct {
 	Metadata SwitchStackMetadata `json:"metadata"`
 	Name     string              `json:"name"`
 
-	SiteName string `json:"-"`
+	SiteName   string `json:"-"`
 	SourceName string `json:"-"`
 }
 
@@ -524,7 +524,8 @@ type DNSPolicy struct {
 	ID      string `json:"id"`
 	Type    string `json:"type"` // forward-domain, block, allow
 
-	SiteName string `json:"-"`
+	SiteName   string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // RADIUSProfileMetadata holds metadata for a RADIUS profile.
@@ -538,7 +539,8 @@ type RADIUSProfile struct {
 	Metadata RADIUSProfileMetadata `json:"metadata"`
 	Name     string                `json:"name"`
 
-	SiteName string `json:"-"`
+	SiteName   string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // TrafficMatchingList represents a traffic matching list from the Integration/v1 API.
@@ -548,7 +550,8 @@ type TrafficMatchingList struct {
 	Name string `json:"name"`
 	Type string `json:"type"` // IPv4, IPv6, port
 
-	SiteName string `json:"-"`
+	SiteName   string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // HotspotVoucher represents a guest portal voucher from the Integration/v1 API.
@@ -563,7 +566,8 @@ type HotspotVoucher struct {
 	Name                 string  `json:"name"`
 	TimeLimitMinutes     FlexInt `json:"timeLimitMinutes"` // 0 means no time limit
 
-	SiteName string `json:"-"`
+	SiteName   string `json:"-"`
+	SourceName string `json:"-"`
 }
 
 // DPIApplication represents an entry in the DPI application catalogue.
