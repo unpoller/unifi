@@ -1,6 +1,12 @@
 package unifi
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
+
+// ErrNoSysinfoData is returned when the sysinfo endpoint responds without any entries.
+var ErrNoSysinfoData = errors.New("sysinfo endpoint returned no entries")
 
 // Sysinfo holds controller system information and health from GET /proxy/network/api/s/{site}/stat/sysinfo.
 // UniFi OS only. See https://github.com/unpoller/unpoller/issues/927
@@ -39,16 +45,23 @@ type Sysinfo struct {
 func (u *Unifi) GetSysinfoSite(site *Site) (*Sysinfo, error) {
 	path := fmt.Sprintf(APISysinfoPath, site.Name)
 
-	var s Sysinfo
+	var response struct {
+		Data []*Sysinfo `json:"data"`
+	}
 
-	if err := u.GetData(path, &s); err != nil {
+	if err := u.GetData(path, &response); err != nil {
 		return nil, err
 	}
 
+	if len(response.Data) == 0 || response.Data[0] == nil {
+		return nil, fmt.Errorf("%w: site %s", ErrNoSysinfoData, site.Name)
+	}
+
+	s := response.Data[0]
 	s.SiteName = site.SiteName
 	s.SourceName = site.SourceName
 
-	return &s, nil
+	return s, nil
 }
 
 // GetSysinfo returns controller system info for all sites.
