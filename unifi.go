@@ -164,7 +164,18 @@ func (u *Unifi) Login() error {
 	params := ""
 
 	if u.APIKey == "" {
-		params = fmt.Sprintf(`{"username":"%s","password":"%s"}`, u.User, u.Pass)
+		// Marshal so quotes, backslashes, and other JSON-special characters in
+		// the password are escaped. String interpolation produces a body the
+		// controller cannot parse (HTTP 500). See unpoller/unpoller#1090.
+		encoded, err := json.Marshal(map[string]string{
+			"username": u.User,
+			"password": u.Pass,
+		})
+		if err != nil {
+			return fmt.Errorf("encoding login credentials: %w", err)
+		}
+
+		params = string(encoded)
 		loginPath = APILoginPath
 	}
 

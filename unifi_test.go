@@ -182,6 +182,52 @@ func TestUnifiIntegrationUserPassInjected(t *testing.T) {
 	a.Nil(err, "user/pass login must not produce an error")
 }
 
+// TestLoginEscapesCredentials covers unpoller/unpoller#1090: a password (or
+// username) containing a double quote must be JSON-encoded, not interpolated.
+// The controller otherwise fails to parse the body and returns HTTP 500.
+func TestLoginEscapesCredentials(t *testing.T) {
+	t.Parallel()
+
+	const (
+		user = `user"name`
+		pass = "abc\"def\\bar"
+	)
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != APILoginPath {
+			w.WriteHeader(http.StatusNotFound)
+
+			return
+		}
+
+		var got struct {
+			Username string `json:"username"`
+			Password string `json:"password"`
+		}
+
+		if err := json.NewDecoder(r.Body).Decode(&got); err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+
+			return
+		}
+
+		if got.Username != user || got.Password != pass {
+			w.WriteHeader(http.StatusUnauthorized)
+
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+	}))
+	t.Cleanup(srv.Close)
+
+	authReq := &Unifi{
+		Client: srv.Client(),
+		Config: &Config{User: user, Pass: pass, URL: srv.URL, DebugLog: discardLogs},
+	}
+	require.NoError(t, authReq.Login())
+}
+
 func TestParseRetryAfter(t *testing.T) {
 	t.Parallel()
 	a := assert.New(t)
