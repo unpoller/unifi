@@ -1,6 +1,7 @@
 package unifi // nolint: testpackage
 
 import (
+	"encoding/json"
 	"encoding/pem"
 	"fmt"
 	"net/http"
@@ -184,6 +185,7 @@ func TestProtectGetSensors(t *testing.T) {
 	a.InDelta(87, s1.BatteryStatus.Percentage.Float64(), 0.001)
 	require.NotNil(t, s1.Stats.Temperature)
 	a.InDelta(21.5, s1.Stats.Temperature.Value.Float64(), 0.001)
+	a.Nil(s1.AirQuality)
 	a.Equal("bridge-1", s1.WirelessConnectionState.Bridge)
 
 	// A sensor with no battery reports a JSON null, which FlexFloat collapses to 0 -- this
@@ -192,7 +194,108 @@ func TestProtectGetSensors(t *testing.T) {
 	a.Equal("sensor-2", s2.ID)
 	a.InDelta(0, s2.BatteryStatus.Percentage.Float64(), 0.001)
 	a.Nil(s2.Stats.Temperature)
+	a.Nil(s2.AirQuality)
 	a.Equal(int64(1734000500000), s2.LeakDetectedAt.Int64())
+
+	temp, ok := s1.TemperatureReading()
+	a.True(ok)
+	a.InDelta(21.5, temp, 0.001)
+
+	_, ok = s2.TemperatureReading()
+	a.False(ok)
+}
+
+func TestProtectSensorAirQuality(t *testing.T) {
+	t.Parallel()
+
+	const payload = `{
+		"id": "aq-1",
+		"type": "UP-AirQuality",
+		"stats": {
+			"light": {"value": null, "status": "unknown"},
+			"humidity": {"value": null, "status": "unknown"},
+			"temperature": {"value": null, "status": "unknown"}
+		},
+		"airQuality": {
+			"aqi": {"value": 7, "status": "neutral"},
+			"vape": {"value": 0, "status": "safe"},
+			"tvoc": {"value": 5.8, "status": "neutral"},
+			"voc": {"value": 67, "status": "neutral"},
+			"co2": {"value": 452, "status": "neutral"},
+			"pm1p0": {"value": 0.8, "status": "neutral"},
+			"pm2p5": {"value": 1.79, "status": "neutral"},
+			"pm4p0": {"value": 2.5, "status": "neutral"},
+			"pm10p0": {"value": 2.9, "status": "neutral"},
+			"humidity": {"value": 51, "status": "neutral"},
+			"temperature": {"value": 25.4, "status": "neutral"},
+			"futureChannel": {"value": 1, "status": "neutral"}
+		}
+	}`
+
+	var sensor ProtectSensor
+
+	require.NoError(t, json.Unmarshal([]byte(payload), &sensor))
+	require.NotNil(t, sensor.AirQuality)
+
+	temp, ok := sensor.TemperatureReading()
+	require.True(t, ok)
+	assert.InDelta(t, 25.4, temp, 0.001)
+
+	humidity, ok := sensor.HumidityReading()
+	require.True(t, ok)
+	assert.InDelta(t, 51, humidity, 0.001)
+
+	_, ok = sensor.LightReading()
+	assert.False(t, ok, "unknown light is not a reading, even though FlexFloat stores 0")
+
+	vape, ok := sensor.AirQuality.Vape.Reading()
+	require.True(t, ok)
+	assert.InDelta(t, 0, vape, 0.001, "a genuine zero with status safe is a reading")
+
+	co2, ok := sensor.AirQuality.CO2.Reading()
+	require.True(t, ok)
+	assert.InDelta(t, 452, co2, 0.001)
+}
+
+func TestProtectSensorStatsWinOverAirQuality(t *testing.T) {
+	t.Parallel()
+
+	sensor := &ProtectSensor{
+		Stats: &ProtectSensorStats{
+			Temperature: &ProtectSensorStatValue{Value: FlexFloat{Val: 21.5}, Status: "safe"},
+		},
+		AirQuality: &ProtectAirQuality{
+			Temperature: &ProtectSensorStatValue{Value: FlexFloat{Val: 99}, Status: "neutral"},
+		},
+	}
+
+	temp, ok := sensor.TemperatureReading()
+	require.True(t, ok)
+	assert.InDelta(t, 21.5, temp, 0.001)
+}
+
+func TestProtectSensorUnknownStatsWithoutAirQuality(t *testing.T) {
+	t.Parallel()
+
+	sensor := &ProtectSensor{
+		Stats: &ProtectSensorStats{
+			Temperature: &ProtectSensorStatValue{Value: FlexFloat{Val: 0}, Status: protectReadingStatusUnknown},
+			Humidity:    &ProtectSensorStatValue{Status: protectReadingStatusUnknown},
+		},
+	}
+
+	_, ok := sensor.TemperatureReading()
+	assert.False(t, ok)
+	assert.Nil(t, sensor.AirQuality)
+
+	var decoded ProtectSensor
+
+	require.NoError(t, json.Unmarshal([]byte(`{"stats":{"temperature":{"value":21.5,"status":"safe"}}}`), &decoded))
+	assert.Nil(t, decoded.AirQuality)
+
+	temp, ok := decoded.TemperatureReading()
+	require.True(t, ok)
+	assert.InDelta(t, 21.5, temp, 0.001)
 }
 
 func TestProtectGetCameras(t *testing.T) {
