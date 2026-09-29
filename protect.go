@@ -100,18 +100,61 @@ type ProtectSensorFeatureFlags struct {
 	Smoke       *ProtectSensorChannelFlag `json:"smoke"`
 }
 
+// protectReadingStatusUnknown is the status Protect sends with a null value when a
+// channel has no reading. FlexFloat collapses that null to 0, so this status is the
+// signal that separates "no reading" from a genuine zero.
+const protectReadingStatusUnknown = "unknown"
+
 // ProtectSensorStatValue holds one sensor reading. Value is nullable in the spec (a sensor
 // without this feature, or one that hasn't reported yet, sends null); this uses FlexFloat,
 // consistent with the rest of the library, which reads that null as 0 -- a deliberate choice
-// of uniform typing over preserving the null/zero distinction.
+// of uniform typing over preserving the null/zero distinction. Callers that need the
+// distinction should use Known or Reading, which treat status "unknown" as absent.
 type ProtectSensorStatValue struct {
 	Value  FlexFloat `json:"value"`
 	Status string    `json:"status"` // neutral, low, safe, high, unknown
 }
 
+// Known reports whether this channel carries a real measurement.
+// Status "unknown" marks a null value. An empty status still counts, so a value
+// without a status is kept. A nil receiver is not a reading.
+func (s *ProtectSensorStatValue) Known() bool {
+	return s != nil && s.Status != protectReadingStatusUnknown
+}
+
+// Reading returns the channel value when Known reports true.
+func (s *ProtectSensorStatValue) Reading() (float64, bool) {
+	if !s.Known() {
+		return 0, false
+	}
+
+	return s.Value.Val, true
+}
+
 // ProtectSensorStats holds a sensor's current readings.
 type ProtectSensorStats struct {
 	Light       *ProtectSensorStatValue `json:"light"`
+	Humidity    *ProtectSensorStatValue `json:"humidity"`
+	Temperature *ProtectSensorStatValue `json:"temperature"`
+}
+
+// ProtectAirQuality holds the readings a UP-AirQuality sensor reports under airQuality.
+//
+// The legacy Protect sensors payload includes this object. The Integration API that
+// GetProtectSensors polls omits it as of Protect 7.2, so the field stays nil until
+// Ubiquiti adds it. Either payload decodes: a missing key leaves the pointer nil,
+// and unknown future keys are ignored. Temperature and humidity for this device
+// live here; stats carries the same channels with status "unknown".
+type ProtectAirQuality struct {
+	AQI         *ProtectSensorStatValue `json:"aqi"`
+	Vape        *ProtectSensorStatValue `json:"vape"`
+	TVOC        *ProtectSensorStatValue `json:"tvoc"`
+	VOC         *ProtectSensorStatValue `json:"voc"`
+	CO2         *ProtectSensorStatValue `json:"co2"`
+	PM1p0       *ProtectSensorStatValue `json:"pm1p0"`
+	PM2p5       *ProtectSensorStatValue `json:"pm2p5"`
+	PM4p0       *ProtectSensorStatValue `json:"pm4p0"`
+	PM10p0      *ProtectSensorStatValue `json:"pm10p0"`
 	Humidity    *ProtectSensorStatValue `json:"humidity"`
 	Temperature *ProtectSensorStatValue `json:"temperature"`
 }
@@ -141,6 +184,7 @@ type ProtectSensor struct {
 	BatteryStatus *ProtectBatteryStatus      `json:"batteryStatus"`
 	FeatureFlags  *ProtectSensorFeatureFlags `json:"featureFlags"`
 	Stats         *ProtectSensorStats        `json:"stats"`
+	AirQuality    *ProtectAirQuality         `json:"airQuality"`
 
 	LightSettings       *ProtectSensorThresholdSettings `json:"lightSettings"`
 	HumiditySettings    *ProtectSensorThresholdSettings `json:"humiditySettings"`
@@ -166,6 +210,67 @@ type ProtectSensor struct {
 	// GlassBreakSettings has no documented shape; kept raw for diagnosis, per the UNAS
 	// convention (unas.go).
 	GlassBreakSettings json.RawMessage `fake:"skip" json:"glassBreakSettings"`
+}
+
+// TemperatureReading returns the temperature in celsius.
+// A known stats reading wins. Otherwise the airQuality reading is used.
+// The boolean is false when neither channel is known, including when stats is
+// present with status "unknown" and airQuality is absent.
+func (s *ProtectSensor) TemperatureReading() (float64, bool) {
+	if s == nil {
+		return 0, false
+	}
+
+	var fromStats, fromAir *ProtectSensorStatValue
+	if s.Stats != nil {
+		fromStats = s.Stats.Temperature
+	}
+
+	if s.AirQuality != nil {
+		fromAir = s.AirQuality.Temperature
+	}
+
+	return firstKnownReading(fromStats, fromAir)
+}
+
+// HumidityReading returns the relative humidity percentage.
+// A known stats reading wins. Otherwise the airQuality reading is used.
+func (s *ProtectSensor) HumidityReading() (float64, bool) {
+	if s == nil {
+		return 0, false
+	}
+
+	var fromStats, fromAir *ProtectSensorStatValue
+	if s.Stats != nil {
+		fromStats = s.Stats.Humidity
+	}
+
+	if s.AirQuality != nil {
+		fromAir = s.AirQuality.Humidity
+	}
+
+	return firstKnownReading(fromStats, fromAir)
+}
+
+// LightReading returns the ambient light reading from stats.
+// The airQuality object does not carry light.
+func (s *ProtectSensor) LightReading() (float64, bool) {
+	if s == nil || s.Stats == nil {
+		return 0, false
+	}
+
+	return s.Stats.Light.Reading()
+}
+
+func firstKnownReading(readings ...*ProtectSensorStatValue) (float64, bool) {
+	for _, reading := range readings {
+		value, ok := reading.Reading()
+		if ok {
+			return value, true
+		}
+	}
+
+	return 0, false
 }
 
 // ProtectCamera represents a Protect camera. Only state is metric-shaped in v1; the rest is
