@@ -303,6 +303,24 @@ func (m *MockUnifi) GetUDBs(_ *unifi.Site) ([]*unifi.UDB, error) {
 	return results, nil
 }
 
+// GetUMBBs returns all mobile broadband (cellular) devices, an error, or nil if there are none.
+func (m *MockUnifi) GetUMBBs(_ *unifi.Site) ([]*unifi.UMBB, error) {
+	results := make([]*unifi.UMBB, numItemsMocked)
+
+	for i := 0; i < numItemsMocked; i++ {
+		var a unifi.UMBB
+
+		err := gofakeit.Struct(&a)
+		if err != nil {
+			return results, err
+		}
+
+		results[i] = &a
+	}
+
+	return results, nil
+}
+
 // GetUSGs returns all 1Gb gateways, an error, or nil if there are no USGs.
 func (m *MockUnifi) GetUSGs(_ *unifi.Site) ([]*unifi.USG, error) {
 	results := make([]*unifi.USG, numItemsMocked)
