@@ -277,15 +277,16 @@ func discardLogs(_ string, _ ...interface{}) {
 // Devices contains a list of all the unifi devices from a controller.
 // Contains Access points, security gateways and switches.
 type Devices struct {
-	UAPs []*UAP `fakesize:"5"`
-	USGs []*USG `fakesize:"5"`
-	USWs []*USW `fakesize:"5"`
-	UDMs []*UDM `fakesize:"5"`
-	UXGs []*UXG `fakesize:"5"`
-	PDUs []*PDU `fakesize:"5"`
-	UBBs []*UBB `fakesize:"5"`
-	UCIs []*UCI `fakesize:"5"`
-	UDBs []*UDB `fakesize:"5"`
+	UAPs  []*UAP  `fakesize:"5"`
+	USGs  []*USG  `fakesize:"5"`
+	USWs  []*USW  `fakesize:"5"`
+	UDMs  []*UDM  `fakesize:"5"`
+	UXGs  []*UXG  `fakesize:"5"`
+	PDUs  []*PDU  `fakesize:"5"`
+	UBBs  []*UBB  `fakesize:"5"`
+	UCIs  []*UCI  `fakesize:"5"`
+	UDBs  []*UDB  `fakesize:"5"`
+	UMBBs []*UMBB `fakesize:"5"`
 }
 
 // Config is the data passed into our library. This configures things and allows
@@ -637,6 +638,8 @@ type UnifiClient interface { //nolint: revive
 	GetPDUs(site *Site) ([]*PDU, error)
 	// GetUDBs returns all UDB devices, an error, or nil if there are no UDBs.
 	GetUDBs(site *Site) ([]*UDB, error)
+	// GetUMBBs returns all mobile broadband (cellular) devices, an error, or nil if there are none.
+	GetUMBBs(site *Site) ([]*UMBB, error)
 	// GetEvents returns a response full of UniFi Events for the last 1 hour from multiple sites.
 	GetEvents(sites []*Site, hours time.Duration) ([]*Event, error)
 	// GetSiteEvents retrieves the last 1 hour's worth of events from a single site.
