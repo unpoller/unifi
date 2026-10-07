@@ -96,7 +96,7 @@ type UAP struct {
 	LteSignal                     string          `json:"lte_signal"`
 	LteSoftLimit                  FlexInt         `json:"lte_soft_limit"`
 	LteSsoUserUuid                string          `json:"lte_sso_user_uuid"` //nolint:revive
-	LteState                      FlexBool        `json:"lte_state"`
+	LteState                      string          `json:"lte_state"` // modem state, for example "ready"
 	LteSubscriptionApiUnreachable FlexBool        `json:"lte_subscription_api_unreachable"` //nolint:revive
 	LteSubscriptionCheckRequired  FlexBool        `json:"lte_subscription_check_required"`
 	LteSubscriptionStatus         FlexBool        `json:"lte_subscription_status"`

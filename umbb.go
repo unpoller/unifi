@@ -77,7 +77,20 @@ type UMBB struct {
 
 // MBBOverrides holds the operator-configured mobile broadband settings.
 type MBBOverrides struct {
-	PrimarySlot FlexInt `json:"primary_slot"`
+	PrimarySlot FlexInt          `json:"primary_slot"`
+	Sim         []MBBSimOverride `json:"sim"`
+}
+
+// MBBSimOverride is the data-plan configuration for one SIM slot.
+// Live usage against this plan is reported on MBBSim.
+type MBBSimOverride struct {
+	DataLimitEnabled         FlexBool `json:"data_limit_enabled"`
+	DataSoftLimitBytes       FlexInt  `json:"data_soft_limit_bytes"`
+	DataSoftLimitDisplayUnit string   `json:"data_soft_limit_display_unit"`
+	DataWarningThreshold     FlexInt  `json:"data_warning_threshold"`
+	ResetDate                FlexInt  `json:"reset_date"`
+	ResetPolicy              string   `json:"reset_policy"`
+	Slot                     FlexInt  `json:"slot"`
 }
 
 // MBB is the mobile broadband modem state reported by a UMBB device.
@@ -96,6 +109,7 @@ type MBB struct {
 
 // MBBRadio is the live cellular radio state: technology, band, signal and carrier aggregation.
 // When attached over 5G, the plain and _nr signal values carry the same reading.
+// Snr and SnrNr are fractional dB (for example 17.6), so they use FlexFloat.
 type MBBRadio struct {
 	SA5GMode          FlexBool        `json:"5g_sa_mode"`
 	Band              string          `json:"band"` // e.g. "n78" or "b3"
@@ -131,8 +145,8 @@ type MBBRadio struct {
 	RsrqNr            FlexInt         `json:"rsrq_nr"`
 	Signal            FlexInt         `json:"signal"` // 0-5 bars
 	SignalPercent     FlexInt         `json:"signal_percent"`
-	Snr               FlexInt         `json:"snr"`
-	SnrNr             FlexInt         `json:"snr_nr"`
+	Snr               FlexFloat       `json:"snr"`
+	SnrNr             FlexFloat       `json:"snr_nr"`
 }
 
 // MBBCarrierNr is one 5G NR component carrier. UlBwMhz is null on downlink-only carriers.
@@ -145,11 +159,24 @@ type MBBCarrierNr struct {
 	UlBwMhz FlexInt  `json:"ul_bw_mhz"`
 }
 
-// MBBCarrierLte is one LTE component carrier. The shape matches the NR carriers.
-type MBBCarrierLte MBBCarrierNr
+// MBBCarrierLte is one LTE component carrier.
+// LTE reports the channel as dl_earfcn / ul_earfcn. NR uses dl_arfcn / ul_arfcn
+// on MBBCarrierNr, so this is not the same struct. A missing uplink bandwidth is null.
+type MBBCarrierLte struct {
+	Band     FlexInt  `json:"band"`
+	DlEarfcn FlexInt  `json:"dl_earfcn"`
+	DlBwMhz  FlexInt  `json:"dl_bw_mhz"`
+	Primary  FlexBool `json:"primary"`
+	UlEarfcn FlexInt  `json:"ul_earfcn"`
+	UlBwMhz  FlexInt  `json:"ul_bw_mhz"`
+}
 
 // MBBSim is the state of one SIM slot (physical or eSIM). RxBytes and TxBytes are
 // cumulative counters, sent by the controller as strings.
+// Network reject arrives as NetworkReject (a single string such as "ip") on some
+// firmware, and as NetworkRejectType, NetworkRejectText, and NetworkRejectAge on
+// others. The age unit is not documented; one device held the same value for many
+// hours, so it is not a running age in seconds.
 type MBBSim struct {
 	Active              FlexBool          `json:"active"`
 	Asn                 FlexInt           `json:"asn"`
@@ -168,6 +195,7 @@ type MBBSim struct {
 	Mcc                 FlexInt           `json:"mcc"`
 	Metered             FlexBool          `json:"metered"`
 	Mnc                 FlexInt           `json:"mnc"`
+	NetworkReject       string            `json:"network_reject"`
 	NetworkRejectAge    FlexInt           `json:"network_reject_age"`
 	NetworkRejectText   string            `json:"network_reject_text"`
 	NetworkRejectType   string            `json:"network_reject_type"`

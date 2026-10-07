@@ -6,7 +6,10 @@ import (
 )
 
 // GetFirewallPolicies returns firewall policies for all provided sites.
-// Uses the v2 API endpoint: GET /proxy/network/v2/api/site/{site}/firewall-policies
+// Uses the v2 API endpoint: GET /proxy/network/v2/api/site/{site}/firewall-policies.
+// A site without zone-based firewall returns no policies for that site. The controller
+// answers with HTTP 400 and code api.firewall.zone-based-firewall-not-configured,
+// which is not a failure. Other errors are returned.
 func (u *Unifi) GetFirewallPolicies(sites []*Site) ([]*FirewallPolicy, error) {
 	policies := make([]*FirewallPolicy, 0)
 
@@ -15,6 +18,12 @@ func (u *Unifi) GetFirewallPolicies(sites []*Site) ([]*FirewallPolicy, error) {
 
 		body, err := u.GetJSON(path)
 		if err != nil {
+			if zoneBasedFirewallNotConfigured(body) {
+				u.DebugLog("firewall policies for site %s: zone-based firewall is not configured", site.Name)
+
+				continue
+			}
+
 			return nil, fmt.Errorf("failed to fetch firewall policies for site %s: %w", site.SiteName, err)
 		}
 
