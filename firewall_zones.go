@@ -3,6 +3,9 @@ package unifi
 import "fmt"
 
 // GetFirewallZones returns firewall zones for a site. Zone IDs appear in firewall policies.
+// A site without zone-based firewall returns an empty list. The controller answers
+// that request with HTTP 400 and code api.firewall.zone-based-firewall-not-configured,
+// which is not a failure. Other errors are returned.
 func (u *Unifi) GetFirewallZones(site *IntegrationSite) ([]*FirewallZone, error) {
 	if u == nil {
 		return nil, ErrNilUnifi

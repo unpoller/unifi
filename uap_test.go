@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 //go:embed examples/uap.json
@@ -60,4 +61,16 @@ func TestUAPUnmarshalJSON(t *testing.T) {
 	err = json.Unmarshal(uapSample, uap)
 	a.Nil(err, "must be no error unmarshaling uap sample")
 	a.Equal(true, uap.Adopted.Val, "data was not properaly unmarshaled")
+}
+
+func TestUAPLteState(t *testing.T) {
+	t.Parallel()
+
+	var ap UAP
+	require.NoError(t, json.Unmarshal([]byte(`{"lte_state":"ready"}`), &ap))
+	assert.Equal(t, "ready", ap.LteState)
+
+	var other UAP
+	require.NoError(t, json.Unmarshal([]byte(`{"lte_state":"connecting"}`), &other))
+	assert.Equal(t, "connecting", other.LteState)
 }

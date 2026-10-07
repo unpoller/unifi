@@ -5,6 +5,11 @@ import (
 	"fmt"
 )
 
+// errCodeZoneBasedFirewallNotConfigured is the Integration/v1 error code for a
+// site that has no zone-based firewall (typically no UniFi gateway). Zones and
+// policies both answer HTTP 400 with this code. That is an empty collection.
+const errCodeZoneBasedFirewallNotConfigured = "api.firewall.zone-based-firewall-not-configured"
+
 // integrationPage is the JSON envelope for Integration/v1 paginated list responses.
 type integrationPage[T any] struct {
 	Count      int `json:"count"`
@@ -50,6 +55,14 @@ func getIntegrationList[T any](u *Unifi, path string) ([]T, error) {
 
 		body, err := u.GetJSON(pagedPath)
 		if err != nil {
+			// Only the first page can mean "this feature is not configured". A later
+			// page with that code is unexpected and stays a hard error.
+			if offset == 0 && zoneBasedFirewallNotConfigured(body) {
+				u.DebugLog("integration page %s: zone-based firewall is not configured; returning an empty list", pagedPath)
+
+				return nil, nil
+			}
+
 			u.ErrorLog("integration page %s: request failed: %v", pagedPath, err)
 
 			return nil, fmt.Errorf("fetching integration page %s: %w", pagedPath, err)
@@ -143,4 +156,19 @@ func getIntegrationList[T any](u *Unifi, path string) ([]T, error) {
 	u.DebugLog("Fetched %d/%d items from %s", len(all), totalCount, path)
 
 	return all, nil
+}
+
+// zoneBasedFirewallNotConfigured reports whether body is the controller's
+// "zone-based firewall is not configured" error. Other 400 bodies return false
+// so they still surface as request failures.
+func zoneBasedFirewallNotConfigured(body []byte) bool {
+	var apiErr struct {
+		Code string `json:"code"`
+	}
+
+	if err := json.Unmarshal(body, &apiErr); err != nil {
+		return false
+	}
+
+	return apiErr.Code == errCodeZoneBasedFirewallNotConfigured
 }
