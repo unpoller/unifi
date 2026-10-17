@@ -66,8 +66,9 @@ type UNASNetworkInterface struct {
 type UNASStorage struct {
 	Pools []UNASPool `json:"pools"`
 	Disks []UNASDisk `json:"disks"`
-	// CacheSlots and Expansions have no known populated shape yet; kept raw for diagnosis.
-	CacheSlots json.RawMessage `fake:"skip" json:"cacheSlots"`
+	// CacheSlots are the SSD cache bays. An empty bay has state "empty".
+	CacheSlots []UNASDisk `json:"cacheSlots"`
+	// Expansions has no known populated shape yet; kept raw for diagnosis.
 	Expansions json.RawMessage `fake:"skip" json:"expansions"`
 }
 
@@ -83,6 +84,24 @@ type UNASPool struct {
 	ActiveRaidGroupID  string          `json:"activeRaidGroupId"`
 	InitializingStatus string          `json:"initializingStatus"`
 	RaidGroups         []UNASRaidGroup `json:"raidGroups"`
+	// Cache is nil when the pool has no SSD cache.
+	Cache *UNASPoolCache `json:"cache"`
+}
+
+// UNASPoolCache describes a storage pool's SSD cache.
+type UNASPoolCache struct {
+	Status         string          `json:"status"`
+	Mode           string          `json:"mode"`
+	ConfiguredMode string          `json:"configuredMode"`
+	Size           FlexInt         `json:"size"`
+	RaidGroups     []UNASRaidGroup `json:"raidGroups"`
+	Composition    struct {
+		Used  FlexInt `json:"used"`
+		Dirty FlexInt `json:"dirty"`
+		// Hit rates are percentages.
+		ReadHitRate  FlexInt `json:"readHitRate"`
+		WriteHitRate FlexInt `json:"writeHitRate"`
+	} `json:"composition"`
 }
 
 // UNASRaidGroup describes one RAID group within a storage pool.
@@ -130,6 +149,8 @@ type UNASDisk struct {
 	WriteKBPS                FlexInt  `json:"writeKBPS"`
 	SmartTestSupported       FlexBool `json:"smartTestSupported"`
 	HealthScore              FlexInt  `json:"healthScore"`
+	// LifeSpan is the percentage of rated endurance left; only SSDs report it.
+	LifeSpan FlexInt `json:"lifeSpan"`
 	// RiskReasons and IncompatibleReasons have no known populated shape yet.
 	RiskReasons         json.RawMessage `fake:"skip" json:"riskReasons"`
 	IncompatibleReasons json.RawMessage `fake:"skip" json:"incompatibleReasons"`

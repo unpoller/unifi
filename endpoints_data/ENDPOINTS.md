@@ -394,7 +394,7 @@ envelope. Implemented in `unas.go` via `NewUNASClient`; see unpoller/unpoller#78
 | Method | Path | Data exposed |
 |--------|------|----------------|
 | GET | `/proxy/drive/api/v2/systems/device-info` | Name, model, version, firmware, startup time, CPU load/temperature, memory free/total/available, network interfaces. |
-| GET | `/proxy/drive/api/v2/storage` | Storage pools (capacity, usage, status, RAID groups) and physical disks (health score, temperature, power-on hours, RPM, size, bad/uncorrectable sectors, read/write KBPS). |
+| GET | `/proxy/drive/api/v2/storage` | Storage pools (capacity, usage, status, RAID groups, SSD cache size, fill, dirty data, and read/write hit rates), physical disks (health score, temperature, power-on hours, RPM, size, bad/uncorrectable sectors, read/write KBPS), and the SSDs in the cache bays (the same disk fields plus remaining endurance). |
 | GET | `/proxy/users/drive/api/v2/drives` | Shares: id, name, type, status, pool, quota, usage, member count, protections. |
 | GET | `/proxy/drive/api/v2/systems/network-io` | Instantaneous receive/transmit KBPS. |
 
@@ -409,8 +409,9 @@ Known but not implemented:
 
 The `unas-*.json` files in this directory are **synthetic**, hand-built from the field set
 above to exercise unmarshalling. They are not captures from a real console. Fields with no
-known populated shape — `usbs`, `cacheSlots`, `expansions`, `riskReasons`,
-`incompatibleReasons` — are kept as `json.RawMessage` until real data turns up.
+known populated shape — `usbs`, `expansions`, `riskReasons`, `incompatibleReasons` — are
+kept as `json.RawMessage` until real data turns up. The pool `cache` object and the
+`cacheSlots` entries follow the shape a UNAS Pro 4 with an NVMe read cache returns.
 
 ---
 
