@@ -24,7 +24,34 @@
           "estimate": 0
         }
       ],
-      "initializingStatus": "done"
+      "initializingStatus": "done",
+      "cache": {
+        "status": "fullyOperational",
+        "mode": "readOnly",
+        "configuredMode": "readOnly",
+        "size": 1000204886016,
+        "raidGroups": [
+          {
+            "number": 2,
+            "id": "rg-cache",
+            "remnantReason": "",
+            "isSSDCache": true,
+            "currentLevel": "RAID0",
+            "configLevel": "RAID0",
+            "currentProtection": 0,
+            "expectedProtection": 0,
+            "recommendedDiskSize": 0,
+            "progress": 100,
+            "estimate": 0
+          }
+        ],
+        "composition": {
+          "used": 250000000000,
+          "dirty": 1048576,
+          "readHitRate": 87,
+          "writeHitRate": 0
+        }
+      }
     }
   ],
   "disks": [
@@ -87,6 +114,44 @@
       "healthScore": 98
     }
   ],
-  "cacheSlots": [],
+  "cacheSlots": [
+    {
+      "slotId": "1",
+      "location": "internal",
+      "poolId": "pool-1",
+      "raidGroupId": "rg-cache",
+      "isGlobalHotSpare": false,
+      "isLocalHotSpare": false,
+      "type": "ssd",
+      "state": "healthy",
+      "rpm": 0,
+      "model": "NVMe SSD 1TB",
+      "size": 1000204886016,
+      "nvmeVersion": "1.4",
+      "firmware": "1B2QGXA7",
+      "serial": "SERIAL0101",
+      "temperature": 43,
+      "powerOnHours": 2190,
+      "badSectorCount": 0,
+      "uncorrectableSectorCount": 0,
+      "readErrorRate": 0,
+      "smartReadErrorCount": 0,
+      "riskReasons": [],
+      "incompatibleReasons": [],
+      "readKBPS": 2048.5,
+      "writeKBPS": 16,
+      "smartTestSupported": true,
+      "healthScore": 100,
+      "lifeSpan": 97
+    },
+    {
+      "slotId": "2",
+      "location": "internal",
+      "type": "",
+      "state": "empty",
+      "model": "",
+      "serial": ""
+    }
+  ],
   "expansions": null
 }

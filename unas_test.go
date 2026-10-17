@@ -132,6 +132,28 @@ func TestUNASGetStorage(t *testing.T) {
 	a.Equal(98, disk.HealthScore.Int())
 	a.InDelta(130, disk.ReadKBPS.Val, 0.001)
 	a.True(disk.SmartTestSupported.Val)
+
+	cache := pool.Cache
+	require.NotNil(t, cache)
+	a.Equal("readOnly", cache.Mode)
+	a.Equal("fullyOperational", cache.Status)
+	a.Equal(int64(1000204886016), cache.Size.Int64())
+	a.Equal(int64(250000000000), cache.Composition.Used.Int64())
+	a.Equal(int64(1048576), cache.Composition.Dirty.Int64())
+	a.Equal(87, cache.Composition.ReadHitRate.Int())
+	require.Len(t, cache.RaidGroups, 1)
+	a.Equal("rg-cache", cache.RaidGroups[0].ID)
+
+	// A cache bay holds an SSD with the same fields as a pool disk; an empty bay still appears.
+	require.Len(t, storage.CacheSlots, 2)
+	ssd := storage.CacheSlots[0]
+	a.Equal("1", ssd.SlotID)
+	a.Equal("ssd", ssd.Type)
+	a.Equal("SERIAL0101", ssd.Serial)
+	a.Equal(43, ssd.Temperature.Int())
+	a.Equal(97, ssd.LifeSpan.Int())
+	a.InDelta(2048.5, ssd.ReadKBPS.Val, 0.001)
+	a.Equal("empty", storage.CacheSlots[1].State)
 }
 
 func TestUNASGetDrives(t *testing.T) {
