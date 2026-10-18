@@ -48,6 +48,7 @@ type UXG struct {
 	LanNumSta                  FlexInt              `json:"lan-num_sta"`
 	LastSeen                   FlexInt              `json:"last_seen"`
 	LastWanIP                  string               `json:"last_wan_ip"`
+	LastWanStatus              map[string]string    `json:"last_wan_status"`
 	LcmBrightness              FlexInt              `json:"lcm_brightness"`
 	LcmBrightnessOverride      FlexBool             `json:"lcm_brightness_override"`
 	LcmIdleTimeoutOverride     FlexBool             `json:"lcm_idle_timeout_override"`
@@ -156,9 +157,12 @@ type GeoInfo struct {
 }
 
 // UptimeStats is incuded with certain devices.
+// While a WAN is offline the controller omits Availability, LatencyAverage,
+// TimePeriod and Uptime, and reports Downtime instead.
 type UptimeStats struct {
 	AlertingMonitors []UptimeMonitor `json:"alerting_monitors"`
 	Availability     FlexInt         `json:"availability"`
+	Downtime         FlexInt         `json:"downtime"`
 	LatencyAverage   FlexInt         `json:"latency_average"`
 	Monitors         []UptimeMonitor `json:"monitors"`
 	TimePeriod       FlexInt         `json:"time_period"`
