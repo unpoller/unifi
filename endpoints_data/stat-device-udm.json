@@ -102,6 +102,10 @@
     "bytes-r": 26342,
     "mac": "00:00:5e:00:53:03"
   },
+  "last_wan_status": {
+    "WAN": "online",
+    "WAN2": "online"
+  },
   "uptime_stats": {
     "WAN": {
       "alerting_monitors": [

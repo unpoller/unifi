@@ -62,6 +62,7 @@ type UDM struct {
 	LastLteFailoverTransitionTimestamp FlexInt              `json:"last_lte_failover_transition_timestamp"`
 	LastSeen                           FlexInt              `json:"last_seen"`
 	LastWlanIP                         string               `fake:"{ipv4address}"                          json:"last_wan_ip"`
+	LastWanStatus                      map[string]string    `json:"last_wan_status"`
 	LcmBrightness                      FlexInt              `json:"lcm_brightness"`
 	LcmNightModeBegins                 string               `json:"lcm_night_mode_begins"`
 	LcmNightModeEnabled                FlexBool             `json:"lcm_night_mode_enabled"`

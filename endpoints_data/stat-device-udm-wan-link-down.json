@@ -1,0 +1,192 @@
+{
+  "_id": "000000000000000000000000",
+  "site_id": "000000000000000000000000",
+  "mac": "00:00:5e:00:53:01",
+  "serial": "000000000000",
+  "ip": "192.0.2.1",
+  "adopted": true,
+  "model": "UDMPRO",
+  "name": "UDM Pro",
+  "type": "udm",
+  "version": "5.1.33.34087",
+  "wan1": {
+    "latency": 30,
+    "availability": 100,
+    "uplink_ifname": "eth9",
+    "max_speed": 10000,
+    "type": "ethernet",
+    "autoneg": true,
+    "enable": true,
+    "flowctrl_rx": false,
+    "flowctrl_tx": false,
+    "full_duplex": true,
+    "is_uplink": true,
+    "media": "SFP+",
+    "name": "eth9",
+    "num_port": 1,
+    "poe_class": "Class 0",
+    "poe_enable": false,
+    "poe_power": "0.00",
+    "port_idx": 10,
+    "port_poe": false,
+    "rx_broadcast": 0,
+    "rx_bytes": 1538179961786,
+    "rx_dropped": 255028,
+    "rx_errors": 0,
+    "rx_multicast": 0,
+    "rx_packets": 1489177815,
+    "rx_rate": 338969,
+    "rx_rate-max": 43451672,
+    "sfp_found": true,
+    "sfp_rx_los": false,
+    "sfp_tx_fault": false,
+    "speed": 1000,
+    "speed_caps": 1048864,
+    "tx_broadcast": 0,
+    "tx_bytes": 460644394663,
+    "tx_dropped": 0,
+    "tx_errors": 0,
+    "tx_multicast": 0,
+    "tx_packets": 1029598650,
+    "tx_rate": 5578666,
+    "tx_rate-max": 5852842,
+    "up": true,
+    "ifname": "eth9",
+    "tx_bytes-r": 697333,
+    "rx_bytes-r": 42371,
+    "bytes-r": 739704,
+    "mac": "00:00:5e:00:53:02"
+  },
+  "wan2": {
+    "uplink_ifname": "eth8",
+    "max_speed": 10000,
+    "type": "ethernet",
+    "autoneg": true,
+    "enable": true,
+    "flowctrl_rx": false,
+    "flowctrl_tx": false,
+    "full_duplex": false,
+    "is_uplink": false,
+    "media": "GE",
+    "name": "eth8",
+    "num_port": 1,
+    "poe_class": "Class 0",
+    "poe_enable": false,
+    "poe_power": "0.00",
+    "port_idx": 9,
+    "port_poe": false,
+    "rx_broadcast": 0,
+    "rx_bytes": 1656198919433,
+    "rx_dropped": 0,
+    "rx_errors": 0,
+    "rx_multicast": 0,
+    "rx_packets": 1710585059,
+    "rx_rate": 0,
+    "rx_rate-max": 0,
+    "speed": 10,
+    "speed_caps": 1048623,
+    "tx_broadcast": 0,
+    "tx_bytes": 732842702740,
+    "tx_dropped": 0,
+    "tx_errors": 0,
+    "tx_multicast": 0,
+    "tx_packets": 1139336486,
+    "tx_rate": 0,
+    "tx_rate-max": 0,
+    "up": false,
+    "ifname": "eth8",
+    "tx_bytes-r": 0,
+    "rx_bytes-r": 0,
+    "bytes-r": 0,
+    "mac": "00:00:5e:00:53:03"
+  },
+  "last_wan_status": {
+    "WAN": "online",
+    "WAN2": "offline"
+  },
+  "uptime_stats": {
+    "WAN": {
+      "alerting_monitors": [
+        {
+          "availability": 100.0,
+          "latency_average": 30,
+          "target": "ping.ui.com",
+          "type": "icmp"
+        },
+        {
+          "availability": 100.0,
+          "latency_average": 34,
+          "target": "1.1.1.1",
+          "type": "dns"
+        },
+        {
+          "availability": 100.0,
+          "latency_average": 36,
+          "target": "8.8.8.8",
+          "type": "dns"
+        }
+      ],
+      "availability": 100.0,
+      "latency_average": 27,
+      "monitors": [
+        {
+          "availability": 100.0,
+          "latency_average": 30,
+          "target": "www.microsoft.com",
+          "type": "icmp"
+        },
+        {
+          "availability": 100.0,
+          "latency_average": 28,
+          "target": "google.com",
+          "type": "icmp"
+        },
+        {
+          "availability": 100.0,
+          "latency_average": 36,
+          "target": "1.1.1.1",
+          "type": "icmp"
+        }
+      ],
+      "time_period": 1107,
+      "uptime": 1123
+    },
+    "WAN2": {
+      "alerting_monitors": [
+        {
+          "availability": 0.0,
+          "target": "ping.ui.com",
+          "type": "icmp"
+        },
+        {
+          "availability": 0.0,
+          "target": "1.1.1.1",
+          "type": "dns"
+        },
+        {
+          "availability": 0.0,
+          "target": "8.8.8.8",
+          "type": "dns"
+        }
+      ],
+      "downtime": 62,
+      "monitors": [
+        {
+          "availability": 0.0,
+          "target": "www.microsoft.com",
+          "type": "icmp"
+        },
+        {
+          "availability": 0.0,
+          "target": "google.com",
+          "type": "icmp"
+        },
+        {
+          "availability": 0.0,
+          "target": "1.1.1.1",
+          "type": "icmp"
+        }
+      ]
+    }
+  }
+}
