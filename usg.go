@@ -114,45 +114,47 @@ type Uplink struct {
 
 // Wan is a Wan interface on a USG or UDM.
 type Wan struct {
-	Autoneg     FlexBool `json:"autoneg"`
-	BytesR      FlexInt  `json:"bytes-r"`
-	DNS         []string `fakesize:"5"                json:"dns"` // may be deprecated
-	Enable      FlexBool `json:"enable"`
-	FlowctrlRx  FlexBool `json:"flowctrl_rx"`
-	FlowctrlTx  FlexBool `json:"flowctrl_tx"`
-	FullDuplex  FlexBool `json:"full_duplex"`
-	Gateway     string   `json:"gateway"` // may be deprecated
-	IP          string   `fake:"{ipv4address}"        json:"ip"`
-	Ifname      string   `json:"ifname"`
-	IsUplink    FlexBool `json:"is_uplink"`
-	Mac         string   `fake:"{macaddress}"         json:"mac"`
-	MaxSpeed    FlexInt  `json:"max_speed"`
-	Media       string   `json:"media"`
-	Name        string   `fake:"{animal}"             json:"name"`
-	Netmask     string   `json:"netmask"` // may be deprecated
-	NumPort     int      `json:"num_port"`
-	PortIdx     int      `json:"port_idx"`
-	PortPoe     FlexBool `json:"port_poe"`
-	RxBroadcast FlexInt  `json:"rx_broadcast"`
-	RxBytes     FlexInt  `json:"rx_bytes"`
-	RxBytesR    FlexInt  `json:"rx_bytes-r"`
-	RxDropped   FlexInt  `json:"rx_dropped"`
-	RxErrors    FlexInt  `json:"rx_errors"`
-	RxMulticast FlexInt  `json:"rx_multicast"`
-	RxPackets   FlexInt  `json:"rx_packets"`
-	RxRate      FlexInt  `json:"rx_rate"`
-	Speed       FlexInt  `json:"speed"`
-	SpeedCaps   FlexInt  `json:"speed_caps"`
-	TxBroadcast FlexInt  `json:"tx_broadcast"`
-	TxBytes     FlexInt  `json:"tx_bytes"`
-	TxBytesR    FlexInt  `json:"tx_bytes-r"`
-	TxDropped   FlexInt  `json:"tx_dropped"`
-	TxErrors    FlexInt  `json:"tx_errors"`
-	TxMulticast FlexInt  `json:"tx_multicast"`
-	TxPackets   FlexInt  `json:"tx_packets"`
-	TxRate      FlexInt  `json:"tx_rate"`
-	Type        string   `json:"type"`
-	Up          FlexBool `fake:"{constFlexBool:true}" json:"up"`
+	Autoneg      FlexBool `json:"autoneg"`
+	Availability FlexInt  `json:"availability"`
+	BytesR       FlexInt  `json:"bytes-r"`
+	DNS          []string `fakesize:"5"                json:"dns"` // may be deprecated
+	Enable       FlexBool `json:"enable"`
+	FlowctrlRx   FlexBool `json:"flowctrl_rx"`
+	FlowctrlTx   FlexBool `json:"flowctrl_tx"`
+	FullDuplex   FlexBool `json:"full_duplex"`
+	Gateway      string   `json:"gateway"` // may be deprecated
+	IP           string   `fake:"{ipv4address}"        json:"ip"`
+	Ifname       string   `json:"ifname"`
+	IsUplink     FlexBool `json:"is_uplink"`
+	Latency      FlexInt  `json:"latency"`
+	Mac          string   `fake:"{macaddress}"         json:"mac"`
+	MaxSpeed     FlexInt  `json:"max_speed"`
+	Media        string   `json:"media"`
+	Name         string   `fake:"{animal}"             json:"name"`
+	Netmask      string   `json:"netmask"` // may be deprecated
+	NumPort      int      `json:"num_port"`
+	PortIdx      int      `json:"port_idx"`
+	PortPoe      FlexBool `json:"port_poe"`
+	RxBroadcast  FlexInt  `json:"rx_broadcast"`
+	RxBytes      FlexInt  `json:"rx_bytes"`
+	RxBytesR     FlexInt  `json:"rx_bytes-r"`
+	RxDropped    FlexInt  `json:"rx_dropped"`
+	RxErrors     FlexInt  `json:"rx_errors"`
+	RxMulticast  FlexInt  `json:"rx_multicast"`
+	RxPackets    FlexInt  `json:"rx_packets"`
+	RxRate       FlexInt  `json:"rx_rate"`
+	Speed        FlexInt  `json:"speed"`
+	SpeedCaps    FlexInt  `json:"speed_caps"`
+	TxBroadcast  FlexInt  `json:"tx_broadcast"`
+	TxBytes      FlexInt  `json:"tx_bytes"`
+	TxBytesR     FlexInt  `json:"tx_bytes-r"`
+	TxDropped    FlexInt  `json:"tx_dropped"`
+	TxErrors     FlexInt  `json:"tx_errors"`
+	TxMulticast  FlexInt  `json:"tx_multicast"`
+	TxPackets    FlexInt  `json:"tx_packets"`
+	TxRate       FlexInt  `json:"tx_rate"`
+	Type         string   `json:"type"`
+	Up           FlexBool `fake:"{constFlexBool:true}" json:"up"`
 }
 
 // SpeedtestStatus is the speed test info on a USG or UDM.

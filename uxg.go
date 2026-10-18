@@ -157,9 +157,20 @@ type GeoInfo struct {
 
 // UptimeStats is incuded with certain devices.
 type UptimeStats struct {
+	AlertingMonitors []UptimeMonitor `json:"alerting_monitors"`
+	Availability     FlexInt         `json:"availability"`
+	LatencyAverage   FlexInt         `json:"latency_average"`
+	Monitors         []UptimeMonitor `json:"monitors"`
+	TimePeriod       FlexInt         `json:"time_period"`
+	Uptime           FlexInt         `json:"uptime"`
+}
+
+// UptimeMonitor is one WAN health-check target in UptimeStats.
+type UptimeMonitor struct {
 	Availability   FlexInt `json:"availability"`
 	LatencyAverage FlexInt `json:"latency_average"`
-	TimePeriod     FlexInt `json:"time_period"`
+	Target         string  `json:"target"`
+	Type           string  `json:"type"`
 }
 
 // UXGStat holds the "stat" data for a 10Gb gateway.

@@ -1,0 +1,199 @@
+{
+  "_id": "000000000000000000000000",
+  "site_id": "000000000000000000000000",
+  "mac": "00:00:5e:00:53:01",
+  "serial": "000000000000",
+  "ip": "192.0.2.1",
+  "adopted": true,
+  "model": "UDMPRO",
+  "name": "UDM Pro",
+  "type": "udm",
+  "version": "5.1.33.34087",
+  "wan1": {
+    "latency": 30,
+    "availability": 100,
+    "uplink_ifname": "eth9",
+    "max_speed": 10000,
+    "type": "ethernet",
+    "autoneg": true,
+    "enable": true,
+    "flowctrl_rx": false,
+    "flowctrl_tx": false,
+    "full_duplex": true,
+    "is_uplink": true,
+    "media": "SFP+",
+    "name": "eth9",
+    "num_port": 1,
+    "poe_class": "Class 0",
+    "poe_enable": false,
+    "poe_power": "0.00",
+    "port_idx": 10,
+    "port_poe": false,
+    "rx_broadcast": 0,
+    "rx_bytes": 1536579709348,
+    "rx_dropped": 254531,
+    "rx_errors": 0,
+    "rx_multicast": 0,
+    "rx_packets": 1487537125,
+    "rx_rate": 482604,
+    "rx_rate-max": 114521839,
+    "sfp_found": true,
+    "sfp_rx_los": false,
+    "sfp_tx_fault": false,
+    "speed": 1000,
+    "speed_caps": 1048864,
+    "tx_broadcast": 0,
+    "tx_bytes": 459886764321,
+    "tx_dropped": 0,
+    "tx_errors": 0,
+    "tx_multicast": 0,
+    "tx_packets": 1028253206,
+    "tx_rate": 1405519,
+    "tx_rate-max": 3968000,
+    "up": true,
+    "ifname": "eth9",
+    "tx_bytes-r": 175689,
+    "rx_bytes-r": 60325,
+    "bytes-r": 236014,
+    "mac": "00:00:5e:00:53:02"
+  },
+  "wan2": {
+    "latency": 21,
+    "availability": 100,
+    "uplink_ifname": "eth8",
+    "max_speed": 10000,
+    "type": "ethernet",
+    "autoneg": true,
+    "enable": true,
+    "flowctrl_rx": false,
+    "flowctrl_tx": false,
+    "full_duplex": true,
+    "is_uplink": false,
+    "media": "GE",
+    "name": "eth8",
+    "num_port": 1,
+    "poe_class": "Class 0",
+    "poe_enable": false,
+    "poe_power": "0.00",
+    "port_idx": 9,
+    "port_poe": false,
+    "rx_broadcast": 0,
+    "rx_bytes": 1654667420312,
+    "rx_dropped": 0,
+    "rx_errors": 0,
+    "rx_multicast": 0,
+    "rx_packets": 1708862969,
+    "rx_rate": 146480,
+    "rx_rate-max": 50877138,
+    "speed": 1000,
+    "speed_caps": 1048623,
+    "tx_broadcast": 0,
+    "tx_bytes": 731900596244,
+    "tx_dropped": 0,
+    "tx_errors": 0,
+    "tx_multicast": 0,
+    "tx_packets": 1138088908,
+    "tx_rate": 64256,
+    "tx_rate-max": 5240228,
+    "up": true,
+    "ifname": "eth8",
+    "tx_bytes-r": 8032,
+    "rx_bytes-r": 18310,
+    "bytes-r": 26342,
+    "mac": "00:00:5e:00:53:03"
+  },
+  "uptime_stats": {
+    "WAN": {
+      "alerting_monitors": [
+        {
+          "availability": 100.0,
+          "latency_average": 30,
+          "target": "ping.ui.com",
+          "type": "icmp"
+        },
+        {
+          "availability": 100.0,
+          "latency_average": 36,
+          "target": "1.1.1.1",
+          "type": "dns"
+        },
+        {
+          "availability": 100.0,
+          "latency_average": 35,
+          "target": "8.8.8.8",
+          "type": "dns"
+        }
+      ],
+      "availability": 99.93060000240803,
+      "latency_average": 38,
+      "monitors": [
+        {
+          "availability": 100.0,
+          "latency_average": 34,
+          "target": "www.microsoft.com",
+          "type": "icmp"
+        },
+        {
+          "availability": 100.0,
+          "latency_average": 32,
+          "target": "google.com",
+          "type": "icmp"
+        },
+        {
+          "availability": 100.0,
+          "latency_average": 34,
+          "target": "1.1.1.1",
+          "type": "icmp"
+        }
+      ],
+      "time_period": 86400,
+      "uptime": 510587
+    },
+    "WAN2": {
+      "alerting_monitors": [
+        {
+          "availability": 100.0,
+          "latency_average": 21,
+          "target": "ping.ui.com",
+          "type": "icmp"
+        },
+        {
+          "availability": 100.0,
+          "latency_average": 22,
+          "target": "1.1.1.1",
+          "type": "dns"
+        },
+        {
+          "availability": 100.0,
+          "latency_average": 21,
+          "target": "8.8.8.8",
+          "type": "dns"
+        }
+      ],
+      "availability": 100.0,
+      "latency_average": 22,
+      "monitors": [
+        {
+          "availability": 100.0,
+          "latency_average": 19,
+          "target": "www.microsoft.com",
+          "type": "icmp"
+        },
+        {
+          "availability": 100.0,
+          "latency_average": 18,
+          "target": "google.com",
+          "type": "icmp"
+        },
+        {
+          "availability": 100.0,
+          "latency_average": 21,
+          "target": "1.1.1.1",
+          "type": "icmp"
+        }
+      ],
+      "time_period": 86400,
+      "uptime": 1425562
+    }
+  }
+}
