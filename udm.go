@@ -153,26 +153,27 @@ type UDM struct {
 		State               string   `json:"state"`
 		TrackingUrl         string   `fake:"{url}"                json:"tracking_url"` //nolint:revive
 	} `json:"unifi_care"`
-	Unsupported       FlexBool      `json:"unsupported"`
-	UnsupportedReason FlexInt       `json:"unsupported_reason"`
-	UpgradeState      FlexInt       `json:"upgrade_state"`
-	Upgradeable       FlexBool      `json:"upgradable"`
-	Uplink            Uplink        `json:"uplink"`
-	Uptime            FlexInt       `json:"uptime"`
-	UserLanNumSta     FlexInt       `json:"user-lan-num_sta"`  // USW
-	UserNumSta        FlexInt       `json:"user-num_sta"`      // USG
-	UserWlanNumSta    FlexInt       `json:"user-wlan-num_sta"` // UAP
-	UsgCaps           FlexInt       `json:"usg_caps"`
-	VapTable          *VapTable     `json:"vap_table"`
-	Version           string        `fake:"{appversion}"       json:"version"`
-	VwireTable        []interface{} `json:"vwire_table"`
-	Wan1              Wan           `json:"wan1"`
-	Wan2              Wan           `json:"wan2"`
-	WifiCaps          FlexInt       `json:"wifi_caps"`
-	WlanNumSta        FlexInt       `json:"wlan-num_sta"` // UAP
-	WlangroupIDNa     string        `json:"wlangroup_id_na"`
-	WlangroupIDNg     string        `json:"wlangroup_id_ng"`
-	XInformAuthkey    string        `json:"x_inform_authkey"`
+	Unsupported       FlexBool                `json:"unsupported"`
+	UnsupportedReason FlexInt                 `json:"unsupported_reason"`
+	UpgradeState      FlexInt                 `json:"upgrade_state"`
+	Upgradeable       FlexBool                `json:"upgradable"`
+	Uplink            Uplink                  `json:"uplink"`
+	Uptime            FlexInt                 `json:"uptime"`
+	UptimeStats       map[string]*UptimeStats `json:"uptime_stats"`
+	UserLanNumSta     FlexInt                 `json:"user-lan-num_sta"`  // USW
+	UserNumSta        FlexInt                 `json:"user-num_sta"`      // USG
+	UserWlanNumSta    FlexInt                 `json:"user-wlan-num_sta"` // UAP
+	UsgCaps           FlexInt                 `json:"usg_caps"`
+	VapTable          *VapTable               `json:"vap_table"`
+	Version           string                  `fake:"{appversion}"       json:"version"`
+	VwireTable        []interface{}           `json:"vwire_table"`
+	Wan1              Wan                     `json:"wan1"`
+	Wan2              Wan                     `json:"wan2"`
+	WifiCaps          FlexInt                 `json:"wifi_caps"`
+	WlanNumSta        FlexInt                 `json:"wlan-num_sta"` // UAP
+	WlangroupIDNa     string                  `json:"wlangroup_id_na"`
+	WlangroupIDNg     string                  `json:"wlangroup_id_ng"`
+	XInformAuthkey    string                  `json:"x_inform_authkey"`
 }
 
 type EthernetOverrides struct {
