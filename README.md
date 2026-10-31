@@ -63,6 +63,21 @@ func main() {
 }
 ```
 
+## UniFi OS console firmware
+
+`GetConsoleSystem()` reads `/api/system` using the existing local console session.
+It returns `devices.unifiOS[]` firmware information once per console, independently
+of Network sites. The endpoint is a private UniFi OS API; it may be absent or
+forbidden for some controllers/accounts. It is separate from `GetSysinfo()` and
+the Network application's update flags. API-key and remote access have not been
+validated for this endpoint.
+
+`ConsoleFirmware.UpdateStatus()` returns `(available, known)`. An offered version
+or `firmwareStatus: "updateAvailable"` means an update is available; `"upToDate"`
+without an offered version means no update. Missing/null versions alone and
+unrecognized firmware states are unknown. Callers should omit unknown readings,
+and handle collection errors without treating them as a no-update result.
+
 ## Endpoint discovery (`--discover`)
 
 The `main` CLI (in `main/`) supports a **discover** mode that probes known API endpoints on your controller and writes a shareable report. Use the same credentials you use with unpoller (from your config file or env).
