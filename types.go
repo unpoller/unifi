@@ -251,6 +251,11 @@ const (
 // path returns the correct api path based on the new variable.
 // new is based on the unifi-controller output. is it new or old output?
 func (u *Unifi) path(path string) string {
+	// The console API belongs to UniFi OS, not the Network application.
+	if path == APIConsoleSystemPath {
+		return path
+	}
+
 	if u.new {
 		if path == APILoginPath {
 			return APILoginPathNew
