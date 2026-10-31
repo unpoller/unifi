@@ -8,7 +8,8 @@ import (
 )
 
 // GetDevices returns a response full of devices' data from the UniFi Controller.
-// Devices are automatically enriched with tags from the device-tags API.
+// Devices are automatically enriched with tags from the device-tags API unless
+// Config.SkipDeviceTags is set.
 func (u *Unifi) GetDevices(sites []*Site) (*Devices, error) {
 	devices := new(Devices)
 
@@ -419,6 +420,10 @@ func (u *Unifi) logDeviceTagsUnavailableOnce() {
 // This creates a map of MAC address to tag names and assigns tags to each device.
 // If a device has multiple tags, all tags are added to the device's Tags slice.
 func (u *Unifi) enrichDevicesWithTags(devices *Devices, site *Site) error {
+	if u.SkipDeviceTags {
+		return nil
+	}
+
 	tags, err := u.GetDeviceTags(site)
 	if err != nil {
 		return err

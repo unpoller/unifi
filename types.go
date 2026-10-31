@@ -312,6 +312,12 @@ type Config struct {
 	// authenticates the Network Integration API and, when set, changes how
 	// Login() behaves for Network. Falls back to APIKey if empty.
 	ProtectAPIKey string
+	// SkipDeviceTags stops GetDevices from calling the device-tags endpoint to
+	// fill in each device's Tags. Set it when tags are not needed: on UniFi OS
+	// consoles every call to that endpoint leaves an HTTP/2 stream open between
+	// the Network application and unifi-core, so a poller that calls it on every
+	// cycle slowly exhausts the console's memory.
+	SkipDeviceTags bool
 }
 
 // IntegrationSite holds site identity from GET /proxy/network/integration/v1/sites.
