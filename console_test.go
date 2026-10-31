@@ -108,10 +108,9 @@ func TestGetConsoleSystemUnavailable(t *testing.T) {
 		{"forbidden", 403, `{}`, unifi.ErrInvalidStatusCode},
 		{"unauthorized", 401, `{}`, unifi.ErrInvalidStatusCode},
 		{"rate limited", 429, `{}`, unifi.ErrTooManyRequests},
-		{"missing devices", 200, `{}`, unifi.ErrNoConsoleSystemData},
-		{"empty array", 200, `{"devices":{"unifiOS":[]}}`, unifi.ErrNoConsoleSystemData},
-		{"null entry", 200, `{"devices":{"unifiOS":[null]}}`, unifi.ErrNoConsoleSystemData},
 		{"null response", 200, `null`, unifi.ErrNoConsoleSystemData},
+		{"array response", 200, `[]`, nil},
+		{"string response", 200, `"system"`, nil},
 		{"HTML", 200, `<html></html>`, nil},
 		{"wrong version type", 200, `{"devices":{"unifiOS":[{"updateAvailable":true}]}}`, nil},
 	} {
@@ -129,6 +128,43 @@ func TestGetConsoleSystemUnavailable(t *testing.T) {
 
 			if tc.want != nil {
 				assert.ErrorIs(t, err, tc.want)
+			}
+		})
+	}
+}
+
+func TestGetConsoleSystemAcceptsPartialResponses(t *testing.T) {
+	t.Parallel()
+
+	// Synthetic partial objects exercise tolerance of missing firmware and
+	// unmodeled fields; they do not extend the typed API's verified coverage.
+	for _, tc := range []struct {
+		name string
+		body string
+	}{
+		{"empty object", `{}`},
+		{"unmodeled identity", `{"name":"Console","hardware":{"shortname":"example"}}`},
+		{"missing firmware", `{"devices":{}}`},
+		{"null devices", `{"devices":null}`},
+		{"null array", `{"devices":{"unifiOS":null}}`},
+		{"empty array", `{"devices":{"unifiOS":[]}}`},
+		{"null entry", `{"devices":{"unifiOS":[null]}}`},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
+			client := consoleClient(t, false, func(w http.ResponseWriter, _ *http.Request) {
+				_, err := w.Write([]byte(tc.body))
+				assert.NoError(t, err)
+			})
+			got, err := client.GetConsoleSystem()
+			require.NoError(t, err)
+			require.NotNil(t, got)
+			assert.Equal(t, client.URL, got.SourceName)
+
+			for _, firmware := range got.Devices.UniFiOS {
+				_, known := firmware.UpdateStatus()
+				assert.False(t, known, "absent firmware data must not imply no update")
 			}
 		})
 	}

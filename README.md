@@ -63,14 +63,29 @@ func main() {
 }
 ```
 
-## UniFi OS console firmware
+## UniFi OS console system information
 
 `GetConsoleSystem()` reads `/api/system` using the existing local console session.
-It returns `devices.unifiOS[]` firmware information once per console, independently
-of Network sites. The endpoint is a private UniFi OS API; it may be absent or
-forbidden for some controllers/accounts. It is separate from `GetSysinfo()` and
-the Network application's update flags. API-key and remote access have not been
-validated for this endpoint.
+This console-wide endpoint returns broader system information independently of
+Network sites. The current `ConsoleSystem` model exposes only the verified
+`devices.unifiOS[]` firmware fields from a UCG Fiber response; other fields are
+ignored. Additional typed sections can be added as representative responses and
+their meanings are validated. `GetJSON(APIConsoleSystemPath)` provides access to
+the full JSON response when fields are not yet modeled.
+
+The endpoint is a private UniFi OS API; it may be absent or forbidden for some
+controllers/accounts. Community [UNAS](https://github.com/LayerTM/unifi-unas-ha/blob/main/docs/API.md#get-apisystem)
+and [gateway](https://github.com/LayerTM/unifi-ucg-fiber-ha/blob/main/docs/API.md#get-apisystem--console-identity)
+references describe broader identity, hardware, uptime and application data, and
+responses that vary with authentication. These are compatibility references, not
+a complete vendor schema or a claim of support for those fields. API-key and
+remote access have not been validated by this implementation.
+
+Valid partial JSON objects are accepted even when `devices.unifiOS` is absent,
+null or empty. Callers must check for firmware entries before using them; missing
+data does not mean no update. A JSON `null` response, malformed data, and request
+failures still return errors. This information is separate from `GetSysinfo()`
+and the Network application's update flags.
 
 `ConsoleFirmware.UpdateStatus()` returns `(available, known)`. An offered version
 or `firmwareStatus: "updateAvailable"` means an update is available; `"upToDate"`

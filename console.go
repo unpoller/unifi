@@ -11,13 +11,14 @@ const APIConsoleSystemPath = "/api/system"
 var (
 	// ErrConsoleSystemUnsupported indicates a controller without UniFi OS.
 	ErrConsoleSystemUnsupported = errors.New("console system data requires UniFi OS")
-	// ErrNoConsoleSystemData indicates a response with no console firmware entries.
-	ErrNoConsoleSystemData = errors.New("console system response contains no firmware data")
+	// ErrNoConsoleSystemData indicates a null console system response.
+	ErrNoConsoleSystemData = errors.New("console system response is null")
 )
 
-// ConsoleSystem contains console-wide information from the local UniFi OS API.
-// Application updates are intentionally not included: their response shape needs
-// separate validation. This endpoint is not scoped to a Network site.
+// ConsoleSystem models the verified firmware subset of the local UniFi OS system
+// response. The endpoint is console-wide, not scoped to a Network site. Other
+// fields are ignored until their response shapes and semantics are validated.
+// Firmware entries may be absent in a valid partial response.
 type ConsoleSystem struct {
 	SourceName string `json:"-"`
 	Devices    struct {
@@ -52,9 +53,10 @@ func (f *ConsoleFirmware) UpdateStatus() (available, known bool) {
 	return false, false
 }
 
-// GetConsoleSystem reads the local console's firmware state using the existing
-// authenticated session. Permission and unsupported-endpoint errors are returned
-// to the caller; they must not be interpreted as an up-to-date console.
+// GetConsoleSystem reads the modeled fields from the local console system response
+// using the existing authenticated session. Valid partial objects are accepted;
+// absent firmware data does not establish an up-to-date console. Permission and
+// unsupported-endpoint errors are returned to the caller.
 // Like the Protect getters, this is not part of the Network UnifiClient interface.
 func (u *Unifi) GetConsoleSystem() (*ConsoleSystem, error) {
 	if u == nil {
@@ -65,19 +67,17 @@ func (u *Unifi) GetConsoleSystem() (*ConsoleSystem, error) {
 		return nil, ErrConsoleSystemUnsupported
 	}
 
-	var response ConsoleSystem
+	var response *ConsoleSystem
 
 	if err := u.GetData(APIConsoleSystemPath, &response); err != nil {
 		return nil, fmt.Errorf("getting console system: %w", err)
 	}
 
-	for _, firmware := range response.Devices.UniFiOS {
-		if firmware != nil {
-			response.SourceName = u.URL
-
-			return &response, nil
-		}
+	if response == nil {
+		return nil, ErrNoConsoleSystemData
 	}
 
-	return nil, ErrNoConsoleSystemData
+	response.SourceName = u.URL
+
+	return response, nil
 }
