@@ -47,6 +47,7 @@ func TestWANEnrichedConfigurationIsAttributed(t *testing.T) {
 		a.Equal("Default (default)", w.SiteName)
 		a.Equal(srv.URL, w.SourceName)
 	}
+
 	a.Equal("Internet 1", wans[0].Configuration.Name)
 	a.Equal("WAN2", wans[1].Configuration.WANNetworkgroup)
 }

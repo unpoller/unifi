@@ -28,6 +28,7 @@ func wanStatusServer(t *testing.T, body string) (*httptest.Server, *[]string) {
 	requested := &[]string{}
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		*requested = append(*requested, r.URL.Path)
+
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write([]byte(body))
 	}))
