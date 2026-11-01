@@ -67,6 +67,45 @@ func TestUMBBParse(t *testing.T) {
 	a.Empty(sim.NetworkReject, "this firmware uses the split reject fields")
 }
 
+func TestMBBSimDefaultAPNAndIPv6UI(t *testing.T) {
+	t.Parallel()
+
+	const raw = `{
+		"ipv6_settings": {
+			"ipv6_address": "2a01:598:ba0a:7710:b5ba:5001:85e9:ccee/64",
+			"ipv6_gateway": "2a01:598:ba0a:7710:adaf:aa96:d93a:1dd1/64",
+			"ipv6_ui_address": "2a01:598:ba0a:7710:2921:cd45:cb9d:667f/128",
+			"ipv6_ui_prefix": "2a01:598:ba0a:7710::/64",
+			"mtu": 1500
+		},
+		"radio": {"rssi": -64},
+		"sim": [{
+			"default_apn": {
+				"apn": "internet.telekom", "auth_type": "PAP", "carrier_id": 3,
+				"clat_enabled": false, "pdp_type": "IPv4v6", "roaming": false,
+				"valid": true
+			},
+			"pin_tries_remaining": 3,
+			"puk_tries_remaining": 10
+		}]
+	}`
+
+	var mbb MBB
+	require.NoError(t, json.Unmarshal([]byte(raw), &mbb))
+	require.Len(t, mbb.Sim, 1)
+	a := assert.New(t)
+	a.Equal("internet.telekom", mbb.Sim[0].DefaultApn.Apn)
+	a.Equal("IPv4v6", mbb.Sim[0].DefaultApn.PdpType)
+	a.Equal(3, int(mbb.Sim[0].DefaultApn.CarrierID.Val))
+	a.True(mbb.Sim[0].DefaultApn.Valid.Val)
+	a.False(mbb.Sim[0].DefaultApn.ClatEnabled.Val)
+	a.Equal(3, int(mbb.Sim[0].PinTriesRemaining.Val))
+	a.Equal(10, int(mbb.Sim[0].PukTriesRemaining.Val))
+	a.Equal("2a01:598:ba0a:7710:2921:cd45:cb9d:667f/128", mbb.IPv6Settings.IPv6UIAddress)
+	a.Equal("2a01:598:ba0a:7710::/64", mbb.IPv6Settings.IPv6UIPrefix)
+	a.Equal(-64, int(mbb.Radio.Rssi.Val))
+}
+
 func TestMBBRadioLTECarrierAndSNR(t *testing.T) {
 	t.Parallel()
 
