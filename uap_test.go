@@ -74,3 +74,29 @@ func TestUAPLteState(t *testing.T) {
 	require.NoError(t, json.Unmarshal([]byte(`{"lte_state":"connecting"}`), &other))
 	assert.Equal(t, "connecting", other.LteState)
 }
+
+func TestUAPWirelessUplinkUnmarshalJSON(t *testing.T) {
+	t.Parallel()
+
+	// Trimmed stat/device uplink of a U6 Pro meshed to a wired parent AP.
+	data := `{"uplink": {"ap_mac": "60:22:32:00:00:19", "bssid": "76:22:32:00:00:1b",
+	  "channel": 44, "radio": "na", "radio_name": "wifi1", "rssi": 12, "signal": -83,
+	  "tx_rate": 51600, "rx_rate": 68800, "type": "wireless", "up": true, "port_idx": -1,
+	  "uplink_device_name": "Front", "uplink_mac": "60:22:32:00:00:19",
+	  "uplink_source": "lldp_uplink"}}`
+
+	var u UAP
+
+	require.NoError(t, json.Unmarshal([]byte(data), &u))
+	assert.Equal(t, "wireless", u.Uplink.Type)
+	assert.Equal(t, "60:22:32:00:00:19", u.Uplink.UplinkMac)
+	assert.Equal(t, "Front", u.Uplink.UplinkDeviceName)
+	assert.Equal(t, "60:22:32:00:00:19", u.Uplink.ApMac)
+	assert.Equal(t, "na", u.Uplink.Radio)
+	assert.Equal(t, "wifi1", u.Uplink.RadioName)
+	assert.InDelta(t, 44.0, u.Uplink.Channel.Val, 0)
+	assert.InDelta(t, 12.0, u.Uplink.Rssi.Val, 0)
+	assert.InDelta(t, -83.0, u.Uplink.Signal.Val, 0)
+	assert.InDelta(t, 51600.0, u.Uplink.TxRate.Val, 0)
+	assert.InDelta(t, 68800.0, u.Uplink.RxRate.Val, 0)
+}
