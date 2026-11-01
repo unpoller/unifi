@@ -176,6 +176,16 @@ type UAP struct {
 		RxBytesR         FlexInt  `json:"rx_bytes-r"`
 		UplinkMac        string   `fake:"{macaddress}"  json:"uplink_mac"`
 		UplinkRemotePort int      `fake:"{port}"        json:"uplink_remote_port"`
+		UplinkDeviceName string   `json:"uplink_device_name"`
+		UplinkSource     string   `json:"uplink_source"`
+		ApMac            string   `fake:"{macaddress}"  json:"ap_mac"`
+		Channel          FlexInt  `json:"channel"`
+		Radio            string   `json:"radio"`
+		RadioName        string   `json:"radio_name"`
+		Rssi             FlexInt  `json:"rssi"`
+		Signal           FlexInt  `json:"signal"`
+		TxRate           FlexInt  `json:"tx_rate"` // kbps, wireless (mesh) uplinks only
+		RxRate           FlexInt  `json:"rx_rate"` // kbps, wireless (mesh) uplinks only
 	} `json:"uplink"`
 	UplinkTable    []interface{} `json:"uplink_table"`
 	Uptime         FlexInt       `json:"uptime"`
