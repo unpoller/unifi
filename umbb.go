@@ -143,6 +143,7 @@ type MBBRadio struct {
 	RsrpNr            FlexInt         `json:"rsrp_nr"`
 	Rsrq              FlexInt         `json:"rsrq"`
 	RsrqNr            FlexInt         `json:"rsrq_nr"`
+	Rssi              FlexInt         `json:"rssi"`
 	Signal            FlexInt         `json:"signal"` // 0-5 bars
 	SignalPercent     FlexInt         `json:"signal_percent"`
 	Snr               FlexFloat       `json:"snr"`
@@ -183,6 +184,7 @@ type MBBSim struct {
 	CardPresent         FlexBool          `json:"card_present"`
 	ConnectionInfo      MBBConnectionInfo `json:"connection_info"`
 	CurrentApn          MBBApn            `json:"current_apn"`
+	DefaultApn          MBBApn            `json:"default_apn"`
 	DataLimited         FlexBool          `json:"data_limited"`
 	DataWarning         FlexBool          `json:"data_warning"`
 	DisplayState        string            `json:"display_state"` // e.g. "operational", "no-sim"
@@ -202,6 +204,8 @@ type MBBSim struct {
 	OperationInProgress FlexBool          `json:"operation_in_progress"`
 	PinBlocked          FlexBool          `json:"pin_blocked"`
 	PinLock             FlexBool          `json:"pin_lock"`
+	PinTriesRemaining   FlexInt           `json:"pin_tries_remaining"`
+	PukTriesRemaining   FlexInt           `json:"puk_tries_remaining"`
 	RxBytes             FlexInt           `json:"rxbytes"`
 	Slot                FlexInt           `json:"slot"`
 	Spn                 string            `json:"spn"` // Service provider name, e.g. "EE"
@@ -220,9 +224,11 @@ type MBBConnectionInfo struct {
 type MBBApn struct {
 	Apn         string   `json:"apn"`
 	AuthType    string   `json:"auth_type"`
+	CarrierID   FlexInt  `json:"carrier_id"`
 	ClatEnabled FlexBool `json:"clat_enabled"`
 	PdpType     string   `json:"pdp_type"`
 	Roaming     FlexBool `json:"roaming"`
+	Valid       FlexBool `json:"valid"`
 }
 
 // MBBEsim describes the embedded SIM.
@@ -248,11 +254,13 @@ type MBBIPSettings struct {
 
 // MBBIPv6Settings is the IPv6 configuration of the cellular data session.
 type MBBIPv6Settings struct {
-	IPv6Address string  `json:"ipv6_address"`
-	IPv6DNS     string  `json:"ipv6_dns"`
-	IPv6DNS2    string  `json:"ipv6_dns2"`
-	IPv6Gateway string  `json:"ipv6_gateway"`
-	MTU         FlexInt `json:"mtu"`
+	IPv6Address   string  `json:"ipv6_address"`
+	IPv6DNS       string  `json:"ipv6_dns"`
+	IPv6DNS2      string  `json:"ipv6_dns2"`
+	IPv6Gateway   string  `json:"ipv6_gateway"`
+	IPv6UIAddress string  `json:"ipv6_ui_address"`
+	IPv6UIPrefix  string  `json:"ipv6_ui_prefix"`
+	MTU           FlexInt `json:"mtu"`
 }
 
 // MBBNetworkScan reports the last manual operator scan.
