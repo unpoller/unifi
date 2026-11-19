@@ -95,6 +95,77 @@ func TestGetConsoleSystem(t *testing.T) {
 	}
 }
 
+// Synthetic response with current console firmware and an offered Network application version.
+const consoleApplicationUpdateBody = `{"devices":{"unifiOS":[{
+	"name":"Console","firmware":"6.0.0","firmwareStatus":"upToDate"
+}]},"apps":{"controllers":[{
+	"name":"network","version":"10.0.1","updateAvailable":"10.0.2","status":"ok"
+}]}}`
+
+func TestGetConsoleSystemApplicationUpdates(t *testing.T) {
+	t.Parallel()
+
+	var requests atomic.Int32
+
+	client := consoleClient(t, false, func(w http.ResponseWriter, _ *http.Request) {
+		requests.Add(1)
+
+		_, err := w.Write([]byte(consoleApplicationUpdateBody))
+		assert.NoError(t, err)
+	})
+	got, err := client.GetConsoleSystem()
+	require.NoError(t, err)
+	assert.EqualValues(t, 1, requests.Load(), "applications share the existing system request")
+	require.Len(t, got.Apps.Controllers, 1)
+	assert.Equal(t, &unifi.ConsoleApplication{
+		Name: "network", Version: "10.0.1", UpdateAvailable: "10.0.2",
+	}, got.Apps.Controllers[0])
+	require.Len(t, got.Devices.UniFiOS, 1)
+	available, known := got.Devices.UniFiOS[0].UpdateStatus()
+	assert.False(t, available, "an application update is not a console OS update")
+	assert.True(t, known)
+}
+
+func TestGetConsoleSystemApplicationOfferCleared(t *testing.T) {
+	t.Parallel()
+
+	for _, tc := range []struct {
+		name string
+		body string
+	}{
+		{"missing offer", `{"name":"network","version":"10.0.2"}`},
+		{"null offer", `{"name":"network","version":"10.0.2","updateAvailable":null}`},
+		{"empty offer", `{"name":"network","version":"10.0.2","updateAvailable":""}`},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
+			var requests atomic.Int32
+
+			client := consoleClient(t, false, func(w http.ResponseWriter, _ *http.Request) {
+				body := consoleApplicationUpdateBody
+				if requests.Add(1) > 1 {
+					body = `{"apps":{"controllers":[` + tc.body + `]}}`
+				}
+
+				_, err := w.Write([]byte(body))
+				assert.NoError(t, err)
+			})
+			before, err := client.GetConsoleSystem()
+			require.NoError(t, err)
+			require.Len(t, before.Apps.Controllers, 1)
+			assert.Equal(t, "10.0.2", before.Apps.Controllers[0].UpdateAvailable)
+
+			after, err := client.GetConsoleSystem()
+			require.NoError(t, err)
+			require.Len(t, after.Apps.Controllers, 1)
+			assert.Equal(t, "10.0.2", after.Apps.Controllers[0].Version)
+			assert.Empty(t, after.Apps.Controllers[0].UpdateAvailable, "do not retain a previous offer")
+			assert.Empty(t, after.Devices.UniFiOS, "application data does not require firmware entries")
+		})
+	}
+}
+
 func TestGetConsoleSystemUnavailable(t *testing.T) {
 	t.Parallel()
 
@@ -113,6 +184,8 @@ func TestGetConsoleSystemUnavailable(t *testing.T) {
 		{"string response", 200, `"system"`, nil},
 		{"HTML", 200, `<html></html>`, nil},
 		{"wrong version type", 200, `{"devices":{"unifiOS":[{"updateAvailable":true}]}}`, nil},
+		{"wrong application version type", 200, `{"apps":{"controllers":[{"updateAvailable":true}]}}`, nil},
+		{"wrong applications type", 200, `{"apps":{"controllers":{}}}`, nil},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
@@ -149,6 +222,11 @@ func TestGetConsoleSystemAcceptsPartialResponses(t *testing.T) {
 		{"null array", `{"devices":{"unifiOS":null}}`},
 		{"empty array", `{"devices":{"unifiOS":[]}}`},
 		{"null entry", `{"devices":{"unifiOS":[null]}}`},
+		{"empty apps", `{"apps":{}}`},
+		{"null apps", `{"apps":null}`},
+		{"null applications", `{"apps":{"controllers":null}}`},
+		{"empty applications", `{"apps":{"controllers":[]}}`},
+		{"null application entry", `{"apps":{"controllers":[null]}}`},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
