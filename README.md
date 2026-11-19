@@ -67,11 +67,11 @@ func main() {
 
 `GetConsoleSystem()` reads `/api/system` using the existing local console session.
 This console-wide endpoint returns broader system information independently of
-Network sites. The current `ConsoleSystem` model exposes only the verified
-`devices.unifiOS[]` firmware fields from a UCG Fiber response; other fields are
-ignored. Additional typed sections can be added as representative responses and
-their meanings are validated. `GetJSON(APIConsoleSystemPath)` provides access to
-the full JSON response when fields are not yet modeled.
+Network sites. The `ConsoleSystem` model exposes the verified `devices.unifiOS[]`
+firmware fields and `apps.controllers[]` application version fields. Other fields,
+including `apps.apps`, are ignored. Additional typed sections can be added as representative responses and their meanings are validated.
+`GetJSON(APIConsoleSystemPath)` provides access to the full JSON response when
+fields are not yet modeled.
 
 The endpoint is a private UniFi OS API; it may be absent or forbidden for some
 controllers/accounts. Community [UNAS](https://github.com/LayerTM/unifi-unas-ha/blob/main/docs/API.md#get-apisystem)
@@ -81,17 +81,30 @@ responses that vary with authentication. These are compatibility references, not
 a complete vendor schema or a claim of support for those fields. API-key and
 remote access have not been validated by this implementation.
 
-Valid partial JSON objects are accepted even when `devices.unifiOS` is absent,
-null or empty. Callers must check for firmware entries before using them; missing
-data does not mean no update. A JSON `null` response, malformed data, and request
-failures still return errors. This information is separate from `GetSysinfo()`
-and the Network application's update flags.
+Valid partial JSON objects are accepted even when `devices.unifiOS` or
+`apps.controllers` is absent, null or empty. Callers must check for entries and
+skip null entries before using them; missing data does not mean no update. A JSON
+`null` response, malformed data, and request failures still return errors. This
+information is separate from `GetSysinfo()` and the Network application's update flags.
 
 `ConsoleFirmware.UpdateStatus()` returns `(available, known)`. An offered version
 or `firmwareStatus: "updateAvailable"` means an update is available; `"upToDate"`
 without an offered version means no update. Missing/null versions alone and
 unrecognized firmware states are unknown. Callers should omit unknown readings,
 and handle collection errors without treating them as a no-update result.
+
+`ConsoleSystem.Apps.Controllers` contains `ConsoleApplication` entries with
+`Name`, `Version`, and `UpdateAvailable` (the offered version). For example, a
+Network application entry can report version `10.0.1` with `10.0.2` available
+while the console OS is up to date and `GetSysinfo().UpdateAvail` is false. These
+are independent update sources; application versions do not change the firmware
+or sysinfo fields.
+
+A nonempty `ConsoleApplication.UpdateAvailable` identifies an offered application
+update. Missing, null, and empty offered versions decode to an empty string; this
+alone does not establish that the application is up to date. No application
+`UpdateStatus()` helper is provided because the verified response has no explicit
+up-to-date status equivalent to the firmware's `firmwareStatus`.
 
 ## Endpoint discovery (`--discover`)
 

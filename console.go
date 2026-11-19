@@ -15,15 +15,27 @@ var (
 	ErrNoConsoleSystemData = errors.New("console system response is null")
 )
 
-// ConsoleSystem models the verified firmware subset of the local UniFi OS system
-// response. The endpoint is console-wide, not scoped to a Network site. Other
-// fields are ignored until their response shapes and semantics are validated.
-// Firmware entries may be absent in a valid partial response.
+// ConsoleSystem models the verified firmware and application update fields of the
+// local UniFi OS system response. The endpoint is console-wide, not scoped to a
+// Network site. Other fields are ignored until their response shapes and semantics
+// are validated. Firmware and application entries may be absent in a partial response.
 type ConsoleSystem struct {
 	SourceName string `json:"-"`
-	Devices    struct {
+	Apps       struct {
+		Controllers []*ConsoleApplication `json:"controllers"`
+	} `json:"apps"`
+	Devices struct {
 		UniFiOS []*ConsoleFirmware `json:"unifiOS"`
 	} `json:"devices"`
+}
+
+// ConsoleApplication describes installed and offered application versions from
+// apps.controllers, independently of console OS firmware and Network sysinfo flags.
+// An empty UpdateAvailable does not establish that the application is up to date.
+type ConsoleApplication struct {
+	Name            string `json:"name"`
+	Version         string `json:"version"`
+	UpdateAvailable string `json:"updateAvailable"`
 }
 
 // ConsoleFirmware describes the installed and offered UniFi OS firmware.
