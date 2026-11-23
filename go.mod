@@ -1,6 +1,6 @@
 module github.com/unpoller/unifi/v6
 
-go 1.27.4
+go 1.26.0
 
 require (
 	github.com/brianvoe/gofakeit/v6 v6.28.0
