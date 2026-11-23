@@ -9,9 +9,10 @@
   "internalChecksFilter": "strict",
   "packageRules": [
     {
-      "description": "Automerge non-major Go module updates when checks pass",
+      "description": "Automerge non-major Go module updates that still support the go directive. A release that needs a newer Go is not proposed.",
       "matchManagers": ["gomod"],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "constraintsFiltering": "strict",
       "automerge": true
     },
     {
