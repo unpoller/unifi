@@ -14,6 +14,7 @@ jobs:
   test:
     strategy:
       matrix:
+        # Label only. setup-go reads go.mod. Keep this key so the required checks stay "test (stable, ...)".
         go: ["stable"]
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -23,7 +24,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v7
         with:
-          go-version: ${{ matrix.go }}
+          go-version-file: go.mod
 
       - name: Build
         run: go build -v ./...
@@ -33,6 +34,7 @@ jobs:
   lint:
     strategy:
       matrix:
+        # Label only. setup-go reads go.mod. Keep this key so the required check stays "lint (stable, ubuntu-latest)".
         go: ["stable"]
         os: [ubuntu-latest]
     name: lint
@@ -42,7 +44,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v7
         with:
-          go-version: ${{ matrix.go }}
+          go-version-file: go.mod
           cache: false
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v9
