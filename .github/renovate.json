@@ -9,14 +9,6 @@
   "internalChecksFilter": "strict",
   "packageRules": [
     {
-      "description": "Automerge Go toolchain updates, including majors, when checks pass",
-      "matchManagers": ["gomod"],
-      "matchDepNames": ["go"],
-      "matchDepTypes": ["golang", "toolchain"],
-      "rangeStrategy": "bump",
-      "automerge": true
-    },
-    {
       "description": "Automerge non-major Go module updates when checks pass",
       "matchManagers": ["gomod"],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
@@ -40,6 +32,13 @@
       "matchPackageNames": ["golangci/golangci-lint"],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
+    },
+    {
+      "description": "The go directive is this library's minimum version. Leave it on the previous major and test that version in CI.",
+      "matchManagers": ["gomod"],
+      "matchDepNames": ["go"],
+      "matchDepTypes": ["golang", "toolchain"],
+      "enabled": false
     }
   ]
 }

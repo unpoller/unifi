@@ -14,8 +14,8 @@ jobs:
   test:
     strategy:
       matrix:
-        # Label only. setup-go reads go.mod. Keep this key so the required checks stay "test (stable, ...)".
-        go: ["stable"]
+        # 1.26.0 matches the go directive, the minimum this library supports. stable is the current release.
+        go: ["1.26.0", "stable"]
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -24,7 +24,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v7
         with:
-          go-version-file: go.mod
+          go-version: ${{ matrix.go }}
 
       - name: Build
         run: go build -v ./...
@@ -34,7 +34,6 @@ jobs:
   lint:
     strategy:
       matrix:
-        # Label only. setup-go reads go.mod. Keep this key so the required check stays "lint (stable, ubuntu-latest)".
         go: ["stable"]
         os: [ubuntu-latest]
     name: lint
@@ -44,7 +43,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v7
         with:
-          go-version-file: go.mod
+          go-version: ${{ matrix.go }}
           cache: false
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v9
