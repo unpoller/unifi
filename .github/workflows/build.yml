@@ -12,9 +12,13 @@ concurrency:
 
 jobs:
   test:
+    # Use the Go that setup-go installed. A higher go directive must fail the 1.26.0 job instead of downloading a newer toolchain.
+    env:
+      GOTOOLCHAIN: local
     strategy:
       matrix:
-        go: ["stable"]
+        # 1.26.0 matches the go directive, the minimum this library supports. stable is the current release.
+        go: ["1.26.0", "stable"]
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:

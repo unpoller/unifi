@@ -1,0 +1,45 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "default:automergeDigest",
+    "helpers:pinGitHubActionDigestsToSemver"
+  ],
+  "minimumReleaseAge": "7 days",
+  "internalChecksFilter": "strict",
+  "packageRules": [
+    {
+      "description": "Automerge non-major Go module updates that still support the go directive. A release that needs a newer Go is not proposed.",
+      "matchManagers": ["gomod"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "constraintsFiltering": "strict",
+      "automerge": true
+    },
+    {
+      "description": "Automerge GitHub Actions and reusable workflow references, including majors, when checks pass. Action inputs such as the golangci-lint version are separate dependencies.",
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["action", "workflow"],
+      "automerge": true
+    },
+    {
+      "description": "Ignore golangci-lint pre-releases. Renovate reads the action's version input itself.",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["golangci/golangci-lint"],
+      "ignoreUnstable": true
+    },
+    {
+      "description": "Automerge golangci-lint v2 minor bumps when lint passes. Leave a v3 PR open.",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["golangci/golangci-lint"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    },
+    {
+      "description": "The go directive is this library's minimum version. Leave it on the previous major and test that version in CI.",
+      "matchManagers": ["gomod"],
+      "matchDepNames": ["go"],
+      "matchDepTypes": ["golang", "toolchain"],
+      "enabled": false
+    }
+  ]
+}
