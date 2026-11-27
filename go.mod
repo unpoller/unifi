@@ -4,6 +4,7 @@ go 1.26.0
 
 require (
 	github.com/brianvoe/gofakeit/v6 v6.28.0
+	github.com/brianvoe/gofakeit/v7 v7.18.10
 	github.com/stretchr/testify v1.12.1
 	golang.org/x/net v0.63.0
 )
